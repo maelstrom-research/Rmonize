@@ -1,5 +1,10 @@
 .Rproj.user
-*.Rproj
 .Rhistory
 .RData
 .Ruserdata
+tests/
+docs/
+_pkgdown.yml
+Rmonize.Rproj
+/doc/
+/Meta/

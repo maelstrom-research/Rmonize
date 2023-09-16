@@ -1,0 +1,161 @@
+---
+title: "Example with DEMO files"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Example with DEMO files}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  echo = T,
+  results = "hide")
+
+```
+
+# Get started
+
+## Install the package
+
+```{r, eval=FALSE}
+# To install the R package:
+# install.packages('Rmonize')
+
+library(Rmonize)
+
+#if you need help with the package, please use:
+Rmonize_help()
+
+```
+
+## Demo files
+Demo files are available in the built-in DEMO_files_harmo object. 
+library. These provide illustrative examples of the main inputs and are used to 
+run commands in this vignette. 
+
+
+```{r, eval=FALSE}
+
+names(DEMO_files_harmo)
+
+# To see examples:
+# View(DEMO_files_harmo$dd_TOKYO_format_maelstrom_tagged) # A data dictionary
+# View(DEMO_files_harmo$dataset_TOKYO)                    # A datasets
+
+# View(DEMO_files_harmo$`data_processing_elements - final`) 
+                                                    # A Data Processing Elements
+# View(DEMO_files_harmo$`dataschema - final`)       # A DataSchema 
+                  
+```
+
+
+# General objective of this demonstration
+
+A general process with **Rmonize** involves the following steps:
+
+ * Associate input datasets with their data dictionaries.
+ * Prepare a “dossier” of input datasets and data dictionaries.
+ * Harmonize a dossier of datasets using the DataSchema and 
+   Data Processing Elements.
+ * Review the dossier of harmonized datasets.
+ 
+The process is demonstrated below with all inputs in valid formats and no 
+errors, i.e., assuming that the content and structure of all inputs are 
+compatible with **Rmonize**. Error-checking and other manipulations of inputs 
+will be covered in other vignettes.
+
+
+## Prepare the inputs
+
+If input data dictionaries are available, they can be associated with 
+their corresponding datasets using the function ‘data_dict_apply’. If not 
+provided, minimal data dictionaries will automatically be created to meet 
+technical requirements of the following functions. 
+The input datasets and associated data dictionaries are then grouped 
+into a dossier.
+
+```{r, eval=FALSE}
+# Associate metadata from data dictionary to the the data
+dataset_MELBOURNE_1 <- data_dict_apply(
+  dataset = DEMO_files_harmo$dataset_MELBOURNE_1,
+  data_dict = DEMO_files_harmo$dd_MELBOURNE_1_format_maelstrom)
+
+dataset_MELBOURNE_2 <- data_dict_apply(
+  dataset = DEMO_files_harmo$dataset_MELBOURNE_2,
+  data_dict = DEMO_files_harmo$dd_MELBOURNE_2_format_maelstrom)
+
+dataset_PARIS <- data_dict_apply(
+  dataset = DEMO_files_harmo$dataset_PARIS,
+  data_dict = DEMO_files_harmo$dd_PARIS_format_maelstrom)
+
+dataset_TOKYO <- data_dict_apply(
+  dataset = DEMO_files_harmo$dataset_TOKYO,
+  data_dict = DEMO_files_harmo$dd_TOKYO_format_maelstrom)
+
+```
+
+
+## Generate harmonized data
+When the main inputs (dossier, DataSchema, and Data Processing Elements) are 
+prepared, 
+
+```{r, eval=FALSE}
+
+# group the datasets in a dossier object
+# NB: the name of the datasets in the dossier must match the column 
+# input_dataset in the Data Processing Elements
+
+dossier <- dossier_create(
+  dataset_list = list(
+    dataset_MELBOURNE_1, 
+    dataset_MELBOURNE_2, 
+    dataset_PARIS, 
+    dataset_TOKYO))
+
+dataschema <- DEMO_files_harmo$`dataschema - final`
+data_proc_elem <- DEMO_files_harmo$`data_processing_elements - final`
+
+```
+
+You can proceed with harmonization using ‘harmo_process’.
+
+```{r, eval=FALSE}
+
+# Process harmonization
+harmonized_dossier <- harmo_process(dossier, dataschema, data_proc_elem)
+show_harmo_error(harmonized_dossier)
+
+```
+
+
+## Assess harmonized data
+You can then assess and summarize the harmonized data to identify potential 
+issues, produce summary statistics, and generate visual reports.
+
+**Warning ⚠** *This tutorial creates a folder 'tmp' where the visual report is generated.*
+
+```{r, eval=FALSE}
+# Assess the harmonization (this report can be downloaded as an excel file)
+harmonized_dossier_evaluate <- harmonized_dossier_evaluate(harmonized_dossier)
+# View(harmonized_dossier_evaluate)
+
+# Produce summary statistics (this summary can be downloaded as an excel file)
+harmonized_dossier_summary <- harmonized_dossier_summarise(harmonized_dossier)
+# View(harmonized_dossier_summary)
+
+# Generate visual report (a web-based interactive application)
+bookdown_path <- paste0('tmp/',basename(tempdir()))
+# print(bookdown_path)
+harmonized_dossier_visualize(
+  harmonized_dossier, 
+  bookdown_path = bookdown_path,
+  overwrite = TRUE)
+
+# bookdown_open(bookdown_path) # open the report in browser
+# file.remove(bookdown_path)
+
+```
+

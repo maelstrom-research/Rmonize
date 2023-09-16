@@ -1,0 +1,37 @@
+---
+title: "Glossary and templates"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Glossary and templates}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  eval = FALSE,
+  comment = "#>",
+  warning = FALSE,
+  message = FALSE,
+  echo = TRUE)
+
+```
+
+
+```{r, eval = TRUE, echo = FALSE}
+source('datatables.R')
+
+```
+
+::: {}
+
+```{r, eval = TRUE, echo = FALSE}
+ DT_glossary
+
+```
+  
+:::
+
+
+
