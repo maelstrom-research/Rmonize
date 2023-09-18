@@ -70,7 +70,7 @@ identifier of each dataset to initiate the process of harmonization.
 \examples{
 {
 
-as_harmonized_dossier(DEMO_files_harmo$harmonized_dossier)
+as_harmonized_dossier(object = DEMO_files_harmo$harmonized_dossier)
   
 }
 

@@ -93,8 +93,8 @@ harmonized_dossier_evaluate <- function(harmonized_dossier, taxonomy = NULL){
 #' Generate a quality assessment report of a Data Processing Elements
 #'
 #' @description
-#' 
-#' Internal function that assesses the content and structure of a 
+#' `r lifecycle::badge("experimental")`
+#' Function that assesses the content and structure of a 
 #' Data Processing Elements object and reports possible issues to facilitate 
 #' assessment of input data. The report can be used to help assess 
 #' data structure, presence of fields, coherence across elements, and taxonomy 
@@ -131,14 +131,88 @@ harmonized_dossier_evaluate <- function(harmonized_dossier, taxonomy = NULL){
 #' @returns
 #' A list of tibbles of report for one Data Processing Elements.
 #'
-#' @import dplyr haven
-#' @importFrom rlang .data
+#' @examples
+#' {
+#' 
+#' # use DEMO_files_harmo provided by the package
+#' 
+#' data_proc_elem <- DEMO_files_harmo$`data_processing_elements - final`   
+#' data_proc_elem_evaluate(data_proc_elem)
+#' 
+#' }
 #'
-#' @noRd
+#' @import dplyr fabR
+#' @importFrom rlang .data
+#' @importFrom crayon bold
+#'
+#' @export
 data_proc_elem_evaluate <- function(data_proc_elem, taxonomy = NULL){
 
-  data_proc_elem <- as_data_proc_elem(data_proc_elem)
-  return(data_proc_elem)
+  data_proc_elem <- 
+    as_data_proc_elem(data_proc_elem) %>%
+    add_index("Row number", .force = TRUE) 
+  
+  if(!is.null(taxonomy)) as_taxonomy(taxonomy)
+  
+  message(
+"- DATA PROCESSING ASSESSMENT ------------------------------------------------")
+
+  # creation of the structure of the report
+  report <- list()
+  
+  report$`Data Processing Elements summary` <- data_proc_elem
+  
+  test_names_harmo_rule <-
+    test_duplicated_rule <-
+    test_possible_ruling <- 
+    # ...
+    tibble("Row number" = as.integer())
+  
+  message("    Assess the rule category declared")
+  test_names_harmo_rule  <-
+    data_proc_elem %>%
+    mutate(
+      value = 
+        ifelse(
+        .data$`Mlstr_harmo::rule_category` %in% c(
+          "add_variable",
+          "case_when",
+          "direct_mapping",
+          "id_creation",
+          "impossible",
+          "merge_variable",
+          "operation",
+          "other",
+          "paste",
+          "recode",
+          "rename",
+          "undetermined"),NA_character_,.data$`Mlstr_harmo::rule_category`)) %>%
+    filter(!is.na(.data$`value`)) %>%
+    mutate(condition = "[ERR] - Rule category name doesn't exist") %>%
+    select("Row number","value","condition") 
+  
+  report$`Data Processing Elements assessment` <-
+    test_names_harmo_rule %>%
+    bind_rows(test_duplicated_rule) %>%
+    bind_rows(test_possible_ruling) %>%
+    
+    select("Row number", matches("value"), matches("condition")) %>%
+    arrange(.data$`Row number`) %>%
+    mutate(across(everything(), ~ as.character(.))) %>%
+    distinct() %>% tibble
+    
+  message("    Generate report")
+  
+  if(nrow(report$`Data Processing Elements assessment`) == 0){
+    message("\n    The Data Processing Elements contains no error/warning.")
+    report$`Data Processing Elements assessment` <- NULL
+  }
+  
+  message(bold(
+    "
+  - WARNING MESSAGES (if any): --------------------------------------------\n"))
+  
+  return(report)
   
   # futur dev
   #   dossier_name <- tibble(dossier = as.character(), dataset = as.character())
@@ -194,7 +268,6 @@ data_proc_elem_evaluate <- function(data_proc_elem, taxonomy = NULL){
   #
   #   }
 
-  return(TRUE)
 }
 
 #' @title
@@ -241,6 +314,8 @@ data_proc_elem_evaluate <- function(data_proc_elem, taxonomy = NULL){
 #' @examples
 #' {
 #'
+#' # use DEMO_files_harmo provided by the package
+#' 
 #' library(dplyr)
 #' library(madshapR) # data_dict_filter
 #' 

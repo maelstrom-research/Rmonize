@@ -24,8 +24,7 @@
 \alias{dataset_visualize}
 \alias{valueType_adjust}
 \alias{as_taxonomy}
-\alias{bookdown_template}
-\alias{bookdown_render}
+\alias{is_taxonomy}
 \alias{bookdown_open}
 \title{Objects exported from other packages}
 \keyword{internal}
@@ -34,6 +33,6 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{madshapR}{\code{\link[madshapR]{as_data_dict}}, \code{\link[madshapR]{as_data_dict_mlstr}}, \code{\link[madshapR]{as_dataset}}, \code{\link[madshapR]{as_dossier}}, \code{\link[madshapR]{as_taxonomy}}, \code{\link[madshapR:reexports]{bookdown_open}}, \code{\link[madshapR:reexports]{bookdown_render}}, \code{\link[madshapR:reexports]{bookdown_template}}, \code{\link[madshapR]{data_dict_apply}}, \code{\link[madshapR]{data_dict_evaluate}}, \code{\link[madshapR]{data_dict_extract}}, \code{\link[madshapR]{data_extract}}, \code{\link[madshapR]{dataset_evaluate}}, \code{\link[madshapR]{dataset_summarize}}, \code{\link[madshapR]{dataset_visualize}}, \code{\link[madshapR]{dataset_zap_data_dict}}, \code{\link[madshapR]{dossier_create}}, \code{\link[madshapR]{dossier_evaluate}}, \code{\link[madshapR]{dossier_summarize}}, \code{\link[madshapR]{is_data_dict}}, \code{\link[madshapR]{is_data_dict_mlstr}}, \code{\link[madshapR]{is_dataset}}, \code{\link[madshapR]{is_dossier}}, \code{\link[madshapR]{valueType_adjust}}}
+  \item{madshapR}{\code{\link[madshapR]{as_data_dict}}, \code{\link[madshapR]{as_data_dict_mlstr}}, \code{\link[madshapR]{as_dataset}}, \code{\link[madshapR]{as_dossier}}, \code{\link[madshapR]{as_taxonomy}}, \code{\link[madshapR:reexports]{bookdown_open}}, \code{\link[madshapR]{data_dict_apply}}, \code{\link[madshapR]{data_dict_evaluate}}, \code{\link[madshapR]{data_dict_extract}}, \code{\link[madshapR]{data_extract}}, \code{\link[madshapR]{dataset_evaluate}}, \code{\link[madshapR]{dataset_summarize}}, \code{\link[madshapR]{dataset_visualize}}, \code{\link[madshapR]{dataset_zap_data_dict}}, \code{\link[madshapR]{dossier_create}}, \code{\link[madshapR]{dossier_evaluate}}, \code{\link[madshapR]{dossier_summarize}}, \code{\link[madshapR]{is_data_dict}}, \code{\link[madshapR]{is_data_dict_mlstr}}, \code{\link[madshapR]{is_dataset}}, \code{\link[madshapR]{is_dossier}}, \code{\link[madshapR]{is_taxonomy}}, \code{\link[madshapR]{valueType_adjust}}}
 }}
 
