@@ -135,7 +135,7 @@ harmo_process <- function(dossier, dataschema = NULL, data_proc_elem){
         select(all_of(harmonized_col_id), everything())
       return(tbl)})
   
-  if(nrow(bind_rows(harmonized_dossier))){
+  if(nrow(bind_rows(harmonized_dossier)) == 0){
 stop(call. = FALSE, 'The dataset list to be harmonized is empty.
     
 This usually means that your dataset names in the Data Processing Elements 
