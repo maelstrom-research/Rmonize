@@ -134,6 +134,15 @@ harmo_process <- function(dossier, dataschema = NULL, data_proc_elem){
       tbl <- tbl %>%
         select(all_of(harmonized_col_id), everything())
       return(tbl)})
+  
+  if(nrow(bind_rows(harmonized_dossier))){
+stop(call. = FALSE, 'The dataset list to be harmonized is empty.
+    
+This usually means that your dataset names in the Data Processing Elements 
+(in the column `dataset_input`) do not match the names in your dossier list. 
+Please correct elements and reprocess.')
+
+  }
 
   # creation of id
   for(i in names(harmonized_dossier)){
