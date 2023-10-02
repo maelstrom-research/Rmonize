@@ -58,7 +58,7 @@
 #' # You can use our demonstration files to run examples
 #' 
 #' library(dplyr)
-#' library(madshapR)
+#' library(madshapR) # data_dict_filter
 #' 
 #' dataset_MELBOURNE_1 <- DEMO_files_harmo$dataset_MELBOURNE_1[1]
 #' dossier <- dossier_create(list(dataset_MELBOURNE_1))
@@ -135,7 +135,7 @@ harmo_process <- function(dossier, dataschema = NULL, data_proc_elem){
         select(all_of(harmonized_col_id), everything())
       return(tbl)})
   
-  if(nrow(bind_rows(harmonized_dossier)) == 0){
+  if(ncol(bind_rows(harmonized_dossier)) == 0){
 stop(call. = FALSE, 'The dataset list to be harmonized is empty.
     
 This usually means that your dataset names in the Data Processing Elements 

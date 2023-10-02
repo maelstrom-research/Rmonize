@@ -66,7 +66,7 @@ identifier of each dataset to initiate the process of harmonization.
 # You can use our demonstration files to run examples
 
 library(dplyr)
-library(madshapR)
+library(madshapR) # data_dict_filter
 
 dataset_MELBOURNE_1 <- DEMO_files_harmo$dataset_MELBOURNE_1[1]
 dossier <- dossier_create(list(dataset_MELBOURNE_1))
