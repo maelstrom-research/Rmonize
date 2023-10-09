@@ -39,7 +39,7 @@ developed to meet the needs of Maelstrom’s collaborative harmonization
 initiatives, focusing on harmonization of individual participant data
 from population-based cohort studies, but is intended as a general
 resource for diverse harmonization efforts. **Rmonize** is compatible
-with the Maelstrom ObiBa software suite and other commonly used data
+with the Maelstrom OBiBa software suite and other commonly used data
 management and statistical software.
 
 # Get started

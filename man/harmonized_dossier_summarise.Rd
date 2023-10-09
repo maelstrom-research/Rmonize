@@ -29,7 +29,7 @@ A list of tibbles of report for each harmonized dataset.
 }
 \description{
 Assesses and summarizes the content and structure of a harmonized dossier
-(list of harmoninized datasets) and reports potential issues to facilitate
+(list of harmonized datasets) and reports potential issues to facilitate
 the assessment of input data. The report can be used to help assess data
 structure, presence of fields, coherence across elements, and taxonomy or
 data dictionary formats. The summary provides additional information about
@@ -73,12 +73,12 @@ case, the tibble must also contain 'vocabulary_short', 'taxonomy_scale',
 'vocabulary_scale' and 'term_scale' to work with some specific functions.
 
 The valueType is a property of a variable and is required in certain
-functions to determine the handling of the variables. The valueType refers to
-the OBiBa-internal type of a variable. It is specified in a data dictionary
-in a column \code{valueType} and can be associated with variables as attributes.
-Acceptable valueTypes include 'text', 'integer', 'decimal', 'boolean',
-'datetime', 'date'). The full list of OBiBa valueType possibilities and their
-correspondance with R data types are available using
+functions to determine the handling of the variables. The valueType refers
+to the OBiBa-internal type of a variable. It is specified in a data
+dictionary in a column \code{valueType} and can be associated with variables as
+attributes. Acceptable valueTypes include 'text', 'integer', 'decimal',
+'boolean', datetime', 'date'). The full list of OBiBa valueType
+possibilities and their correspondence with R data types are available using
 \link[madshapR:valueType_list]{madshapR::valueType_list}.
 }
 \examples{

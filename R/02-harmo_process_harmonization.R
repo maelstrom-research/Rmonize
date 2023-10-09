@@ -42,7 +42,7 @@
 #' identifier of each dataset to initiate the process of harmonization.
 #'
 #' @param dossier List of tibble(s), each of them being datasets to be 
-#' harmonised.
+#' harmonized.
 #' @param dataschema A list of tibble(s) representing metadata of an 
 #' associated harmonized dossier.
 #' @param data_proc_elem A tibble, identifying the input 
@@ -1834,7 +1834,7 @@ name list of variables.")
 #' dossier. The pooled dataset has two columns which can be declared by 
 #' the user (unique_col_dataset and unique_col_id).
 #' The first column refers to the name of each dataset which is the name of each
-#' tibble in the dossier. The second colunm refers to the column id in each 
+#' tibble in the dossier. The second column refers to the column id in each 
 #' harmonized dataset and  which identifies unique combination (concatenated)
 #' observation/dataset. These two columns are added to ensure every information 
 #' is safe during the process. The pooled harmonized dataset comes with its 
@@ -1858,7 +1858,7 @@ name list of variables.")
 #' @param harmonized_dossier List of tibble(s), each of them being 
 #' harmonized dataset.
 #' @param unique_col_dataset A character string identifying the name the column 
-#' refering each dataset names. NULL by default.
+#' referring each dataset names. NULL by default.
 #' @param unique_col_id  A character string identifying the name of the 
 #' column identifier of the dataset and will be the concatenation of 
 #' id column value and dataset name. NULL by default.

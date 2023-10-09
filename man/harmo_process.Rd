@@ -8,7 +8,7 @@ harmo_process(dossier, dataschema = NULL, data_proc_elem)
 }
 \arguments{
 \item{dossier}{List of tibble(s), each of them being datasets to be
-harmonised.}
+harmonized.}
 
 \item{dataschema}{A list of tibble(s) representing metadata of an
 associated harmonized dossier.}

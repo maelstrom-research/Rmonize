@@ -1,8 +1,8 @@
 ---
-title: "Get Started"
+title: "Initiate data processing"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Get Started}
+  %\VignetteIndexEntry{Initiate data processing}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -109,18 +109,18 @@ source('datatables.R')
 
 <br>
     
-# Harmonization of the DataSchema variable sdc_gender
+# Harmonization of the DataSchema variable sdc_sex
 
 **1 Open the DataSchema to understand the variable to generate.**
 
 :::: {class="flex-container"}
 
 ::: {class="image-container-big"}
-  <img src="../man/figures/sdc_gender_var.png" style="max-width: 100%; height: auto;">
+  <img src="../man/figures/sdc_sex_var.png" style="max-width: 100%; height: auto;">
   
   <br>
   
-  <img src="../man/figures/sdc_gender_cat.png" style="max-width: 100%; height: auto;">
+  <img src="../man/figures/sdc_sex_cat.png" style="max-width: 100%; height: auto;">
 :::
  
 ::: {class="text-container-small"}
@@ -140,8 +140,8 @@ source('datatables.R')
 
 <br>
 
-**2 Identidy for each dataset which column (variable) will be associated to the
-harmonization script to generate the harmonzed variable.**
+**2 Identify for each dataset which column (variable) will be associated to the
+harmonization script to generate the harmonized variable.**
 
 ### dataset_MELBOURNE_1
 
@@ -276,7 +276,7 @@ future information to be completed, put <b>undetermined</b> as a placeholder.
 Save your work, close file and upload it in your R environment if necessary.
 
 
-**Warning ⚠** In your environnement, additional objects must exist:
+**Warning ⚠** In your environment, additional objects must exist:
  * The dossier containing your input dataset(s)
  * The DataSchema. If not, a minimum DataSchema will be created from elements 
 found in the Data Processing Elements.
@@ -300,12 +300,12 @@ harmo_process(dossier,dataschema,data_proc_elem)
     
 ```
 
-[See the whole process of harmonization through a DEMO](d-Example-with-DEMO-files.html)
+[See the whole data processing through a DEMO](d-Example-with-DEMO-files.html)
 
 
 ## Understanding the output : how to detect and correct errors.
 
-If the process of harmonization produces errors in R, the process will not generate
+If the data processing produces errors in R, the process will not generate
 the harmonized datasets affected, to avoid version conflicts. The error will be stored in
 a the column 'Mlstr_harmo::status' in its harmonized data dictionary. The error can be read
 directly in the console using the function [show_harmo_error()](../reference/show_harmo_error.html)
@@ -340,7 +340,7 @@ show_harmo_error(harmonized_dossier)
 
 
 **Warning ⚠** Sometimes, the harmonization produces warnings which are to consider 
-and analyse very closely, because they may refer to errors. A common warning generated
+and evaluate very closely, because they may refer to errors. A common warning generated
 is when a decimal is converted into an integer. R does not analyses it as an error,
 but the information is wrongly harmonized in that case. You should always use 
 [harmonized_dossier_evaluate()](../reference/harmonized_dossier_evaluate.html), 

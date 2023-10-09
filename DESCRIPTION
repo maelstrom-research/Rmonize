@@ -44,8 +44,8 @@ Imports: dplyr (>= 1.1.0),
     crayon,
     haven,
     utils,
-    fabR,
-    madshapR
+    fabR (>= 2.0.0),
+    madshapR (>= 1.0.2)
 Suggests: janitor,
     car,
     knitr

@@ -23,12 +23,12 @@ knitr::opts_chunk$set(
 
 ```{r}
 # To install the R package:
-# install.packages('harmonizR')
+# install.packages('Rmonize')
 
-library(harmonizR)
+library(Rmonize)
 
 #if you need help with the package, please use:
-harmonizR_help()
+Rmonize_help()
 
 ```
 
@@ -52,7 +52,7 @@ names(DEMO_files_harmo)
 
 # General objective of this demonstration
 
-A general process with **harmonizR** involves the following steps:
+A general process with **Rmonize** involves the following steps:
 
  * Associate input datasets with their data dictionaries.
  * Prepare a “dossier” of input datasets and data dictionaries.
@@ -62,14 +62,14 @@ A general process with **harmonizR** involves the following steps:
  
 The process is demonstrated below with all inputs in valid formats and no 
 errors, i.e., assuming that the content and structure of all inputs are 
-compatible with **harmonizR**. Error-checking and other manipulations of inputs 
+compatible with **Rmonize**. Error-checking and other manipulations of inputs 
 will be covered in other vignettes.
 
 
 ## Prepare the inputs
 
 If input data dictionaries are available, they can be associated with 
-their corresponding datasets using the function ‘data_dict_apply’. If not 
+their corresponding datasets using the function `data_dict_apply`. If not 
 provided, minimal data dictionaries will automatically be created to meet 
 technical requirements of the following functions. 
 The input datasets and associated data dictionaries are then grouped 
@@ -118,11 +118,11 @@ data_proc_elem <- DEMO_files_harmo$`data_processing_elements - final`
 
 ```
 
-You can proceed with harmonization using ‘harmo_process’.
+You can proceed with harmonization using `harmo_process`.
 
 ```{r}
 
-# Process harmonization
+# Data processing
 
 harmonized_dossier <- harmo_process(dossier, dataschema, data_proc_elem)
 show_harmo_error(harmonized_dossier)

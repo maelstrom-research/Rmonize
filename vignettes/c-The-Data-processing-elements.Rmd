@@ -132,7 +132,7 @@ me separated by semi colon **;**
   `r DT_data_proc_elem_expl` 
 :::
 
-> Useful tip : You can add an index for each of your harmonised variables and 
+> Useful tip : You can add an index for each of your harmonized variables and 
 work either per dataset or per harmonized variables using filter/order in Excel.
 
 [return to summary](#summary)
@@ -246,7 +246,7 @@ recode(
 
 ```
 
-The values can be gathered using R synthax to recode multiple numerical values.
+The values can be gathered using R syntax to recode multiple numerical values.
 
 ```
 recode(
@@ -299,7 +299,7 @@ Separate the statement/code with a tilde **~**
 ::: {}
 
 
-**case_when** is sentitive to the data type. Each code generated with the statement
+**case_when** is sensitive to the data type. Each code generated with the statement
 must have the same data type, including the NA.
 
 

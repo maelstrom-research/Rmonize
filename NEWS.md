@@ -33,7 +33,7 @@ function before and is not working any longer.
 - `dataschema_extract()` Extract and create the DataSchema from a data
   processing elements
 
-## Process harmonization
+## Data processing
 
 - `harmo_process()` Generate harmonized dataset(s) and annotated Data
   Processing Elements. This function internally runs other functions,
