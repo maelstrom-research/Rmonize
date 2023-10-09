@@ -59,7 +59,7 @@ knitr::opts_chunk$set(
 #      dataset_PARIS,
 #      dataset_TOKYO))
 #  
-#  dataschema <- DEMO_files_harmo$`dataschema - final - 2`
+#  dataschema <- DEMO_files_harmo$`dataschema - final`
 #  data_proc_elem <- DEMO_files_harmo$`data_processing_elements - final`
 #  
 
