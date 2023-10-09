@@ -59,7 +59,7 @@ knitr::opts_chunk$set(
 #      dataset_PARIS,
 #      dataset_TOKYO))
 #  
-#  dataschema <- DEMO_files_harmo$`dataschema - final`
+#  dataschema <- DEMO_files_harmo$`dataschema - final - 2`
 #  data_proc_elem <- DEMO_files_harmo$`data_processing_elements - final`
 #  
 
@@ -82,6 +82,7 @@ knitr::opts_chunk$set(
 #  harmonized_dossier_visualize(
 #    harmonized_dossier,
 #    bookdown_path = bookdown_path,
+#    group_by = 'adm_study',
 #    overwrite = TRUE)
 #  
 

@@ -423,7 +423,7 @@ Elements) are prepared,</p>
 <span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>    dataset_PARIS, </span>
 <span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>    dataset_TOKYO))</span>
 <span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a></span>
-<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>dataschema <span class="ot">&lt;-</span> DEMO_files_harmo<span class="sc">$</span><span class="st">`</span><span class="at">dataschema - final</span><span class="st">`</span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>dataschema <span class="ot">&lt;-</span> DEMO_files_harmo<span class="sc">$</span><span class="st">`</span><span class="at">dataschema - final - 2</span><span class="st">`</span></span>
 <span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>data_proc_elem <span class="ot">&lt;-</span> DEMO_files_harmo<span class="sc">$</span><span class="st">`</span><span class="at">data_processing_elements - final</span><span class="st">`</span></span></code></pre></div>
 <p>You can proceed with harmonization using
 <code>harmo_process</code>.</p>
@@ -450,7 +450,8 @@ where the visual report is generated.</em></p>
 <span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="fu">harmonized_dossier_visualize</span>(</span>
 <span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>  harmonized_dossier, </span>
 <span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>  <span class="at">bookdown_path =</span> bookdown_path,</span>
-<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>  <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>  <span class="at">group_by =</span> <span class="st">&#39;adm_study&#39;</span>,</span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>  <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 </div>
 </div>
 
