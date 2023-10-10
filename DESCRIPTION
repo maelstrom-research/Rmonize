@@ -49,8 +49,6 @@ Imports: dplyr (>= 1.1.0),
 Suggests: janitor,
     car,
     knitr
-Remotes:
-    github::maelstrom-research/madshapR@testing
 URL: https://github.com/maelstrom-research/Rmonize/
 BugReports: https://github.com/maelstrom-research/Rmonize/issues
 Roxygen: list(markdown = TRUE)
