@@ -42,7 +42,7 @@
 #' identifier of each dataset to initiate the process of harmonization.
 #'
 #' @param dossier List of tibble(s), each of them being datasets to be 
-#' harmonised.
+#' harmonized.
 #' @param dataschema A list of tibble(s) representing metadata of an 
 #' associated harmonized dossier.
 #' @param data_proc_elem A tibble, identifying the input 
@@ -58,7 +58,7 @@
 #' # You can use our demonstration files to run examples
 #' 
 #' library(dplyr)
-#' library(madshapR)
+#' library(madshapR) # data_dict_filter
 #' 
 #' dataset_MELBOURNE_1 <- DEMO_files_harmo$dataset_MELBOURNE_1[1]
 #' dossier <- dossier_create(list(dataset_MELBOURNE_1))
@@ -134,6 +134,15 @@ harmo_process <- function(dossier, dataschema = NULL, data_proc_elem){
       tbl <- tbl %>%
         select(all_of(harmonized_col_id), everything())
       return(tbl)})
+  
+  if(ncol(bind_rows(harmonized_dossier)) == 0){
+stop(call. = FALSE, 'The dataset list to be harmonized is empty.
+    
+This usually means that your dataset names in the Data Processing Elements 
+(in the column `dataset_input`) do not match the names in your dossier list. 
+Please correct elements and reprocess.')
+
+  }
 
   # creation of id
   for(i in names(harmonized_dossier)){
@@ -1825,7 +1834,7 @@ name list of variables.")
 #' dossier. The pooled dataset has two columns which can be declared by 
 #' the user (unique_col_dataset and unique_col_id).
 #' The first column refers to the name of each dataset which is the name of each
-#' tibble in the dossier. The second colunm refers to the column id in each 
+#' tibble in the dossier. The second column refers to the column id in each 
 #' harmonized dataset and  which identifies unique combination (concatenated)
 #' observation/dataset. These two columns are added to ensure every information 
 #' is safe during the process. The pooled harmonized dataset comes with its 
@@ -1849,7 +1858,7 @@ name list of variables.")
 #' @param harmonized_dossier List of tibble(s), each of them being 
 #' harmonized dataset.
 #' @param unique_col_dataset A character string identifying the name the column 
-#' refering each dataset names. NULL by default.
+#' referring each dataset names. NULL by default.
 #' @param unique_col_id  A character string identifying the name of the 
 #' column identifier of the dataset and will be the concatenation of 
 #' id column value and dataset name. NULL by default.
@@ -1918,4 +1927,160 @@ pooled_harmonized_dataset_create <- function(
 }
 
 
+#' @title
+#' Test if an object is a valid Maelstrom dataSchema
+#'
+#' @description
+#' Tests if the input object is a valid dataSchema compliant with formats 
+#' used in Maelstrom Research ecosystem, including Opal. This function mainly 
+#' helps validate input within other functions of the package but could be used 
+#' to check if an object is valid for use in a function.
+#'
+#' @details
+#' A DataSchema defines the harmonized variables to be generated, and also 
+#' represents metadata of an associated harmonized dossier. It must be a list 
+#' of data frame or data frame extension (e.g. a tibble) objects with elements 
+#' named "Variables" (required) and "Categories" (if any). The "Variables" 
+#' element must contain at least the `name` column, and the "Categories" element 
+#' must contain at least the `variable` and `name` columns to be usable in any 
+#' function. To be considered as a minimum workable DataSchema, in "Variables" 
+#' the `name` column must also have unique and non-null entries, and in 
+#' "Categories" the combination of `variable` and `name` columns must also be 
+#' unique.
+#'
+#' @seealso
+#' For a better assessment, please use [dataschema_evaluate()].
+#'
+#' @param object A potential Maelstrom formatted DataSchema to be evaluated.
+#'
+#' @returns
+#' A logical.
+#'
+#' @examples
+#' {
+#' 
+#' # use DEMO_files_harmo provided by the package
+#'
+#' dataschema <- DEMO_files_harmo$`dataschema - final`
+#' is_dataschema_mlstr(dataschema)
+#' is_dataschema_mlstr(iris)
+#'
+#'}
+#'
+#' @import dplyr tidyr fabR
+#' @importFrom rlang .data
+#'
+#' @export
+is_dataschema_mlstr <- function(object){
+  
+  object <- object
+  # if only the tibble is given in parameter
+  test <- silently_run(try(as_dataschema_mlstr(object),silent = TRUE))
+  if(class(test)[1] == 'try-error')    return(FALSE)
+  return(TRUE)
+}
 
+#' @title
+#' Test if an object is a valid DataSchema
+#'
+#' @description
+#' Tests if the input object is a valid DataSchema. This function mainly 
+#' helps validate input within other functions of the package but could be used 
+#' to check if an object is valid for use in a function.
+#'
+#' @details
+#' A DataSchema defines the harmonized variables to be generated, and also 
+#' represents metadata of an associated harmonized dossier. It must be a list 
+#' of data frame or data frame extension (e.g. a tibble) objects with elements 
+#' named "Variables" (required) and "Categories" (if any). The "Variables" 
+#' element must contain at least the `name` column, and the "Categories" element 
+#' must contain at least the `variable` and `name` columns to be usable in any 
+#' function. To be considered as a minimum workable DataSchema, in "Variables" 
+#' the `name` column must also have unique and non-null entries, and in 
+#' "Categories" the combination of `variable` and `name` columns must also be 
+#' unique.
+#'
+#' @seealso
+#' For a better assessment, please use [dataschema_evaluate()].
+#'
+#' @param object A potential DataSchema to be evaluated.
+#'
+#' @returns
+#' A logical.
+#'
+#' @examples
+#' {
+#' 
+#' # use DEMO_files_harmo provided by the package
+#'
+#' dataschema <- DEMO_files_harmo$`dataschema - final`
+#' is_dataschema(dataschema)
+#' is_dataschema(iris)
+#'
+#'}
+#'
+#' @import dplyr tidyr fabR
+#' @importFrom rlang .data
+#'
+#' @export
+is_dataschema <- function(object){
+  
+  object <- object
+  # if only the tibble is given in parameter
+  test <- silently_run(try(as_dataschema(object),silent = TRUE))
+  if(class(test)[1] == 'try-error')    return(FALSE)
+  return(TRUE)
+  
+}
+
+#' @title
+#' Test if an object is a valid Data Processing Elements
+#'
+#' @description
+#' Tests if the input object is a valid Data Processing Elements. This function 
+#' mainly helps validate input within other functions of the package but could 
+#' be used to check if an object is valid for use in a function.
+#'
+#' @details
+#' A Data Processing Elements contains the rules and metadata that will be used 
+#' to perform harmonization of input datasets in accordance with the DataSchema. 
+#' It must be a data frame or data frame extension (e.g. a tibble) and it must 
+#' contain certain columns which participate to the process, including the 
+#' `dataschema_variable`, `input_dataset`,`input_variables`, 
+#' `Mlstr_harmo::rule_category` and  `Mlstr_harmo::algorithm`. The mandatory 
+#' first processing element must be "id_creation" in 
+#' `Mlstr_harmo::rule_category` followed by the name of the column taken as 
+#' identifier of each dataset to initiate the process of harmonization.
+#'
+#' @seealso
+#' For a better assessment, please use [data_proc_elem_evaluate()].
+#'
+#' @param object A potential DataSchema to be evaluated.
+#'
+#' @returns
+#' A logical.
+#'
+#' @examples
+#' {
+#' 
+#' # use DEMO_files_harmo provided by the package
+#'
+#' data_proc_elem <- DEMO_files_harmo$`data_processing_elements - final`
+#' is_data_proc_elem(data_proc_elem)
+#' is_data_proc_elem(iris)
+#'
+#'}
+#'
+#' @import dplyr tidyr fabR
+#' @importFrom rlang .data
+#'
+#' @export
+is_data_proc_elem <- function(object){
+  
+  object <- object
+  # if only the tibble is given in parameter
+  test <- silently_run(try(as_data_proc_elem(object),silent = TRUE))
+  if(class(test)[1] == 'try-error')    return(FALSE)
+  return(TRUE)
+  
+}

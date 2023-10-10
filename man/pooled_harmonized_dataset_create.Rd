@@ -15,7 +15,7 @@ pooled_harmonized_dataset_create(
 harmonized dataset.}
 
 \item{unique_col_dataset}{A character string identifying the name the column
-refering each dataset names. NULL by default.}
+referring each dataset names. NULL by default.}
 
 \item{unique_col_id}{A character string identifying the name of the
 column identifier of the dataset and will be the concatenation of
@@ -29,7 +29,7 @@ Generates the pooled harmonized dataset from harmonized dataset(s) in a
 dossier. The pooled dataset has two columns which can be declared by
 the user (unique_col_dataset and unique_col_id).
 The first column refers to the name of each dataset which is the name of each
-tibble in the dossier. The second colunm refers to the column id in each
+tibble in the dossier. The second column refers to the column id in each
 harmonized dataset and  which identifies unique combination (concatenated)
 observation/dataset. These two columns are added to ensure every information
 is safe during the process. The pooled harmonized dataset comes with its

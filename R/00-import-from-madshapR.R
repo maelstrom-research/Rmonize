@@ -82,13 +82,9 @@ madshapR::valueType_adjust
 #' @export
 madshapR::as_taxonomy
 
-#' @importFrom madshapR bookdown_template
+#' @importFrom madshapR is_taxonomy
 #' @export
-madshapR::bookdown_template
-
-#' @importFrom madshapR bookdown_render
-#' @export
-madshapR::bookdown_render
+madshapR::is_taxonomy
 
 #' @importFrom madshapR bookdown_open
 #' @export

@@ -49,6 +49,8 @@ case, the tibble must also contain 'vocabulary_short', 'taxonomy_scale',
 \examples{
 {
 
+# use DEMO_files_harmo provided by the package
+
 library(dplyr)
 library(madshapR) # data_dict_filter
 

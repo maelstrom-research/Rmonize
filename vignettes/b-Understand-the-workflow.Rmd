@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 
 # Overview
 
-In a typical harmonization process, ‘Rmonize’ functions use a few main inputs: 
+In a typical harmonization process, **Rmonize** functions use a few main inputs: 
 input datasets, input data dictionaries, the DataSchema, and 
 the Data Processing Elements. These inputs are generally created in other 
 programs, imported into R, and prepared as needed to match the specific formats 

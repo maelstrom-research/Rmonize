@@ -55,8 +55,8 @@ unique.
     # ss DataSchema 
     '<h3>Harmonised data dictionary</h3>
 
-An harmonised data dictionary is the metadata for a harmonized dataset that has
-been harmonised from an input dataset.
+An harmonized data dictionary is the metadata for a harmonized dataset that has
+been harmonized from an input dataset.
 
     <br><br>
     
@@ -263,7 +263,7 @@ The name of each tibble will be use as the reference name of the dataset.
     # pooled harmonized dataset
     '<h3>Harmonized dataset</h3>
 The first column refers to the name of each dataset which is the name of each
-tibble in the dossier. The second colunm refers to the column id in each 
+tibble in the dossier. The second column refers to the column id in each 
 harmonized dataset and  which identifies unique combination (concatenated)
 observation/dataset. These two columns are added to ensure every information 
 is safe during the process. The pooled_harmonized dataset comes with its 
