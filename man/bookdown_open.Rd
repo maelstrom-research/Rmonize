@@ -10,6 +10,6 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{madshapR}{\code{\link[madshapR:reexports]{bookdown_open}}}
+  \item{madshapR}{\code{\link[madshapR]{bookdown_open}}}
 }}
 
