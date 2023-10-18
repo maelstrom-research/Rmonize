@@ -45,7 +45,8 @@ Imports: dplyr (>= 1.1.0),
     haven,
     utils,
     fabR (>= 2.0.0),
-    madshapR (>= 1.0.2)
+    madshapR
+Remotes: github::maelstrom-research/madshapR@testing
 Suggests: janitor,
     car,
     knitr
