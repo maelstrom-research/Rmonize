@@ -82,10 +82,6 @@ dataset_MELBOURNE_1 <- data_dict_apply(
   dataset = DEMO_files_harmo$dataset_MELBOURNE_1,
   data_dict = DEMO_files_harmo$dd_MELBOURNE_1_format_maelstrom)
 
-dataset_MELBOURNE_2 <- data_dict_apply(
-  dataset = DEMO_files_harmo$dataset_MELBOURNE_2,
-  data_dict = DEMO_files_harmo$dd_MELBOURNE_2_format_maelstrom)
-
 dataset_PARIS <- data_dict_apply(
   dataset = DEMO_files_harmo$dataset_PARIS,
   data_dict = DEMO_files_harmo$dd_PARIS_format_maelstrom)
@@ -109,7 +105,6 @@ prepared,
 dossier <- dossier_create(
   dataset_list = list(
     dataset_MELBOURNE_1, 
-    dataset_MELBOURNE_2, 
     dataset_PARIS, 
     dataset_TOKYO))
 
