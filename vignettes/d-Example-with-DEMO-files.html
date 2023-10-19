@@ -396,17 +396,13 @@ are then grouped into a dossier.</p>
 <span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  <span class="at">dataset =</span> DEMO_files_harmo<span class="sc">$</span>dataset_MELBOURNE_1,</span>
 <span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>  <span class="at">data_dict =</span> DEMO_files_harmo<span class="sc">$</span>dd_MELBOURNE_1_format_maelstrom)</span>
 <span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>dataset_MELBOURNE_2 <span class="ot">&lt;-</span> <span class="fu">data_dict_apply</span>(</span>
-<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>  <span class="at">dataset =</span> DEMO_files_harmo<span class="sc">$</span>dataset_MELBOURNE_2,</span>
-<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>  <span class="at">data_dict =</span> DEMO_files_harmo<span class="sc">$</span>dd_MELBOURNE_2_format_maelstrom)</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>dataset_PARIS <span class="ot">&lt;-</span> <span class="fu">data_dict_apply</span>(</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>  <span class="at">dataset =</span> DEMO_files_harmo<span class="sc">$</span>dataset_PARIS,</span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>  <span class="at">data_dict =</span> DEMO_files_harmo<span class="sc">$</span>dd_PARIS_format_maelstrom)</span>
 <span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a></span>
-<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>dataset_PARIS <span class="ot">&lt;-</span> <span class="fu">data_dict_apply</span>(</span>
-<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a>  <span class="at">dataset =</span> DEMO_files_harmo<span class="sc">$</span>dataset_PARIS,</span>
-<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a>  <span class="at">data_dict =</span> DEMO_files_harmo<span class="sc">$</span>dd_PARIS_format_maelstrom)</span>
-<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a></span>
-<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a>dataset_TOKYO <span class="ot">&lt;-</span> <span class="fu">data_dict_apply</span>(</span>
-<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a>  <span class="at">dataset =</span> DEMO_files_harmo<span class="sc">$</span>dataset_TOKYO,</span>
-<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a>  <span class="at">data_dict =</span> DEMO_files_harmo<span class="sc">$</span>dd_TOKYO_format_maelstrom)</span></code></pre></div>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>dataset_TOKYO <span class="ot">&lt;-</span> <span class="fu">data_dict_apply</span>(</span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a>  <span class="at">dataset =</span> DEMO_files_harmo<span class="sc">$</span>dataset_TOKYO,</span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a>  <span class="at">data_dict =</span> DEMO_files_harmo<span class="sc">$</span>dd_TOKYO_format_maelstrom)</span></code></pre></div>
 </div>
 <div id="generate-harmonized-data" class="section level2">
 <h2>Generate harmonized data</h2>
@@ -419,12 +415,11 @@ Elements) are prepared,</p>
 <span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>dossier <span class="ot">&lt;-</span> <span class="fu">dossier_create</span>(</span>
 <span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>  <span class="at">dataset_list =</span> <span class="fu">list</span>(</span>
 <span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>    dataset_MELBOURNE_1, </span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>    dataset_MELBOURNE_2, </span>
-<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>    dataset_PARIS, </span>
-<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>    dataset_TOKYO))</span>
-<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a></span>
-<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>dataschema <span class="ot">&lt;-</span> DEMO_files_harmo<span class="sc">$</span><span class="st">`</span><span class="at">dataschema - final</span><span class="st">`</span></span>
-<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>data_proc_elem <span class="ot">&lt;-</span> DEMO_files_harmo<span class="sc">$</span><span class="st">`</span><span class="at">data_processing_elements - final</span><span class="st">`</span></span></code></pre></div>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>    dataset_PARIS, </span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>    dataset_TOKYO))</span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>dataschema <span class="ot">&lt;-</span> DEMO_files_harmo<span class="sc">$</span><span class="st">`</span><span class="at">dataschema - final</span><span class="st">`</span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>data_proc_elem <span class="ot">&lt;-</span> DEMO_files_harmo<span class="sc">$</span><span class="st">`</span><span class="at">data_processing_elements - final</span><span class="st">`</span></span></code></pre></div>
 <p>You can proceed with harmonization using
 <code>harmo_process</code>.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a></span>

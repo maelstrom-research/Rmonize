@@ -1,4 +1,4 @@
-## ----include = FALSE-----------------------------------------------------------------------------
+## ----include = FALSE----------------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -7,7 +7,7 @@ knitr::opts_chunk$set(
   eval = FALSE)
 
 
-## ------------------------------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 #  # To install the R package:
 #  # install.packages('Rmonize')
 #  
@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 #  Rmonize_help()
 #  
 
-## ------------------------------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 #  
 #  names(DEMO_files_harmo)
 #  # To see examples
@@ -27,16 +27,12 @@ knitr::opts_chunk$set(
 #  # View(DEMO_files_harmo$`dataschema - final`)               # A DataSchema
 #  
 
-## ------------------------------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 #  # Associate metadata from data dictionary to the the data
 #  
 #  dataset_MELBOURNE_1 <- data_dict_apply(
 #    dataset = DEMO_files_harmo$dataset_MELBOURNE_1,
 #    data_dict = DEMO_files_harmo$dd_MELBOURNE_1_format_maelstrom)
-#  
-#  dataset_MELBOURNE_2 <- data_dict_apply(
-#    dataset = DEMO_files_harmo$dataset_MELBOURNE_2,
-#    data_dict = DEMO_files_harmo$dd_MELBOURNE_2_format_maelstrom)
 #  
 #  dataset_PARIS <- data_dict_apply(
 #    dataset = DEMO_files_harmo$dataset_PARIS,
@@ -47,7 +43,7 @@ knitr::opts_chunk$set(
 #    data_dict = DEMO_files_harmo$dd_TOKYO_format_maelstrom)
 #  
 
-## ------------------------------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 #  # Group the dataset in a dossier object
 #  # NB: The names of the datasets in the dossier must match the column
 #  # input_dataset in the Data Processing Elements
@@ -55,7 +51,6 @@ knitr::opts_chunk$set(
 #  dossier <- dossier_create(
 #    dataset_list = list(
 #      dataset_MELBOURNE_1,
-#      dataset_MELBOURNE_2,
 #      dataset_PARIS,
 #      dataset_TOKYO))
 #  
@@ -63,7 +58,7 @@ knitr::opts_chunk$set(
 #  data_proc_elem <- DEMO_files_harmo$`data_processing_elements - final`
 #  
 
-## ------------------------------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 #  
 #  # Data processing
 #  
@@ -71,7 +66,7 @@ knitr::opts_chunk$set(
 #  show_harmo_error(harmonized_dossier)
 #  
 
-## ------------------------------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 #  
 #  # These reports can be downloaded as Excel files
 #  harmonized_dossier_evaluate <- harmonized_dossier_evaluate(harmonized_dossier)
