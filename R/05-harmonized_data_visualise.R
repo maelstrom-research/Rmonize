@@ -141,11 +141,6 @@ harmonized_dossier_visualize <- function(
   col_id <- attributes(pooled_harmonized_dataset)$`madshapR::col_id`
   harmo_col_id <- 
     attributes(pooled_harmonized_dataset)$`Rmonize::unique_col_id`
-    
-  pooled_harmonized_dataset <-
-    pooled_harmonized_dataset %>%
-    as_dataset(harmo_col_id) %>%
-    select(-all_of(col_id))
   
   if(is.null(.summary_pool)){
     .summary_pool <- 
