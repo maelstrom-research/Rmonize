@@ -83,12 +83,12 @@
 #'
 #' @export
 harmo_process <- function(dossier, dataschema = NULL, data_proc_elem){
-
+  
   # future dev
   # si le vT n'existe pas dans le Data Processing Elements, aller le chercher 
   # dans le DataSchema
   # controle de version ?
-
+  
   data_proc_elem <- as_data_proc_elem(data_proc_elem)
   harmonized_col_id <- 
     unique(
@@ -96,13 +96,31 @@ harmo_process <- function(dossier, dataschema = NULL, data_proc_elem){
         data_proc_elem$`Mlstr_harmo::rule_category` %in% 'id_creation',][[
           'dataschema_variable']])
   
-
   if(is.null(dataschema)) dataschema <- dataschema_extract(data_proc_elem)
   dataschema <- as_dataschema(dataschema, as_dataschema_mlstr = TRUE)
-
+  
+  # selection of needed columns
+  for(i in names(dossier)){
+    # stop()
+    
+    names_in_dpe <- 
+      str_squish(unlist(strsplit(
+        data_proc_elem %>% 
+          filter(
+            .data$`input_dataset` == i & 
+            .data$`input_variables` != '__BLANK__') %>%
+          pull(.data$`input_variables`),split = ";"))) %>%
+      unique
+    
+    dossier[[i]] <- dossier[[i]] %>% select(any_of(names_in_dpe))
+  }
+  
+  message('Extraction of variables involved in the process, please wait...')
   # rid of data dictionary
-  dossier <- as_dossier(dossier) %>% lapply(dataset_zap_data_dict)
-
+  dossier <- 
+    as_dossier(dossier) %>% 
+    lapply(dataset_zap_data_dict)
+  
   # extraction of Data Processing Elements
   dpe <-
     data_proc_elem %>%
@@ -121,11 +139,11 @@ harmo_process <- function(dossier, dataschema = NULL, data_proc_elem){
     group_split() %>%
     as.list
   names(dpe) <- sort(unique(bind_rows(dpe)$input_dataset))
-
+  
   # intersection of dossier and dpe
   dossier <- dossier[intersect(names(dossier), names(dpe))]
   dpe <- dpe_init <- dpe[intersect(names(dossier), names(dpe))]
-
+  
   # gather all information by dataset to be harmonized.
   harmonized_dossier <- harmonized_dossier_init <- 
     dpe %>% lapply(function(x){
@@ -136,14 +154,14 @@ harmo_process <- function(dossier, dataschema = NULL, data_proc_elem){
       return(tbl)})
   
   if(ncol(bind_rows(harmonized_dossier)) == 0){
-stop(call. = FALSE, 'The dataset list to be harmonized is empty.
+    stop(call. = FALSE, 'The dataset list to be harmonized is empty.
     
 This usually means that your dataset names in the Data Processing Elements 
 (in the column `dataset_input`) do not match the names in your dossier list. 
 Please correct elements and reprocess.')
-
+    
   }
-
+  
   # creation of id
   for(i in names(harmonized_dossier)){
     # stop()}
@@ -153,7 +171,7 @@ Please correct elements and reprocess.')
       mutate(across(id_create[['input_variables']],as.character)) %>%
       rename_with(
         .cols = id_create[['input_variables']], ~id_create[['output_variable']])
-
+    
     harmonized_dossier[[i]] <-
       harmonized_dossier[[i]] %>% bind_rows(harmonization_id)
     harmonized_dossier[[i]] <- harmonized_dossier_init[[i]] <-
@@ -161,10 +179,10 @@ Please correct elements and reprocess.')
         harmonized_dossier[[i]],
         col_id = harmonized_col_id)
   }
-
+  
   message(crayon::bold(
 "- Data Processing Elements: ------------------------------------------------"))
-
+  
   # recast <- tibble()
   harmonization_report <- harmonization_report_init <- 
     tibble(
@@ -174,21 +192,22 @@ Please correct elements and reprocess.')
       rule_category = as.character(),
       script = as.character(),
       `Rmonize::r_script` = as.character())
-
+  
   harmonized_dossier <- harmonized_dossier_init
   dpe <- dpe_init
   harmonization_report <- harmonization_report_init
-    
+  
+  
   for (i in names(harmonized_dossier)) {
     # stop()}
-
+    
     message(str_sub(paste0("\n",
 "--harmonization of : ",
 crayon::bold(i)," -----------------------------------------------------"),1,81))
-
+    
     create_id_row <- 
       dpe[[i]][dpe[[i]]$`output_variable` %in% harmonized_col_id,]
-
+    
     message(str_sub(paste0(
       str_trunc(paste0(
         "    processing ","1","/",nrow(dpe[[i]])," : ",
@@ -214,76 +233,77 @@ crayon::bold(i)," -----------------------------------------------------"),1,81))
     for(j in dpe[[i]][['output_variable']][!dpe[[i]]$`output_variable` %in% 
                                            harmonized_col_id]){
       # stop()}
-
-       process_rule  <- dpe[[i]][dpe[[i]]$output_variable == j,]
-       input_dataset <- dossier[[i]]
-       idx <- idx + 1
-
-       r_script <-
-         # Rmonize:::harmo_parse_process_rule(
-         harmo_parse_process_rule(
-         process_rule_slice = process_rule,
-         input_dataset = input_dataset,
-         r_script = TRUE)
       
-       col <-
-         # Rmonize:::harmo_parse_process_rule(
-         harmo_parse_process_rule(
-           process_rule_slice = process_rule, 
-           input_dataset = input_dataset, 
-           r_script = FALSE)
+      process_rule  <- dpe[[i]][dpe[[i]]$output_variable == j,]
+      input_dataset <- dossier[[i]]
+      idx <- idx + 1
       
-       error_status <- NULL
-       warning_status <- NULL
-
-  if(is_error(col)){
-    
-    message(str_sub(paste0(
-      str_trunc(paste0(
-        "    processing ",idx,"/",nrow(dpe[[i]])," : ",
-        process_rule$`output_variable`),width = 49,ellipsis = '[...]'),
-      "                                       "),1,50),
-      crayon::bold("**ERROR**"))
-    
-    error_status <- conditionMessage(col)
-    
-  }else{
+      r_script <-
+        # Rmonize:::harmo_parse_process_rule(
+          harmo_parse_process_rule(
+          process_rule_slice = process_rule,
+          input_dataset = input_dataset,
+          r_script = TRUE)
+      
+      col <-
+        # Rmonize:::harmo_parse_process_rule(
+          harmo_parse_process_rule(
+          process_rule_slice = process_rule, 
+          input_dataset = input_dataset, 
+          r_script = FALSE)
+      
+      error_status <- NULL
+      warning_status <- NULL
+      
+      if(is_error(col)){
+        
+        message(str_sub(paste0(
+          str_trunc(paste0(
+            "    processing ",idx,"/",nrow(dpe[[i]])," : ",
+            process_rule$`output_variable`),width = 49,ellipsis = '[...]'),
+          "                                       "),1,50),
+          crayon::bold("**ERROR**"))
+        
+        error_status <- conditionMessage(col)
+        
+      }else{
+        
+        col <-
+          col %>%
+          rename_with(.cols = 1,.fn = ~ harmonized_col_id) %>%
+          mutate(across(1, as.character))
+        
+        harmonized_dossier[[i]] <-
+          full_join(
+            select(harmonized_dossier[[i]],-names(col)[2]),col,
+            by = harmonized_col_id)
+        
+        
+        if(is_warning(attributes(col)$`Rmonize::warning`)){
           
-    col <-
-      col %>%
-      rename_with(.cols = 1,.fn = ~ harmonized_col_id) %>%
-      mutate(across(1, as.character))
-  
-    harmonized_dossier[[i]] <-
-      full_join(
-        select(harmonized_dossier[[i]],-names(col)[2]),col,
-        by = harmonized_col_id)
-  
+          message(str_sub(paste0(
+            str_trunc(paste0(
+              "    processing ",idx,"/",nrow(dpe[[i]])," : ",
+              process_rule$`output_variable`),width = 49,ellipsis = '[...]'),
+            "                                       "),1,50),
+            crayon::bold("**Warning(s)**"))
           
-    if(is_warning(attributes(col)$`Rmonize::warning`)){
-            
-      message(str_sub(paste0(
-        str_trunc(paste0(
-        "    processing ",idx,"/",nrow(dpe[[i]])," : ",
-        process_rule$`output_variable`),width = 49,ellipsis = '[...]'),
-        "                                       "),1,50),
-        crayon::bold("**Warning(s)**"))
-            
-      warning_status <- conditionMessage(attributes(col)$`Rmonize::warning`)
-            
-    }else{
-            
-      status <- process_rule$`Mlstr_harmo::status`
-            
-      message(str_sub(paste0(
-        str_trunc(paste0(
-        "    processing ",idx,"/",nrow(dpe[[i]])," : ",
-        process_rule$`output_variable`),width = 49,ellipsis = '[...]'),
-        "                                       "),1,50),
-        ifelse(status %in% c("undetermined",NA),crayon::bold(status),status)) 
+          warning_status <- conditionMessage(attributes(col)$`Rmonize::warning`)
           
+        }else{
+          
+          status <- process_rule$`Mlstr_harmo::status`
+          
+          message(str_sub(paste0(
+            str_trunc(paste0(
+              "    processing ",idx,"/",nrow(dpe[[i]])," : ",
+              process_rule$`output_variable`),width = 49,ellipsis = '[...]'),
+            "                                       "),1,50),
+            ifelse(status %in% 
+                     c("undetermined",NA),crayon::bold(status),status)) 
+          
+        }
       }
-    }
       
       harmonization_report <-
         harmonization_report %>%
@@ -312,10 +332,10 @@ crayon::bold(i)," -----------------------------------------------------"),1,81))
       "dataschema_variable"        = "output_variable" ,
       "Mlstr_harmo::algorithm"     = "script"          ,
       "Mlstr_harmo::rule_category" = "rule_category"   )
-    
+  
   for(i in names(harmonized_dossier)){
     # stop()}
-
+    
     message(crayon::bold(i)," : done")
     input_data_proc_elem <-
       data_proc_elem %>%
@@ -340,33 +360,19 @@ crayon::bold(i)," -----------------------------------------------------"),1,81))
     harmo_data_dict[['Variables']] <-
       harmo_data_dict[['Variables']] %>%
       full_join(input_data_proc_elem, by = 'name')
-
-    harmonized_dossier[[i]] <-
+    
+    harmonized_dossier[[i]] <- 
       valueType_adjust(
-        from = as_data_dict(harmo_data_dict),
+        from = harmo_data_dict,
         to = as_dataset(harmonized_dossier[[i]])) %>%
+      dataset_zap_data_dict() %>%
       data_dict_apply(harmo_data_dict)
   }
-  
-  nb_undet <-
-    nrow(dplyr::filter(harmonization_report,
-                is.na(.data$`Mlstr_harmo::status`) |
-                  str_detect(.data$`Mlstr_harmo::status`, "undetermined")))
-  
-  if(nb_undet > 0){
-    message(
-"\n
-------------------------------------------------------------------------------\n
-The harmonization process contains 'undetermined' statuses or harmonization 
-rules. These variables will appear as empty columns in any harmonized tables 
-generated. When harmonization statuses and rules are determined, rerun the 
-process with the updated Data Processing Elements to generate complete 
-harmonized tables.")}
   
   nb_error <- if(!is.null(harmonization_report[['Rmonize::error_status']])){
     sum(!is.na(harmonization_report[['Rmonize::error_status']]))
   }else{0}
-    
+  
   if(nb_error > 0){
     message(
       "\n
@@ -376,8 +382,8 @@ been generated to avoid any version confusion. When harmonization elements and
 rules are corrected, rerun the process with the updated Data Processing Elements 
 to generate complete harmonized tables.\n",
       
-      crayon::bold("\n\nUseful tip:"),
-" If you identified errors and want to correct them later, you can specify
+      crayon::bold("\n\nUseful tip: "),
+"If you identified errors and want to correct them later, you can specify
 'undetermined' in the column 'Mlstr_harmo::algorithm' of your problematic 
 Data Processing Elements(s). Such Data Processing Elements will be ignored.\n")
     
@@ -392,15 +398,32 @@ Data Processing Elements(s). Such Data Processing Elements will be ignored.\n")
           harmonized_dossier[[i]] %>% slice(0)
     }
     
-  }else{
-    
+  }
+  
+  nb_undet <-
+    nrow(dplyr::filter(harmonization_report,
+                       is.na(.data$`Mlstr_harmo::status`) |
+                       str_detect(.data$`Mlstr_harmo::status`, "undetermined")))
+  
+  if(nb_undet > 0){
+    message(
+      "\n
+------------------------------------------------------------------------------\n
+The harmonization process contains 'undetermined' statuses or harmonization 
+rules. These variables will appear as empty columns in any harmonized tables 
+generated. When harmonization statuses and rules are determined, rerun the 
+process with the updated Data Processing Elements to generate complete 
+harmonized tables.")}
+  
+  
+  if(nb_error > 0){
     message(
       "\n
 ------------------------------------------------------------------------------\n
 Your harmonization is done. Please check if everything worked correctly.\n")    
     
   }
-
+  
   harmonized_dossier <- 
     as_harmonized_dossier(
       harmonized_dossier,dataschema,data_proc_elem,harmonized_col_id)
@@ -408,9 +431,9 @@ Your harmonization is done. Please check if everything worked correctly.\n")
   message(crayon::bold(
     "
 - WARNING MESSAGES (if any): ----------------------------------------------\n"))
-
+  
   return(harmonized_dossier)
-
+  
 }
 
 #' @title
