@@ -40,14 +40,14 @@ Rmonize_help <- function(){
 #' @examples
 #' {
 #'
-#' Rmonize_help()
+#' download_templates()
 #'
 #' }
 #'
 #' @importFrom utils browseURL
 #'
 #' @export
-dowload_templates <- function(){
+download_templates <- function(){
   
   browseURL("https://maelstrom-research.github.io/Rmonize-documentation/articles/a-Glossary-and-templates.html")
 

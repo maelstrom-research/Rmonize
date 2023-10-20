@@ -21,7 +21,7 @@ Useful links:
 
 Other contributors:
 \itemize{
-  \item Maelstrom-research group [copyright holder, funder]
+  \item Maelstrom-research [copyright holder, funder]
   \item Alexandre Trottier [contributor]
   \item Tina Wey [contributor]
   \item Samuel El Bouzaïdi Tiali [contributor]
