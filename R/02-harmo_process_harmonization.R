@@ -320,7 +320,6 @@ crayon::bold(i)," -----------------------------------------------------"),1,81))
         bind_rows(
           process_rule %>%
             mutate(
-              `Mlstr_harmo::status`         = status,
               `Rmonize::error_status`   = error_status,
               `Rmonize::warning_status` = warning_status,
               `Rmonize::r_script` = 
