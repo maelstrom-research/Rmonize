@@ -76,7 +76,7 @@
 #' 
 #' }
 #'
-#' @import dplyr tidyr
+#' @import dplyr tidyr fabR
 #' @importFrom rlang .data
 #' @importFrom rlang is_error
 #' @importFrom rlang is_warning
@@ -240,7 +240,7 @@ crayon::bold(i)," -----------------------------------------------------"),1,81))
       
       r_script <-
         # Rmonize:::harmo_parse_process_rule(
-          harmo_parse_process_rule(
+        harmo_parse_process_rule(
           process_rule_slice = process_rule,
           input_dataset = input_dataset,
           r_script = TRUE)
@@ -252,6 +252,16 @@ crayon::bold(i)," -----------------------------------------------------"),1,81))
           input_dataset = input_dataset, 
           r_script = FALSE)
       
+      if(!is_error(col)){
+        vT_test <- fabR::silently_run(
+          as_valueType(col[[j]],
+                       dataschema[['Variables']] %>%
+                         filter(.data$`name` == j) %>%
+                         pull(.data$`valueType`)))
+        
+        if(is_error(attributes(vT_test)$condition))
+          col <- attributes(vT_test)$condition}
+
       error_status <- NULL
       warning_status <- NULL
       
@@ -994,7 +1004,7 @@ harmo_process_recode <- function(process_rule_slice){
     # DEMO_files_harmo$`data_processing_elements - final` %>%
     # dplyr::filter(`Mlstr_harmo::rule_category` == 'recode') %>%
     # slice(3) %>%
-    # select(
+    # rename(
     #   output_variable = dataschema_variable,
     #   script = `Mlstr_harmo::algorithm`) %>%
     # mutate(script ='recode( "Male" = 1 ; "Female" = 2 ; "Non-binary/gender, Queer, Agender or similar" = 3)') %>%
@@ -1013,8 +1023,8 @@ harmo_process_recode <- function(process_rule_slice){
       replacement      =
         gsub(")$","')",.data$`replacement`),
       replacement      =
-        paste0("car::recode(\n      var = .$",
-               .data$`input_variables`,.data$`replacement`),
+        paste0("car::recode(\n      var = stringr::str_squish(.$",
+               .data$`input_variables`,")",.data$`replacement`),
       replacement      =
         str_replace_all(.data$`replacement`,"fun::",""),
       replacement      =
