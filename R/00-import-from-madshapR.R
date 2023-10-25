@@ -134,3 +134,11 @@ madshapR::dossier_create
 #' @export
 madshapR::as_valueType
 
+#' @importFrom madshapR data_dict_filter
+#' @export
+madshapR::data_dict_filter
+
+#' @importFrom madshapR col_id
+#' @export
+madshapR::col_id
+

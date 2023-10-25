@@ -16,6 +16,8 @@
 \alias{dataset_zap_data_dict}
 \alias{dossier_create}
 \alias{as_valueType}
+\alias{data_dict_filter}
+\alias{col_id}
 \title{Objects exported from other packages}
 \keyword{internal}
 \description{
@@ -23,6 +25,6 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{madshapR}{\code{\link[madshapR]{as_taxonomy}}, \code{\link[madshapR]{as_valueType}}, \code{\link[madshapR]{bookdown_open}}, \code{\link[madshapR]{bookdown_render}}, \code{\link[madshapR]{data_extract}}, \code{\link[madshapR]{dataset_zap_data_dict}}, \code{\link[madshapR]{dossier_create}}, \code{\link[madshapR]{is_data_dict}}, \code{\link[madshapR]{is_data_dict_mlstr}}, \code{\link[madshapR]{is_dataset}}, \code{\link[madshapR]{is_dossier}}, \code{\link[madshapR]{is_taxonomy}}, \code{\link[madshapR]{valueType_adjust}}}
+  \item{madshapR}{\code{\link[madshapR]{as_taxonomy}}, \code{\link[madshapR]{as_valueType}}, \code{\link[madshapR]{bookdown_open}}, \code{\link[madshapR]{bookdown_render}}, \code{\link[madshapR]{col_id}}, \code{\link[madshapR]{data_dict_filter}}, \code{\link[madshapR]{data_extract}}, \code{\link[madshapR]{dataset_zap_data_dict}}, \code{\link[madshapR]{dossier_create}}, \code{\link[madshapR]{is_data_dict}}, \code{\link[madshapR]{is_data_dict_mlstr}}, \code{\link[madshapR]{is_dataset}}, \code{\link[madshapR]{is_dossier}}, \code{\link[madshapR]{is_taxonomy}}, \code{\link[madshapR]{valueType_adjust}}}
 }}
 
