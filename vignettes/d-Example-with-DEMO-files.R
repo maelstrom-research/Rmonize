@@ -77,7 +77,6 @@ knitr::opts_chunk$set(
 #  harmonized_dossier_visualize(
 #    harmonized_dossier,
 #    bookdown_path = bookdown_path,
-#    group_by = 'adm_study',
-#    overwrite = TRUE)
+#    group_by = 'adm_study')
 #  
 

@@ -12,7 +12,6 @@ harmonized_dossier_visualize(
   bookdown_path,
   taxonomy = NULL,
   valueType_guess = FALSE,
-  overwrite = FALSE,
   render = "html",
   .summary_pool = NULL
 )
@@ -39,8 +38,6 @@ classification.}
 
 \item{valueType_guess}{Whether the output should include a more accurate
 valueType that could be applied to the dataset. FALSE by default.}
-
-\item{overwrite}{whether to overwrite existing files. FALSE by default.}
 
 \item{render}{Output format of the visual report. To date, the format can
 only be 'html', but will be expand to other formats in the future.}
@@ -109,18 +106,21 @@ possibilities and their correspondence with R data types are available using
 
 library(madshapR)
 library(dplyr)
+library(fs)
+
 pooled_harmonized_dataset <- DEMO_files_harmo$pooled_harmonized_dataset
 dataschema <- DEMO_files_harmo$`dataschema - final` \%>\%
   data_dict_filter('name == "adm_unique_id"')
 
 summary_var_harmo <- DEMO_files_harmo$summary_var_harmo
 
-bookdown_path = tempdir()
+if(dir_exists(tempdir())) dir_delete(tempdir())
+bookdown_path <- tempdir()
+
 harmonized_dossier_visualize(
   pooled_harmonized_dataset = pooled_harmonized_dataset,
   dataschema = dataschema,
   bookdown_path = bookdown_path,
-  overwrite = TRUE,
   .summary_pool = summary_var_harmo)
 
 # To open the file in browser, open 'bookdown_path/docs/index.html'.

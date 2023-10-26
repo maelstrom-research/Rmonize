@@ -66,7 +66,6 @@
 #' The visual element will be grouped and displayed by this column.
 #' @param pooled_harmonized_dataset A tibble, identifying the 
 #' pooled harmonized dataset.
-#' @param overwrite whether to overwrite existing files. FALSE by default.
 #' @param render Output format of the visual report. To date, the format can 
 #' only be 'html', but will be expand to other formats in the future.
 #' @param .summary_pool A list which is the summary of the variables.
@@ -88,18 +87,21 @@
 #' 
 #' library(madshapR)
 #' library(dplyr)
+#' library(fs)
+#' 
 #' pooled_harmonized_dataset <- DEMO_files_harmo$pooled_harmonized_dataset
 #' dataschema <- DEMO_files_harmo$`dataschema - final` %>%
 #'   data_dict_filter('name == "adm_unique_id"')
 #' 
 #' summary_var_harmo <- DEMO_files_harmo$summary_var_harmo
 #' 
-#' bookdown_path = tempdir()
+#' if(dir_exists(tempdir())) dir_delete(tempdir())
+#' bookdown_path <- tempdir()
+#' 
 #' harmonized_dossier_visualize(
 #'   pooled_harmonized_dataset = pooled_harmonized_dataset,
 #'   dataschema = dataschema,
 #'   bookdown_path = bookdown_path,
-#'   overwrite = TRUE,
 #'   .summary_pool = summary_var_harmo)
 #' 
 #' # To open the file in browser, open 'bookdown_path/docs/index.html'.
@@ -107,7 +109,7 @@
 #' 
 #' }
 #'
-#' @import dplyr haven
+#' @import dplyr haven fs
 #' @importFrom rlang .data
 #'
 #' @export
@@ -121,12 +123,29 @@ harmonized_dossier_visualize <- function(
     bookdown_path,
     taxonomy = NULL,
     valueType_guess = FALSE,
-    overwrite = FALSE,
     render = 'html',
     .summary_pool = NULL){
 
   # check args
   render <- 'html'
+  
+  # tests
+  if(!is.logical(valueType_guess))
+    stop(call. = FALSE,'`valueType_guess` must be TRUE or FALSE (TRUE by default)')
+  
+  if(!is.character(bookdown_path))
+    stop(call. = FALSE,'`bookdown_path` must be a character string.')
+  
+  if(!is.character(render))
+    stop(call. = FALSE,'`render` must be a character string.')
+  
+  bookdown_path <- str_squish(bookdown_path)
+  path_to <- path_abs(bookdown_path)
+  
+  if(dir_exists(path_to)){stop(call. = FALSE,
+"The path folder already exists. 
+Please provide another name folder or delete the existing one.")}
+  
   
   if(is.null(pooled_harmonized_dataset) & is.null(harmonized_dossier))
     stop(call. = FALSE, "At least one argument is missing.")
@@ -138,7 +157,7 @@ harmonized_dossier_visualize <- function(
     dataschema <- data_dict_extract(pooled_harmonized_dataset)} 
   
   # group_by = attributes(pooled_harmonized_dataset)$`Rmonize::unique_col_dataset`
-  col_id <- attributes(pooled_harmonized_dataset)$`madshapR::col_id`
+  col_id <- col_id(pooled_harmonized_dataset)
   harmo_col_id <- 
     attributes(pooled_harmonized_dataset)$`Rmonize::unique_col_id`
   
@@ -158,7 +177,6 @@ harmonized_dossier_visualize <- function(
     bookdown_path = bookdown_path,
     taxonomy = taxonomy,
     valueType_guess = valueType_guess,
-    overwrite = overwrite,
     render = render,
     .summary_var = .summary_pool,
     .dataset_name = 'pooled_harmonized_dataset')
