@@ -89,37 +89,19 @@ harmo_process <- function(dossier, dataschema = NULL, data_proc_elem){
   # dans le DataSchema
   # controle de version ?
   
-  data_proc_elem <- as_data_proc_elem(data_proc_elem)
-  harmonized_col_id <- 
-    unique(
-      data_proc_elem[
-        data_proc_elem$`Mlstr_harmo::rule_category` %in% 'id_creation',][[
-          'dataschema_variable']])
-  
-  if(is.null(dataschema)) dataschema <- dataschema_extract(data_proc_elem)
-  dataschema <- as_dataschema(dataschema, as_dataschema_mlstr = TRUE)
-  
-  # selection of needed columns
-  for(i in names(dossier)){
-    # stop()
+  extract_var <- function(x){
+    x <- x %>%
+      str_replace_all('"',"`") %>%
+      str_replace_all("'","`") %>%
+      str_remove_all("`") 
+    x = x[!is.na(x)]
     
-    names_in_dpe <- 
-      str_squish(unlist(strsplit(
-        data_proc_elem %>% 
-          filter(
-            .data$`input_dataset` == i & 
-            .data$`input_variables` != '__BLANK__') %>%
-          pull(.data$`input_variables`),split = ";"))) %>%
-      unique
-    
-    dossier[[i]] <- dossier[[i]] %>% select(any_of(names_in_dpe))
+    return(x)
   }
   
-  message('Extraction of variables involved in the process, please wait...')
-  # rid of data dictionary
-  dossier <- 
-    as_dossier(dossier) %>% 
-    lapply(dataset_zap_data_dict)
+  data_proc_elem <- as_data_proc_elem(data_proc_elem)
+  data_proc_elem$dataschema_variable <- 
+    extract_var(data_proc_elem$dataschema_variable)
   
   # extraction of Data Processing Elements
   dpe <-
@@ -132,13 +114,64 @@ harmo_process <- function(dossier, dataschema = NULL, data_proc_elem){
       `script` = replace_na(.data$`script`, "undetermined"),
       `rule_category` = replace_na(.data$`rule_category`, "undetermined"),
       `rule_category` = ifelse(
-        .data$`script` == "undetermined","undetermined",.data$`rule_category`))
+        .data$`script` == "undetermined","undetermined",
+        .data$`rule_category`),
+      `script` = ifelse(
+        .data$`rule_category` == "undetermined","undetermined",
+        .data$`script`),
+      `input_variables` = ifelse(
+        .data$`rule_category` == "undetermined","__BLANK__",
+        .data$`input_variables`))
+  
+  
+  harmonized_col_id <- 
+    unique(dpe[dpe$`rule_category` %in% 'id_creation',][[
+          'output_variable']])
   
   dpe <- dpe %>%
     group_by(.data$`input_dataset`) %>%
     group_split() %>%
     as.list
   names(dpe) <- sort(unique(bind_rows(dpe)$input_dataset))
+  
+  if(is.null(dataschema)){
+    dataschema <- dataschema_extract(data_proc_elem) 
+  }else{
+    vars <- extract_var(unique(data_proc_elem$dataschema_variable))
+    dataschema <- 
+      data_dict_filter(
+        dataschema,filter_var = 
+          paste0(c("name %in% c('",paste0(vars,collapse = "','"),"')"),
+                 collapse = "")) %>%
+      as_dataschema(as_dataschema_mlstr = TRUE)} 
+  
+  # selection of needed columns
+  for(i in names(dossier)){
+    # stop()}
+  
+    create_id_row <- 
+      dpe[[i]][dpe[[i]]$`output_variable` %in% harmonized_col_id,]
+    var_id <- extract_var(create_id_row[['input_variables']])
+    
+    names_in_dpe <- 
+      str_squish(unlist(strsplit(
+        dpe[[i]] %>% 
+          filter(
+            .data$`input_variables` != '__BLANK__') %>%
+          pull(.data$`input_variables`),split = ";"))) %>%
+      unique %>% 
+      extract_var
+    
+    dossier[[i]] <- as_dataset(dossier[[i]],col_id = var_id)
+    
+    dossier[[i]] <- 
+      dossier[[i]] %>% select(col_id(dossier[[i]]),all_of(!! names_in_dpe))
+  }
+  
+  # rid of data dictionary
+  dossier <- 
+    as_dossier(dossier) %>% 
+    lapply(dataset_zap_data_dict)
   
   # intersection of dossier and dpe
   dossier <- dossier[intersect(names(dossier), names(dpe))]
@@ -165,19 +198,22 @@ Please correct elements and reprocess.')
   # creation of id
   for(i in names(harmonized_dossier)){
     # stop()}
-    id_create <- dpe[[i]][dpe[[i]]$`output_variable` %in% harmonized_col_id,]
+    create_id_row <- 
+      dpe[[i]][dpe[[i]]$`output_variable` %in% harmonized_col_id,]
+    var_id <- extract_var(create_id_row[['input_variables']])
+    
     harmonization_id <-
-      dossier[[i]][id_create[['input_variables']]] %>%
-      mutate(across(id_create[['input_variables']],as.character)) %>%
+      dossier[[i]][var_id] %>%
+      mutate(across(all_of(var_id),as.character)) %>%
       rename_with(
-        .cols = id_create[['input_variables']], ~id_create[['output_variable']])
+        .cols = all_of(var_id), ~ create_id_row$output_variable)
     
     harmonized_dossier[[i]] <-
       harmonized_dossier[[i]] %>% bind_rows(harmonization_id)
     harmonized_dossier[[i]] <- harmonized_dossier_init[[i]] <-
       as_dataset(
         harmonized_dossier[[i]],
-        col_id = harmonized_col_id)
+        col_id = create_id_row$output_variable)
   }
   
   message(crayon::bold(
@@ -197,7 +233,6 @@ Please correct elements and reprocess.')
   dpe <- dpe_init
   harmonization_report <- harmonization_report_init
   
-  
   for (i in names(harmonized_dossier)) {
     # stop()}
     
@@ -207,6 +242,8 @@ crayon::bold(i)," -----------------------------------------------------"),1,81))
     
     create_id_row <- 
       dpe[[i]][dpe[[i]]$`output_variable` %in% harmonized_col_id,]
+    dataset_id <- extract_var(create_id_row[['input_variables']])
+    input_dataset <- dossier[[i]]
     
     message(str_sub(paste0(
       str_trunc(paste0(
@@ -216,15 +253,14 @@ crayon::bold(i)," -----------------------------------------------------"),1,81))
       crayon::bold("id created"))
     
     harmonization_report <-
-      harmonization_report %>% 
+      harmonization_report %>%
       bind_rows(
         create_id_row %>%
           mutate(
             `Rmonize::r_script` = paste0(
-              .data$input_dataset," %>% \n  mutate(\n  ",
-              !! harmonized_col_id," = ",
-              create_id_row$`input_variables`,") %>%\n ",
-              "select(1,",!! harmonized_col_id,")")))
+              "`",.data$input_dataset,"`"," %>% \n",
+              "  select('",!! harmonized_col_id,"' = '",
+              dataset_id,"')")))
     
     # exclusion of id_creation rule for the rest of the process
     
@@ -235,7 +271,6 @@ crayon::bold(i)," -----------------------------------------------------"),1,81))
       # stop()}
       
       process_rule  <- dpe[[i]][dpe[[i]]$output_variable == j,]
-      input_dataset <- dossier[[i]]
       idx <- idx + 1
       
       r_script <-
@@ -254,7 +289,7 @@ crayon::bold(i)," -----------------------------------------------------"),1,81))
       
       if(!is_error(col)){
         vT_test <- fabR::silently_run(
-          as_valueType(col[[j]],
+          as_valueType(unique(col[[j]]),
                        dataschema[['Variables']] %>%
                          filter(.data$`name` == j) %>%
                          pull(.data$`valueType`)))
@@ -280,13 +315,13 @@ crayon::bold(i)," -----------------------------------------------------"),1,81))
         
         col <-
           col %>%
-          rename_with(.cols = 1,.fn = ~ harmonized_col_id) %>%
-          mutate(across(1, as.character))
+          rename_with(.cols = !! dataset_id,.fn = ~ harmonized_col_id) %>%
+          mutate(across(!!harmonized_col_id, as.character))
         
         harmonized_dossier[[i]] <-
-          full_join(
-            select(harmonized_dossier[[i]],-names(col)[2]),col,
-            by = harmonized_col_id)
+          harmonized_dossier[[i]] %>%
+          select(- !! j) %>%
+          full_join(col,by = harmonized_col_id)
         
         
         if(is_warning(attributes(col)$`Rmonize::warning`)){
@@ -327,8 +362,15 @@ crayon::bold(i)," -----------------------------------------------------"),1,81))
                        .data$`rule_category`, r_script),
               
               `Rmonize::r_script` = 
-                str_replace_all(.data$`Rmonize::r_script`, "input_dataset",
-                                .data$`input_dataset`)))
+                str_replace_all(
+                  .data$`Rmonize::r_script`, "input_dataset",.data$`input_dataset`),
+              
+              `Rmonize::r_script` = 
+                str_replace(
+                  .data$`Rmonize::r_script`, 
+                  paste0("select\\('",var_id,"','",j,"'\\)$"),
+                  paste0("select('",harmonized_col_id,"' = '",
+                         var_id,"','",j,"')"))))
     }
   }
   
@@ -475,62 +517,52 @@ Your harmonization is done. Please check if everything worked correctly.\n")
 #' @noRd
 harmo_parse_process_rule <- function(
     process_rule_slice, 
-    input_dataset, 
+    input_dataset,
     r_script){
-
-  # # cover valueType as.Date
-  # as.date <- as.Date
-  # input_dataset <- input_dataset
 
   if(is.na(process_rule_slice$`rule_category`))
     process_rule_slice$`rule_category` <- 'undetermined'
   
-  process_rule_slice <-
+  process_rule_slice <- 
     process_rule_slice %>%
     mutate(
       to_eval_test =
-        paste0("try(harmo_process_",
-        # paste0("try(Rmonize:::harmo_process_",       
+        # paste0("try(harmo_process_",
+        paste0("try(Rmonize:::harmo_process_",
                process_rule_slice$`rule_category`,
                "(process_rule_slice %>% slice(",row_number(),
                ")), silent = TRUE)" ))
 
   process_script <-
-    paste0("input_dataset %>% \n",
+    paste0("`input_dataset` %>% \n",
            eval(parse(text = process_rule_slice$to_eval_test)), " %>%\n",
-           "  select(1,",process_rule_slice$output_variable,")")
+           "  select(",toString(paste0("'",col_id(input_dataset),"'")),",'",
+                       process_rule_slice$output_variable,"')")
 
   if(r_script) return(process_script)
 
-  
   process_script <- 
-    # suppressMessages(
-    # try(
-    # eval(parse(text = process_script)), silent = TRUE))
-  
-  tryCatch(
-    
-    {
-      
-      eval(parse(text = process_script))
 
-    },
-    error = function(e) {
-      # Choose a return value in case of error
-      return(e)
-    },
-    warning = function(w) {
-
-      process_script <- eval(parse(text = process_script))
-      attributes(process_script)$`Rmonize::warning` <- w
+    tryCatch(
       
-      # Choose a return value in case of warning
-      return(process_script)
-    }
-  )
-  
-  
-  
+      {
+        
+        eval(parse(text = process_script))
+        
+      },
+      error = function(e) {
+        # Choose a return value in case of error
+        return(e)
+      },
+      warning = function(w) {
+        
+        process_script <- eval(parse(text = process_script))
+        attributes(process_script)$`Rmonize::warning` <- w
+        
+        # Choose a return value in case of warning
+        return(process_script)
+      }
+    )
   
   return(process_script)
 }
@@ -573,8 +605,8 @@ harmo_process_add_variable <- function(process_rule_slice){
         .data$`output_table`," %>% left_join(\n",
         "  ",.data$`input_dataset`," %>% \n",
         "  mutate(\n",
-        "  ",.data$`output_variable`," = ",.data$`replacement`,") %>% \n",
-        "  select(1,",.data$`output_variable`,"))")) %>%
+        "  '",.data$`output_variable`,"' = ",.data$`replacement`,") %>% \n",
+        "  select(1,'",.data$`output_variable`,"'))")) %>%
     pull(.data$`to_eval_test`)
 
   return(process_script_to_eval)
@@ -635,7 +667,7 @@ harmo_process_case_when <- function(process_rule_slice){
       to_eval_test     =
         paste0(
           "  mutate(\n",
-          "  ",.data$`output_variable`," = ",.data$`replacement`,")")) %>%
+          "  '",.data$`output_variable`,"' = ",.data$`replacement`,")")) %>%
     pull(.data$`to_eval_test`) 
 
   return(process_script_to_eval)
@@ -671,7 +703,7 @@ harmo_process_case_when <- function(process_rule_slice){
 #'
 #' @noRd
 harmo_process_direct_mapping <- function(process_rule_slice){
-
+  
   process_script_to_eval <-
     process_rule_slice %>%
     mutate(
@@ -679,7 +711,7 @@ harmo_process_direct_mapping <- function(process_rule_slice){
       to_eval_test     =
         paste0(
           "  mutate(\n",
-          "  ",.data$`output_variable`," = ",.data$`replacement`,")")) %>%
+          "  '",.data$`output_variable`,"' = ",.data$`replacement`,")")) %>%
     pull(.data$`to_eval_test`)
 
   return(process_script_to_eval)
@@ -723,7 +755,7 @@ harmo_process_id_creation <- function(process_rule_slice){
       to_eval_test     =
         paste0(
           "  mutate(\n",
-          "  ",.data$`output_variable`," = ",.data$`replacement`,")")) %>%
+          "  '",.data$`output_variable`,"' = ",.data$`replacement`,")")) %>%
     pull(.data$`to_eval_test`)
 
   return(process_script_to_eval)
@@ -767,7 +799,7 @@ harmo_process_impossible <- function(process_rule_slice){
       to_eval_test     =
         paste0(
           "  mutate(\n",
-          "  ",.data$`output_variable`," = ",.data$`replacement`,")")) %>%
+          "  '",.data$`output_variable`,"' = ",.data$`replacement`,")")) %>%
     pull(.data$`to_eval_test`)
 
   return(process_script_to_eval)
@@ -824,8 +856,8 @@ harmo_process_merge_variable <- function(process_rule_slice){
           .data$`output_table`," %>% left_join(\n",
           "  ",.data$`input_dataset`," %>% \n",
           "  mutate(\n",
-          "  ",.data$`output_variable`," = ",.data$`replacement`,") %>% \n",
-          "  select(1,",.data$`output_variable`,"))"))
+          "  '",.data$`output_variable`,"' = ",.data$`replacement`,") %>% \n",
+          "  select(1,'",.data$`output_variable`,"'))"))
   return(process_script_to_eval$to_eval_test)
 }
 
@@ -871,7 +903,7 @@ harmo_process_operation <- function(process_rule_slice){
       to_eval_test     =
         paste0(
           "  mutate(\n",
-          "  ",.data$`output_variable`," = ",.data$`replacement`,")")) %>%
+          "  '",.data$`output_variable`,"' = ",.data$`replacement`,")")) %>%
     pull(.data$`to_eval_test`)
 
   return(process_script_to_eval)
@@ -915,7 +947,7 @@ harmo_process_other <- function(process_rule_slice){
       to_eval_test =
         paste0(
           "  mutate(\n",
-          "  ",.data$`output_variable`," = ",.data$`replacement`,")")) %>%
+          "  '",.data$`output_variable`,"' = ",.data$`replacement`,")")) %>%
     pull(.data$`to_eval_test`)
 
   return(process_script_to_eval)
@@ -960,7 +992,8 @@ harmo_process_paste <- function(process_rule_slice){
       to_eval_test     =
         paste0(
           "  mutate(\n",
-          "  ",.data$`output_variable`," = ",.data$`replacement`,")")) %>%
+          "  '",.data$`output_variable`,"' = ",.data$`replacement`,"
+          )")) %>%
     pull(.data$`to_eval_test`)
 
   return(process_script_to_eval)
@@ -1022,8 +1055,8 @@ harmo_process_recode <- function(process_rule_slice){
       replacement      =
         gsub(")$","')",.data$`replacement`),
       replacement      =
-        paste0("car::recode(\n      var = stringr::str_squish(.$",
-               .data$`input_variables`,")",.data$`replacement`),
+        paste0("car::recode(\n      var = stringr::str_squish(.$`",
+               .data$`input_variables`,"`)",.data$`replacement`),
       replacement      =
         str_replace_all(.data$`replacement`,"fun::",""),
       replacement      =
@@ -1039,9 +1072,9 @@ harmo_process_recode <- function(process_rule_slice){
       
       to_eval_test     =
         paste0(
-          "  select(1, ",.data$`input_variables`,") %>% \n",
+          "  select(1, '",.data$`input_variables`,"') %>% \n",
           "  mutate(\n",
-          "  ",.data$`output_variable`," = ",.data$`replacement`,")")) %>%
+          "  '",.data$`output_variable`,"' = ",.data$`replacement`,")")) %>%
     pull(.data$`to_eval_test`)
 
   return(process_script_to_eval)
@@ -1085,8 +1118,8 @@ harmo_process_rename <- function(process_rule_slice){
       to_eval_test     =
         paste0(
           .data$`output_table`," %>% \n",
-          "  rename(",.data$`output_variable`," = ",
-          .data$`input_variables`,")")) %>%
+          "  rename('",.data$`output_variable`,"' = '",
+          .data$`input_variables`,"')")) %>%
     pull(.data$`to_eval_test`)
 
   return(process_script_to_eval)
@@ -1130,7 +1163,7 @@ harmo_process_undetermined <- function(process_rule_slice){
       to_eval_test     =
         paste0(
           "  mutate(\n",
-          "  ",.data$`output_variable`," = ",.data$`replacement`,")")) %>%
+          "  '",.data$`output_variable`,"' = ",.data$`replacement`,")")) %>%
     pull(.data$`to_eval_test`)
 
   return(process_script_to_eval)
