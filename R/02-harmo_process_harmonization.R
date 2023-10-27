@@ -710,11 +710,11 @@ harmo_process_direct_mapping <- function(process_rule_slice){
     process_rule_slice %>%
     # process_rule %>%
     mutate(
-      replacement      = .data$`input_variables`,
+      replacement      = str_remove_all(.data$`input_variables`,'`'),
       to_eval_test     =
         paste0(
           "  mutate(\n",
-          "  '",.data$`output_variable`,"' = ",.data$`replacement`,")")) %>%
+          "  '",.data$`output_variable`,"' = `",.data$`replacement`,"`)")) %>%
     pull(.data$`to_eval_test`)
 
   return(process_script_to_eval)
