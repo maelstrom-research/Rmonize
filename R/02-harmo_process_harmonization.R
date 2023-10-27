@@ -100,6 +100,7 @@ harmo_process <- function(dossier, dataschema = NULL, data_proc_elem){
   }
   
   data_proc_elem <- as_data_proc_elem(data_proc_elem)
+  
   data_proc_elem$dataschema_variable <- 
     extract_var(data_proc_elem$dataschema_variable)
   
@@ -145,6 +146,16 @@ harmo_process <- function(dossier, dataschema = NULL, data_proc_elem){
                  collapse = "")) %>%
       as_dataschema(as_dataschema_mlstr = TRUE)} 
   
+  
+  if(length(intersect(names(dossier), names(dpe))) == 0){
+    stop(call. = FALSE, 'The dataset list to be harmonized is empty.
+    
+This usually means that your dataset names in the Data Processing Elements 
+(in the column `dataset_input`) do not match the names in your dossier list. 
+Please correct elements and reprocess.')
+    
+  }
+  
   # selection of needed columns
   for(i in names(dossier)){
     # stop()}
@@ -165,7 +176,7 @@ harmo_process <- function(dossier, dataschema = NULL, data_proc_elem){
     dossier[[i]] <- as_dataset(dossier[[i]],col_id = var_id)
     
     dossier[[i]] <- 
-      dossier[[i]] %>% select(col_id(dossier[[i]]),all_of(!! names_in_dpe))
+      dossier[[i]] %>% select(col_id(dossier[[i]]),any_of(!! names_in_dpe))
   }
   
   # rid of data dictionary
@@ -185,15 +196,6 @@ harmo_process <- function(dossier, dataschema = NULL, data_proc_elem){
       tbl <- tbl %>%
         select(all_of(harmonized_col_id), everything())
       return(tbl)})
-  
-  if(ncol(bind_rows(harmonized_dossier)) == 0){
-    stop(call. = FALSE, 'The dataset list to be harmonized is empty.
-    
-This usually means that your dataset names in the Data Processing Elements 
-(in the column `dataset_input`) do not match the names in your dossier list. 
-Please correct elements and reprocess.')
-    
-  }
   
   # creation of id
   for(i in names(harmonized_dossier)){
@@ -258,7 +260,7 @@ crayon::bold(i)," -----------------------------------------------------"),1,81))
         create_id_row %>%
           mutate(
             `Rmonize::r_script` = paste0(
-              "`",.data$input_dataset,"`"," %>% \n",
+              "`",extract_var(.data$input_dataset),"`"," %>% \n",
               "  select('",!! harmonized_col_id,"' = '",
               dataset_id,"')")))
     
@@ -605,8 +607,8 @@ harmo_process_add_variable <- function(process_rule_slice){
         .data$`output_table`," %>% left_join(\n",
         "  ",.data$`input_dataset`," %>% \n",
         "  mutate(\n",
-        "  '",.data$`output_variable`,"' = ",.data$`replacement`,") %>% \n",
-        "  select(1,'",.data$`output_variable`,"'))")) %>%
+        "  '",.data$`output_variable`,"' = ",.data$`replacement`,") %>% \n")
+      ) %>%
     pull(.data$`to_eval_test`)
 
   return(process_script_to_eval)
@@ -668,7 +670,7 @@ harmo_process_case_when <- function(process_rule_slice){
         paste0(
           "  mutate(\n",
           "  '",.data$`output_variable`,"' = ",.data$`replacement`,")")) %>%
-    pull(.data$`to_eval_test`) 
+    pull(.data$`to_eval_test`)
 
   return(process_script_to_eval)
 }
@@ -706,6 +708,7 @@ harmo_process_direct_mapping <- function(process_rule_slice){
   
   process_script_to_eval <-
     process_rule_slice %>%
+    # process_rule %>%
     mutate(
       replacement      = .data$`input_variables`,
       to_eval_test     =
@@ -856,8 +859,10 @@ harmo_process_merge_variable <- function(process_rule_slice){
           .data$`output_table`," %>% left_join(\n",
           "  ",.data$`input_dataset`," %>% \n",
           "  mutate(\n",
-          "  '",.data$`output_variable`,"' = ",.data$`replacement`,") %>% \n",
-          "  select(1,'",.data$`output_variable`,"'))"))
+          "  '",.data$`output_variable`,"' = ",.data$`replacement`,") %>% \n"
+          )) %>%
+    pull(.data$`to_eval_test`)
+  
   return(process_script_to_eval$to_eval_test)
 }
 
@@ -1032,16 +1037,9 @@ harmo_process_recode <- function(process_rule_slice){
 
   process_script_to_eval <-
     process_rule_slice %>%
-    
-    # DEMO_files_harmo$`data_processing_elements - final` %>%
-    # dplyr::filter(`Mlstr_harmo::rule_category` == 'recode') %>%
-    # slice(3) %>%
-    # rename(
-    #   output_variable = dataschema_variable,
-    #   script = `Mlstr_harmo::algorithm`) %>%
-    # mutate(script ='recode( "Male" = 1 ; "Female" = 2 ; "Non-binary/gender, Queer, Agender or similar" = 3)') %>%
-    
+    # process_rule %>%
     mutate(
+      input_variables  = str_remove_all(.data$`input_variables`,'`'),
       replacement      =
         .data$`script`,
       replacement      =
@@ -1055,8 +1053,8 @@ harmo_process_recode <- function(process_rule_slice){
       replacement      =
         gsub(")$","')",.data$`replacement`),
       replacement      =
-        paste0("car::recode(\n      var = stringr::str_squish(.$`",
-               .data$`input_variables`,"`)",.data$`replacement`),
+        paste0("car::recode(\n      var = .$`",
+               .data$`input_variables`,"`",.data$`replacement`),
       replacement      =
         str_replace_all(.data$`replacement`,"fun::",""),
       replacement      =
@@ -1072,8 +1070,9 @@ harmo_process_recode <- function(process_rule_slice){
       
       to_eval_test     =
         paste0(
-          "  select(1, '",.data$`input_variables`,"') %>% \n",
           "  mutate(\n",
+          "  '",.data$`input_variables`,
+          "' = stringr::str_squish(`",.data$`input_variables`,"`), \n",
           "  '",.data$`output_variable`,"' = ",.data$`replacement`,")")) %>%
     pull(.data$`to_eval_test`)
 
