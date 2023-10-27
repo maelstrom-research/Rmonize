@@ -1,16 +1,44 @@
-#' @importFrom madshapR as_data_dict
-#' @name as_data_dict
-#' @rdname as_data_dict
-#' @keywords imported
-#' @export
-madshapR::as_data_dict
-
 #' @importFrom madshapR as_data_dict_mlstr
-#' @name as_data_dict_mlstr
-#' @rdname as_data_dict_mlstr
-#' @keywords imported
-#' @export
 madshapR::as_data_dict_mlstr
+
+#' @importFrom madshapR as_taxonomy
+madshapR::as_taxonomy
+
+#' @importFrom madshapR as_valueType
+madshapR::as_valueType
+
+#' @importFrom madshapR data_dict_extract
+madshapR::data_dict_extract
+
+#' @importFrom madshapR data_extract
+madshapR::data_extract
+
+#' @importFrom madshapR dataset_zap_data_dict
+madshapR::dataset_zap_data_dict
+
+#' @importFrom madshapR is_data_dict_mlstr
+madshapR::is_data_dict
+
+#' @importFrom madshapR is_data_dict
+madshapR::is_data_dict_mlstr
+
+#' @importFrom madshapR is_dataset
+madshapR::is_dataset
+
+#' @importFrom madshapR is_dossier
+madshapR::is_dossier
+
+#' @importFrom madshapR is_taxonomy
+madshapR::is_taxonomy
+
+#' @importFrom madshapR valueType_adjust
+madshapR::valueType_adjust
+
+#' @importFrom madshapR col_id
+madshapR::col_id
+
+#' @importFrom madshapR data_dict_filter
+madshapR::data_dict_filter
 
 #' @importFrom madshapR as_dataset
 #' @name as_dataset
@@ -26,12 +54,12 @@ madshapR::as_dataset
 #' @export
 madshapR::as_dossier
 
-#' @importFrom madshapR data_dict_extract
-#' @name data_dict_extract
-#' @rdname data_dict_extract
+#' @importFrom madshapR bookdown_open
+#' @name bookdown_open
+#' @rdname bookdown_open
 #' @keywords imported
 #' @export
-madshapR::data_dict_extract
+madshapR::bookdown_open
 
 #' @importFrom madshapR data_dict_apply
 #' @name data_dict_apply
@@ -39,6 +67,20 @@ madshapR::data_dict_extract
 #' @keywords imported
 #' @export
 madshapR::data_dict_apply
+
+#' @importFrom madshapR as_data_dict
+#' @name as_data_dict
+#' @rdname as_data_dict
+#' @keywords imported
+#' @export
+madshapR::as_data_dict
+
+#' @importFrom madshapR dossier_create
+#' @name dossier_create
+#' @rdname dossier_create
+#' @keywords imported
+#' @export
+madshapR::dossier_create
 
 #' @importFrom madshapR dataset_evaluate
 #' @name dataset_evaluate
@@ -82,63 +124,13 @@ madshapR::dossier_summarize
 #' @export
 madshapR::dataset_visualize
 
-#' @importFrom madshapR valueType_adjust
-#' @export
-madshapR::valueType_adjust
 
-#' @importFrom madshapR as_taxonomy
-#' @export
-madshapR::as_taxonomy
 
-#' @importFrom madshapR is_taxonomy
-#' @export
-madshapR::is_taxonomy
 
-#' @importFrom madshapR bookdown_open
-#' @export
-madshapR::bookdown_open
 
-#' @importFrom madshapR bookdown_render
-#' @export
-madshapR::bookdown_render
 
-#' @importFrom madshapR is_data_dict_mlstr
-#' @export
-madshapR::is_data_dict
 
-#' @importFrom madshapR is_data_dict
-#' @export
-madshapR::is_data_dict_mlstr
 
-#' @importFrom madshapR is_dataset
-#' @export
-madshapR::is_dataset
 
-#' @importFrom madshapR is_dossier
-#' @export
-madshapR::is_dossier
 
-#' @importFrom madshapR data_extract
-#' @export
-madshapR::data_extract
-
-#' @importFrom madshapR dataset_zap_data_dict
-#' @export
-madshapR::dataset_zap_data_dict
-
-#' @importFrom madshapR dossier_create
-#' @export
-madshapR::dossier_create
-
-#' @importFrom madshapR as_valueType
-#' @export
-madshapR::as_valueType
-
-#' @importFrom madshapR data_dict_filter
-#' @export
-madshapR::data_dict_filter
-
-#' @importFrom madshapR col_id
-#' @export
-madshapR::col_id
 
