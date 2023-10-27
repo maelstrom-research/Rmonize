@@ -1267,9 +1267,11 @@ show_harmo_error <- function(harmonized_dossier){
       "Rmonize::warning_status" = as.character())) %>%
     dplyr::filter(!is.na(.data$`Rmonize::error_status`) |
                     !is.na(.data$`Rmonize::warning_status`)) %>%
+    mutate(error = !is.na(.data$`Rmonize::error_status`),
+           warning = !is.na(.data$`Rmonize::warning_status`)) %>%
     unite(col = "Rmonize::status",
           "Rmonize::error_status","Rmonize::warning_status",
-          na.rm = TRUE) %>% 
+          na.rm = TRUE) %>%
     mutate(
       var = paste0(.data$`dataschema_variable`, " in ",
                    .data$`input_dataset`, " \n"),
@@ -1295,24 +1297,36 @@ of harmonization:\n")
       message(crayon::green(report_log$`Rmonize::status`[i]))
     }
   }
+  
+  report_log <-  
+    report_log %>% 
+    group_by(.data$`error`,.data$`warning`) %>%
+    count(.data$`Mlstr_harmo::rule_category`) %>%
+    full_join(data_proc_elem %>%
+                count(.data$`Mlstr_harmo::rule_category`),
+              by = "Mlstr_harmo::rule_category") %>%
+    ungroup %>%
+    mutate(
+      n.x = replace_na(.data$`n.x`,0),
+      `Total number of errors` = ifelse(.data$`error` %in% TRUE,n.x,0),
+      `Total number of warnings` = ifelse(.data$`warning` %in% TRUE,n.x,0), 
+      success = trunc((1 - .data$`Total number of errors`/.data$`n.y`)*100)) %>%
+    arrange(.data$`success`) %>%
+    mutate(success = paste0(.data$`success`," %")) %>%
+    rename(`Total number of rules` = "n.y") %>%
+    # mutate_all(as.character) %>%
+    select(-'error',-'warning',-'n.x')
+  
+  if(sum(report_log$`Total number of errors`) == 0)
+    report_log$`Total number of errors` <- NULL
+  
+  if(sum(report_log$`Total number of warnings`) == 0)
+    report_log$`Total number of warnings` <- NULL
+  
   message(crayon::bold(
 "\n\n- STATUS SUMMARY: ----------------------------------------------------\n"))
   message(paste(capture.output({print(
-
-    report_log %>% count(.data$`Mlstr_harmo::rule_category`) %>%
-      full_join(data_proc_elem %>%
-                  count(.data$`Mlstr_harmo::rule_category`),
-                by = "Mlstr_harmo::rule_category") %>%
-      mutate(
-        n.x = replace_na(.data$`n.x`,0),
-        success = trunc((1 - .data$`n.x`/.data$`n.y`)*100)
-        
-        ) %>%
-      arrange(.data$`success`) %>%
-      mutate(success = paste0(.data$`success`," %")) %>%
-      rename(total_nb_errors_warnings = "n.x", total_nb_rules = "n.y") %>%
-      mutate_all(as.character)
-
+    report_log
   )}), collapse = "\n"))
 
   return(message(""))
