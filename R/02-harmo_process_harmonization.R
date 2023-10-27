@@ -1308,8 +1308,8 @@ of harmonization:\n")
     ungroup %>%
     mutate(
       n.x = replace_na(.data$`n.x`,0),
-      `Total number of errors` = ifelse(.data$`error` %in% TRUE,n.x,0),
-      `Total number of warnings` = ifelse(.data$`warning` %in% TRUE,n.x,0), 
+      `Total number of errors`   =ifelse(.data$`error` %in% TRUE,.data$`n.x`,0),
+      `Total number of warnings` =ifelse(.data$`warning` %in% TRUE,.data$`n.x`,0), 
       success = trunc((1 - .data$`Total number of errors`/.data$`n.y`)*100)) %>%
     arrange(.data$`success`) %>%
     mutate(success = paste0(.data$`success`," %")) %>%
