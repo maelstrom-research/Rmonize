@@ -1327,7 +1327,8 @@ of harmonization:\n")
   message(crayon::bold(
 "\n\n- STATUS SUMMARY: ----------------------------------------------------\n"))
   message(paste(capture.output({print(
-    report_log
+    report_log %>%
+      mutate(across(everything(), as.character))
   )}), collapse = "\n"))
 
   return(message(""))
