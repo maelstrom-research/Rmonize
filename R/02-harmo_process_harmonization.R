@@ -156,6 +156,9 @@ Please correct elements and reprocess.')
     
   }
   
+  # intersection of dossier and dpe
+  dossier <- dossier[intersect(names(dossier), names(dpe))]
+  
   # selection of needed columns
   for(i in names(dossier)){
     # stop()}
@@ -184,8 +187,6 @@ Please correct elements and reprocess.')
     as_dossier(dossier) %>% 
     lapply(dataset_zap_data_dict)
   
-  # intersection of dossier and dpe
-  dossier <- dossier[intersect(names(dossier), names(dpe))]
   dpe <- dpe_init <- dpe[intersect(names(dossier), names(dpe))]
   
   # gather all information by dataset to be harmonized.
