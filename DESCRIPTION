@@ -1,7 +1,7 @@
 Package: Rmonize
 Type: Package
 Title: Support Data Harmonization Following 'Maelstrom Research' Guidelines
-Version: 1.0.0.9010
+Version: 1.0.0.9011
 Authors@R: 
     c(person(given = "Guillaume",
              family = "Fabre",
@@ -45,9 +45,11 @@ Imports: dplyr (>= 1.1.0),
     haven,
     utils,
     fs,
-    fabR (>= 2.0.0),
+    fabR,
     madshapR
-Remotes: github::maelstrom-research/madshapR@testing
+Remotes: 
+    github::maelstrom-research/fabR
+    github::maelstrom-research/madshapR@testing
 Suggests: janitor,
     car,
     knitr
