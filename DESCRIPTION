@@ -48,7 +48,7 @@ Imports: dplyr (>= 1.1.0),
     fabR,
     madshapR
 Remotes: 
-    github::maelstrom-research/fabR,
+    github::GuiFabre/fabR,
     github::maelstrom-research/madshapR@testing
 Suggests: janitor,
     car,
