@@ -1,7 +1,7 @@
 Package: Rmonize
 Type: Package
 Title: Support Data Harmonization Following 'Maelstrom Research' Guidelines
-Version: 1.0.0.9009
+Version: 1.0.0.9010
 Authors@R: 
     c(person(given = "Guillaume",
              family = "Fabre",

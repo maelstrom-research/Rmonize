@@ -1561,7 +1561,7 @@ identifier of dataset in your dossier.')
   if(is.null(object[['index']])){
     object <-
       object %>%
-      fabR::add_index()}
+      madshapR::add_index()}
   
   # step cleaning : addition of missing columns
   object <-

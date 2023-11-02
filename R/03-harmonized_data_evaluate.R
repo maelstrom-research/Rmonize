@@ -150,7 +150,7 @@ data_proc_elem_evaluate <- function(data_proc_elem, taxonomy = NULL){
 
   data_proc_elem <- 
     as_data_proc_elem(data_proc_elem) %>%
-    add_index("Row number", .force = TRUE) 
+    madshapR::add_index("Row number", .force = TRUE) 
   
   if(!is.null(taxonomy)) as_taxonomy(taxonomy)
   
