@@ -1314,7 +1314,7 @@ of harmonization:\n")
       success = trunc((1 - .data$`Total number of errors`/.data$`n.y`)*100)) %>%
     arrange(.data$`success`) %>%
     mutate(success = paste0(.data$`success`," %")) %>%
-    rename(`Total number of rules` = "n.y") %>%
+    rename(`Total number of algorithms` = "n.y") %>%
     # mutate_all(as.character) %>%
     select(-'error',-'warning',-'n.x')
   
