@@ -64,12 +64,12 @@ Rmonize_templates <- function(){
 #' A list with 15 elements used for testing the package (data frames and lists):
 #'
 #' \describe{
-#'   \item{DEMO_data_processing_elements - final}{Data Processing Elements}
-#'   \item{DEMO_data_processing_elements - with error}{Data Processing Elements
+#'   \item{data_processing_elements - final}{Data Processing Elements}
+#'   \item{data_processing_elements - with error}{Data Processing Elements
 #'   containing errors}
-#'   \item{DEMO_data_processing_elements - work in progress}{Data processing
+#'   \item{data_processing_elements - work in progress}{Data processing
 #'   element in construction}
-#'   \item{DEMO_dataschema}{DataSchema used, combined with data processing
+#'   \item{dataschema}{DataSchema used, combined with data processing
 #'   elements and input material}
 #'   \item{pooled_harmonized_dataset}{pooled harmonized dataset for testing 
 #'   purpose}
