@@ -19,28 +19,28 @@ knitr::opts_chunk$set(
 
 ## -----------------------------------------------------------------------------
 #  
-#  names(DEMO_files_harmo)
+#  names(Rmonize_DEMO)
 #  # To see examples
-#  # View(DEMO_files_harmo$dd_TOKYO_format_maelstrom_tagged)   # A data dictionary
-#  # View(DEMO_files_harmo$dataset_TOKYO)                      # A datasets
-#  # View(DEMO_files_harmo$`data_processing_elements - final`) # A Data Processing Elements
-#  # View(DEMO_files_harmo$`dataschema - final`)               # A DataSchema
+#  # View(Rmonize_DEMO$data_dict_TOKYO)   # A data dictionary
+#  # View(Rmonize_DEMO$dataset_TOKYO)                      # A datasets
+#  # View(Rmonize_DEMO$`data_processing_elements - final`) # A Data Processing Elements
+#  # View(Rmonize_DEMO$`dataschema - final`)               # A DataSchema
 #  
 
 ## -----------------------------------------------------------------------------
 #  # Associate metadata from data dictionary to the the data
 #  
-#  dataset_MELBOURNE_1 <- data_dict_apply(
-#    dataset = DEMO_files_harmo$dataset_MELBOURNE_1,
-#    data_dict = DEMO_files_harmo$dd_MELBOURNE_1_format_maelstrom)
+#  dataset_MELBOURNE <- data_dict_apply(
+#    dataset = Rmonize_DEMO$dataset_MELBOURNE,
+#    data_dict = Rmonize_DEMO$data_dict_MELBOURNE)
 #  
 #  dataset_PARIS <- data_dict_apply(
-#    dataset = DEMO_files_harmo$dataset_PARIS,
-#    data_dict = DEMO_files_harmo$dd_PARIS_format_maelstrom)
+#    dataset = Rmonize_DEMO$dataset_PARIS,
+#    data_dict = Rmonize_DEMO$data_dict_PARIS)
 #  
 #  dataset_TOKYO <- data_dict_apply(
-#    dataset = DEMO_files_harmo$dataset_TOKYO,
-#    data_dict = DEMO_files_harmo$dd_TOKYO_format_maelstrom)
+#    dataset = Rmonize_DEMO$dataset_TOKYO,
+#    data_dict = Rmonize_DEMO$data_dict_TOKYO)
 #  
 
 ## -----------------------------------------------------------------------------
@@ -50,12 +50,12 @@ knitr::opts_chunk$set(
 #  
 #  dossier <- dossier_create(
 #    dataset_list = list(
-#      dataset_MELBOURNE_1,
+#      dataset_MELBOURNE,
 #      dataset_PARIS,
 #      dataset_TOKYO))
 #  
-#  dataschema <- DEMO_files_harmo$`dataschema - final`
-#  data_proc_elem <- DEMO_files_harmo$`data_processing_elements - final`
+#  dataschema <- Rmonize_DEMO$`dataschema - final`
+#  data_proc_elem <- Rmonize_DEMO$`data_processing_elements - final`
 #  
 
 ## -----------------------------------------------------------------------------

@@ -31,9 +31,9 @@ identifier of each dataset to initiate the process of harmonization.
 \examples{
 {
 
-# use DEMO_files_harmo provided by the package
+# use Rmonize_DEMO provided by the package
 
-data_proc_elem <- DEMO_files_harmo$`data_processing_elements - final`
+data_proc_elem <- Rmonize_DEMO$`data_processing_elements - final`
 is_data_proc_elem(data_proc_elem)
 is_data_proc_elem(iris)
 

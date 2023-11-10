@@ -19,7 +19,7 @@ function before and is not working any longer.
 - `Rmonize_help()` Call the help center for full documentation
 - `dowload_templates()` Call the help center to the download template
   page
-- `DEMO_files_harmo` Built-in material allowing the user to test the
+- `Rmonize_DEMO` Built-in material allowing the user to test the
   package with demo data
 
 ## Assess and manipulate input files

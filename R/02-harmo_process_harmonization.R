@@ -60,16 +60,16 @@
 #' library(dplyr)
 #' library(madshapR) # data_dict_filter
 #' 
-#' dataset_MELBOURNE_1 <- DEMO_files_harmo$dataset_MELBOURNE_1[1]
-#' dossier <- dossier_create(list(dataset_MELBOURNE_1))
+#' dataset_MELBOURNE <- Rmonize_DEMO$dataset_MELBOURNE[1]
+#' dossier <- dossier_create(list(dataset_MELBOURNE))
 #' 
 #' dataschema <- 
-#'   DEMO_files_harmo$`dataschema - final` %>%
+#'   Rmonize_DEMO$`dataschema - final` %>%
 #'   data_dict_filter('name == "adm_unique_id"')
 #' 
-#' data_proc_elem <- DEMO_files_harmo$`data_processing_elements - final` %>%
+#' data_proc_elem <- Rmonize_DEMO$`data_processing_elements - final` %>%
 #'   dplyr::filter(dataschema_variable == 'adm_unique_id',
-#'          input_dataset == 'dataset_MELBOURNE_1')
+#'          input_dataset == 'dataset_MELBOURNE')
 #' 
 #' # perform harmonization
 #' harmo_process(dossier,dataschema,data_proc_elem)
@@ -648,7 +648,7 @@ harmo_process_case_when <- function(process_rule_slice){
 
   process_script_to_eval <-
     process_rule_slice %>%
-    # DEMO_files_harmo$`data_processing_elements - final` %>%
+    # Rmonize_DEMO$`data_processing_elements - final` %>%
     # dplyr::filter(`Mlstr_harmo::rule_category` == 'case_when') %>%
     # slice(1) %>%
     # select(
@@ -1202,7 +1202,7 @@ harmo_process_undetermined <- function(process_rule_slice){
 #' @examples
 #' {
 #'
-#' harmonized_dossier <- DEMO_files_harmo$harmonized_dossier
+#' harmonized_dossier <- Rmonize_DEMO$harmonized_dossier
 #' show_harmo_error(harmonized_dossier)
 #' }
 #'
@@ -1366,7 +1366,7 @@ of harmonization:\n")
 #' # You can use our demonstration files to run examples
 #'
 #' dataschema_extract(
-#'   data_proc_elem = DEMO_files_harmo$`data_processing_elements - final`)
+#'   data_proc_elem = Rmonize_DEMO$`data_processing_elements - final`)
 #' }
 #'
 #' @import dplyr
@@ -1426,7 +1426,7 @@ dataschema_extract <- function(data_proc_elem){
 #'
 #' # You can use our demonstration files to run examples
 #'
-#' as_data_proc_elem(DEMO_files_harmo$`data_processing_elements - final`)
+#' as_data_proc_elem(Rmonize_DEMO$`data_processing_elements - final`)
 #' }
 #'
 #' @import dplyr fabR tidyr
@@ -1699,7 +1699,7 @@ Please refer to documentation.")
 #'
 #' # You can use our demonstration files to run examples
 #'
-#' as_dataschema(DEMO_files_harmo$`dataschema - final`)
+#' as_dataschema(Rmonize_DEMO$`dataschema - final`)
 #' 
 #' }
 #'
@@ -1768,7 +1768,7 @@ crayon::bold("Useful tip:\n"),
 #'
 #' # You can use our demonstration files to run examples
 #'
-#' as_dataschema_mlstr(DEMO_files_harmo$`dataschema - final`)
+#' as_dataschema_mlstr(Rmonize_DEMO$`dataschema - final`)
 #' 
 #' }
 #'
@@ -1846,7 +1846,7 @@ as_dataschema_mlstr <- function(object){
 #' @examples
 #' {
 #' 
-#' as_harmonized_dossier(object = DEMO_files_harmo$harmonized_dossier)
+#' as_harmonized_dossier(object = Rmonize_DEMO$harmonized_dossier)
 #'   
 #' }
 #'
@@ -1949,7 +1949,7 @@ name list of variables.")
 #' @examples
 #' {
 #'
-#' harmonized_dossier <- DEMO_files_harmo$harmonized_dossier
+#' harmonized_dossier <- Rmonize_DEMO$harmonized_dossier
 #' 
 #' pooled_harmonized_dataset_create(
 #'  harmonized_dossier,unique_col_dataset = 'adm_unique_id')
@@ -2039,9 +2039,9 @@ pooled_harmonized_dataset_create <- function(
 #' @examples
 #' {
 #' 
-#' # use DEMO_files_harmo provided by the package
+#' # use Rmonize_DEMO provided by the package
 #'
-#' dataschema <- DEMO_files_harmo$`dataschema - final`
+#' dataschema <- Rmonize_DEMO$`dataschema - final`
 #' is_dataschema_mlstr(dataschema)
 #' is_dataschema_mlstr(iris)
 #'
@@ -2091,9 +2091,9 @@ is_dataschema_mlstr <- function(object){
 #' @examples
 #' {
 #' 
-#' # use DEMO_files_harmo provided by the package
+#' # use Rmonize_DEMO provided by the package
 #'
-#' dataschema <- DEMO_files_harmo$`dataschema - final`
+#' dataschema <- Rmonize_DEMO$`dataschema - final`
 #' is_dataschema(dataschema)
 #' is_dataschema(iris)
 #'
@@ -2143,9 +2143,9 @@ is_dataschema <- function(object){
 #' @examples
 #' {
 #' 
-#' # use DEMO_files_harmo provided by the package
+#' # use Rmonize_DEMO provided by the package
 #'
-#' data_proc_elem <- DEMO_files_harmo$`data_processing_elements - final`
+#' data_proc_elem <- Rmonize_DEMO$`data_processing_elements - final`
 #' is_data_proc_elem(data_proc_elem)
 #' is_data_proc_elem(iris)
 #'

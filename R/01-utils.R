@@ -75,14 +75,11 @@ download_templates <- function(){
 #'   purpose}
 #'   \item{harmonized_dossier}{harmonized dossier for testing purpose}
 #'   \item{summary_var_harmo}{harmonized variables summary for testing purpose}
-#'   \item{dd_MELBOURNE_1_format_maelstrom}{Data dictionary (1) of Melbourne 
+#'   \item{data_dict_MELBOURNE}{Data dictionary of Melbourne 
 #'   dataset}
-#'   \item{dd_MELBOURNE_2_format_maelstrom}{Data dictionary (2) of Melbourne 
-#'   dataset}
-#'   \item{dd_PARIS_format_maelstrom}{Data dictionary of Paris dataset}
-#'   \item{dd_TOKYO_format_maelstrom}{Data dictionary of Tokyo dataset}
-#'   \item{dataset_MELBOURNE_1}{Dataset of Melbourne (1)}
-#'   \item{dataset_MELBOURNE_2}{Dataset of Melbourne (2)}
+#'   \item{data_dict_PARIS}{Data dictionary of Paris dataset}
+#'   \item{data_dict_TOKYO}{Data dictionary of Tokyo dataset}
+#'   \item{dataset_MELBOURNE}{Dataset of Melbourne}
 #'   \item{dataset_PARIS}{Dataset of Paris}
 #'   \item{dataset_TOKYO}{Dataset of Tokyo}
 #'   ...
@@ -91,8 +88,8 @@ download_templates <- function(){
 #' @examples
 #' {
 #'
-#'  print(DEMO_files_harmo$`dataschema - final`)
+#'  print(Rmonize_DEMO$`dataschema - final`)
 #'
 #' }
-"DEMO_files_harmo"
+"Rmonize_DEMO"
 

@@ -46,7 +46,7 @@
 #' @examples
 #' {
 #' 
-#' harmonized_dossier_evaluate(DEMO_files_harmo$harmonized_dossier)
+#' harmonized_dossier_evaluate(Rmonize_DEMO$harmonized_dossier)
 #' 
 #' }
 #'
@@ -134,9 +134,9 @@ harmonized_dossier_evaluate <- function(harmonized_dossier, taxonomy = NULL){
 #' @examples
 #' {
 #' 
-#' # use DEMO_files_harmo provided by the package
+#' # use Rmonize_DEMO provided by the package
 #' 
-#' data_proc_elem <- DEMO_files_harmo$`data_processing_elements - final`   
+#' data_proc_elem <- Rmonize_DEMO$`data_processing_elements - final`   
 #' data_proc_elem_evaluate(data_proc_elem)
 #' 
 #' }
@@ -314,13 +314,13 @@ data_proc_elem_evaluate <- function(data_proc_elem, taxonomy = NULL){
 #' @examples
 #' {
 #'
-#' # use DEMO_files_harmo provided by the package
+#' # use Rmonize_DEMO provided by the package
 #' 
 #' library(dplyr)
 #' library(madshapR) # data_dict_filter
 #' 
 #' dataschema <- 
-#'   DEMO_files_harmo$`dataschema - final` %>%
+#'   Rmonize_DEMO$`dataschema - final` %>%
 #'   data_dict_filter("name == 'adm_unique_id'")
 #'   
 #' dataschema_evaluate(dataschema)

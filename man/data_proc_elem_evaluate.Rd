@@ -50,9 +50,9 @@ case, the tibble must also contain 'vocabulary_short', 'taxonomy_scale',
 \examples{
 {
 
-# use DEMO_files_harmo provided by the package
+# use Rmonize_DEMO provided by the package
 
-data_proc_elem <- DEMO_files_harmo$`data_processing_elements - final`   
+data_proc_elem <- Rmonize_DEMO$`data_processing_elements - final`   
 data_proc_elem_evaluate(data_proc_elem)
 
 }

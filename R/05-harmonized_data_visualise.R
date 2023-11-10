@@ -89,11 +89,11 @@
 #' library(dplyr)
 #' library(fs)
 #' 
-#' pooled_harmonized_dataset <- DEMO_files_harmo$pooled_harmonized_dataset
-#' dataschema <- DEMO_files_harmo$`dataschema - final` %>%
+#' pooled_harmonized_dataset <- Rmonize_DEMO$pooled_harmonized_dataset
+#' dataschema <- Rmonize_DEMO$`dataschema - final` %>%
 #'   data_dict_filter('name == "adm_unique_id"')
 #' 
-#' summary_var_harmo <- DEMO_files_harmo$summary_var_harmo
+#' summary_var_harmo <- Rmonize_DEMO$summary_var_harmo
 #' 
 #' if(dir_exists(tempdir())) dir_delete(tempdir())
 #' bookdown_path <- tempdir()

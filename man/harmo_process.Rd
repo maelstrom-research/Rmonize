@@ -68,16 +68,16 @@ identifier of each dataset to initiate the process of harmonization.
 library(dplyr)
 library(madshapR) # data_dict_filter
 
-dataset_MELBOURNE_1 <- DEMO_files_harmo$dataset_MELBOURNE_1[1]
-dossier <- dossier_create(list(dataset_MELBOURNE_1))
+dataset_MELBOURNE <- Rmonize_DEMO$dataset_MELBOURNE[1]
+dossier <- dossier_create(list(dataset_MELBOURNE))
 
 dataschema <- 
-  DEMO_files_harmo$`dataschema - final` \%>\%
+  Rmonize_DEMO$`dataschema - final` \%>\%
   data_dict_filter('name == "adm_unique_id"')
 
-data_proc_elem <- DEMO_files_harmo$`data_processing_elements - final` \%>\%
+data_proc_elem <- Rmonize_DEMO$`data_processing_elements - final` \%>\%
   dplyr::filter(dataschema_variable == 'adm_unique_id',
-         input_dataset == 'dataset_MELBOURNE_1')
+         input_dataset == 'dataset_MELBOURNE')
 
 # perform harmonization
 harmo_process(dossier,dataschema,data_proc_elem)

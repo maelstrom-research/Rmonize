@@ -85,7 +85,7 @@ possibilities and their correspondence with R data types are available using
 {
 
 library(haven)
-harmonized_dossier <- DEMO_files_harmo$harmonized_dossier
+harmonized_dossier <- Rmonize_DEMO$harmonized_dossier
 
 # summary harmonization
 harmonized_dossier_summarise(harmonized_dossier)

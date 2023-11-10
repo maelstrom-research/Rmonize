@@ -34,7 +34,7 @@ identifier of each dataset to initiate the process of harmonization.
 
 # You can use our demonstration files to run examples
 
-as_data_proc_elem(DEMO_files_harmo$`data_processing_elements - final`)
+as_data_proc_elem(Rmonize_DEMO$`data_processing_elements - final`)
 }
 
 }

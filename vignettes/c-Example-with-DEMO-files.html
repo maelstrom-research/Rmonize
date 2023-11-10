@@ -354,16 +354,16 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 </div>
 <div id="demo-files" class="section level2">
 <h2>Demo files</h2>
-<p>Demo files are available in the built-in DEMO_files_harmo object.
+<p>Demo files are available in the built-in Rmonize_DEMO object.
 library. These provide illustrative examples of the main inputs and are
 used to run commands in this vignette.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a></span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">names</span>(DEMO_files_harmo)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">names</span>(Rmonize_DEMO)</span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co"># To see examples</span></span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co"># View(DEMO_files_harmo$dd_TOKYO_format_maelstrom_tagged)   # A data dictionary</span></span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co"># View(DEMO_files_harmo$dataset_TOKYO)                      # A datasets</span></span>
-<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co"># View(DEMO_files_harmo$`data_processing_elements - final`) # A Data Processing Elements</span></span>
-<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co"># View(DEMO_files_harmo$`dataschema - final`)               # A DataSchema </span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co"># View(Rmonize_DEMO$data_dict_TOKYO)   # A data dictionary</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co"># View(Rmonize_DEMO$dataset_TOKYO)                      # A datasets</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co"># View(Rmonize_DEMO$`data_processing_elements - final`) # A Data Processing Elements</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co"># View(Rmonize_DEMO$`dataschema - final`)               # A DataSchema </span></span>
 <span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>                  </span></code></pre></div>
 </div>
 </div>
@@ -392,17 +392,17 @@ following functions. The input datasets and associated data dictionaries
 are then grouped into a dossier.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># Associate metadata from data dictionary to the the data</span></span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>dataset_MELBOURNE_1 <span class="ot">&lt;-</span> <span class="fu">data_dict_apply</span>(</span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  <span class="at">dataset =</span> DEMO_files_harmo<span class="sc">$</span>dataset_MELBOURNE_1,</span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>  <span class="at">data_dict =</span> DEMO_files_harmo<span class="sc">$</span>dd_MELBOURNE_1_format_maelstrom)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>dataset_MELBOURNE <span class="ot">&lt;-</span> <span class="fu">data_dict_apply</span>(</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  <span class="at">dataset =</span> Rmonize_DEMO<span class="sc">$</span>dataset_MELBOURNE,</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>  <span class="at">data_dict =</span> Rmonize_DEMO<span class="sc">$</span>data_dict_MELBOURNE)</span>
 <span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a></span>
 <span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>dataset_PARIS <span class="ot">&lt;-</span> <span class="fu">data_dict_apply</span>(</span>
-<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>  <span class="at">dataset =</span> DEMO_files_harmo<span class="sc">$</span>dataset_PARIS,</span>
-<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>  <span class="at">data_dict =</span> DEMO_files_harmo<span class="sc">$</span>dd_PARIS_format_maelstrom)</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>  <span class="at">dataset =</span> Rmonize_DEMO<span class="sc">$</span>dataset_PARIS,</span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>  <span class="at">data_dict =</span> Rmonize_DEMO<span class="sc">$</span>data_dict_PARIS)</span>
 <span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a></span>
 <span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>dataset_TOKYO <span class="ot">&lt;-</span> <span class="fu">data_dict_apply</span>(</span>
-<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a>  <span class="at">dataset =</span> DEMO_files_harmo<span class="sc">$</span>dataset_TOKYO,</span>
-<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a>  <span class="at">data_dict =</span> DEMO_files_harmo<span class="sc">$</span>dd_TOKYO_format_maelstrom)</span></code></pre></div>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a>  <span class="at">dataset =</span> Rmonize_DEMO<span class="sc">$</span>dataset_TOKYO,</span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a>  <span class="at">data_dict =</span> Rmonize_DEMO<span class="sc">$</span>data_dict_TOKYO)</span></code></pre></div>
 </div>
 <div id="generate-harmonized-data" class="section level2">
 <h2>Generate harmonized data</h2>
@@ -414,12 +414,12 @@ Elements) are prepared,</p>
 <span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a></span>
 <span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>dossier <span class="ot">&lt;-</span> <span class="fu">dossier_create</span>(</span>
 <span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>  <span class="at">dataset_list =</span> <span class="fu">list</span>(</span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>    dataset_MELBOURNE_1, </span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>    dataset_MELBOURNE, </span>
 <span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>    dataset_PARIS, </span>
 <span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>    dataset_TOKYO))</span>
 <span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a></span>
-<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>dataschema <span class="ot">&lt;-</span> DEMO_files_harmo<span class="sc">$</span><span class="st">`</span><span class="at">dataschema - final</span><span class="st">`</span></span>
-<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>data_proc_elem <span class="ot">&lt;-</span> DEMO_files_harmo<span class="sc">$</span><span class="st">`</span><span class="at">data_processing_elements - final</span><span class="st">`</span></span></code></pre></div>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>dataschema <span class="ot">&lt;-</span> Rmonize_DEMO<span class="sc">$</span><span class="st">`</span><span class="at">dataschema - final</span><span class="st">`</span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>data_proc_elem <span class="ot">&lt;-</span> Rmonize_DEMO<span class="sc">$</span><span class="st">`</span><span class="at">data_processing_elements - final</span><span class="st">`</span></span></code></pre></div>
 <p>You can proceed with harmonization using
 <code>harmo_process</code>.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a></span>

@@ -49,13 +49,13 @@ case, the tibble must also contain 'vocabulary_short', 'taxonomy_scale',
 \examples{
 {
 
-# use DEMO_files_harmo provided by the package
+# use Rmonize_DEMO provided by the package
 
 library(dplyr)
 library(madshapR) # data_dict_filter
 
 dataschema <- 
-  DEMO_files_harmo$`dataschema - final` \%>\%
+  Rmonize_DEMO$`dataschema - final` \%>\%
   data_dict_filter("name == 'adm_unique_id'")
   
 dataschema_evaluate(dataschema)

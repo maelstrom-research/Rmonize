@@ -32,9 +32,9 @@ unique.
 \examples{
 {
 
-# use DEMO_files_harmo provided by the package
+# use Rmonize_DEMO provided by the package
 
-dataschema <- DEMO_files_harmo$`dataschema - final`
+dataschema <- Rmonize_DEMO$`dataschema - final`
 is_dataschema(dataschema)
 is_dataschema(iris)
 

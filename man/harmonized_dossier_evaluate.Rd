@@ -53,7 +53,7 @@ case, the tibble must also contain 'vocabulary_short', 'taxonomy_scale',
 \examples{
 {
 
-harmonized_dossier_evaluate(DEMO_files_harmo$harmonized_dossier)
+harmonized_dossier_evaluate(Rmonize_DEMO$harmonized_dossier)
 
 }
 

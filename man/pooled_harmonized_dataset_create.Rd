@@ -53,7 +53,7 @@ initiate the process of harmonization.
 \examples{
 {
 
-harmonized_dossier <- DEMO_files_harmo$harmonized_dossier
+harmonized_dossier <- Rmonize_DEMO$harmonized_dossier
 
 pooled_harmonized_dataset_create(
  harmonized_dossier,unique_col_dataset = 'adm_unique_id')

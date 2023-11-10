@@ -21,7 +21,10 @@ Useful links:
 
 Other contributors:
 \itemize{
-  \item Maelstrom-research [copyright holder, funder]
+  \item Maelstrom-research [funder]
+  \item ReACH (Research Advancement through Cohort Cataloguing and Harmonization) [funder]
+  \item CITF (COVID-19 Immunity Task Force) [funder]
+  \item EUCAN-connect [funder]
   \item Alexandre Trottier [contributor]
   \item Tina Wey [contributor]
   \item Samuel El Bouzaïdi Tiali [contributor]

@@ -37,7 +37,7 @@ initiate the process of harmonization.
 \examples{
 {
 
-harmonized_dossier <- DEMO_files_harmo$harmonized_dossier
+harmonized_dossier <- Rmonize_DEMO$harmonized_dossier
 show_harmo_error(harmonized_dossier)
 }
 

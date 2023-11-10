@@ -36,7 +36,7 @@ unique.
 
 # You can use our demonstration files to run examples
 
-as_dataschema_mlstr(DEMO_files_harmo$`dataschema - final`)
+as_dataschema_mlstr(Rmonize_DEMO$`dataschema - final`)
 
 }
 
