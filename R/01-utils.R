@@ -40,7 +40,7 @@ Rmonize_help <- function(){
 #' @examples
 #' {
 #'
-#' download_templates()
+#' Rmonize_templates()
 #'
 #' }
 #'

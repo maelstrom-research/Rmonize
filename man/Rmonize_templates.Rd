@@ -18,7 +18,7 @@ package, the vignettes, and the list of functions.
 \examples{
 {
 
-download_templates()
+Rmonize_templates()
 
 }
 
