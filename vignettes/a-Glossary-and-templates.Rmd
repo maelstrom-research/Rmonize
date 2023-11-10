@@ -24,6 +24,13 @@ source('datatables.R')
 
 ```
 
+
+## Examples of rule categories :
+
+::: {} 
+  `r DT_rule_categories` 
+:::
+
 ::: {}
 
 ```{r, eval = TRUE, echo = FALSE}

@@ -341,89 +341,71 @@ initiate the process of harmonization.
 #### data_proc_elem_def ####
 data_proc_elem_def <- 
   tribble(
-    ~`column name`,~`definition`, ~`mandatory`,
-    '<code><b>dataschema_variable</b></code>' , 'Variable defined in the DataSchema'                         ,'<b>YES</b>',
+    ~`column name`,~`definition`,
+    '<code><b>dataschema_variable</b></code>' , 'Variable defined in the DataSchema'                         ,
     '<code><b>input_dataset</b></code>'       , 'Input dataset where the <br>
-                                                 input variable(s) is/are taken from'                      ,'<b>YES</b>',
-    '<code><b>input_variables</b></code>'        , 'Input variable(s) (name(s) of the column in the dataset)','<b>YES</b>',
-    '<code><b>Mlstr_harmo::rule_category</b></code>', 'Rule category'                                        ,'<b>YES</b>',
-    '<code><b>Mlstr_harmo::algorithm</b></code>'    , 'Algorithm associated to the rule category'            ,'<b>YES</b>',
-    '<code><b>Mlstr_harmo::status</b></code>'       , 'Harmonization status. If the column<br>
-                                                 is not provided or empty, it will<br>
-                                                 be automatically generated during <br>
-                                                 the process, and any empty cell<br>
-                                                 will be filled with <code>complete</code><br>
-                                                 or <code>impossible</code> accordingly'                      ,'NO',
-    '<code><b>Mlstr_harmo::status_detail</b></code>', 'Harmonization status detail. If the column<br>
-                                                 is not provided or empty, it will<br>
-                                                 be automatically generated during <br>
-                                                 the process, and any empty cell<br>
-                                                 will be filled with <code>unknown</code><br>'                ,'NO',
-    '<code><b>Mlstr_harmo::comment</b></code>', 'Harmonization status detail. If the column<br>
-                                                 is not provided, an empty column will<br>
-                                                 be automatically generated during <br>
-                                                 the process.<br>'                ,'NO'
-    
-    
+                                                 input variable(s) is/are taken from'                        ,
+    '<code><b>input_variables</b></code>'        , 'Input variable(s) (name(s) of the column in the dataset)',
+    '<code><b>Mlstr_harmo::rule_category</b></code>', 'Rule category'                                        ,
+    '<code><b>Mlstr_harmo::algorithm</b></code>'    , 'Algorithm associated to the rule category'            ,
   )
 
 
-
-mlstr_status <-
-  tribble(
-    ~`Mlstr_harmo::status`,~`definition`,~`Mlstr_harmo::status_detail`,
-    '<code><b>complete</b></code>'      , 
-    'Input variable :
-     <ul>
-           <li>is the same</li>
-           <li>Needs transformation</li> 
-           <li>unknown</li>
-     </ul>',
-    
-    '<br>
-     <ul>
-           <li><code>identical</code></li>
-           <li><code>compatible</code></li>
-           <li><code>unknown</code></li>
-     </ul>',
-    
-    
-    
-    '<code><b>partial*</b></code>',
-    'With loss of information, input variable :
-     <ul>
-           <li>approximates results</li>
-           <li>needs confirmation</li> 
-           <li>unknown</li>
-     </ul>',
-    
-    '<br>
-     <ul>
-           <li><code>proximate</code></li>
-           <li><code>tentative</code></li>
-           <li><code>unknown</code></li>
-     </ul>',
-    
-    
-    '<code><b>impossible</b></code>'       ,
-    'The DataSchema variable :
-     <ul>
-           <li>is not collected</li>
-           <li>cannot be used</li> 
-           <li>unknown</li>
-     </ul>',
-    
-    '<br>
-     <ul>
-           <li><code>unavailable</code></li>
-           <li><code>incompatible</code></li>
-           <li><code>unknown</code></li>
-     </ul>',
-    
-    '<code><b>undetermined</b></code>'  , 'Harmonization status not determined.','',
-    '<code><b>na</b></code>'            , 'Harmonization status is not relevant.','',
-    '<code><b>error</b></code>'         , 'When error, the error message provided <brr>
-                                           by R is stored here','') 
+# mlstr_status <-
+#   tribble(
+#     ~`Mlstr_harmo::status`,~`definition`,~`Mlstr_harmo::status_detail`,
+#     '<code><b>complete</b></code>'      , 
+#     'Input variable :
+#      <ul>
+#            <li>is the same</li>
+#            <li>Needs transformation</li> 
+#            <li>unknown</li>
+#      </ul>',
+#     
+#     '<br>
+#      <ul>
+#            <li><code>identical</code></li>
+#            <li><code>compatible</code></li>
+#            <li><code>unknown</code></li>
+#      </ul>',
+#     
+#     
+#     
+#     '<code><b>partial*</b></code>',
+#     'With loss of information, input variable :
+#      <ul>
+#            <li>approximates results</li>
+#            <li>needs confirmation</li> 
+#            <li>unknown</li>
+#      </ul>',
+#     
+#     '<br>
+#      <ul>
+#            <li><code>proximate</code></li>
+#            <li><code>tentative</code></li>
+#            <li><code>unknown</code></li>
+#      </ul>',
+#     
+#     
+#     '<code><b>impossible</b></code>'       ,
+#     'The DataSchema variable :
+#      <ul>
+#            <li>is not collected</li>
+#            <li>cannot be used</li> 
+#            <li>unknown</li>
+#      </ul>',
+#     
+#     '<br>
+#      <ul>
+#            <li><code>unavailable</code></li>
+#            <li><code>incompatible</code></li>
+#            <li><code>unknown</code></li>
+#      </ul>',
+#     
+#     '<code><b>undetermined</b></code>'  , 'Harmonization status not determined.','',
+#     '<code><b>na</b></code>'            , 'Harmonization status is not relevant.','',
+#     '<code><b>error</b></code>'         , 'When error, the error message provided <brr>
+#                                            by R is stored here','') 
 
 #### col_names_dpe ####
 
@@ -432,93 +414,73 @@ col_names_dpe <- c(
   '<b>input_dataset</b>', 
   '<b>input_variables</b>', 
   '<b>Mlstr_harmo::rule_category</b>', 
-  '<b>Mlstr_harmo::algorithm</b>', 
-  '<b>Mlstr_harmo::status</em></b>', 
-  '<b>Mlstr_harmo::status_detail</em></b>', 
-  '<b>Mlstr_harmo::comment</em></b>')
+  '<b>Mlstr_harmo::algorithm</b>')
 
 #### id_creation ####
 id_creation    = paste(
   '<code>',c(
-    'variable_ID',
-    'DATASET',
-    'col_id', 
+    'harmonized_id',
+    'input_dataset',
+    'input_id', 
     '<b>id_creation</b><em style="color:red"> (mandatory)</em>', 
-    '<b>col_id</b>',  
-    '<b>complete</b>',  
-    '<b>identical</b>',  
-    '<em>[...]</em>'),
+    '<b>id_creation</b>'),
   '</code>') %>% setNames(col_names_dpe) %>% as_tibble_row()
 
 #### direct_mapping ####
 direct_mapping =   paste(
   '<code>',c(
-    'variable_A',
-    'DATASET',
-    'var_x'         , 
+    'output_var', 
+    'input_dataset',
+    'input_var',
     '<b>direct_mapping</b>', 
-    '<b>direct_mapping</b>',  
-    '<b>complete</b>',  
-    '<b>identical</b>',  
-    '<em>[...]</em>'),
+    '<b>direct_mapping</b>'),
   '</code>') %>% setNames(col_names_dpe) %>% as_tibble_row()
 
 #### recode ####
 recode         =   paste(
   '<code>',c(
-    'variable_B',
-    'DATASET',
-    'var_y'                              , 
-    '<b>recode</b>'                             , 
+    'output_var', 
+    'input_dataset',
+    'input_var',
+    '<b>recode</b>', 
     '<b>recode(</b>           
   "YES" = 1 ;         
   "NO"  = 0 ;   
-  ELSE  = NA<b>) </b>',  
-    '<b>complete</b>',  
-    '<b>compatible</b>',  
-    '<em>[...]</em>'),
+  ELSE  = NA<b>) </b>'),
   '</code>') %>% setNames(col_names_dpe) %>% as_tibble_row()
 
 
 #### case_when ####
 case_when      =   paste(
   '<code>',c(
-    'variable_C',
-    'DATASET',
-    'var_x ; var_z'                 , 
+    'output_var', 
+    'input_dataset',
+    'input_var_x ; input_var_y', 
     '<b>case_when</b>'               , 
     '<b>case_when(</b>      
   var_x == 1 ~ var_z ;
-  ELSE       ~ NA<b>)</b>',  
-    '<b>complete</b>',  
-    '<b>compatible</b>',  
-    '<em>[...]</em>'),
+  ELSE       ~ NA<b>)</b>'),
   '</code>') %>% setNames(col_names_dpe) %>% as_tibble_row()
 
 #### operation ####
 operation      =   paste(
   '<code>',c(
-    'variable_D',
-    'DATASET',
-    'var_x'              , 
+    'output_var', 
+    'input_dataset',
+    'input_var',
     '<b>operation</b>'     , 
-    'var_x - mean(var_x) / stats::sd(var_x)',  
-    '<b>complete</b>',  
-    '<b>unknown</b>',  
-    '<em>[...]</em>'),
+    '<em># simple R code here such as :</em></b>
+  (<b>mean(</b>input_var<b>)</b> - input_var<b>)</b> / <b>stats::sd(</b>input_var<b>)</b>'),
   '</code>') %>% setNames(col_names_dpe) %>% as_tibble_row()
 
 #### paste ####
 paste          =   paste(
   '<code>',c(
-    'variable_E',
-    'DATASET',
+    'output_var', 
+    'input_dataset',
     '<b>__BLANK__</b>'   , 
     '<b>paste</b>'  , 
-    'Hello word',  
-    '<b>complete</b>',  
-    '<b>unknown</b>',  
-    '<em>[...]</em>'),
+    '"Hello word"'),
   '</code>') %>% setNames(col_names_dpe) %>% as_tibble_row()
 
 
@@ -526,40 +488,31 @@ paste          =   paste(
 #### other ####
 other          =  paste(
   '<code>',c(
-    'variable_F',
-    'DATASET',
+    'output_var', 
+    'input_dataset',
     '<b>__BLANK__</b>' , 
     '<b>other</b>'     , 
-    '# place R code here...',  
-    '<b>complete</b>',  
-    '<b>unknown</b>',  
-    '<em>[...]</em>'),
+    '# place complex R code here...'),
   '</code>') %>% setNames(col_names_dpe) %>% as_tibble_row()
 
 #### impossible ####
 impossible     =   paste(
   '<code>',c(
-    'variable_G',
-    'DATASET',
+    'output_var', 
+    'input_dataset',
     '<b>impossible</b>' , 
     '<b>impossible</b>' , 
-    '<b>impossible</b>' ,  
-    '<b>impossible</b>' ,   
-    '<b>unavailable</b>',  
-    '<em>[...]</em>'),
+    '<b>impossible</b>'),
   '</code>') %>% setNames(col_names_dpe) %>% as_tibble_row() 
 
 #### undetermined ####
 undetermined     =   paste(
   '<code>',c(
-    'variable_H',
-    'DATASET',
+    'output_var', 
+    'input_dataset',
     '<b>undetermined</b>', 
     '<b>undetermined</b>', 
-    '<b>undetermined</b>',  
-    '<b>undetermined</b>',  
-    '<b>undetermined</b>',  
-    '<em>[...]</em>'),
+    '<b>undetermined</b>'),
   '</code>') %>% setNames(col_names_dpe) %>% as_tibble_row()
 
 
@@ -579,36 +532,35 @@ rule_categories <-
 
 #### data_proc_elem_expl ####
 
-data_proc_elem_expl <- 
-  rule_categories %>% slice(1:3) %>%
-  mutate(`<b>input_dataset</b>` = str_replace(
-    `<b>input_dataset</b>`,'DATASET','dataset_MELBOURNE')) %>%
-  
-  bind_rows(
-    
-    rule_categories %>% slice(1,5,8) %>%
-      mutate(`<b>input_dataset</b>` = str_replace(
-        `<b>input_dataset</b>`,'DATASET','dataset_PARIS')) %>%
-      mutate(`<b>input_variables</b>` = str_replace(
-        `<b>input_variables</b>`,'col_id','ID_part')) %>%
-      mutate(`<b>dataschema_variable</b>` = str_replace(
-        `<b>dataschema_variable</b>`,'variable_D','variable_A')) %>%
-      mutate(`<b>dataschema_variable</b>` = str_replace(
-        `<b>dataschema_variable</b>`,'variable_G','variable_B'))
-  ) %>%
-  mutate(`<b>dataschema_variable</b>` = str_replace(
-    `<b>dataschema_variable</b>`,'variable_ID','<b>variable_ID</b>')) %>%
-  mutate(`<b>Mlstr_harmo::rule_category</b>` = ifelse(
-    str_detect(`<b>dataschema_variable</b>`, 'variable_ID'),
-    '<code><b>id_creation</b></code>',`<b>Mlstr_harmo::rule_category</b>`)) %>%
-  add_column(`<b>index</b>` = c(
-    '<code>1</code>','<code>2</code>','<code>3</code>',
-    '<code>1</code>','<code>2</code>','<code>3</code>'),.before = TRUE)
+# data_proc_elem_expl <- 
+#   rule_categories %>% slice(1:3) %>%
+#   mutate(`<b>input_dataset</b>` = str_replace(
+#     `<b>input_dataset</b>`,'DATASET','dataset_MELBOURNE')) %>%
+#   
+#   bind_rows(
+#     
+#     rule_categories %>% slice(1,5,8) %>%
+#       mutate(`<b>input_dataset</b>` = str_replace(
+#         `<b>input_dataset</b>`,'DATASET','dataset_PARIS')) %>%
+#       mutate(`<b>input_variables</b>` = str_replace(
+#         `<b>input_variables</b>`,'col_id','ID_part')) %>%
+#       mutate(`<b>dataschema_variable</b>` = str_replace(
+#         `<b>dataschema_variable</b>`,'variable_D','variable_A')) %>%
+#       mutate(`<b>dataschema_variable</b>` = str_replace(
+#         `<b>dataschema_variable</b>`,'variable_G','variable_B'))
+#   ) %>%
+#   mutate(`<b>dataschema_variable</b>` = str_replace(
+#     `<b>dataschema_variable</b>`,'variable_ID','<b>variable_ID</b>')) %>%
+#   mutate(`<b>Mlstr_harmo::rule_category</b>` = ifelse(
+#     str_detect(`<b>dataschema_variable</b>`, 'variable_ID'),
+#     '<code><b>id_creation</b></code>',`<b>Mlstr_harmo::rule_category</b>`)) %>%
+#   add_column(`<b>index</b>` = c(
+#     '<code>1</code>','<code>2</code>','<code>3</code>',
+#     '<code>1</code>','<code>2</code>','<code>3</code>'),.before = TRUE)
 
 #### DT_rule_categories ####
 DT_rule_categories <- 
   rule_categories %>%
-  select(-last_col()) %>%
   datatable(
     extensions = "Buttons",
     escape = FALSE,
@@ -645,25 +597,24 @@ DT_glossary <-
 
 
 #### DT_data_proc_elem_expl ####
-DT_data_proc_elem_expl <- 
-  data_proc_elem_expl %>%
-  select(-last_col()) %>%
-  datatable( 
-    escape = FALSE,
-    rownames = FALSE,
-    class = 'cell-border stripe',
-    options = list(
-      pageLength = nrow(.), 
-      columnDefs = list(list(className = 'dt-head-left', targets = "_all")),
-      headerCallback = DT::JS("function(thead) { $(thead).css('font-size', '0.7em');}"),
-      ordering = TRUE, 
-      scrollX = TRUE),
-    autoHideNavigation = TRUE)
+# DT_data_proc_elem_expl <- 
+#   data_proc_elem_expl %>%
+#   select(-last_col()) %>%
+#   datatable( 
+#     escape = FALSE,
+#     rownames = FALSE,
+#     class = 'cell-border stripe',
+#     options = list(
+#       pageLength = nrow(.), 
+#       columnDefs = list(list(className = 'dt-head-left', targets = "_all")),
+#       headerCallback = DT::JS("function(thead) { $(thead).css('font-size', '0.7em');}"),
+#       ordering = TRUE, 
+#       scrollX = TRUE),
+#     autoHideNavigation = TRUE)
 
 #### DT_impundebla ####
 DT_impundebla <- 
   rule_categories %>%
-  select(-last_col()) %>%
   dplyr::filter(str_detect(`<b>input_variables</b>`, 'BLANK|impossible|undetermined')) %>%
   datatable( 
     escape = FALSE,
@@ -679,10 +630,8 @@ DT_impundebla <-
 
 #### DT_id_creation ####
 DT_id_creation <- 
-  t(id_creation %>%  
-      mutate(`<b>Mlstr_harmo::rule_category</b>` = ifelse(
-        str_detect(`<b>dataschema_variable</b>`, 'variable_ID'),
-        '<code><b>id_creation</b></code>',`<b>Mlstr_harmo::rule_category</b>`))) %>%
+  t(id_creation %>%
+      mutate(`<b>Mlstr_harmo::rule_category</b>` = '<code><b>id_creation</b></code>')) %>%
   datatable( 
     escape = FALSE,
     colnames = rep('',ncol(.)),
@@ -753,7 +702,7 @@ DT_other <-
     autoHideNavigation = TRUE)
 
 DT_impossible <- 
-  t(impossible ) %>%
+  t(impossible) %>%
   datatable( 
     escape = FALSE,
     colnames = rep('',ncol(.)),
@@ -773,15 +722,15 @@ DT_undetermined <-
     autoHideNavigation = TRUE)
 
 
-#### DT_mlstr_status ####
-DT_mlstr_status <-
-  mlstr_status %>%
-  datatable( 
-    escape = FALSE,
-    rownames = FALSE,
-    class = 'cell-border stripe',
-    options = list(pageLength = nrow(.), ordering = FALSE),
-    autoHideNavigation = TRUE)
+# #### DT_mlstr_status ####
+# DT_mlstr_status <-
+#   mlstr_status %>%
+#   datatable( 
+#     escape = FALSE,
+#     rownames = FALSE,
+#     class = 'cell-border stripe',
+#     options = list(pageLength = nrow(.), ordering = FALSE),
+#     autoHideNavigation = TRUE)
 
 #### DT_data_proc_elem_def ####
 DT_data_proc_elem_def <-
