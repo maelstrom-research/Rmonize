@@ -47,7 +47,7 @@ Rmonize_help <- function(){
 #' @importFrom utils browseURL
 #'
 #' @export
-download_templates <- function(){
+Rmonize_templates <- function(){
   
   browseURL("https://maelstrom-research.github.io/Rmonize-documentation/articles/a-Glossary-and-templates.html")
 
