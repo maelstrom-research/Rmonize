@@ -24,32 +24,6 @@ source('datatables.R')
 
 ```
 
-<style>
-    .container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    .flex-container {
-        display: flex;
-        align-items: flex-start;
-    }
-    .image-container-big {
-        flex: 70%;
-        padding-right: 30px;
-    }
-    .image-container-even {
-        flex: 50%;
-        padding-right: 20px;
-    }
-    .text-container-small {
-        flex: 30%;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-    }
-</style>
-
 
 # What is the Data Processing Elements ?
 
@@ -378,7 +352,7 @@ is completed and there is no missing argument in the function to perform.
 
 Notes:
 
-* *\__BLANK__* : If no variable is needed to generate the harmonized variable 
+* *\_\_BLANK_\_* : If no variable is needed to generate the harmonized variable 
 (for example using the rule category **paste** or **other**)
 
 * *impossible* : If the project of research does not collect DataSchema variable 

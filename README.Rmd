@@ -19,30 +19,45 @@ knitr::opts_chunk$set(
 [![R-CMD-check](https://github.com/maelstrom-research/Rmonize/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/maelstrom-research/Rmonize/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-# Background
+# Overview
 
-Combining and co-analyzing data in a dossier offers potential advantages for 
-addressing research questions, but data items collected in a dossier 
-must first be made suitably equivalent, i.e., harmonized. This process of data 
-harmonization is essential but challenging to implement in a rigorous and 
-transparent way. To help address these challenges, 
-<a href="https://www.maelstrom-research.org/" target="_blank"> Maelstrom Research</a>
-developed guidelines for rigorous 
-<a href="https://maelstrom-research.org/page/maelstrom-guidelines" target="_blank"> retrospective data harmonization</a>. An overview of the iterative steps of this process is shown 
-in Figure 1. 
+Harmonizing data (evaluating and processing, where relevant, data items from 
+different studies or datasets under a common format) is essential to 
+<b style="color:red">epidemiology research</b> but can be methodologically and 
+technically challenging. Rmonize was developed by 
+<a href="https://www.maelstrom-research.org/" target="_blank"> Maelstrom Research</a> 
+to address some of the key challenges faced and support a streamlined, reusable, 
+and well documented harmonization pipeline. The current documentation provides a 
+starting point to use the package.
 
-![Figure 1. Iterative harmonization steps.](https://www.maelstrom-research.org/assets/images/HarmoStepsNew.png){#id .class width=50% height=50%}
 
-# Rmonize
+# Pipeline
 
-The **Rmonize** R package addresses practical aspects of data harmonization 
-processing (guidelines Step 3) and facilitates evaluation (Step 4) and 
-documentation (Step 5) of harmonization products. It was developed to meet 
-the needs of Maelstrom’s collaborative harmonization initiatives, focusing on 
-harmonization of individual participant data from population-based cohort 
-studies, but is intended as a general resource for diverse harmonization 
-efforts. **Rmonize** is compatible with the Maelstrom OBiBa software suite and 
-other commonly used data management and statistical software.
+<b style="color:red">(figure to be discussed)</b>
+
+<img src="man/figures/fig_readme.png" 
+style="width: 50%; margin: 0 auto; display: flex; justify-content: center;">
+
+<br>
+
+To support organized and well documented harmonization, Rmonize includes 
+functions to prepare and validate the required input datasets and metadata, 
+generate harmonized datasets and metadata, evaluate data processing, and produce 
+reports to help assess harmonized data content and quality.  
+Data processing in Rmonize depends on three external user-provided elements: 
+the input datasets, DataSchema (list of core variables to generate across 
+datasets), and Data Processing Elements. 
+The DataSchema and Data Processing Elements are prepared in spreadsheets that 
+can be easily modified and shared outside of R. Templates can be downloaded here. 
+Rmonize uses two underlying packages, 
+<a href="https://cran.r-project.org/web/packages/madshapR/index.html" 
+target="_blank">madshapR</a> and 
+<a href="https://cran.r-project.org/web/packages/fabR/index.html" 
+target="_blank">fabR</a>, 
+which include many 
+functions to work with data and metadata. Functions required by Rmonize are 
+automatically loaded and accessible to the user without loading madshapR and 
+fabR, but these packages include additional useful functions for data processing.
 
 # Get started
 
@@ -63,10 +78,8 @@ Rmonize_help()
 
 [Glossary and templates](articles/a-Glossary-and-templates.html)
 
-[Understand the workflow](articles/b-Understand-the-workflow.html)
+[How to fill the Data Processing Elements](articles/b-The-Data-processing-elements.html)
 
-[How to fill the Data Processing Elements](articles/c-The-Data-processing-elements.html)
-
-[Example with DEMO files](articles/d-Example-with-DEMO-files.html)
+[Example with DEMO files](articles/c-Example-with-DEMO-files.html)
 
 
