@@ -2,7 +2,6 @@
 #' Generate a report and summary of a harmonized dossier
 #'
 #' @description
-#' 
 #' Assesses and summarizes the content and structure of a harmonized dossier 
 #' (list of harmonized datasets) and reports potential issues to facilitate 
 #' the assessment of input data. The report can be used to help assess data 
@@ -58,8 +57,18 @@
 #'
 #' @param harmonized_dossier List of tibble(s), each of them being 
 #' harmonized dataset.
+#' @param group_by A character string of one column in the dataset that can be
+#' taken as a grouping column. The visual element will be grouped and displayed
+#' by this column.
+#' @param harmonized_col_id  A character string identifying the name of the 
+#' column identifier of the dataset and will be the concatenation of 
+#' id column value and dataset name. NULL by default.
 #' @param dataschema A list of tibble(s) representing metadata of an 
 #' associated harmonized dossier.
+#' @param dataschema_apply whether to apply the datashema to each 
+#' harmonized dataset. The resulting tibble will have for each column its 
+#' associated meta data as attributes. The factors will be preserved. 
+#' FALSE by default.
 #' @param taxonomy A tibble identifying the scheme used for variables 
 #' classification.
 #' @param valueType_guess Whether the output should include a more accurate
@@ -70,12 +79,11 @@
 #'
 #' @examples
 #' {
-#'
-#' library(haven)
+#' 
 #' harmonized_dossier <- Rmonize_DEMO$harmonized_dossier
 #'
 #' # summary harmonization
-#' harmonized_dossier_summarise(harmonized_dossier)
+#' harmonized_dossier_summarize(harmonized_dossier)
 #'
 #' }
 #'
@@ -84,46 +92,82 @@
 #' @importFrom rlang .data
 #'
 #' @export
-harmonized_dossier_summarise <- function(
+harmonized_dossier_summarize <- function(
     harmonized_dossier,
-    dataschema = NULL,
+    group_by = attributes(harmonized_dossier)$`Rmonize::harmonized_col_dataset`,
+    harmonized_col_id = attributes(harmonized_dossier)$`Rmonize::harmonized_col_id`,
+    dataschema = attributes(harmonized_dossier)$`Rmonize::DataSchema`,
+    dataschema_apply = FALSE,
     taxonomy = NULL,
     valueType_guess = FALSE){
 
-  # check on arguments
+  # tests
   as_dossier(harmonized_dossier)
   if(!is.null(taxonomy)) as_taxonomy(taxonomy)
   
-  if(!is.null(dataschema)){
-    as_dataschema_mlstr(dataschema)
-  }else{
-    dataschema <- 
-      attributes(harmonized_dossier)$`Rmonize::DataSchema` %>%
-      as_dataschema(as_dataschema_mlstr = TRUE) %>%    
-      as_data_dict_mlstr()}
+  if(!is.logical(valueType_guess))
+    stop(call. = FALSE,'`valueType_guess` must be TRUE or FALSE (TRUE by default)')
+  
+  if(!is.logical(dataschema_apply))
+    stop(call. = FALSE,'`dataschema_apply` must be TRUE or FALSE (TRUE by default)')
 
-  report_list <-
-    dossier_summarize(
-      harmonized_dossier, 
-      taxonomy, 
-      valueType_guess = valueType_guess)
-
-  report_list <-
-    report_list %>%
-    lapply(function(x){
+  # group_by = attributes(pooled_harmonized_dataset)$`Rmonize::harmonized_col_dataset`
+  pooled_harmonized_dataset <- 
+    pooled_harmonized_dataset_create(
+      harmonized_dossier = harmonized_dossier,
+      harmonized_col_dataset = group_by,
+      harmonized_col_id = harmonized_col_id,
+      dataschema = dataschema,
+      dataschema_apply = dataschema_apply)
+  
+  # test if group_by column exists
+  if(is.null(group_by)){
     
-      names(x) <- str_replace(names(x),"Overview",
-                              "Harmonization Overview")          
-      names(x) <- str_replace(names(x),"Data dictionary summary",
+    warning(call. = FALSE,
+            '\nThe harmonized_col_dataset is not present in your DataSchema.',
+            '\nThe names of each dataset in your dossier have been be used instead, and an',
+            '\nadditional variable has been created to avoid loosing information.',
+            bold("\n\nUseful tip:\n"),
+            'To avoid this warning, we recommend to add this variable in your DataSchema.')
+    
+    col_dataset <- harmonized_dossier
+    for(i in names(col_dataset)){
+      # stop()}
+      col_dataset[[i]] <- 
+        col_dataset[[i]] %>% 
+        mutate(`Rmonize::harmonized_col_dataset` = i,
+               # `Rmonize::harmonized_col_dataset` = as_category(`Rmonize::harmonized_col_dataset`))
+               `Rmonize::harmonized_col_dataset` = 
+                 Rmonize:::as_category(.data$`Rmonize::harmonized_col_dataset`)) %>%
+        select('Rmonize::harmonized_col_dataset')
+    }
+    
+    col_dataset <- bind_rows(col_dataset)
+    
+    pooled_harmonized_dataset <- 
+      pooled_harmonized_dataset %>%
+      bind_cols(col_dataset)
+    
+    group_by = 'Rmonize::harmonized_col_dataset'
+  }
+  
+  report <-
+    dataset_summarize(
+      dataset = pooled_harmonized_dataset,
+      group_by = group_by,
+      taxonomy = taxonomy, 
+      valueType_guess = valueType_guess)
+  
+  names(report) <- str_replace(names(report),"Overview",
+                              "Harmonization Overview")   
+  names(report) <- str_replace(names(report),"Data dictionary summary",
                               "Harmonized Data dictionary summary")
-      names(x) <- str_replace(names(x),"Data dictionary assessment",
+  names(report) <- str_replace(names(report),"Data dictionary assessment",
                               "Harmonized Data dictionary assessement")
-      names(x) <- str_replace(names(x),"Dataset assessment",
+  names(report) <- str_replace(names(report),"Dataset assessment",
                               "Harmonized Dataset assessment")
-      names(x) <- str_replace(names(x),"Variables summary (all)",
-                              "Harmonized Variables summary (all)")    
-      
-      return(x)})
+  names(report) <- str_replace(names(report),"Variables summary \\(all\\)",
+                              "Harmonized Variables summary (all)")
 
-  return(report_list)
+  return(report)
 }

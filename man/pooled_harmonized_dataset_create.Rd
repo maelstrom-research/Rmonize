@@ -6,20 +6,31 @@
 \usage{
 pooled_harmonized_dataset_create(
   harmonized_dossier,
-  unique_col_dataset = NULL,
-  unique_col_id = NULL
+  harmonized_col_dataset =
+    attributes(harmonized_dossier)$`Rmonize::harmonized_col_dataset`,
+  harmonized_col_id = attributes(harmonized_dossier)$`Rmonize::harmonized_col_id`,
+  dataschema = attributes(harmonized_dossier)$`Rmonize::DataSchema`,
+  dataschema_apply = FALSE
 )
 }
 \arguments{
 \item{harmonized_dossier}{List of tibble(s), each of them being
 harmonized dataset.}
 
-\item{unique_col_dataset}{A character string identifying the name the column
-referring each dataset names. NULL by default.}
+\item{harmonized_col_dataset}{A character string identifying the name of the
+column present in every dataset as identifier of the dataset name.}
 
-\item{unique_col_id}{A character string identifying the name of the
+\item{harmonized_col_id}{A character string identifying the name of the
 column identifier of the dataset and will be the concatenation of
 id column value and dataset name. NULL by default.}
+
+\item{dataschema}{A list of tibble(s) representing metadata of an
+associated harmonized dossier.}
+
+\item{dataschema_apply}{whether to apply the datashema to each
+harmonized dataset. The resulting tibble will have for each column its
+associated meta data as attributes. The factors will be preserved.
+FALSE by default.}
 }
 \value{
 A tibble, which is the pooled harmonized dataset from a harmonized dossier.
@@ -27,7 +38,7 @@ A tibble, which is the pooled harmonized dataset from a harmonized dossier.
 \description{
 Generates the pooled harmonized dataset from harmonized dataset(s) in a
 dossier. The pooled dataset has two columns which can be declared by
-the user (unique_col_dataset and unique_col_id).
+the user (harmonized_col_dataset and harmonized_col_id).
 The first column refers to the name of each dataset which is the name of each
 tibble in the dossier. The second column refers to the column id in each
 harmonized dataset and  which identifies unique combination (concatenated)
@@ -56,7 +67,7 @@ initiate the process of harmonization.
 harmonized_dossier <- Rmonize_DEMO$harmonized_dossier
 
 pooled_harmonized_dataset_create(
- harmonized_dossier,unique_col_dataset = 'adm_unique_id')
+ harmonized_dossier,harmonized_col_id = 'adm_unique_id')
   
 }
 

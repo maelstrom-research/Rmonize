@@ -4,7 +4,11 @@
 \alias{harmonized_dossier_evaluate}
 \title{Generate a report of a harmonized dossier (list of harmonized datasets)}
 \usage{
-harmonized_dossier_evaluate(harmonized_dossier, taxonomy = NULL)
+harmonized_dossier_evaluate(
+  harmonized_dossier,
+  taxonomy = NULL,
+  as_data_dict_mlstr = TRUE
+)
 }
 \arguments{
 \item{harmonized_dossier}{List of tibble(s), each of them being
@@ -12,6 +16,11 @@ harmonized dataset.}
 
 \item{taxonomy}{A tibble identifying the scheme used for variables
 classification.}
+
+\item{as_data_dict_mlstr}{Whether the output data dictionary has a simple
+data dictionary structure or not (meaning has a Maelstrom data dictionary
+structure, compatible with Maelstrom Research ecosystem, including Opal).
+TRUE by default.}
 }
 \value{
 A list of report(s), each of them being tibble(s) ('Overview and summary)

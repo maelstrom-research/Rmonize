@@ -4,7 +4,12 @@
 \alias{harmo_process}
 \title{Generate harmonized dataset(s) and annotated Data Processing Elements}
 \usage{
-harmo_process(dossier, dataschema = NULL, data_proc_elem)
+harmo_process(
+  dossier,
+  dataschema = NULL,
+  data_proc_elem,
+  harmonized_col_dataset = NULL
+)
 }
 \arguments{
 \item{dossier}{List of tibble(s), each of them being datasets to be
@@ -15,6 +20,9 @@ associated harmonized dossier.}
 
 \item{data_proc_elem}{A tibble, identifying the input
 Data Processing Elements.}
+
+\item{harmonized_col_dataset}{A character string identifying the name of the
+column present in every dataset as identifier of the dataset name.}
 }
 \value{
 A list of tibbles of each harmonized dataset that has been harmonized from

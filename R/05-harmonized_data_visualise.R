@@ -53,22 +53,27 @@
 #'
 #' @param harmonized_dossier List of tibble(s), each of them being 
 #' harmonized dataset.
-#' @param dataschema A list of tibble(s) representing metadata of an 
-#' associated harmonized dossier.
 #' @param bookdown_path A character string identifying the folder path where the 
 #' bookdown report will be saved.
-#' @param taxonomy A tibble identifying the scheme used for variables 
-#' classification.
+#' @param group_by A character string of one column in the dataset that can be
+#' taken as a grouping column. The visual element will be grouped and displayed
+#' by this column.
+#' @param harmonized_dossier_summary A list which is the summary of the 
+#' harmonized dossier.
+#' @param harmonized_col_id  A character string identifying the name of the 
+#' column identifier of the dataset and will be the concatenation of 
+#' id column value and dataset name. NULL by default.
+#' @param dataschema A list of tibble(s) representing metadata of an 
+#' associated harmonized dossier.
+#' @param dataschema_apply whether to apply the datashema to each 
+#' harmonized dataset. The resulting tibble will have for each column its 
+#' associated meta data as attributes. The factors will be preserved. 
+#' FALSE by default.
 #' @param valueType_guess Whether the output should include a more accurate
 #' valueType that could be applied to the dataset. FALSE by default.
-#' @param group_by A character string of one column in the 
-#' pooled harmonized dataset that can be taken as a grouping column. 
 #' The visual element will be grouped and displayed by this column.
-#' @param pooled_harmonized_dataset A tibble, identifying the 
-#' pooled harmonized dataset.
-#' @param render Output format of the visual report. To date, the format can 
-#' only be 'html', but will be expand to other formats in the future.
-#' @param .summary_pool A list which is the summary of the variables.
+#' @param taxonomy A tibble identifying the scheme used for variables 
+#' classification.
 #'
 #' @returns
 #' A bookdown folder containing files in the specified output folder. To
@@ -85,24 +90,19 @@
 #' 
 #' # You can use our demonstration files to run examples
 #' 
-#' library(madshapR)
 #' library(dplyr)
 #' library(fs)
 #' 
-#' pooled_harmonized_dataset <- Rmonize_DEMO$pooled_harmonized_dataset
-#' dataschema <- Rmonize_DEMO$`dataschema - final` %>%
-#'   data_dict_filter('name == "adm_unique_id"')
-#' 
-#' summary_var_harmo <- Rmonize_DEMO$summary_var_harmo
+#' harmonized_dossier <- Rmonize_DEMO$harmonized_dossier
+#' harmonized_dossier_summary <- Rmonize_DEMO$harmonized_dossier_summary
 #' 
 #' if(dir_exists(tempdir())) dir_delete(tempdir())
 #' bookdown_path <- tempdir()
 #' 
 #' harmonized_dossier_visualize(
-#'   pooled_harmonized_dataset = pooled_harmonized_dataset,
-#'   dataschema = dataschema,
+#'   harmonized_dossier,
 #'   bookdown_path = bookdown_path,
-#'   .summary_pool = summary_var_harmo)
+#'   harmonized_dossier_summary = harmonized_dossier_summary)
 #' 
 #' # To open the file in browser, open 'bookdown_path/docs/index.html'.
 #' # Or use bookdown_open(bookdown_path) function
@@ -114,30 +114,31 @@
 #'
 #' @export
 harmonized_dossier_visualize <- function(
-    harmonized_dossier = NULL,
-    pooled_harmonized_dataset = 
-      pooled_harmonized_dataset_create(harmonized_dossier),
-    dataschema = data_dict_extract(pooled_harmonized_dataset),
-    group_by = 
-      attributes(pooled_harmonized_dataset)$`Rmonize::unique_col_dataset`,
+    harmonized_dossier,
     bookdown_path,
-    taxonomy = NULL,
+    group_by = attributes(harmonized_dossier)$`Rmonize::harmonized_col_dataset`,
+    harmonized_dossier_summary = NULL,
+    harmonized_col_id = attributes(harmonized_dossier)$`Rmonize::harmonized_col_id`,
+    dataschema = attributes(harmonized_dossier)$`Rmonize::DataSchema`,
+    dataschema_apply = FALSE,
     valueType_guess = FALSE,
-    render = 'html',
-    .summary_pool = NULL){
+    taxonomy = NULL){
 
   # check args
   render <- 'html'
   
   # tests
+  as_dossier(harmonized_dossier)
+  if(!is.null(taxonomy)) as_taxonomy(taxonomy)
+  
   if(!is.logical(valueType_guess))
     stop(call. = FALSE,'`valueType_guess` must be TRUE or FALSE (TRUE by default)')
   
+  if(!is.logical(dataschema_apply))
+    stop(call. = FALSE,'`dataschema_apply` must be TRUE or FALSE (TRUE by default)')
+  
   if(!is.character(bookdown_path))
     stop(call. = FALSE,'`bookdown_path` must be a character string.')
-  
-  if(!is.character(render))
-    stop(call. = FALSE,'`render` must be a character string.')
   
   bookdown_path <- str_squish(bookdown_path)
   path_to <- path_abs(bookdown_path)
@@ -146,38 +147,85 @@ harmonized_dossier_visualize <- function(
 "The path folder already exists. 
 Please provide another name folder or delete the existing one.")}
   
+  # group_by = attributes(pooled_harmonized_dataset)$`Rmonize::harmonized_col_dataset`
+  pooled_harmonized_dataset <- 
+    pooled_harmonized_dataset_create(
+      harmonized_dossier = harmonized_dossier,
+      harmonized_col_dataset = group_by,
+      harmonized_col_id = harmonized_col_id,
+      dataschema = dataschema,
+      dataschema_apply = dataschema_apply)
   
-  if(is.null(pooled_harmonized_dataset) & is.null(harmonized_dossier))
-    stop(call. = FALSE, "At least one argument is missing.")
-  
-  if(!is.null(harmonized_dossier)) as_dossier(harmonized_dossier)
-  if(!is.null(pooled_harmonized_dataset)) as_dataset(pooled_harmonized_dataset)
-  
-  if(is.null(dataschema)){
-    dataschema <- data_dict_extract(pooled_harmonized_dataset)} 
-  
-  # group_by = attributes(pooled_harmonized_dataset)$`Rmonize::unique_col_dataset`
-  col_id <- col_id(pooled_harmonized_dataset)
-  harmo_col_id <- 
-    attributes(pooled_harmonized_dataset)$`Rmonize::unique_col_id`
-  
-  if(is.null(.summary_pool)){
-    .summary_pool <- 
-      dataset_summarize(
-        pooled_harmonized_dataset,
-        data_dict = dataschema,
-        valueType_guess = valueType_guess,
-        group_by = group_by)
+  # test if group_by column exists
+  if(is.null(group_by)){
+    
+    warning(call. = FALSE,
+            '\nThe harmonized_col_dataset is not present in your DataSchema.',
+            '\nThe names of each dataset in your dossier have been be used instead, and an',
+            '\nadditional variable has been created to avoid loosing information.',
+            bold("\n\nUseful tip:\n"),
+            'To avoid this warning, we recommend to add this variable in your DataSchema.')
+    
+    col_dataset <- harmonized_dossier
+    for(i in names(col_dataset)){
+      # stop()}
+      col_dataset[[i]] <- 
+        col_dataset[[i]] %>% 
+        mutate(`Rmonize::harmonized_col_dataset` = i,
+               # `Rmonize::harmonized_col_dataset` = as_category(`Rmonize::harmonized_col_dataset`))
+               `Rmonize::harmonized_col_dataset` = 
+                 Rmonize:::as_category(.data$`Rmonize::harmonized_col_dataset`)) %>%
+        select('Rmonize::harmonized_col_dataset')
+    }
+    
+    col_dataset <- bind_rows(col_dataset)
+    
+    pooled_harmonized_dataset <- 
+      pooled_harmonized_dataset %>%
+      bind_cols(col_dataset)
+    
+    group_by = 'Rmonize::harmonized_col_dataset'
   }
-
+  
+  if(is.null(harmonized_dossier_summary)){
+    dossier_summary <- 
+      dataset_summarize(
+        dataset = pooled_harmonized_dataset,
+        group_by = group_by,
+        taxonomy = taxonomy,
+        valueType_guess = valueType_guess,
+        dataset_name = 'pooled_harmonized_dossier')}
+  
+  names(harmonized_dossier_summary) <- 
+    str_replace(names(harmonized_dossier_summary),
+                "Harmonization Overview",
+                "Overview")
+  names(harmonized_dossier_summary) <- 
+    str_replace(names(harmonized_dossier_summary),
+                "Harmonized Data dictionary summary",
+                "Data dictionary summary")
+  names(harmonized_dossier_summary) <- 
+    str_replace(names(harmonized_dossier_summary),
+                "Harmonized Data dictionary assessement",
+                "Data dictionary assessment")
+  names(harmonized_dossier_summary) <- 
+    str_replace(names(harmonized_dossier_summary),
+                "Harmonized Dataset assessment",
+                "Dataset assessment")
+  names(harmonized_dossier_summary) <- 
+    str_replace(names(harmonized_dossier_summary),
+                "Harmonized Variables summary \\(all\\)",
+                "Variables summary (all)")
+  
   dataset_visualize(
     dataset = pooled_harmonized_dataset,
-    data_dict = dataschema,
     group_by = group_by,
     bookdown_path = bookdown_path,
     taxonomy = taxonomy,
     valueType_guess = valueType_guess,
-    render = render,
-    .summary_var = .summary_pool,
-    .dataset_name = 'pooled_harmonized_dataset')
+    dataset_summary = harmonized_dossier_summary,
+    dataset_name = 'pooled_harmonized_dataset')
+  
+  # if(is.null(attributes(pooled_harmonized_dataset)$`Rmonize::harmonized_col_dataset`$name)){}
+  
 }

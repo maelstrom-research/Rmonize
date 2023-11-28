@@ -6,9 +6,11 @@
 \usage{
 as_harmonized_dossier(
   object,
-  dataschema = NULL,
-  data_proc_elem = NULL,
-  harmonized_col_id = NULL
+  dataschema = attributes(object)$`Rmonize::DataSchema`,
+  data_proc_elem = attributes(object)$`Rmonize::Data Processing Elements`,
+  harmonized_col_id = attributes(object)$`Rmonize::harmonized_col_id`,
+  harmonized_col_dataset = attributes(object)$`Rmonize::harmonized_col_dataset`,
+  dataschema_apply = FALSE
 )
 }
 \arguments{
@@ -21,7 +23,15 @@ associated harmonized dossier.}
 Data Processing Elements.}
 
 \item{harmonized_col_id}{A character string identifying the name of the
-column present in every dataset as identifier of the dataset.}
+column present in every dataset as identifier of each observation.}
+
+\item{harmonized_col_dataset}{A character string identifying the name of the
+column present in every dataset as identifier of the dataset name.}
+
+\item{dataschema_apply}{whether to apply the datashema to each
+harmonized dataset. The resulting tibble will have for each column its
+associated meta data as attributes. The factors will be preserved.
+FALSE by default.}
 }
 \value{
 A list of tibble(s), each of them identifying the harmonized dataset.

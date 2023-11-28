@@ -5,44 +5,49 @@
 \title{Generate a web-based bookdown visual report of a harmonized dossier}
 \usage{
 harmonized_dossier_visualize(
-  harmonized_dossier = NULL,
-  pooled_harmonized_dataset = pooled_harmonized_dataset_create(harmonized_dossier),
-  dataschema = data_dict_extract(pooled_harmonized_dataset),
-  group_by = attributes(pooled_harmonized_dataset)$`Rmonize::unique_col_dataset`,
+  harmonized_dossier,
   bookdown_path,
-  taxonomy = NULL,
+  group_by = attributes(harmonized_dossier)$`Rmonize::harmonized_col_dataset`,
+  harmonized_dossier_summary = NULL,
+  harmonized_col_id = attributes(harmonized_dossier)$`Rmonize::harmonized_col_id`,
+  dataschema = attributes(harmonized_dossier)$`Rmonize::DataSchema`,
+  dataschema_apply = FALSE,
   valueType_guess = FALSE,
-  render = "html",
-  .summary_pool = NULL
+  taxonomy = NULL
 )
 }
 \arguments{
 \item{harmonized_dossier}{List of tibble(s), each of them being
 harmonized dataset.}
 
-\item{pooled_harmonized_dataset}{A tibble, identifying the
-pooled harmonized dataset.}
+\item{bookdown_path}{A character string identifying the folder path where the
+bookdown report will be saved.}
+
+\item{group_by}{A character string of one column in the dataset that can be
+taken as a grouping column. The visual element will be grouped and displayed
+by this column.}
+
+\item{harmonized_dossier_summary}{A list which is the summary of the
+harmonized dossier.}
+
+\item{harmonized_col_id}{A character string identifying the name of the
+column identifier of the dataset and will be the concatenation of
+id column value and dataset name. NULL by default.}
 
 \item{dataschema}{A list of tibble(s) representing metadata of an
 associated harmonized dossier.}
 
-\item{group_by}{A character string of one column in the
-pooled harmonized dataset that can be taken as a grouping column.
-The visual element will be grouped and displayed by this column.}
+\item{dataschema_apply}{whether to apply the datashema to each
+harmonized dataset. The resulting tibble will have for each column its
+associated meta data as attributes. The factors will be preserved.
+FALSE by default.}
 
-\item{bookdown_path}{A character string identifying the folder path where the
-bookdown report will be saved.}
+\item{valueType_guess}{Whether the output should include a more accurate
+valueType that could be applied to the dataset. FALSE by default.
+The visual element will be grouped and displayed by this column.}
 
 \item{taxonomy}{A tibble identifying the scheme used for variables
 classification.}
-
-\item{valueType_guess}{Whether the output should include a more accurate
-valueType that could be applied to the dataset. FALSE by default.}
-
-\item{render}{Output format of the visual report. To date, the format can
-only be 'html', but will be expand to other formats in the future.}
-
-\item{.summary_pool}{A list which is the summary of the variables.}
 }
 \value{
 A bookdown folder containing files in the specified output folder. To
@@ -104,24 +109,19 @@ possibilities and their correspondence with R data types are available using
 
 # You can use our demonstration files to run examples
 
-library(madshapR)
 library(dplyr)
 library(fs)
 
-pooled_harmonized_dataset <- Rmonize_DEMO$pooled_harmonized_dataset
-dataschema <- Rmonize_DEMO$`dataschema - final` \%>\%
-  data_dict_filter('name == "adm_unique_id"')
-
-summary_var_harmo <- Rmonize_DEMO$summary_var_harmo
+harmonized_dossier <- Rmonize_DEMO$harmonized_dossier
+harmonized_dossier_summary <- Rmonize_DEMO$harmonized_dossier_summary
 
 if(dir_exists(tempdir())) dir_delete(tempdir())
 bookdown_path <- tempdir()
 
 harmonized_dossier_visualize(
-  pooled_harmonized_dataset = pooled_harmonized_dataset,
-  dataschema = dataschema,
+  harmonized_dossier,
   bookdown_path = bookdown_path,
-  .summary_pool = summary_var_harmo)
+  harmonized_dossier_summary = harmonized_dossier_summary)
 
 # To open the file in browser, open 'bookdown_path/docs/index.html'.
 # Or use bookdown_open(bookdown_path) function

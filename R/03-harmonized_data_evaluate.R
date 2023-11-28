@@ -38,6 +38,10 @@
 #' harmonized dataset.
 #' @param taxonomy A tibble identifying the scheme used for variables 
 #' classification.
+#' @param as_data_dict_mlstr Whether the output data dictionary has a simple
+#' data dictionary structure or not (meaning has a Maelstrom data dictionary
+#' structure, compatible with Maelstrom Research ecosystem, including Opal). 
+#' TRUE by default.
 #'
 #' @returns
 #' A list of report(s), each of them being tibble(s) ('Overview and summary)
@@ -55,7 +59,10 @@
 #' @importFrom rlang .data
 #'
 #' @export
-harmonized_dossier_evaluate <- function(harmonized_dossier, taxonomy = NULL){
+harmonized_dossier_evaluate <- function(
+    harmonized_dossier, 
+    taxonomy = NULL,
+    as_data_dict_mlstr = TRUE){
 
   # future dev 
   # assess harmonized data dictionary
@@ -65,13 +72,11 @@ harmonized_dossier_evaluate <- function(harmonized_dossier, taxonomy = NULL){
   as_dossier(harmonized_dossier)
   if(!is.null(taxonomy)) as_taxonomy(taxonomy)
   
-  dataschema <- 
-    attributes(harmonized_dossier)$`Rmonize::DataSchema` %>%
-    as_dataschema(as_dataschema_mlstr = TRUE) %>%
-    as_data_dict_mlstr()
-
   report_list <-
-    dossier_evaluate(harmonized_dossier, as_data_dict_mlstr = TRUE)
+    dossier_evaluate(
+      dossier = harmonized_dossier, 
+      taxonomy = taxonomy,
+      as_data_dict_mlstr = as_data_dict_mlstr)
 
   report_list <-
     report_list %>%
