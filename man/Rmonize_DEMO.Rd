@@ -17,10 +17,11 @@ containing errors}
 element in construction}
 \item{dataschema}{DataSchema used, combined with data processing
 elements and input material}
+\item{harmonized_dossier}{harmonized dossier for testing purpose}
+\item{harmonized_dossier_summary}{harmonized variables summary for testing
+purpose}
 \item{pooled_harmonized_dataset}{pooled harmonized dataset for testing
 purpose}
-\item{harmonized_dossier}{harmonized dossier for testing purpose}
-\item{summary_var_harmo}{harmonized variables summary for testing purpose}
 \item{data_dict_MELBOURNE}{Data dictionary of Melbourne
 dataset}
 \item{data_dict_PARIS}{Data dictionary of Paris dataset}
