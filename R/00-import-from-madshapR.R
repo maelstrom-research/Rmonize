@@ -7,8 +7,15 @@ madshapR::as_taxonomy
 #' @importFrom madshapR as_valueType
 madshapR::as_valueType
 
-#' @importFrom madshapR data_dict_extract
-madshapR::data_dict_extract
+#' @noRd
+as_category <- function(...){
+  return(madshapR:::as_category(...))
+}
+
+#' @noRd
+is_category <- function(...){
+  return(madshapR:::is_category(...))
+}
 
 #' @importFrom madshapR data_extract
 madshapR::data_extract
@@ -67,6 +74,13 @@ madshapR::bookdown_open
 #' @keywords imported
 #' @export
 madshapR::data_dict_apply
+
+#' @importFrom madshapR data_dict_extract
+#' @name data_dict_extract
+#' @rdname data_dict_extract
+#' @keywords imported
+#' @export
+madshapR::data_dict_extract
 
 #' @importFrom madshapR as_data_dict
 #' @name as_data_dict
