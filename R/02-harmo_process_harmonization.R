@@ -311,15 +311,15 @@ bold(i)," -----------------------------------------------------"),1,81))
       idx <- idx + 1
       
       r_script <-
-        Rmonize:::harmo_parse_process_rule(
-        # harmo_parse_process_rule(
+        # Rmonize:::harmo_parse_process_rule(
+        harmo_parse_process_rule(
           process_rule_slice = process_rule,
           input_dataset = input_dataset,
           r_script = TRUE)
       
       col <-
-        Rmonize:::harmo_parse_process_rule(
-        # harmo_parse_process_rule(
+        # Rmonize:::harmo_parse_process_rule(
+        harmo_parse_process_rule(
           process_rule_slice = process_rule, 
           input_dataset = input_dataset, 
           r_script = FALSE)

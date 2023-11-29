@@ -38,6 +38,8 @@
 #' harmonized dataset.
 #' @param taxonomy A tibble identifying the scheme used for variables 
 #' classification.
+#' @param dataschema A list of tibble(s) representing metadata of an 
+#' associated harmonized dossier.
 #' @param as_dataschema_mlstr Whether the output data dictionary has a simple
 #' data dictionary structure or not (meaning has a Maelstrom data dictionary
 #' structure, compatible with Maelstrom Research ecosystem, including Opal). 

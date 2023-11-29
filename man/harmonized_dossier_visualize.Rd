@@ -41,15 +41,6 @@ The visual element will be grouped and displayed by this column.}
 
 \item{taxonomy}{A tibble identifying the scheme used for variables
 classification.}
-
-\item{harmonized_col_id}{A character string identifying the name of the
-column identifier of the dataset and will be the concatenation of
-id column value and dataset name. NULL by default.}
-
-\item{dataschema_apply}{whether to apply the datashema to each
-harmonized dataset. The resulting tibble will have for each column its
-associated meta data as attributes. The factors will be preserved.
-FALSE by default.}
 }
 \value{
 A bookdown folder containing files in the specified output folder. To

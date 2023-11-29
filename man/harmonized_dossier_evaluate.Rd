@@ -15,6 +15,9 @@ harmonized_dossier_evaluate(
 \item{harmonized_dossier}{List of tibble(s), each of them being
 harmonized dataset.}
 
+\item{dataschema}{A list of tibble(s) representing metadata of an
+associated harmonized dossier.}
+
 \item{taxonomy}{A tibble identifying the scheme used for variables
 classification.}
 

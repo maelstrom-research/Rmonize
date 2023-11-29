@@ -60,17 +60,10 @@
 #' by this column.
 #' @param harmonized_dossier_summary A list which is the summary of the 
 #' harmonized dossier.
-#' @param harmonized_col_id  A character string identifying the name of the 
-#' column identifier of the dataset and will be the concatenation of 
-#' id column value and dataset name. NULL by default.
 #' @param dataschema A list of tibble(s) representing metadata of an 
 #' associated harmonized dossier.
 #' @param data_proc_elem A tibble, identifying the input 
 #' Data Processing Elements.
-#' @param dataschema_apply whether to apply the datashema to each 
-#' harmonized dataset. The resulting tibble will have for each column its 
-#' associated meta data as attributes. The factors will be preserved. 
-#' FALSE by default.
 #' @param valueType_guess Whether the output should include a more accurate
 #' valueType that could be applied to the dataset. FALSE by default.
 #' The visual element will be grouped and displayed by this column.
