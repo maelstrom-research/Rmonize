@@ -9,9 +9,8 @@ harmonized_dossier_visualize(
   bookdown_path,
   group_by = attributes(harmonized_dossier)$`Rmonize::harmonized_col_dataset`,
   harmonized_dossier_summary = NULL,
-  harmonized_col_id = attributes(harmonized_dossier)$`Rmonize::harmonized_col_id`,
   dataschema = attributes(harmonized_dossier)$`Rmonize::DataSchema`,
-  dataschema_apply = FALSE,
+  data_proc_elem = attributes(harmonized_dossier)$`Rmonize::Data Processing Element`,
   valueType_guess = FALSE,
   taxonomy = NULL
 )
@@ -30,17 +29,11 @@ by this column.}
 \item{harmonized_dossier_summary}{A list which is the summary of the
 harmonized dossier.}
 
-\item{harmonized_col_id}{A character string identifying the name of the
-column identifier of the dataset and will be the concatenation of
-id column value and dataset name. NULL by default.}
-
 \item{dataschema}{A list of tibble(s) representing metadata of an
 associated harmonized dossier.}
 
-\item{dataschema_apply}{whether to apply the datashema to each
-harmonized dataset. The resulting tibble will have for each column its
-associated meta data as attributes. The factors will be preserved.
-FALSE by default.}
+\item{data_proc_elem}{A tibble, identifying the input
+Data Processing Elements.}
 
 \item{valueType_guess}{Whether the output should include a more accurate
 valueType that could be applied to the dataset. FALSE by default.
@@ -48,6 +41,15 @@ The visual element will be grouped and displayed by this column.}
 
 \item{taxonomy}{A tibble identifying the scheme used for variables
 classification.}
+
+\item{harmonized_col_id}{A character string identifying the name of the
+column identifier of the dataset and will be the concatenation of
+id column value and dataset name. NULL by default.}
+
+\item{dataschema_apply}{whether to apply the datashema to each
+harmonized dataset. The resulting tibble will have for each column its
+associated meta data as attributes. The factors will be preserved.
+FALSE by default.}
 }
 \value{
 A bookdown folder containing files in the specified output folder. To

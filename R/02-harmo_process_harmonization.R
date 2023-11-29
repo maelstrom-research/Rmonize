@@ -80,6 +80,7 @@
 #'
 #' @import dplyr tidyr fabR stringr
 #' @importFrom rlang .data
+#' @importFrom rlang :=
 #' @importFrom rlang is_error
 #' @importFrom rlang is_warning
 #' @importFrom crayon bold
@@ -229,13 +230,18 @@ Please correct elements and reprocess.')
   # creation of id
   for(i in names(harmonized_dossier)){
     # stop()}
+    
     create_id_row <- 
       dpe[[i]][dpe[[i]]$`output_variable` %in% harmonized_col_id,]
     var_id <- extract_var(create_id_row[['input_variables']])
     
+    dossier[[i]][var_id] <- 
+      dossier[[i]][var_id] %>% 
+      mutate(across(all_of(var_id),as.character)) %>%
+      mutate(across(all_of(var_id) , ~ paste0('{',row_number(.),'}::',.)))
+    
     harmonization_id <-
       dossier[[i]][var_id] %>%
-      mutate(across(all_of(var_id),as.character)) %>%
       rename_with(
         .cols = all_of(var_id), ~ create_id_row$output_variable)
     
@@ -297,7 +303,7 @@ bold(i)," -----------------------------------------------------"),1,81))
     
     idx <- 1
     
-    for(j in dpe[[i]][['output_variable']][!dpe[[i]]$`output_variable` %in% 
+    for(j in dpe[[i]][['output_variable']][!dpe[[i]]$`output_variable` %in%
                                            harmonized_col_id]){
       # stop()}
       
@@ -305,15 +311,15 @@ bold(i)," -----------------------------------------------------"),1,81))
       idx <- idx + 1
       
       r_script <-
-        # Rmonize:::harmo_parse_process_rule(
-        harmo_parse_process_rule(
+        Rmonize:::harmo_parse_process_rule(
+        # harmo_parse_process_rule(
           process_rule_slice = process_rule,
           input_dataset = input_dataset,
           r_script = TRUE)
       
       col <-
-        # Rmonize:::harmo_parse_process_rule(
-        harmo_parse_process_rule(
+        Rmonize:::harmo_parse_process_rule(
+        # harmo_parse_process_rule(
           process_rule_slice = process_rule, 
           input_dataset = input_dataset, 
           r_script = FALSE)
@@ -403,6 +409,27 @@ bold(i)," -----------------------------------------------------"),1,81))
                   paste0("select('",harmonized_col_id,"' = '",
                          var_id,"','",j,"')"))))
     }
+  }
+  
+  
+  # creation of id
+  for(i in names(harmonized_dossier)){
+    # stop()}
+  
+    id_row <- 
+      dpe[[i]][dpe[[i]]$`output_variable` %in% harmonized_col_id,]
+    
+    dossier[[i]][id_row$input_variables] <- 
+      dossier[[i]][id_row$input_variables] %>% 
+      mutate(
+        across(all_of(var_id) , ~ 
+        str_remove_all(.,pattern = '^[^\\}\\:\\:]*\\}\\:\\:')))
+    
+    harmonized_dossier[[i]][id_row$output_variable] <-
+      harmonized_dossier[[i]][id_row$output_variable] %>% 
+      mutate(
+        across(all_of(var_id) , ~ 
+        str_remove_all(.,pattern = '^[^\\}\\:\\:]*\\}\\:\\:')))
   }
   
   data_proc_elem <- 
@@ -1945,52 +1972,19 @@ as_harmonized_dossier <- function(
   }
   
   data_proc_elem <- as_data_proc_elem(data_proc_elem)
+  dataschema <- as_data_dict_mlstr(dataschema)
   
-
-  # Warn user that the dataschema must have a categorical variable 
-  # harmonized_dataset_id if provided. If not, the categories are added to the 
-  # dataschema
+  # Warn user that the dataschema should have a categorical variable if
+  # harmonized_col_dataset is provided.
   
   if(!is.null(harmonized_col_dataset)){
-    
+
     # test if harmonized_col_dataset exists
     bind_rows(
       object %>% lapply(function(x) x %>% 
                           mutate(across(everything(),as.character)))) %>% 
       select(all_of(harmonized_col_dataset))
     
-    # test if harmonized_col_dataset is_categorical
-    if(! harmonized_col_dataset %in% dataschema[['Categories']]$variable){
-      warning(call. = FALSE,
-              '\nThe harmonized_col_dataset `',harmonized_col_dataset,'` you declared is not ',
-              'categorical in your DataSchema.',
-              '\nThe correspondant categories have been be created in your dossier.',
-              bold("\n\nUseful tip:\n"),
-              'To avoid this warning, we recommend to add the categories in your DataSchema.')
-      
-      col_dataset <- 
-        bind_rows(
-          object %>% 
-            lapply(function(x) x %>% select(1,all_of(harmonized_col_dataset))))
-      
-      col_dataset[[2]] <- Rmonize:::as_category(col_dataset[[2]])
-      # col_dataset[[1]] <- as_category(col_dataset[[1]])
-      
-      col_dataset <- bind_cols(
-        data_dict_apply(col_dataset[1],list(Variables = dataschema$Variables[1,])),
-        col_dataset[2])
-      
-      data_dict_col_dataset <- 
-        data_dict_extract(as_dataset(col_dataset),as_data_dict_mlstr = TRUE)
-      
-      dataschema[['Categories']] <- 
-        bind_rows(
-          dataschema[['Categories']],
-          data_dict_col_dataset[['Categories']])
-      
-      dataschema <- as_data_dict_mlstr(dataschema)
-        
-    }
   }
   
   # check the presence of same column names in the dataset(s)
@@ -2105,8 +2099,14 @@ name list of variables.")
 #' id column value and dataset name. NULL by default.
 #' @param harmonized_col_dataset A character string identifying the name of the 
 #' column present in every dataset as identifier of the dataset name.
+#' @param add_col_dataset whether to add an extra column to each 
+#' harmonized dataset. The resulting tibble will have an additional column and 
+#' its data dictionary will be updated accordingly adding categories for this 
+#' variable. FALSE by default.
 #' @param dataschema A list of tibble(s) representing metadata of an 
 #' associated harmonized dossier.
+#' @param data_proc_elem A tibble, identifying the input 
+#' Data Processing Elements.
 #' @param dataschema_apply whether to apply the datashema to each 
 #' harmonized dataset. The resulting tibble will have for each column its 
 #' associated meta data as attributes. The factors will be preserved. 
@@ -2125,7 +2125,7 @@ name list of variables.")
 #'   
 #' }
 #'
-#' @import dplyr
+#' @import dplyr fabR
 #' @importFrom rlang .data
 #'
 #' @export
@@ -2133,52 +2133,102 @@ pooled_harmonized_dataset_create <- function(
     harmonized_dossier,
     harmonized_col_dataset = attributes(harmonized_dossier)$`Rmonize::harmonized_col_dataset`,
     harmonized_col_id = attributes(harmonized_dossier)$`Rmonize::harmonized_col_id`,
+    add_col_dataset = FALSE,
     dataschema = attributes(harmonized_dossier)$`Rmonize::DataSchema`,
+    data_proc_elem = attributes(harmonized_dossier)$`Rmonize::Data Processing Elements`,
     dataschema_apply = FALSE){
   
-  # check harmonized dossier
-
-  harmonized_dossier <- 
-    as_harmonized_dossier(
-      object = harmonized_dossier,
-      harmonized_col_id = harmonized_col_id,
-      harmonized_col_dataset = harmonized_col_dataset,
-      dataschema = dataschema,
-      dataschema_apply = dataschema_apply)
-
-  dataschema = attributes(harmonized_dossier)$`Rmonize::DataSchema`
-  harmonized_col_id = attributes(harmonized_dossier)$`Rmonize::harmonized_col_id`
-  harmonized_col_dataset = attributes(harmonized_dossier)$`Rmonize::harmonized_col_dataset`
+  if(!is.logical(add_col_dataset))
+    stop(call. = FALSE,
+         '`add_col_dataset` must be TRUE or FALSE (TRUE by default)')
   
-  # if(is.null(harmonized_col_dataset)){
-  #   
-  #   message('A variable must be added')
-  #   
-  #   harmonized_dossier <- 
-  #     harmonized_dossier %>%
-  #     lapply(function(x){
-  #       cross_join(
-  #         x, tibble(`Rmonize::harmonized_col_dataset` =  as_category(names(harmonized_dossier)))) 
-  #     })
-  #   
-  #   bind_rows(harmonized_dossier)['Rmonize::harmonized_col_dataset'] %>%
-  #     data_dict_extract(as_data_dict_mlstr = FALSE)
-  #   
-  #   data_dict_extract(bind_rows(harmonized_dossier)['Rmonize::harmonized_col_dataset'])
-  #   
-  #   dataschema = attributes(harmonized_dossier)$`Rmonize::DataSchema`
-  #   harmonized_col_id = attributes(harmonized_dossier)$`Rmonize::harmonized_col_id`
-  #   harmonized_col_dataset = "Rmonize::harmonized_col_dataset"
-  #   
-  # }else{
-  #   col_dataset <- pooled_harmonized_dataset[[harmonized_col_dataset]]
-  #   
-  #   }
+  # check harmonized dossier (except harmonized_col_dataset)
+  as_harmonized_dossier(
+    object = harmonized_dossier,
+    harmonized_col_id = harmonized_col_id,
+    dataschema = dataschema,
+    data_proc_elem =data_proc_elem,
+    dataschema_apply = dataschema_apply)
 
   pooled_harmonized_dataset <- 
     bind_rows(harmonized_dossier) %>%
     data_dict_apply(dataschema)
+
+  col_dataset <- 
+    tibble(.rows = nrow(pooled_harmonized_dataset))
   
+  if(is.null(harmonized_col_dataset)){
+    if(add_col_dataset == TRUE){
+      # if the harmonized_col_dataset is null 
+      harmonized_col_dataset <- 'Rmonize::harmonized_col_dataset'
+    }
+  }
+  
+  # test whether the harmonized_col_dataset exists and is categorical (
+  # NA dont exists but to add
+  # TRUE exists and categorical
+  # FALSE exists not categorical
+  # NULL is not provided)
+  
+  bool_test <- 
+    if(!is.null(harmonized_col_dataset)){
+      toString(
+        pooled_harmonized_dataset %>% reframe(
+          across(any_of(harmonized_col_dataset),  Rmonize:::is_category))) %>%
+        as.logical %>% 
+        as_any_boolean == FALSE}else{NULL}
+  
+  if(!is.null(bool_test)){
+    
+    if(bool_test %in% FALSE){} # nothing to warn. the col exists and is categorical
+    
+    if(bool_test %in% TRUE){
+      warning(call. = FALSE,
+'\nThe harmonized_col_dataset `',harmonized_col_dataset,'` you declared is not ',
+'categorical in your DataSchema.',
+'\nThe correspondant categories have been be created in your pooled harmonized dataset.',
+bold("\n\nUseful tip:\n"),
+'To avoid this warning, we recommend to add the categories in your DataSchema.')
+
+  }
+  
+    if(is.na(bool_test) & add_col_dataset == TRUE) {
+      warning(call. = FALSE,
+'\nAn additional variable `',harmonized_col_dataset,'` has been created
+with harmonized dataset names as values for each harmonized dataset.',
+bold("\n\nUseful tip:\n"),
+'To avoid this message, we recommend to set `harmonized_col_dataset` as a 
+categorical variable DataSchema, or to set `add_col_dataset` = FALSE.')
+    
+      col_dataset <- harmonized_dossier
+    
+      for(i in names(col_dataset)){
+        # stop()}
+        col_dataset[[i]] <- 
+          col_dataset[[i]] %>% 
+          mutate(`Rmonize::harmonized_col_dataset` = i) %>%
+          select(!!harmonized_col_dataset := 'Rmonize::harmonized_col_dataset')}
+      
+      col_dataset <- bind_rows(col_dataset)
+      
+    }
+    
+    if(is.na(bool_test) & add_col_dataset == FALSE) {
+      stop(call. = FALSE,
+'\nThe harmonized_col_dataset `',harmonized_col_dataset,'` you declared is not ',
+'in your DataSchema.',
+bold("\n\nUseful tip:\n"),
+'To avoid this error, we recommend to set `harmonized_col_dataset` as a 
+categorical variable DataSchema, or to set `add_col_dataset` = FALSE.')
+    
+    }
+  }
+  
+  pooled_harmonized_dataset <-
+    pooled_harmonized_dataset %>%
+    bind_cols(col_dataset) %>%
+    mutate(across(any_of(harmonized_col_dataset), Rmonize:::as_category))
+
   attributes(pooled_harmonized_dataset)$`Rmonize::class` <- 
     "pooled_harmonized_dataset"
   

@@ -7,9 +7,8 @@
 harmonized_dossier_summarize(
   harmonized_dossier,
   group_by = attributes(harmonized_dossier)$`Rmonize::harmonized_col_dataset`,
-  harmonized_col_id = attributes(harmonized_dossier)$`Rmonize::harmonized_col_id`,
   dataschema = attributes(harmonized_dossier)$`Rmonize::DataSchema`,
-  dataschema_apply = FALSE,
+  data_proc_elem = attributes(harmonized_dossier)$`Rmonize::Data Processing Element`,
   taxonomy = NULL,
   valueType_guess = FALSE
 )
@@ -22,17 +21,11 @@ harmonized dataset.}
 taken as a grouping column. The visual element will be grouped and displayed
 by this column.}
 
-\item{harmonized_col_id}{A character string identifying the name of the
-column identifier of the dataset and will be the concatenation of
-id column value and dataset name. NULL by default.}
-
 \item{dataschema}{A list of tibble(s) representing metadata of an
 associated harmonized dossier.}
 
-\item{dataschema_apply}{whether to apply the datashema to each
-harmonized dataset. The resulting tibble will have for each column its
-associated meta data as attributes. The factors will be preserved.
-FALSE by default.}
+\item{data_proc_elem}{A tibble, identifying the input
+Data Processing Elements.}
 
 \item{taxonomy}{A tibble identifying the scheme used for variables
 classification.}

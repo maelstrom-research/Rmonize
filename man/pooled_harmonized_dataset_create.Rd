@@ -9,7 +9,9 @@ pooled_harmonized_dataset_create(
   harmonized_col_dataset =
     attributes(harmonized_dossier)$`Rmonize::harmonized_col_dataset`,
   harmonized_col_id = attributes(harmonized_dossier)$`Rmonize::harmonized_col_id`,
+  add_col_dataset = FALSE,
   dataschema = attributes(harmonized_dossier)$`Rmonize::DataSchema`,
+  data_proc_elem = attributes(harmonized_dossier)$`Rmonize::Data Processing Elements`,
   dataschema_apply = FALSE
 )
 }
@@ -24,8 +26,16 @@ column present in every dataset as identifier of the dataset name.}
 column identifier of the dataset and will be the concatenation of
 id column value and dataset name. NULL by default.}
 
+\item{add_col_dataset}{whether to add an extra column to each
+harmonized dataset. The resulting tibble will have an additional column and
+its data dictionary will be updated accordingly adding categories for this
+variable. FALSE by default.}
+
 \item{dataschema}{A list of tibble(s) representing metadata of an
 associated harmonized dossier.}
+
+\item{data_proc_elem}{A tibble, identifying the input
+Data Processing Elements.}
 
 \item{dataschema_apply}{whether to apply the datashema to each
 harmonized dataset. The resulting tibble will have for each column its

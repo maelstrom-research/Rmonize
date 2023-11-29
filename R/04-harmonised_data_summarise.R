@@ -60,15 +60,10 @@
 #' @param group_by A character string of one column in the dataset that can be
 #' taken as a grouping column. The visual element will be grouped and displayed
 #' by this column.
-#' @param harmonized_col_id  A character string identifying the name of the 
-#' column identifier of the dataset and will be the concatenation of 
-#' id column value and dataset name. NULL by default.
 #' @param dataschema A list of tibble(s) representing metadata of an 
 #' associated harmonized dossier.
-#' @param dataschema_apply whether to apply the datashema to each 
-#' harmonized dataset. The resulting tibble will have for each column its 
-#' associated meta data as attributes. The factors will be preserved. 
-#' FALSE by default.
+#' @param data_proc_elem A tibble, identifying the input 
+#' Data Processing Elements.
 #' @param taxonomy A tibble identifying the scheme used for variables 
 #' classification.
 #' @param valueType_guess Whether the output should include a more accurate
@@ -95,68 +90,42 @@
 harmonized_dossier_summarize <- function(
     harmonized_dossier,
     group_by = attributes(harmonized_dossier)$`Rmonize::harmonized_col_dataset`,
-    harmonized_col_id = attributes(harmonized_dossier)$`Rmonize::harmonized_col_id`,
     dataschema = attributes(harmonized_dossier)$`Rmonize::DataSchema`,
-    dataschema_apply = FALSE,
+    data_proc_elem = attributes(harmonized_dossier)$`Rmonize::Data Processing Element`,
     taxonomy = NULL,
     valueType_guess = FALSE){
 
   # tests
-  as_dossier(harmonized_dossier)
   if(!is.null(taxonomy)) as_taxonomy(taxonomy)
   
   if(!is.logical(valueType_guess))
     stop(call. = FALSE,
          '`valueType_guess` must be TRUE or FALSE (TRUE by default)')
-  
-  if(!is.logical(dataschema_apply))
-    stop(call. = FALSE,
-         '`dataschema_apply` must be TRUE or FALSE (TRUE by default)')
 
-  # group_by = attributes(pooled_harmonized_dataset)$`Rmonize::harmonized_col_dataset`
+  # test if group exists
+  if(!is.null(group_by)){
+
+    # test if harmonized_col_dataset exists
+    bind_rows(
+      harmonized_dossier %>% lapply(function(x) x %>%
+                          mutate(across(everything(),as.character)))) %>%
+      select(all_of(group_by))
+  }
+  
+  # creation of pooled_harmonized_dataset
   pooled_harmonized_dataset <- 
     pooled_harmonized_dataset_create(
       harmonized_dossier = harmonized_dossier,
       harmonized_col_dataset = group_by,
-      harmonized_col_id = harmonized_col_id,
-      dataschema = dataschema,
-      dataschema_apply = dataschema_apply)
-  
-  # test if group_by column exists
-  if(is.null(group_by)){
-    
-    warning(call. = FALSE,
-            '\nThe harmonized_col_dataset is not present in your DataSchema.',
-            '\nThe names of each dataset in your dossier have been be used instead, and an',
-            '\nadditional variable has been created to avoid loosing information.',
-            bold("\n\nUseful tip:\n"),
-            'To avoid this warning, we recommend to add this variable in your DataSchema.')
-    
-    col_dataset <- harmonized_dossier
-    for(i in names(col_dataset)){
-      # stop()}
-      col_dataset[[i]] <- 
-        col_dataset[[i]] %>% 
-        mutate(`Rmonize::harmonized_col_dataset` = i,
-               # `Rmonize::harmonized_col_dataset` = as_category(`Rmonize::harmonized_col_dataset`))
-               `Rmonize::harmonized_col_dataset` = 
-                 Rmonize:::as_category(.data$`Rmonize::harmonized_col_dataset`)) %>%
-        select('Rmonize::harmonized_col_dataset')
-    }
-    
-    col_dataset <- bind_rows(col_dataset)
-    
-    pooled_harmonized_dataset <- 
-      pooled_harmonized_dataset %>%
-      bind_cols(col_dataset)
-    
-    group_by = 'Rmonize::harmonized_col_dataset'
-  }
+      add_col_dataset = TRUE,
+      data_proc_elem = data_proc_elem,
+      dataschema = dataschema)
   
   report <-
     dataset_summarize(
       dataset = pooled_harmonized_dataset,
-      group_by = group_by,
+      group_by = 
+        attributes(pooled_harmonized_dataset)$`Rmonize::harmonized_col_dataset`,
       taxonomy = taxonomy, 
       valueType_guess = valueType_guess)
   
