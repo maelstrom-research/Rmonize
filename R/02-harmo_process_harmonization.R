@@ -87,9 +87,10 @@
 #' @export
 harmo_process <- function(
     dossier, 
-    dataschema = NULL, 
-    data_proc_elem,
-    harmonized_col_dataset = NULL){
+    dataschema = attributes(dossier)$`Rmonize::DataSchema`, 
+    data_proc_elem = attributes(dossier)$`Rmonize::Data Processing Elements`,
+    harmonized_col_dataset = attributes(dossier)$`Rmonize::harmonized_col_dataset`
+    ){
   
   # future dev
   # si le vT n'existe pas dans le Data Processing Elements, aller le chercher 
@@ -106,10 +107,14 @@ harmo_process <- function(
     return(x)}
   
   # check arguments
-  dossier <- as_dossier(dossier)
+  if(is.null(data_proc_elem)) 
+    stop(call. = FALSE, 
+         'The Data Processing Element argument is missing')
+  
   data_proc_elem <- as_data_proc_elem(data_proc_elem)
-  if(!is.null(dataschema)) dataschema <- as_dataschema_mlstr(dataschema)
-    
+  dataschema <- as_dataschema_mlstr(dataschema)
+  dossier <- as_dossier(dossier)
+
   # clean dataschema_variable and input dataset names
   data_proc_elem$dataschema_variable <- 
     extract_var(data_proc_elem$dataschema_variable)
@@ -170,7 +175,8 @@ harmo_process <- function(
   }
   
   if(length(intersect(names(dossier), names(dpe))) == 0){
-    stop(call. = FALSE, 'The dataset list to be harmonized is empty.
+    stop(call. = FALSE, 
+'The dataset list to be harmonized is empty.
     
 This usually means that your dataset names in the Data Processing Elements 
 (in the column `dataset_input`) do not match the names in your dossier list. 
@@ -409,8 +415,7 @@ bold(i)," -----------------------------------------------------"),1,81))
   harmonized_dossier <- 
     as_harmonized_dossier(
       harmonized_dossier,dataschema,data_proc_elem,
-      harmonized_col_id,harmonized_col_dataset,
-      dataschema_apply = TRUE)
+      harmonized_col_id,harmonized_col_dataset)
   
   nb_error <- if(!is.null(harmonization_report[['Rmonize::error_status']])){
     sum(!is.na(harmonization_report[['Rmonize::error_status']]))
@@ -1204,7 +1209,7 @@ show_harmo_error <- function(harmonized_dossier){
   # print the list of error + the index
 
   # check input
-  as_harmonized_dossier(harmonized_dossier)
+  as_harmonized_dossier(harmonized_dossier,dataschema_apply = FALSE)
   
   data_proc_elem <- 
     as_data_proc_elem(
@@ -1501,8 +1506,7 @@ contain NA values.')
         x[x$`Mlstr_harmo::rule_category` %in% 'id_creation',][['dataschema_variable']]
       
       if(length(col_id) == 0)
-        stop(
-          call. = FALSE,
+        stop(call. = FALSE,
 'In ',unique(x$input_dataset),': \n\n',
 'In the column `Mlstr_harmo::rule_category` of your Data Processing Elements, 
 "id_creation" rule is missing. The harmonization process cannot start because 
@@ -1512,8 +1516,7 @@ followed by the name of the column taken as identifier of dataset in your
 dossier.')
       
       if(length(col_id)  > 1)
-        stop(
-          call. = FALSE,
+        stop(call. = FALSE,
 'In ',unique(x$input_dataset),': \n\n',
 'In the column `Mlstr_harmo::rule_category` of your Data Processing Elements, 
 "id_creation" rule is not unique. The harmonization process cannot start because 
@@ -1530,8 +1533,7 @@ dataset in your dossier.')
           'dataschema_variable']])
   
   if(length(nb_col_id) > 1)
-    stop(
-      call. = FALSE,
+    stop(call. = FALSE,
 'In ',unique(object$input_dataset),': \n\n',
 'In the column `Mlstr_harmo::rule_category` of your Data Processing Elements, 
 "id_creation" is not unique across the harmonized dataset(s) to generate. 
@@ -1725,7 +1727,8 @@ Please refer to documentation.")
 as_dataschema <- function(object, as_dataschema_mlstr = FALSE){
 
   if(!is.logical(as_dataschema_mlstr))
-    stop('`as_dataschema_mlstr` must be TRUE or FALSE (FALSE by default)')
+    stop(call. = FALSE,
+         '`as_dataschema_mlstr` must be TRUE or FALSE (FALSE by default)')
 
   if(is_data_dict(object)){
     
@@ -1860,7 +1863,7 @@ as_dataschema_mlstr <- function(object){
 #' @param dataschema_apply whether to apply the datashema to each 
 #' harmonized dataset. The resulting tibble will have for each column its 
 #' associated meta data as attributes. The factors will be preserved. 
-#' FALSE by default.
+#' TRUE by default.
 #'
 #' @returns
 #' A list of tibble(s), each of them identifying the harmonized dataset.
@@ -1868,7 +1871,9 @@ as_dataschema_mlstr <- function(object){
 #' @examples
 #' {
 #' 
-#' as_harmonized_dossier(object = Rmonize_DEMO$harmonized_dossier)
+#' as_harmonized_dossier(
+#'   object = Rmonize_DEMO$harmonized_dossier,
+#'   dataschema_apply = FALSE)
 #'   
 #' }
 #'
@@ -1882,11 +1887,15 @@ as_harmonized_dossier <- function(
     data_proc_elem = attributes(object)$`Rmonize::Data Processing Elements`,
     harmonized_col_id = attributes(object)$`Rmonize::harmonized_col_id`,
     harmonized_col_dataset = attributes(object)$`Rmonize::harmonized_col_dataset`,
-    dataschema_apply = FALSE){
+    dataschema_apply = TRUE){
 
   # check object
   as_dossier(object)
   
+  if(!is.logical(dataschema_apply))
+    stop(call. = FALSE,
+         '`dataschema_apply` must be TRUE or FALSE (TRUE by default)')
+
   # check the id column (mandatory to exist)
   if(is.null(harmonized_col_id)) 
     stop(call. = FALSE,
@@ -1995,7 +2004,8 @@ as_harmonized_dossier <- function(
         identical,
         TRUE))
   
-  if(!same_names) stop(call. = FALSE,
+  if(!same_names) 
+    stop(call. = FALSE,
 "All of your column(s) in the harmonized dataset(s) must be in the DataSchema 
 name list of variables.")
   
@@ -2003,7 +2013,6 @@ name list of variables.")
   # Assignation of col_id in the datasets
   object <- 
     object %>% lapply(function(x) as_dataset(x, col_id = harmonized_col_id))
-  
   
   if(dataschema_apply == TRUE){
     
@@ -2132,9 +2141,9 @@ pooled_harmonized_dataset_create <- function(
   harmonized_dossier <- 
     as_harmonized_dossier(
       object = harmonized_dossier,
-      dataschema = dataschema,
       harmonized_col_id = harmonized_col_id,
       harmonized_col_dataset = harmonized_col_dataset,
+      dataschema = dataschema,
       dataschema_apply = dataschema_apply)
 
   dataschema = attributes(harmonized_dossier)$`Rmonize::DataSchema`

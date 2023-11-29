@@ -132,18 +132,22 @@ harmonized_dossier_visualize <- function(
   if(!is.null(taxonomy)) as_taxonomy(taxonomy)
   
   if(!is.logical(valueType_guess))
-    stop(call. = FALSE,'`valueType_guess` must be TRUE or FALSE (TRUE by default)')
+    stop(call. = FALSE,
+         '`valueType_guess` must be TRUE or FALSE (TRUE by default)')
   
   if(!is.logical(dataschema_apply))
-    stop(call. = FALSE,'`dataschema_apply` must be TRUE or FALSE (TRUE by default)')
+    stop(call. = FALSE,
+         '`dataschema_apply` must be TRUE or FALSE (TRUE by default)')
   
   if(!is.character(bookdown_path))
-    stop(call. = FALSE,'`bookdown_path` must be a character string.')
+    stop(call. = FALSE,
+         '`bookdown_path` must be a character string.')
   
   bookdown_path <- str_squish(bookdown_path)
   path_to <- path_abs(bookdown_path)
   
-  if(dir_exists(path_to)){stop(call. = FALSE,
+  if(dir_exists(path_to)){
+    stop(call. = FALSE,
 "The path folder already exists. 
 Please provide another name folder or delete the existing one.")}
   

@@ -106,10 +106,12 @@ harmonized_dossier_summarize <- function(
   if(!is.null(taxonomy)) as_taxonomy(taxonomy)
   
   if(!is.logical(valueType_guess))
-    stop(call. = FALSE,'`valueType_guess` must be TRUE or FALSE (TRUE by default)')
+    stop(call. = FALSE,
+         '`valueType_guess` must be TRUE or FALSE (TRUE by default)')
   
   if(!is.logical(dataschema_apply))
-    stop(call. = FALSE,'`dataschema_apply` must be TRUE or FALSE (TRUE by default)')
+    stop(call. = FALSE,
+         '`dataschema_apply` must be TRUE or FALSE (TRUE by default)')
 
   # group_by = attributes(pooled_harmonized_dataset)$`Rmonize::harmonized_col_dataset`
   pooled_harmonized_dataset <- 

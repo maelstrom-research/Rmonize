@@ -10,7 +10,7 @@ as_harmonized_dossier(
   data_proc_elem = attributes(object)$`Rmonize::Data Processing Elements`,
   harmonized_col_id = attributes(object)$`Rmonize::harmonized_col_id`,
   harmonized_col_dataset = attributes(object)$`Rmonize::harmonized_col_dataset`,
-  dataschema_apply = FALSE
+  dataschema_apply = TRUE
 )
 }
 \arguments{
@@ -31,7 +31,7 @@ column present in every dataset as identifier of the dataset name.}
 \item{dataschema_apply}{whether to apply the datashema to each
 harmonized dataset. The resulting tibble will have for each column its
 associated meta data as attributes. The factors will be preserved.
-FALSE by default.}
+TRUE by default.}
 }
 \value{
 A list of tibble(s), each of them identifying the harmonized dataset.
@@ -80,7 +80,9 @@ identifier of each dataset to initiate the process of harmonization.
 \examples{
 {
 
-as_harmonized_dossier(object = Rmonize_DEMO$harmonized_dossier)
+as_harmonized_dossier(
+  object = Rmonize_DEMO$harmonized_dossier,
+  dataschema_apply = FALSE)
   
 }
 
