@@ -85,7 +85,6 @@
 #' 
 #' # You can use our demonstration files to run examples
 #' 
-#' library(dplyr)
 #' library(fs)
 #' 
 #' harmonized_dossier <- Rmonize_DEMO$harmonized_dossier
@@ -158,6 +157,22 @@ harmonized_dossier_visualize <- function(
           attributes(pooled_harmonized_dataset)$`Rmonize::harmonized_col_dataset`,
         taxonomy = taxonomy, 
         valueType_guess = valueType_guess)}
+  
+  names(harmonized_dossier_summary) <- 
+    str_replace(names(harmonized_dossier_summary),"Overview",
+    "Harmonization Overview")   
+  names(harmonized_dossier_summary) <- 
+    str_replace(names(harmonized_dossier_summary),"Data dictionary summary",
+    "Harmonized Data dictionary summary")
+  names(harmonized_dossier_summary) <- 
+    str_replace(names(harmonized_dossier_summary),"Data dictionary assessment",
+    "Harmonized Data dictionary assessement")
+  names(harmonized_dossier_summary) <- 
+    str_replace(names(harmonized_dossier_summary),"Dataset assessment",
+    "Harmonized Dataset assessment")
+  names(harmonized_dossier_summary) <- 
+    str_replace(names(harmonized_dossier_summary),"Variables summary \\(all\\)",
+    "Harmonized Variables summary (all)")
   
   dataset_visualize(
     dataset = pooled_harmonized_dataset,

@@ -121,7 +121,7 @@ harmonized_dossier_summarize <- function(
       data_proc_elem = data_proc_elem,
       dataschema = dataschema)
   
-  report <-
+  harmonized_dossier_summary <-
     dataset_summarize(
       dataset = pooled_harmonized_dataset,
       group_by = 
@@ -129,16 +129,21 @@ harmonized_dossier_summarize <- function(
       taxonomy = taxonomy, 
       valueType_guess = valueType_guess)
   
-  names(report) <- str_replace(names(report),"Overview",
-                              "Harmonization Overview")   
-  names(report) <- str_replace(names(report),"Data dictionary summary",
-                              "Harmonized Data dictionary summary")
-  names(report) <- str_replace(names(report),"Data dictionary assessment",
-                              "Harmonized Data dictionary assessement")
-  names(report) <- str_replace(names(report),"Dataset assessment",
-                              "Harmonized Dataset assessment")
-  names(report) <- str_replace(names(report),"Variables summary \\(all\\)",
-                              "Harmonized Variables summary (all)")
+  names(harmonized_dossier_summary) <- 
+    str_replace(names(harmonized_dossier_summary),"Overview",
+                "Harmonization Overview")   
+  names(harmonized_dossier_summary) <- 
+    str_replace(names(harmonized_dossier_summary),"Data dictionary summary",
+                "Harmonized Data dictionary summary")
+  names(harmonized_dossier_summary) <- 
+    str_replace(names(harmonized_dossier_summary),"Data dictionary assessment",
+                "Harmonized Data dictionary assessement")
+  names(harmonized_dossier_summary) <- 
+    str_replace(names(harmonized_dossier_summary),"Dataset assessment",
+                "Harmonized Dataset assessment")
+  names(harmonized_dossier_summary) <- 
+    str_replace(names(harmonized_dossier_summary),"Variables summary \\(all\\)",
+                "Harmonized Variables summary (all)")
 
-  return(report)
+  return(harmonized_dossier_summary)
 }

@@ -102,7 +102,6 @@ possibilities and their correspondence with R data types are available using
 
 # You can use our demonstration files to run examples
 
-library(dplyr)
 library(fs)
 
 harmonized_dossier <- Rmonize_DEMO$harmonized_dossier
