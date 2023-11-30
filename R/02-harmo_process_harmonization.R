@@ -422,13 +422,13 @@ bold(i)," -----------------------------------------------------"),1,81))
     dossier[[i]][id_row$input_variables] <- 
       dossier[[i]][id_row$input_variables] %>% 
       mutate(
-        across(all_of(var_id) , ~ 
+        across(all_of(id_row$input_variables) , ~ 
         str_remove_all(.,pattern = '^[^\\}\\:\\:]*\\}\\:\\:')))
     
     harmonized_dossier[[i]][id_row$output_variable] <-
       harmonized_dossier[[i]][id_row$output_variable] %>% 
       mutate(
-        across(all_of(var_id) , ~ 
+        across(all_of(id_row$output_variable) , ~ 
         str_remove_all(.,pattern = '^[^\\}\\:\\:]*\\}\\:\\:')))
   }
   
