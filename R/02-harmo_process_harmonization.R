@@ -88,9 +88,9 @@
 #' @export
 harmo_process <- function(
     dossier, 
-    dataschema = attributes(dossier)$`Rmonize::DataSchema`, 
-    data_proc_elem = attributes(dossier)$`Rmonize::Data Processing Elements`,
-    harmonized_col_dataset = attributes(dossier)$`Rmonize::harmonized_col_dataset`
+    dataschema = dataschema_extract(data_proc_elem), 
+    data_proc_elem,
+    harmonized_col_dataset = NULL
     ){
   
   # future dev
@@ -154,16 +154,13 @@ harmo_process <- function(
   names(dpe) <- sort(unique(bind_rows(dpe)$input_dataset))
 
 
-  if(is.null(dataschema)){
-    dataschema <- dataschema_extract(data_proc_elem)
-  }else{
-    vars <- extract_var(unique(data_proc_elem$dataschema_variable))
-    dataschema <- 
-      data_dict_filter(
-        dataschema,filter_var = 
-          paste0(c("name %in% c('",paste0(vars,collapse = "','"),"')"),
-                 collapse = "")) %>%
-      as_dataschema(as_dataschema_mlstr = TRUE)}
+  vars <- extract_var(unique(data_proc_elem$dataschema_variable))
+  dataschema <- 
+    data_dict_filter(
+      dataschema,filter_var = 
+        paste0(c("name %in% c('",paste0(vars,collapse = "','"),"')"),
+               collapse = "")) %>%
+    as_dataschema(as_dataschema_mlstr = TRUE)
   
   if(!is.null(harmonized_col_dataset)){
     

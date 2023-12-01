@@ -6,9 +6,9 @@
 \usage{
 harmo_process(
   dossier,
-  dataschema = attributes(dossier)$`Rmonize::DataSchema`,
-  data_proc_elem = attributes(dossier)$`Rmonize::Data Processing Elements`,
-  harmonized_col_dataset = attributes(dossier)$`Rmonize::harmonized_col_dataset`
+  dataschema = dataschema_extract(data_proc_elem),
+  data_proc_elem,
+  harmonized_col_dataset = NULL
 )
 }
 \arguments{
