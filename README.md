@@ -10,12 +10,12 @@
 
 # Overview
 
-Harmonizing data (evaluating and processing, where relevant, data items
-from different studies or datasets under a common format) is essential
-to <b style="color:red">epidemiology research</b> but can be
-methodologically and technically challenging. Rmonize was developed by
-<a href="https://www.maelstrom-research.org/" target="_blank"> Maelstrom
-Research</a> to address some of the key challenges faced and support a
+Harmonizing data (processing data items from different datasets under a
+common format) is essential to support research but can be
+methodologically and technically challenging. Rmonize is an R package
+developed by
+<a href="https://www.maelstrom-research.org/" target="_blank">Maelstrom
+Research</a> to address some of the key challenges faced and promote a
 streamlined, reusable, and well documented harmonization pipeline. The
 current documentation provides a starting point to use the package.
 
@@ -28,28 +28,32 @@ style="width: 50%; margin: 0 auto; display: flex; justify-content: center;">
 
 <br>
 
-To support organized and well documented harmonization, Rmonize includes
-functions to prepare and validate the required input datasets and
-metadata, generate harmonized datasets and metadata, evaluate data
-processing, and produce reports to help assess harmonized data content
-and quality.  
 Data processing in Rmonize depends on three external user-provided
-elements: the input datasets, DataSchema (list of core variables to
-generate across datasets), and Data Processing Elements. The DataSchema
-and Data Processing Elements are prepared in spreadsheets that can be
-easily modified and shared outside of R. Templates can be downloaded
-here. Rmonize uses two underlying packages,
+elements: the input datasets (datasets collected by individual studies
+or data collection centres), DataSchema (list of core variables to
+generate across input datasets), and Data Processing Elements (elements
+and algorithms needed to process variables from input datasets into
+DataSchema formats). The DataSchema and Data Processing Elements are
+prepared in Excel spreadsheets and imported into R, and they can be
+easily modified and shared outside of R. The package includes integrated
+functions to support organized data processing and generate well
+documented outputs. These functions help to prepare and validate inputs,
+process input datasets into harmonized datasets, identify and
+troubleshoot errors in processing elements, and produce documentation to
+help users evaluate harmonized data content and quality. The main
+outputs provided by Rmonize are the harmonized datasets, their
+associated data dictionaries, and reports with descriptive statistics,
+provided in summary tables or figures. Rmonize also uses two underlying
+packages,
 <a href="https://cran.r-project.org/web/packages/madshapR/index.html" 
 target="_blank">madshapR</a> and
 <a href="https://cran.r-project.org/web/packages/fabR/index.html" 
 target="_blank">fabR</a>, which include many functions to work with data
-and metadata. Functions required by Rmonize are automatically loaded and
-accessible to the user without loading madshapR and fabR, but these
-packages include additional useful functions for data processing.
+and metadata. The specific functions required by Rmonize are
+automatically loaded and accessible to the user without separately
+loading madshapR and fabR.
 
-# Get started
-
-## Install the package
+# Installation
 
 ``` r
 # To install the R package:
@@ -58,13 +62,30 @@ install.packages('Rmonize')
 library(Rmonize)
 # If you need help with the package, please use:
 Rmonize_help()
+
+# Downloadable templates are available here
+Rmonize_templates()
+
+# Demo files are available here, along with an online demonstration process 
+Rmonize_DEMO()
 ```
 
-## Annexes
+## Getting started
 
-[Glossary and templates](articles/a-Glossary-and-templates.html)
+For more information, you can go to: • Documentation on Rmonize
+functions and help pages. • Descriptions of key terms and downloadable
+templates (for DataSchema, Data Processing Elements, data dictionaries).
+• Explanation of how to prepare the Data Processing Elements. • Example
+scripts with demo files.
 
-[How to fill the Data Processing
+[Documentation on Rmonize functions and help pages](references.html)
+
+[Descriptions of key terms and downloadable
+templates](articles/a-Glossary-and-templates.html) (for DataSchema, Data
+Processing Elements, data dictionaries)
+
+[Explanation of how to prepare the Data Processing
 Elements](articles/b-The-Data-processing-elements.html)
 
-[Example with DEMO files](articles/c-Example-with-DEMO-files.html)
+[Example scripts with demo
+files](articles/c-Example-with-DEMO-files.html)
