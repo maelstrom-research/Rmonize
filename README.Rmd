@@ -63,7 +63,7 @@ and accessible to the user without separately loading madshapR and fabR.
 # Installation
 
 ```{r, eval=FALSE}
-# To install the R package:
+# To install Rmonize:
 install.packages('Rmonize')
 
 library(Rmonize)
@@ -82,18 +82,13 @@ Rmonize_DEMO()
 ## Getting started
 
 For more information, you can go to:
-•	Documentation on Rmonize functions and help pages.
-•	Descriptions of key terms and downloadable templates (for DataSchema, 
-Data Processing Elements, data dictionaries).
-•	Explanation of how to prepare the Data Processing Elements.
-•	Example scripts with demo files.
 
-[Documentation on Rmonize functions and help pages](references.html)
+[Documentation on Rmonize functions and help pages.](references.html)
 
-[Descriptions of key terms and downloadable templates](articles/a-Glossary-and-templates.html)
+[Descriptions of key terms and downloadable templates.](articles/a-Glossary-and-templates.html)
 (for DataSchema, Data Processing Elements, data dictionaries)
 
-[Explanation of how to prepare the Data Processing Elements](articles/b-The-Data-processing-elements.html)
+[Explanation of how to prepare the Data Processing Elements.](articles/b-The-Data-processing-elements.html)
 
-[Example scripts with demo files](articles/c-Example-with-DEMO-files.html)
+[Example scripts with demo files.](articles/c-Example-with-DEMO-files.html)
 
