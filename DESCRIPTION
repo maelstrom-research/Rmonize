@@ -1,7 +1,7 @@
 Package: Rmonize
 Type: Package
 Title: Support Data Harmonization Following 'Maelstrom Research' Guidelines
-Version: 1.0.1.0002
+Version: 1.0.1.0003
 Authors@R: 
     c(person(given = "Guillaume",
              family = "Fabre",
@@ -10,21 +10,6 @@ Authors@R:
              comment = c(ORCID = "0000-0002-0124-9970")),
       person("Maelstrom-research",
              role=c("fnd")),
-      person("ReACH (Research Advancement through Cohort Cataloguing and Harmonization)",
-             role=c("fnd")),
-      person("CITF (COVID-19 Immunity Task Force)",
-             role=c("fnd")),
-      person("EUCAN-connect",
-             role=c("fnd")),
-      person(given = "Alexandre",
-             family = "Trottier",
-             role=c("ctb")),
-      person(given = "Tina",
-             family = "Wey",
-             role=c("ctb")),
-      person(given = "Samuel",
-             family = "El Bouzaïdi Tiali",
-             role=c("ctb")))
 Maintainer: Guillaume Fabre <guijoseph.fabre@gmail.com> 
 Description: Functions to support rigorous retrospective data harmonization 
     processing, evaluation, and documentation across datasets from different 
