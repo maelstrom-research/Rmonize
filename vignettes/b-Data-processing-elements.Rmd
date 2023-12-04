@@ -27,19 +27,13 @@ source('datatables.R')
 
 # What is the Data Processing Elements ?
 
-The Data Processing Elements (**DPE**) is a table that gathers all the harmonization 
-rules used to create each variable defined in the DataSchema. This table is 
-typically an Excel spreadsheet where each row indicates how the 
-input variables are processed to generate a harmonized variable. 
-Once this table is filled, it is used in the 
-[harmo_process()](../reference/harmo_process.html) function along 
-with the other two parameters (data_schema and dossier) to create the 
-harmonized_dossier. If harmonization cannot be performed correctly due to errors 
-in the DPE, the harmonized_dossier generated can be sent to the 
-[show_harmo_error()](../reference/show_harmo_error.html) function, 
-allowing the user to correct the DPE and restart 
-the process.
-
+The Data Processing Elements (**DPE**) is a table that defines and documents 
+information about the processing used to generate harmonized datasets and is 
+typically prepared in an Excel spreadsheet. Each row indicates if an 
+input dataset can generate a DataSchema variable, and if so, how input variables 
+are processed to generate a harmonized variable as defined in the DataSchema. 
+This page explains the basic methods to fill out the DPEs in order to be used 
+correctly by Rmonize functions.
 
 # General structure of the DPE 
 
