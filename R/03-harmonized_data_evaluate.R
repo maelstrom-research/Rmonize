@@ -1,53 +1,51 @@
 #' @title
-#' Generate a report of a harmonized dossier (list of harmonized datasets)
+#' Generate an assessment report for a harmonized dossier
 #'
 #' @description
-#' Assesses the content and structure of a harmonized dossier object (list of 
-#' harmonized datasets) and reports possible issues in the datasets and 
-#' data dictionaries  to facilitate assessment of input data. The report can be 
-#' used to help assess data structure, presence of fields, coherence across 
-#' elements, and taxonomy or data dictionary formats. This report is compatible 
-#' with Excel and can be exported as an Excel spreadsheet.
+#' Assesses the content and structure of a harmonized dossier and generates 
+#' reports of the results. This function can be used to evaluate data structure, 
+#' presence of specific fields, coherence across elements, and data dictionary 
+#' formats.
 #'
 #' @details
-#' A harmonized dossier must be a named list containing at least one data frame 
-#' or data frame extension (e.g. a tibble), each of them being 
-#' harmonized dataset(s). It is generally the product of applying harmonization 
-#' processing to a dossier object. The name of each tibble will be use as the 
-#' reference name of the dataset. A harmonized dossier has four attributes :
-#' `Rmonize::class` which is "harmonized_dossier" ; `Rmonize::DataSchema` 
-#' (provided by user) ; `Rmonize::Data Processing Elements` ; 
-#' `Rmonize::harmonized_col_id` (provided by user) which refers to the column 
-#' in each dataset which identifies unique combination observation/dataset. 
-#' This id column name is the same across the dataset(s), the DataSchema and 
-#' the Data Processing Elements (created by using 'id_creation') and is used to 
-#' initiate the process of harmonization.
+#' A harmonized dossier is a named list containing one or more data frames, 
+#' which are harmonized datasets. A harmonized dossier is generally the 
+#' product of applying processing to a dossier object The name of each 
+#' harmonized dataset (data frame) is taken from the reference input dataset. 
+#' A harmonized dossier also contains the DataSchema and 
+#' Data Processing Elements used in processing as attributes.
+#' 
+#' A DataSchema is the list of core variables to generate across datasets and 
+#' related metadata. A DataSchema object is a list of data frames with elements 
+#' named 'Variables' (required) and 'Categories' (if any). The 'Variables' 
+#' element must contain at least the `name` column, and the 'Categories' 
+#' element must contain at least the `variable` and `name` columns to be usable 
+#' in any function. In 'Variables' the `name` column must also have unique 
+#' entries, and in 'Categories' the combination of `variable` and `name` columns 
+#' must also be unique. 
 #'
-#' A taxonomy is classification scheme that can be defined for variable 
-#' attributes. If defined, a taxonomy must be a data frame like object. It must 
-#' be compatible with (and is generally extracted from) an Opal environment. To 
-#' work with certain functions, a valid taxonomy must contain at least the 
-#' columns 'taxonomy', 'vocabulary', and 'terms'. In addition, the taxonomy
-#' may follow Maelstrom research taxonomy, and its content can be evaluated
-#' accordingly, such as naming convention restriction, tagging elements,
-#' or scales, which are specific to Maelstrom Research. In this particular
-#' case, the tibble must also contain 'vocabulary_short', 'taxonomy_scale',
-#' 'vocabulary_scale' and 'term_scale' to work with some specific functions.
+#' A taxonomy is a classification schema that can be defined for variable 
+#' attributes. A taxonomy is usually extracted from an 
+#' [Opal environment](https://www.obiba.org/pages/products/opal/), and a 
+#' taxonomy object is a data frame that must contain at least the columns 
+#' `taxonomy`, `vocabulary`, and `terms`. Additional details about Opal 
+#' taxonomies are 
+#' [available online](https://opaldoc.obiba.org/en/latest/web-user-guide/administration/taxonomies.html).
+#' 
+#' The object may be specifically formatted to be compatible with additional 
+#' [Maelstrom Research software](https://maelstrom-research.org/page/software), 
+#' in particular [Opal environments](https://www.obiba.org/pages/products/opal).
 #'
-#' @param harmonized_dossier List of tibble(s), each of them being 
-#' harmonized dataset.
-#' @param taxonomy A tibble identifying the scheme used for variables 
-#' classification.
-#' @param dataschema A list of tibble(s) representing metadata of an 
-#' associated harmonized dossier.
-#' @param as_dataschema_mlstr Whether the output data dictionary has a simple
-#' data dictionary structure or not (meaning has a Maelstrom data dictionary
-#' structure, compatible with Maelstrom Research ecosystem, including Opal). 
-#' TRUE by default.
+#' @param harmonized_dossier A list containing the harmonized dataset(s).
+#' @param taxonomy An optional data frame identifying a variable 
+#' classification schema.
+#' @param dataschema A DataSchema object.
+#' @param as_dataschema_mlstr Whether the output DataSchema should be coerced 
+#' with specific format restrictions for compatibility with other 
+#' Maelstrom Research software. TRUE by default.
 #'
 #' @returns
-#' A list of report(s), each of them being tibble(s) ('Overview and summary)
-#' for each harmonized dataset.
+#' A list of data frames containing assessment reports for each harmonized dataset.
 #'
 #' @examples
 #' {
@@ -106,46 +104,39 @@ harmonized_dossier_evaluate <- function(
 }
 
 #' @title
-#' Generate a quality assessment report of a Data Processing Elements
+#' Generate an assessment report for Data Processing Elements
 #'
 #' @description
 #' `r lifecycle::badge("experimental")`
-#' Function that assesses the content and structure of a 
-#' Data Processing Elements object and reports possible issues to facilitate 
-#' assessment of input data. The report can be used to help assess 
-#' data structure, presence of fields, coherence across elements, and taxonomy 
-#' or data dictionary formats. This report is compatible with Excel and can be 
-#' exported as an Excel spreadsheet.
+#' Assesses the content and structure of a Data Processing Elements object and 
+#' generates reports of the results. This function can be used to evaluate data 
+#' structure, presence of specific fields, coherence across elements, and data 
+#' dictionary formats.
 #'
 #' @details
-#' A Data Processing Elements contains the rules and metadata that will be used 
-#' to perform harmonization of input datasets in accordance with the DataSchema. 
-#' It must be a data frame or data frame extension (e.g. a tibble) and it must 
-#' contain certain columns which participate to the process, including the 
-#' `dataschema_variable`, `input_dataset`,`input_variables`, 
-#' `Mlstr_harmo::rule_category` and  `Mlstr_harmo::algorithm`. The mandatory 
-#' first processing element must be "id_creation" in 
-#' `Mlstr_harmo::rule_category` followed by the name of the column taken as 
-#' identifier of each dataset to initiate the process of harmonization.
+#' The Data Processing Elements specifies the algorithms used to process input 
+#' variables into harmonized variables in the DataSchema format. It is also 
+#' contains metadata used to generate documentation of the processing.
+#' A Data Processing Elements object is a data frame with specific columns 
+#' used in data processing: `dataschema_variable`, `input_dataset`, 
+#' `input_variables`, `Mlstr_harmo::rule_category` and `Mlstr_harmo::algorithm`. 
+#' To initiate processing, the first entry must be the creation of a harmonized 
+#' primary identifier variable (e.g., participant unique ID).
 #'
-#' A taxonomy is classification scheme that can be defined for variable 
-#' attributes. If defined, a taxonomy must be a data frame like object. It must 
-#' be compatible with (and is generally extracted from) an Opal environment. To 
-#' work with certain functions, a valid taxonomy must contain at least the 
-#' columns 'taxonomy', 'vocabulary', and 'terms'. In addition, the taxonomy
-#' may follow Maelstrom research taxonomy, and its content can be evaluated
-#' accordingly, such as naming convention restriction, tagging elements,
-#' or scales, which are specific to Maelstrom Research. In this particular
-#' case, the tibble must also contain 'vocabulary_short', 'taxonomy_scale',
-#' 'vocabulary_scale' and 'term_scale' to work with some specific functions.
+#' A taxonomy is a classification schema that can be defined for variable 
+#' attributes. A taxonomy is usually extracted from an 
+#' [Opal environment](https://www.obiba.org/pages/products/opal/), and a 
+#' taxonomy object is a data frame that must contain at least the columns 
+#' `taxonomy`, `vocabulary`, and `terms`. Additional details about Opal 
+#' taxonomies are 
+#' [available online](https://opaldoc.obiba.org/en/latest/web-user-guide/administration/taxonomies.html).
 #'
-#' @param data_proc_elem A tibble, identifying the input 
-#' Data Processing Elements.
-#' @param taxonomy A tibble identifying the scheme used for variables 
-#' classification.
+#' @param data_proc_elem A Data Processing Elements object.
+#' @param taxonomy An optional data frame identifying a variable 
+#' classification schema.
 #'
 #' @returns
-#' A list of tibbles of report for one Data Processing Elements.
+#' A list of data frames containing assessment reports.
 #'
 #' @examples
 #' {
@@ -161,7 +152,7 @@ harmonized_dossier_evaluate <- function(
 #' @importFrom rlang .data
 #' @importFrom crayon bold
 #'
-#' @export
+#' @noRd
 data_proc_elem_evaluate <- function(data_proc_elem, taxonomy = NULL){
 
   data_proc_elem <- 
@@ -287,45 +278,38 @@ data_proc_elem_evaluate <- function(data_proc_elem, taxonomy = NULL){
 }
 
 #' @title
-#' Generate a quality assessment report of the DataSchema
+#' Generate an assessment report for a DataSchema
 #'
 #' @description
-#' Assesses the content and structure of a DataSchema and reports potential
-#' issues to facilitate the assessment of input data. The report can be used to 
-#' help assess data structure, presence of fields, coherence across elements, 
-#' and taxonomy or data dictionary formats. This report is compatible with Excel 
-#' and can be exported as an Excel spreadsheet.
+#' Assesses the content and structure of a DataSchema object and generates 
+#' reports of the results. This function can be used to evaluate data structure, 
+#' presence of specific fields, coherence across elements, and data dictionary 
+#' formats.
 #'
 #' @details
-#' A DataSchema defines the harmonized variables to be generated, and also 
-#' represents metadata of an associated harmonized dossier. It must be a list 
-#' of data frame or data frame extension (e.g. a tibble) objects with elements 
-#' named "Variables" (required) and "Categories" (if any). The "Variables" 
-#' element must contain at least the `name` column, and the "Categories" element 
-#' must contain at least the `variable` and `name` columns to be usable in any 
-#' function. To be considered as a minimum workable DataSchema, in "Variables" 
-#' the `name` column must also have unique and non-null entries, and in 
-#' "Categories" the combination of `variable` and `name` columns must also be 
-#' unique.
+#' A DataSchema is the list of core variables to generate across datasets and 
+#' related metadata. A DataSchema object is a list of data frames with elements 
+#' named 'Variables' (required) and 'Categories' (if any). The 'Variables' 
+#' element must contain at least the `name` column, and the 'Categories' 
+#' element must contain at least the `variable` and `name` columns to be usable 
+#' in any function. In 'Variables' the `name` column must also have unique 
+#' entries, and in 'Categories' the combination of `variable` and `name` columns 
+#' must also be unique. 
 #' 
-#' A taxonomy is classification scheme that can be defined for variable 
-#' attributes. If defined, a taxonomy must be a data frame like object. It must 
-#' be compatible with (and is generally extracted from) an Opal environment. To 
-#' work with certain functions, a valid taxonomy must contain at least the 
-#' columns 'taxonomy', 'vocabulary', and 'terms'. In addition, the taxonomy
-#' may follow Maelstrom research taxonomy, and its content can be evaluated
-#' accordingly, such as naming convention restriction, tagging elements,
-#' or scales, which are specific to Maelstrom Research. In this particular
-#' case, the tibble must also contain 'vocabulary_short', 'taxonomy_scale',
-#' 'vocabulary_scale' and 'term_scale' to work with some specific functions.
+#' A taxonomy is a classification schema that can be defined for variable 
+#' attributes. A taxonomy is usually extracted from an 
+#' [Opal environment](https://www.obiba.org/pages/products/opal/), and a 
+#' taxonomy object is a data frame that must contain at least the columns 
+#' `taxonomy`, `vocabulary`, and `terms`. Additional details about Opal 
+#' taxonomies are 
+#' [available online](https://opaldoc.obiba.org/en/latest/web-user-guide/administration/taxonomies.html).
 #'
-#' @param dataschema A list of tibble(s) representing metadata of an 
-#' associated harmonized dossier.
-#' @param taxonomy A tibble identifying the scheme used for variables 
-#' classification.
+#' @param dataschema A DataSchema object.
+#' @param taxonomy An optional data frame identifying a variable 
+#' classification schema.
 #'
 #' @returns
-#' A list of tibbles of report for the DataSchema.
+#' A list of data frames containing assessment reports.
 #'
 #' @examples
 #' {

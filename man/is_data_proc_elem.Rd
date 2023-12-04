@@ -2,31 +2,30 @@
 % Please edit documentation in R/02-harmo_process_harmonization.R
 \name{is_data_proc_elem}
 \alias{is_data_proc_elem}
-\title{Test if an object is a valid Data Processing Elements}
+\title{Test for a valid Data Processing Elements object}
 \usage{
 is_data_proc_elem(object)
 }
 \arguments{
-\item{object}{A potential DataSchema to be evaluated.}
+\item{object}{A potential Data Processing Elements object to be evaluated.}
 }
 \value{
 A logical.
 }
 \description{
-Tests if the input object is a valid Data Processing Elements. This function
+Tests if the input is a valid Data Processing Elements object. This function
 mainly helps validate input within other functions of the package but could
 be used to check if an object is valid for use in a function.
 }
 \details{
-A Data Processing Elements contains the rules and metadata that will be used
-to perform harmonization of input datasets in accordance with the DataSchema.
-It must be a data frame or data frame extension (e.g. a tibble) and it must
-contain certain columns which participate to the process, including the
-\code{dataschema_variable}, \code{input_dataset},\code{input_variables},
-\code{Mlstr_harmo::rule_category} and  \code{Mlstr_harmo::algorithm}. The mandatory
-first processing element must be "id_creation" in
-\code{Mlstr_harmo::rule_category} followed by the name of the column taken as
-identifier of each dataset to initiate the process of harmonization.
+The Data Processing Elements specifies the algorithms used to process input
+variables into harmonized variables in the DataSchema format. It is also
+contains metadata used to generate documentation of the processing.
+A Data Processing Elements object is a data frame with specific columns
+used in data processing: \code{dataschema_variable}, \code{input_dataset},
+\code{input_variables}, \code{Mlstr_harmo::rule_category} and \code{Mlstr_harmo::algorithm}.
+To initiate processing, the first entry must be the creation of a harmonized
+primary identifier variable (e.g., participant unique ID).
 }
 \examples{
 {
@@ -39,7 +38,4 @@ is_data_proc_elem(iris)
 
 }
 
-}
-\seealso{
-For a better assessment, please use \code{\link[=data_proc_elem_evaluate]{data_proc_elem_evaluate()}}.
 }

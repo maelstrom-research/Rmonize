@@ -2,32 +2,30 @@
 % Please edit documentation in R/02-harmo_process_harmonization.R
 \name{is_dataschema}
 \alias{is_dataschema}
-\title{Test if an object is a valid DataSchema}
+\title{Test for a valid DataSchema object}
 \usage{
 is_dataschema(object)
 }
 \arguments{
-\item{object}{A potential DataSchema to be evaluated.}
+\item{object}{A potential DataSchema object to be evaluated.}
 }
 \value{
 A logical.
 }
 \description{
-Tests if the input object is a valid DataSchema. This function mainly
-helps validate input within other functions of the package but could be used
-to check if an object is valid for use in a function.
+Tests if the input is a valid DataSchema object. This function mainly helps
+validate input within other functions of the package but could be used to
+check if an object is valid for use in a function.
 }
 \details{
-A DataSchema defines the harmonized variables to be generated, and also
-represents metadata of an associated harmonized dossier. It must be a list
-of data frame or data frame extension (e.g. a tibble) objects with elements
-named "Variables" (required) and "Categories" (if any). The "Variables"
-element must contain at least the \code{name} column, and the "Categories" element
-must contain at least the \code{variable} and \code{name} columns to be usable in any
-function. To be considered as a minimum workable DataSchema, in "Variables"
-the \code{name} column must also have unique and non-null entries, and in
-"Categories" the combination of \code{variable} and \code{name} columns must also be
-unique.
+A DataSchema is the list of core variables to generate across datasets and
+related metadata. A DataSchema object is a list of data frames with elements
+named 'Variables' (required) and 'Categories' (if any). The 'Variables'
+element must contain at least the \code{name} column, and the 'Categories'
+element must contain at least the \code{variable} and \code{name} columns to be usable
+in any function. In 'Variables' the \code{name} column must also have unique
+entries, and in 'Categories' the combination of \code{variable} and \code{name} columns
+must also be unique.
 }
 \examples{
 {

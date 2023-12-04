@@ -2,7 +2,7 @@
 % Please edit documentation in R/02-harmo_process_harmonization.R
 \name{as_harmonized_dossier}
 \alias{as_harmonized_dossier}
-\title{Validate and coerce any object as an harmonized dossier}
+\title{Validate and coerce as a harmonized dossier object}
 \usage{
 as_harmonized_dossier(
   object,
@@ -10,79 +10,76 @@ as_harmonized_dossier(
   data_proc_elem = attributes(object)$`Rmonize::Data Processing Elements`,
   harmonized_col_id = attributes(object)$`Rmonize::harmonized_col_id`,
   harmonized_col_dataset = attributes(object)$`Rmonize::harmonized_col_dataset`,
-  dataschema_apply = TRUE
+  harmonized_data_dict_apply = FALSE
 )
 }
 \arguments{
-\item{object}{A potential harmonized dossier to be coerced.}
+\item{object}{A A potential harmonized dossier object to be coerced.}
 
-\item{dataschema}{A list of tibble(s) representing metadata of an
-associated harmonized dossier.}
+\item{dataschema}{A DataSchema object.}
 
-\item{data_proc_elem}{A tibble, identifying the input
-Data Processing Elements.}
+\item{data_proc_elem}{A Data Processing Elements object.}
 
 \item{harmonized_col_id}{A character string identifying the name of the
-column present in every dataset as identifier of each observation.}
+column present in every datase to use as a dataset identifier.}
 
-\item{harmonized_col_dataset}{A character string identifying the name of the
-column present in every dataset as identifier of the dataset name.}
+\item{harmonized_col_dataset}{A character string identifying the column
+to use for dataset names.}
 
-\item{dataschema_apply}{whether to apply the datashema to each
-harmonized dataset. The resulting tibble will have for each column its
-associated meta data as attributes. The factors will be preserved.
-TRUE by default.}
+\item{harmonized_data_dict_apply}{Whether to apply the datashema to each
+harmonized dataset. FALSE by default.}
 }
 \value{
-A list of tibble(s), each of them identifying the harmonized dataset.
+A list of data frame(s), containing harmonized dataset(s).
+The DataSchema and Data Processing Elements are preserved as attributes of
+the output harmonized dossier.
 }
 \description{
-Validates the input object as a valid harmonized dossier and coerces it with
-the appropriate Rmonize::class attribute. This function mainly helps
-validate input within other functions of the package but could be used to
-check if an object is valid for use in a function.
+Checks if an object is a valid harmonized dossier and returns it with the
+appropriate \code{Rmonize::class} attribute. This function mainly helps validate
+inputs within other functions of the package but could be used separately to
+ensure that an object has an appropriate structure. The function
+has two arguments that can optionally be declared by the user
+(\code{unique_col_dataset} and \code{unique_col_id}). \code{unique_col_dataset} refers to
+the columns which contains name of each harmonized dataset. \code{unique_col_id}
+refers to the column in harmonized datasets which identifies unique
+combinations of observation/dataset. These two columns are added to ensure
+that there is always a unique entity identifier when datasets are pooled.
 }
 \details{
-A harmonized dossier must be a named list containing at least one data frame
-or data frame extension (e.g. a tibble), each of them being
-harmonized dataset(s). It is generally the product of applying harmonization
-processing to a dossier object. The name of each tibble will be use as the
-reference name of the dataset. A harmonized dossier has four attributes :
-\code{Rmonize::class} which is "harmonized_dossier" ; \code{Rmonize::DataSchema}
-(provided by user) ; \verb{Rmonize::Data Processing Elements} ;
-\code{Rmonize::harmonized_col_id} (provided by user) which refers to the column
-in each dataset which identifies unique combination observation/dataset.
-This id column name is the same across the dataset(s), the DataSchema and
-the Data Processing Elements (created by using 'id_creation') and is used to
-initiate the process of harmonization.
+A harmonized dossier is a named list containing one or more data frames,
+which are harmonized datasets. A harmonized dossier is generally the
+product of applying processing to a dossier object The name of each
+harmonized dataset (data frame) is taken from the reference input dataset.
+A harmonized dossier also contains the DataSchema and
+Data Processing Elements used in processing as attributes.
 
-A DataSchema defines the harmonized variables to be generated, and also
-represents metadata of an associated harmonized dossier. It must be a list
-of data frame or data frame extension (e.g. a tibble) objects with elements
-named "Variables" (required) and "Categories" (if any). The "Variables"
-element must contain at least the \code{name} column, and the "Categories" element
-must contain at least the \code{variable} and \code{name} columns to be usable in any
-function. To be considered as a minimum workable DataSchema, in "Variables"
-the \code{name} column must also have unique and non-null entries, and in
-"Categories" the combination of \code{variable} and \code{name} columns must also be
-unique.
+A harmonized data dictionary contains the list of variables and metadata
+about the variables and can be associated with each dataset in a
+harmonized dossier.
 
-A Data Processing Elements contains the rules and metadata that will be used
-to perform harmonization of input datasets in accordance with the DataSchema.
-It must be a data frame or data frame extension (e.g. a tibble) and it must
-contain certain columns which participate to the process, including the
-\code{dataschema_variable}, \code{input_dataset},\code{input_variables},
-\code{Mlstr_harmo::rule_category} and  \code{Mlstr_harmo::algorithm}. The mandatory
-first processing element must be "id_creation" in
-\code{Mlstr_harmo::rule_category} followed by the name of the column taken as
-identifier of each dataset to initiate the process of harmonization.
+A DataSchema is the list of core variables to generate across datasets and
+related metadata. A DataSchema object is a list of data frames with elements
+named 'Variables' (required) and 'Categories' (if any). The 'Variables'
+element must contain at least the \code{name} column, and the 'Categories'
+element must contain at least the \code{variable} and \code{name} columns to be usable
+in any function. In 'Variables' the \code{name} column must also have unique
+entries, and in 'Categories' the combination of \code{variable} and \code{name} columns
+must also be unique.
+
+The Data Processing Elements specifies the algorithms used to process input
+variables into harmonized variables in the DataSchema format. It is also
+contains metadata used to generate documentation of the processing.
+A Data Processing Elements object is a data frame with specific columns
+used in data processing: \code{dataschema_variable}, \code{input_dataset},
+\code{input_variables}, \code{Mlstr_harmo::rule_category} and \code{Mlstr_harmo::algorithm}.
+To initiate processing, the first entry must be the creation of a harmonized
+primary identifier variable (e.g., participant unique ID).
 }
 \examples{
 {
 
-as_harmonized_dossier(
-  object = Rmonize_DEMO$harmonized_dossier,
-  dataschema_apply = FALSE)
+as_harmonized_dossier(Rmonize_DEMO$harmonized_dossier)
   
 }
 

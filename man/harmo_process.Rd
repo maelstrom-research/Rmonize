@@ -2,7 +2,7 @@
 % Please edit documentation in R/02-harmo_process_harmonization.R
 \name{harmo_process}
 \alias{harmo_process}
-\title{Generate harmonized dataset(s) and annotated Data Processing Elements}
+\title{Generate harmonized dataset(s) and associated metadata}
 \usage{
 harmo_process(
   dossier,
@@ -12,66 +12,56 @@ harmo_process(
 )
 }
 \arguments{
-\item{dossier}{List of tibble(s), each of them being datasets to be
-harmonized.}
+\item{dossier}{List of data frame(s) containing input dataset(s).}
 
-\item{dataschema}{A list of tibble(s) representing metadata of an
-associated harmonized dossier.}
+\item{dataschema}{A DataSchema object.}
 
-\item{data_proc_elem}{A tibble, identifying the input
-Data Processing Elements.}
+\item{data_proc_elem}{A Data Processing Elements object.}
 
-\item{harmonized_col_dataset}{A character string identifying the name of the
-column present in every dataset as identifier of the dataset name.}
+\item{harmonized_col_dataset}{A character string identifying the column
+to use for dataset names. NULL by default.}
 }
 \value{
-A list of tibbles of each harmonized dataset that has been harmonized from
-input datataset.
+A list of data frame(s), containing harmonized dataset(s). The DataSchema
+and Data Processing Elements are preserved as attributes of the
+output harmonized dossier.
 }
 \description{
-Reads the DataSchema and Data Processing Elements objects to generate
-harmonized dataset(s) and annotated Data Processing Elements object with
-harmonization statuses and any processing errors. The function uses
-the DataSchema and Data Processing Elements specifications to process
-input variables into output harmonized variables for each dataset.
-Documentation of each data processing action is generated in the console to
-support the identification of errors and correction of
-the Data Processing Elements file and objects, as needed. An
-annotated Data Processing Elements is also produced, providing harmonization
-statuses (complete/impossible) for each DataSchema variable in input
-dataset, which can be used to create a summary of the harmonization
-potential of the DataSchema variables across input dataset(s).
+Reads a DataSchema and Data Processing Elements to generate a
+harmonized dossier from input dataset(s) in a dossier and associated
+metadata. The function
+has one argument that can optionally be declared by the user
+(\code{unique_col_dataset}). It refers to the columns which contains name of
+each harmonized dataset. These two columns are added to ensure that there
+is always a unique entity identifier when datasets are pooled.
 }
 \details{
-A dossier must be a named list containing at least one data frame or
-data frame extension (e.g. a tibble), each of them being datasets.
-The name of each tibble will be use as the reference name of the dataset.
+A dossier is a named list containing one or more data frames, which are
+input datasets. The name of each data frame in the dossier will be used as
+the name of the associated harmonized dataset produced by \code{\link[=harmo_process]{harmo_process()}}.
 
-A DataSchema defines the harmonized variables to be generated, and also
-represents metadata of an associated harmonized dossier. It must be a list
-of data frame or data frame extension (e.g. a tibble) objects with elements
-named "Variables" (required) and "Categories" (if any). The "Variables"
-element must contain at least the \code{name} column, and the "Categories" element
-must contain at least the \code{variable} and \code{name} columns to be usable in any
-function. To be considered as a minimum workable DataSchema, in "Variables"
-the \code{name} column must also have unique and non-null entries, and in
-"Categories" the combination of \code{variable} and \code{name} columns must also be
-unique.
+A DataSchema is the list of core variables to generate across datasets and
+related metadata. A DataSchema object is a list of data frames with elements
+named 'Variables' (required) and 'Categories' (if any). The 'Variables'
+element must contain at least the \code{name} column, and the 'Categories'
+element must contain at least the \code{variable} and \code{name} columns to be usable
+in any function. In 'Variables' the \code{name} column must also have unique
+entries, and in 'Categories' the combination of \code{variable} and \code{name} columns
+must also be unique.
 
-A Data Processing Elements contains the rules and metadata that will be used
-to perform harmonization of input datasets in accordance with the DataSchema.
-It must be a data frame or data frame extension (e.g. a tibble) and it must
-contain certain columns which participate to the process, including the
-\code{dataschema_variable}, \code{input_dataset},\code{input_variables},
-\code{Mlstr_harmo::rule_category} and  \code{Mlstr_harmo::algorithm}. The mandatory
-first processing element must be "id_creation" in
-\code{Mlstr_harmo::rule_category} followed by the name of the column taken as
-identifier of each dataset to initiate the process of harmonization.
+The Data Processing Elements specifies the algorithms used to process input
+variables into harmonized variables in the DataSchema format. It is also
+contains metadata used to generate documentation of the processing.
+A Data Processing Elements object is a data frame with specific columns
+used in data processing: \code{dataschema_variable}, \code{input_dataset},
+\code{input_variables}, \code{Mlstr_harmo::rule_category} and \code{Mlstr_harmo::algorithm}.
+To initiate processing, the first entry must be the creation of a harmonized
+primary identifier variable (e.g., participant unique ID).
 }
 \examples{
 {
 
-# You can use our demonstration files to run examples
+# Use Rmonize_DEMO to run examples.
 
 library(dplyr)
 library(madshapR) # data_dict_filter

@@ -2,7 +2,7 @@
 % Please edit documentation in R/01-utils.R
 \name{Rmonize_help}
 \alias{Rmonize_help}
-\title{Call the help center for full documentation}
+\title{Call to online documentation}
 \usage{
 Rmonize_help()
 }
@@ -10,9 +10,9 @@ Rmonize_help()
 Nothing to be returned. The function opens a web page.
 }
 \description{
-This function is a direct call to the documentation in the repository hosting
-the package. The user can access the description of the latest version of the
-package, the vignettes, and the list of functions.
+Direct call to the online documentation for the package, which includes a
+description of the latest version of the package, vignettes, user guides,
+and a reference list of functions and help pages.
 }
 \examples{
 {

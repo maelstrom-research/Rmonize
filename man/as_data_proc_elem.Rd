@@ -2,37 +2,36 @@
 % Please edit documentation in R/02-harmo_process_harmonization.R
 \name{as_data_proc_elem}
 \alias{as_data_proc_elem}
-\title{Validate and coerce any object as a Data Processing Elements}
+\title{Validate and coerce as a Data Processing Elements object}
 \usage{
 as_data_proc_elem(object)
 }
 \arguments{
-\item{object}{A potential Data Processing Elements to be coerced.}
+\item{object}{A potential Data Processing Elements object to be coerced.}
 }
 \value{
-A tibble, identifying a Data Processing Elements.
+A data frame with \code{Rmonize::class} 'data_proc_elem'.
 }
 \description{
-Validates the input object as a valid Data Processing Elements and coerces
-it with the appropriate Rmonize::class attribute. This function mainly
-helps validate input within other functions of the package but could be used
-to check if an object is valid for use in a function.
+Checks if an object is a valid Data Processing Elements and returns it with
+the appropriate \code{Rmonize::class} attribute. This function mainly helps
+validate inputs within other functions of the package but could be used
+separately to ensure that an object has an appropriate structure.
 }
 \details{
-A Data Processing Elements contains the rules and metadata that will be used
-to perform harmonization of input datasets in accordance with the DataSchema.
-It must be a data frame or data frame extension (e.g. a tibble) and it must
-contain certain columns which participate to the process, including the
-\code{dataschema_variable}, \code{input_dataset},\code{input_variables},
-\code{Mlstr_harmo::rule_category} and  \code{Mlstr_harmo::algorithm}. The mandatory
-first processing element must be "id_creation" in
-\code{Mlstr_harmo::rule_category} followed by the name of the column taken as
-identifier of each dataset to initiate the process of harmonization.
+The Data Processing Elements specifies the algorithms used to process input
+variables into harmonized variables in the DataSchema format. It is also
+contains metadata used to generate documentation of the processing.
+A Data Processing Elements object is a data frame with specific columns
+used in data processing: \code{dataschema_variable}, \code{input_dataset},
+\code{input_variables}, \code{Mlstr_harmo::rule_category} and \code{Mlstr_harmo::algorithm}.
+To initiate processing, the first entry must be the creation of a harmonized
+primary identifier variable (e.g., participant unique ID).
 }
 \examples{
 {
 
-# You can use our demonstration files to run examples
+# Use Rmonize_DEMO to run examples.
 
 as_data_proc_elem(Rmonize_DEMO$`data_processing_elements - final`)
 }

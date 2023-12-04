@@ -3,32 +3,29 @@
 \docType{data}
 \name{Rmonize_DEMO}
 \alias{Rmonize_DEMO}
-\title{Built-in material allowing the user to test the package with demo data}
+\title{Demo objects to provide illustrative examples}
 \format{
 \subsection{\code{list}}{
 
-A list with 15 elements used for testing the package (data frames and lists):
+A list with 13 elements (data frames and lists) providing example objects
+for testing the package:
 
 \describe{
-\item{data_processing_elements - final}{Data Processing Elements}
-\item{data_processing_elements - with error}{Data Processing Elements
-containing errors}
-\item{data_processing_elements - work in progress}{Data processing
-element in construction}
-\item{dataschema}{DataSchema used, combined with data processing
-elements and input material}
-\item{harmonized_dossier}{harmonized dossier for testing purpose}
-\item{harmonized_dossier_summary}{harmonized variables summary for testing
-purpose}
-\item{pooled_harmonized_dataset}{pooled harmonized dataset for testing
-purpose}
-\item{data_dict_MELBOURNE}{Data dictionary of Melbourne
-dataset}
-\item{data_dict_PARIS}{Data dictionary of Paris dataset}
-\item{data_dict_TOKYO}{Data dictionary of Tokyo dataset}
-\item{dataset_MELBOURNE}{Dataset of Melbourne}
-\item{dataset_PARIS}{Dataset of Paris}
-\item{dataset_TOKYO}{Dataset of Tokyo}
+\item{data_processing_elements - final}{Example Data Processing Elements}
+\item{data_processing_elements - with error}{Example
+Data Processing Elements containing errors}
+\item{data_processing_elements - work in progress}{Example incomplete
+Data processing Element}
+\item{dataschema - final}{Example DataSchema}
+\item{pooled_harmonized_dataset}{Example pooled harmonized dataset}
+\item{harmonized_dossier}{Exampleharmonized dossier}
+\item{harmonized_dossier_summary}{Example harmonized variables summary}
+\item{data_dict_MELBOURNE}{Example Data dictionary for Melbourne dataset}
+\item{data_dict_PARIS}{Example Data dictionary for Paris dataset}
+\item{data_dict_TOKYO}{Example Data dictionary for Tokyo dataset}
+\item{dataset_MELBOURNE}{Example Dataset for Melbourne}
+\item{dataset_PARIS}{Example Dataset for Paris}
+\item{dataset_TOKYO}{Example Dataset for Tokyo}
 ...
 }
 }
@@ -37,13 +34,15 @@ dataset}
 Rmonize_DEMO
 }
 \description{
-Built-in tibbles and lists allowing the user to test the package with demo
-material for harmonization.
+Demo input datasets, input data dictionaries, DataSchema,
+Data Processing Elements, and other objects to provide illustrative examples
+of objects used by Rmonize.
 }
 \examples{
 {
 
- print(Rmonize_DEMO$`dataschema - final`)
+ library(dplyr)
+ glimpse(Rmonize_DEMO$`dataschema - final`)
 
 }
 }

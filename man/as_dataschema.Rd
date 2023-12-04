@@ -2,44 +2,45 @@
 % Please edit documentation in R/02-harmo_process_harmonization.R
 \name{as_dataschema}
 \alias{as_dataschema}
-\title{Validate and coerce any object as the DataSchema}
+\title{Validate and coerce as a DataSchema object}
 \usage{
 as_dataschema(object, as_dataschema_mlstr = FALSE)
 }
 \arguments{
-\item{object}{A potential DataSchema (list of tibble) to be coerced.}
+\item{object}{A potential DataSchema object to be coerced.}
 
-\item{as_dataschema_mlstr}{Whether the output DataSchema should have a
-minimal DataSchema structure or additional attributes associated
-with additional capabilities for Maelstrom and integrated workflows,
-such as Opal environments. FALSE by default.}
+\item{as_dataschema_mlstr}{Whether the output DataSchema should be coerced
+with specific format restrictions for compatibility with other
+Maelstrom Research software. FALSE by default.}
 }
 \value{
-A list of tibble(s), 'Variables' and 'Categories' (if any), each of them
-being the two elements of the DataSchema.
+A list of data frame(s) named 'Variables' and (if any) 'Categories',
+with \code{Rmonize::class} 'dataschema'.
 }
 \description{
-Validates the input object as a valid DataSchema and coerces it with the
-appropriate Rmonize::class attribute. This function mainly helps validate
-input within other functions of the package but could be used to check if an
-object is valid for use in a function.
+Checks if an object is a valid DataSchema and returns it with the appropriate
+\code{Rmonize::class} attribute. This function mainly helps validate inputs within
+other functions of the package but could be used separately to ensure that an
+object has an appropriate structure.
 }
 \details{
-A DataSchema defines the harmonized variables to be generated, and also
-represents metadata of an associated harmonized dossier. It must be a list
-of data frame or data frame extension (e.g. a tibble) objects with elements
-named "Variables" (required) and "Categories" (if any). The "Variables"
-element must contain at least the \code{name} column, and the "Categories" element
-must contain at least the \code{variable} and \code{name} columns to be usable in any
-function. To be considered as a minimum workable DataSchema, in "Variables"
-the \code{name} column must also have unique and non-null entries, and in
-"Categories" the combination of \code{variable} and \code{name} columns must also be
-unique.
+A DataSchema is the list of core variables to generate across datasets and
+related metadata. A DataSchema object is a list of data frames with elements
+named 'Variables' (required) and 'Categories' (if any). The 'Variables'
+element must contain at least the \code{name} column, and the 'Categories'
+element must contain at least the \code{variable} and \code{name} columns to be usable
+in any function. In 'Variables' the \code{name} column must also have unique
+entries, and in 'Categories' the combination of \code{variable} and \code{name} columns
+must also be unique.
+
+The object may be specifically formatted to be compatible with additional
+\href{https://maelstrom-research.org/page/software}{Maelstrom Research software},
+in particular \href{https://www.obiba.org/pages/products/opal}{Opal environments}.
 }
 \examples{
 {
 
-# You can use our demonstration files to run examples
+# Use Rmonize_DEMO to run examples.
 
 as_dataschema(Rmonize_DEMO$`dataschema - final`)
 

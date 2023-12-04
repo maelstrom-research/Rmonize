@@ -2,7 +2,7 @@
 % Please edit documentation in R/01-utils.R
 \name{Rmonize_templates}
 \alias{Rmonize_templates}
-\title{Call the help center to the download template page}
+\title{Call to online documentation to download templates}
 \usage{
 Rmonize_templates()
 }
@@ -10,10 +10,7 @@ Rmonize_templates()
 Nothing to be returned. The function opens a web page.
 }
 \description{
-This function is a direct call to the documentation in the repository hosting
-the package, more specifically to the download template section.
-The user can also access the description of the latest version of the
-package, the vignettes, and the list of functions.
+Direct call to online documentation to download templates.
 }
 \examples{
 {

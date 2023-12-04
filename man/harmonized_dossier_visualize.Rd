@@ -2,7 +2,7 @@
 % Please edit documentation in R/05-harmonized_data_visualise.R
 \name{harmonized_dossier_visualize}
 \alias{harmonized_dossier_visualize}
-\title{Generate a web-based bookdown visual report of a harmonized dossier}
+\title{Generate a web-based visual report for a harmonized dossier}
 \usage{
 harmonized_dossier_visualize(
   harmonized_dossier,
@@ -16,91 +16,88 @@ harmonized_dossier_visualize(
 )
 }
 \arguments{
-\item{harmonized_dossier}{List of tibble(s), each of them being
-harmonized dataset.}
+\item{harmonized_dossier}{A list containing the harmonized dataset(s).}
 
-\item{bookdown_path}{A character string identifying the folder path where the
-bookdown report will be saved.}
+\item{bookdown_path}{A character string identifying the folder path where
+the bookdown report files will be saved.}
 
-\item{group_by}{A character string of one column in the dataset that can be
-taken as a grouping column. The visual element will be grouped and displayed
-by this column.}
+\item{group_by}{A character string identifying the column in each
+harmonized dataset to use as a grouping variable. Visual elements will be
+grouped by this column.}
 
-\item{harmonized_dossier_summary}{A list which is the summary of the
-harmonized dossier.}
+\item{harmonized_dossier_summary}{A list which identifies an existing
+summary produced by harmonized_dossier_summarize of the harmonized variables.
+Using this parameter can save time in generating the visual report.}
 
-\item{dataschema}{A list of tibble(s) representing metadata of an
-associated harmonized dossier.}
+\item{dataschema}{A DataSchema object.}
 
-\item{data_proc_elem}{A tibble, identifying the input
-Data Processing Elements.}
+\item{data_proc_elem}{A Data Processing Elements object.}
 
-\item{valueType_guess}{Whether the output should include a more accurate
-valueType that could be applied to the dataset. FALSE by default.
-The visual element will be grouped and displayed by this column.}
+\item{valueType_guess}{Whether the output should be generated based on more
+precise valueType inferred from the data. FALSE by default
+(will use the valueType declared).}
 
-\item{taxonomy}{A tibble identifying the scheme used for variables
-classification.}
+\item{taxonomy}{An optional data frame identifying a variable
+classification schema.}
 }
 \value{
-A bookdown folder containing files in the specified output folder. To
-open the file in browser, open 'docs/index.html'.
-Or use \code{\link[=bookdown_open]{bookdown_open()}}
+A folder containing files for the bookdown site. To open the bookdown site
+in a browser, open 'docs/index.html', or use \code{\link[=bookdown_open]{bookdown_open()}} with the
+folder path.
 }
 \description{
-Generates a visual report for a dataset in an HTML bookdown document. The
-report provides figures and descriptive statistics for each variable to
-facilitate the assessment of input data. Statistics and figures are generated
-according to variable data type. The report can be used to help assess
-data structure, coherence across elements, and taxonomy or
-data dictionary formats. The summaries and figures provide additional
-information about variable distributions and descriptive statistics.
-The charts and tables are produced based on their data type. The variable can
-be grouped using \code{group_by} parameter, which is a (categorical) column in the
-dataset. The user may need to use \code{\link[=as.factor]{as.factor()}} in this context. To fasten
-the process (and allow recycling object in a workflow) the user can feed the
-function with a \code{.summary_var}, which is the output of the function
-\code{\link[=dataset_summarize]{dataset_summarize()}} of the column(s) \code{col} and  \code{group_by}. The summary
-must have the same parameters to operate.
+Generates a visual report of a harmonized dossier in an HTML bookdown
+document, with summary figures and statistics for each harmonized variable.
+The report outputs can be grouped by a categorical variable.
 }
 \details{
-A harmonized dossier must be a named list containing at least one data frame
-or data frame extension (e.g. a tibble), each of them being
-harmonized dataset(s). It is generally the product of applying harmonization
-processing to a dossier object. The name of each tibble will be use as the
-reference name of the dataset. A harmonized dossier has four attributes :
-\code{Rmonize::class} which is "harmonized_dossier" ; \code{Rmonize::DataSchema}
-(provided by user) ; \verb{Rmonize::Data Processing Elements} ;
-\code{Rmonize::harmonized_col_id} (provided by user) which refers to the column
-in each dataset which identifies unique combination observation/dataset.
-This id column name is the same across the dataset(s), the DataSchema and
-the Data Processing Elements (created by using 'id_creation') and is used to
-initiate the process of harmonization.
+A harmonized dossier is a named list containing one or more data frames,
+which are harmonized datasets. A harmonized dossier is generally the
+product of applying processing to a dossier object The name of each
+harmonized dataset (data frame) is taken from the reference input dataset.
+A harmonized dossier also contains the DataSchema and
+Data Processing Elements used in processing as attributes.
 
-A taxonomy is classification scheme that can be defined for variable
-attributes. If defined, a taxonomy must be a data frame like object. It must
-be compatible with (and is generally extracted from) an Opal environment. To
-work with certain functions, a valid taxonomy must contain at least the
-columns 'taxonomy', 'vocabulary', and 'terms'. In addition, the taxonomy
-may follow Maelstrom research taxonomy, and its content can be evaluated
-accordingly, such as naming convention restriction, tagging elements,
-or scales, which are specific to Maelstrom Research. In this particular
-case, the tibble must also contain 'vocabulary_short', 'taxonomy_scale',
-'vocabulary_scale' and 'term_scale' to work with some specific functions.
+A DataSchema is the list of core variables to generate across datasets and
+related metadata. A DataSchema object is a list of data frames with elements
+named 'Variables' (required) and 'Categories' (if any). The 'Variables'
+element must contain at least the \code{name} column, and the 'Categories'
+element must contain at least the \code{variable} and \code{name} columns to be usable
+in any function. In 'Variables' the \code{name} column must also have unique
+entries, and in 'Categories' the combination of \code{variable} and \code{name} columns
+must also be unique.
 
-The valueType is a property of a variable and is required in certain
-functions to determine the handling of the variables. The valueType refers
-to the OBiBa-internal type of a variable. It is specified in a data
-dictionary in a column \code{valueType} and can be associated with variables as
-attributes. Acceptable valueTypes include 'text', 'integer', 'decimal',
-'boolean', datetime', 'date'). The full list of OBiBa valueType
-possibilities and their correspondence with R data types are available using
-\link[madshapR:valueType_list]{madshapR::valueType_list}.
+The Data Processing Elements specifies the algorithms used to process input
+variables into harmonized variables in the DataSchema format. It is also
+contains metadata used to generate documentation of the processing.
+A Data Processing Elements object is a data frame with specific columns
+used in data processing: \code{dataschema_variable}, \code{input_dataset},
+\code{input_variables}, \code{Mlstr_harmo::rule_category} and \code{Mlstr_harmo::algorithm}.
+To initiate processing, the first entry must be the creation of a harmonized
+primary identifier variable (e.g., participant unique ID).
+
+The valueType is a declared property of a variable that is required in
+certain functions to determine handling of the variables. Specifically,
+valueType refers to the
+\href{https://opaldoc.obiba.org/en/variables-data.html#value-types}{OBiBa data type of a variable}.
+The valueType is specified in a data dictionary in a column 'valueType' and
+can be associated with variables as attributes. Acceptable valueTypes
+include 'text', 'integer', 'decimal', 'boolean', datetime', 'date'. The full
+list of OBiBa valueType possibilities and their correspondence with R data
+types are available using \link{valueType_list}.
+
+A taxonomy is a classification schema that can be defined for variable
+attributes. A taxonomy is usually extracted from an
+\href{https://www.obiba.org/pages/products/opal/}{Opal environment}, and a
+taxonomy object is a data frame that must contain at least the columns
+\code{taxonomy}, \code{vocabulary}, and \code{terms}. Additional details about Opal
+taxonomies are
+\href{https://opaldoc.obiba.org/en/latest/web-user-guide/administration/taxonomies.html}{available online}.
 }
 \examples{
 {
 
-# You can use our demonstration files to run examples
+# Use Rmonize_DEMO to run examples.
 
 library(fs)
 
@@ -122,7 +119,6 @@ harmonized_dossier_visualize(
 
 }
 \seealso{
-\code{\link[=pooled_harmonized_dataset_create]{pooled_harmonized_dataset_create()}}
-\code{\link[=dataset_summarize]{dataset_summarize()}}
+\code{\link[=dataset_visualize]{dataset_visualize()}}
 \code{\link[=bookdown_open]{bookdown_open()}}
 }
