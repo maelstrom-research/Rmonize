@@ -1,8 +1,8 @@
 ---
-title: "Example with DEMO files"
+title: "Example with Rmonize_DEMO"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Example with DEMO files}
+  %\VignetteIndexEntry{Example with Rmonize_DEMO}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -21,21 +21,26 @@ knitr::opts_chunk$set(
 
 ## Install the package
 
-```{r}
-# To install the R package:
-# install.packages('Rmonize')
+```{r, eval=FALSE}
+# To install Rmonize:
+install.packages('Rmonize')
 
 library(Rmonize)
-
-#if you need help with the package, please use:
+# If you need help with the package, please use:
 Rmonize_help()
+
+# Downloadable templates are available here
+Rmonize_templates()
+
+# Demo files are available here, along with an online demonstration process 
+Rmonize_DEMO()
 
 ```
 
-## Demo files
-Demo files are available in the built-in Rmonize_DEMO object. 
-library. These provide illustrative examples of the main inputs and are used to 
-run commands in this vignette. 
+## Rmonize_DEMO objets
+Demonstration elements are available in the built-in Rmonize_DEMO object. 
+These provide illustrative examples of the main inputs and are used to run 
+commands in this vignette. 
 
 
 ```{r}

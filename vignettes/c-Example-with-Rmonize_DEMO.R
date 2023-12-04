@@ -7,14 +7,19 @@ knitr::opts_chunk$set(
   eval = FALSE)
 
 
-## -----------------------------------------------------------------------------
-#  # To install the R package:
-#  # install.packages('Rmonize')
+## ----eval=FALSE---------------------------------------------------------------
+#  # To install Rmonize:
+#  install.packages('Rmonize')
 #  
 #  library(Rmonize)
-#  
-#  #if you need help with the package, please use:
+#  # If you need help with the package, please use:
 #  Rmonize_help()
+#  
+#  # Downloadable templates are available here
+#  Rmonize_templates()
+#  
+#  # Demo files are available here, along with an online demonstration process
+#  Rmonize_DEMO()
 #  
 
 ## -----------------------------------------------------------------------------
