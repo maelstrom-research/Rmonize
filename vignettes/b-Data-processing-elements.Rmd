@@ -27,7 +27,7 @@ source('datatables.R')
 
 # What is the Data Processing Elements ?
 
-The Data Processing Elements (DPE) is a table that gathers all the harmonization 
+The Data Processing Elements (**DPE**) is a table that gathers all the harmonization 
 rules used to create each variable defined in the DataSchema. This table is 
 typically an Excel spreadsheet where each row indicates how the 
 input variables are processed to generate a harmonized variable. 
