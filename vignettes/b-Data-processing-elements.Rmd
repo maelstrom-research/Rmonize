@@ -1,8 +1,8 @@
 ---
-title: "The Data Processing Elements"
+title: "Data Processing Elements"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{The Data Processing Elements}
+  %\VignetteIndexEntry{Data Processing Elements}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -369,4 +369,17 @@ the process.
 </div>
 </div>
 </div>
+
+
+
+
+## Examples of Rule Categories
+
+
+::: {} 
+  `r DT_rule_categories` 
+:::
+
+
+
 
