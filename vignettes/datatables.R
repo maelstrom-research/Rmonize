@@ -53,7 +53,7 @@ library(stats)
 #       </ul>',
 #     
 #     # ss DataSchema 
-#     '<h3>Harmonised data dictionary</h3>
+#     '<h3>Harmonized data dictionary</h3>
 # 
 # An harmonized data dictionary is the metadata for a harmonized dataset that has
 # been harmonized from an input dataset.

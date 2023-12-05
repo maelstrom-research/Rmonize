@@ -111,7 +111,7 @@ function before and is not working any longer.
 - `show_harmo_error()` Generate a summary of the annotated Data
   Processing Elements
 - `data_proc_elem_evaluate()`,`dataschema_evaluate()`,
-  `harmonized_dossier_evaluate()`,`harmonized_dossier_summarise()`,
+  `harmonized_dossier_evaluate()`,`harmonized_dossier_summarize()`,
   `harmonized_dossier_visualize()` Generate a quality assessment reports
   and summary statistics of inputs and outputs.
 

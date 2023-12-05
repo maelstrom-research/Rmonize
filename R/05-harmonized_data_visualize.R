@@ -57,7 +57,8 @@
 #' harmonized dataset to use as a grouping variable. Visual elements will be 
 #' grouped by this column.
 #' @param harmonized_dossier_summary A list which identifies an existing 
-#' summary produced by harmonized_dossier_summarize of the harmonized variables. 
+#' summary produced by [harmonized_dossier_summarize()] of the harmonized 
+#' variables. 
 #' Using this parameter can save time in generating the visual report.
 #' @param dataschema A DataSchema object.
 #' @param data_proc_elem A Data Processing Elements object.

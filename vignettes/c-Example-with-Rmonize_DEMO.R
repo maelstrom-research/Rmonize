@@ -75,7 +75,7 @@ knitr::opts_chunk$set(
 #  
 #  # These reports can be downloaded as Excel files
 #  harmonized_dossier_evaluate <- harmonized_dossier_evaluate(harmonized_dossier)
-#  harmonized_dossier_summary <- harmonized_dossier_summarise(harmonized_dossier)
+#  harmonized_dossier_summary <- harmonized_dossier_summarize(harmonized_dossier)
 #  
 #  bookdown_path <- paste0('tmp/',basename(tempdir()))
 #  
