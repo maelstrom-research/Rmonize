@@ -1,6 +1,6 @@
 Package: Rmonize
 Type: Package
-Title: Support Retrospective Harmonization of data
+Title: Support Retrospective Harmonization of Data
 Version: 1.0.1
 Authors@R: 
     c(person(given = "Guillaume",
@@ -38,8 +38,6 @@ Imports: dplyr (>= 1.1.0),
     fs,
     fabR (>= 2.0.0),
     madshapR
-Remotes: 
-    github::maelstrom-research/madshapR@testing
 Suggests: janitor,
     car,
     knitr
