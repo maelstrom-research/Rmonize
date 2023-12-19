@@ -7,15 +7,11 @@ madshapR::as_taxonomy
 #' @importFrom madshapR as_valueType
 madshapR::as_valueType
 
-#' @noRd
-as_category <- function(...){
-  return(madshapR:::as_category(...))
-}
+#' @importFrom madshapR as_category
+madshapR::as_category
 
-#' @noRd
-is_category <- function(...){
-  return(madshapR:::is_category(...))
-}
+#' @importFrom madshapR is_category
+madshapR::is_category
 
 #' @importFrom madshapR data_extract
 madshapR::data_extract

@@ -1,6 +1,6 @@
 Package: Rmonize
 Type: Package
-Title: Support Data Harmonization Following 'Maelstrom Research' Guidelines
+Title: Support Retrospective Harmonization of data
 Version: 1.0.1.0003
 Authors@R: 
     c(person(given = "Guillaume",
@@ -8,7 +8,7 @@ Authors@R:
              role = c("aut", "cre"),
              email = "guijoseph.fabre@gmail.com",
              comment = c(ORCID = "0000-0002-0124-9970")),
-      person("Maelstrom-research",
+      person("Maelstrom-research group",
              role=c("fnd")))
 Maintainer: Guillaume Fabre <guijoseph.fabre@gmail.com> 
 Description: Functions to support rigorous retrospective data harmonization 

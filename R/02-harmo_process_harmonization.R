@@ -50,7 +50,7 @@
 #' # Use Rmonize_DEMO to run examples.
 #' 
 #' library(dplyr)
-#' library(madshapR) # data_dict_filter
+#' library(madshapR)
 #' 
 #' dataset_MELBOURNE <- Rmonize_DEMO$dataset_MELBOURNE[1]
 #' dossier <- dossier_create(list(dataset_MELBOURNE))
@@ -64,7 +64,8 @@
 #'          input_dataset == 'dataset_MELBOURNE')
 #' 
 #' # perform harmonization
-#' harmo_process(dossier,dataschema,data_proc_elem)
+#' harmonized_dossier <- harmo_process(dossier,dataschema,data_proc_elem)
+#' glimpse(harmonized_dossier)
 #' 
 #' }
 #'
@@ -1190,8 +1191,9 @@ harmo_process_undetermined <- function(process_rule_slice){
 #' @examples
 #' {
 #'
-#' harmonized_dossier <- Rmonize_DEMO$harmonized_dossier
-#' show_harmo_error(harmonized_dossier)
+#'   harmonized_dossier <- Rmonize_DEMO$harmonized_dossier
+#'   show_harmo_error(harmonized_dossier)
+#' 
 #' }
 #'
 #' @import dplyr tidyr stringr
@@ -1350,9 +1352,10 @@ of harmonization:\n")
 #' {
 #'
 #' # Use Rmonize_DEMO to run examples.
+#' library(dplyr)
 #'
-#' dataschema_extract(
-#'   data_proc_elem = Rmonize_DEMO$`data_processing_elements - final`)
+#' glimpse(dataschema_extract(
+#'   data_proc_elem = Rmonize_DEMO$`data_processing_elements - final`))
 #' }
 #'
 #' @import dplyr
@@ -1410,8 +1413,10 @@ dataschema_extract <- function(data_proc_elem){
 #' {
 #'
 #' # Use Rmonize_DEMO to run examples.
+#' library(dplyr)
 #'
-#' as_data_proc_elem(Rmonize_DEMO$`data_processing_elements - final`)
+#' glimpse(head(as_data_proc_elem(Rmonize_DEMO$`data_processing_elements - final`),3))
+#' 
 #' }
 #'
 #' @import dplyr fabR tidyr
@@ -1709,8 +1714,9 @@ Please refer to documentation.")
 #' {
 #'
 #' # Use Rmonize_DEMO to run examples.
+#' library(dplyr)
 #'
-#' as_dataschema(Rmonize_DEMO$`dataschema - final`)
+#' glimpse(as_dataschema(Rmonize_DEMO$`dataschema - final`))
 #' 
 #' }
 #'
@@ -1783,8 +1789,9 @@ bold("Useful tip:\n"),
 #' {
 #'
 #' # Use Rmonize_DEMO to run examples.
+#' library(dplyr)
 #'
-#' as_dataschema_mlstr(Rmonize_DEMO$`dataschema - final`)
+#' glimpse(as_dataschema_mlstr(Rmonize_DEMO$`dataschema - final`))
 #' 
 #' }
 #'
@@ -1827,10 +1834,6 @@ as_dataschema_mlstr <- function(object){
 #' A harmonized dossier also contains the DataSchema and 
 #' Data Processing Elements used in processing as attributes.
 #' 
-#' A harmonized data dictionary contains the list of variables and metadata
-#' about the variables and can be associated with each dataset in a 
-#' harmonized dossier.
-#' 
 #' A DataSchema is the list of core variables to generate across datasets and 
 #' related metadata. A DataSchema object is a list of data frames with elements 
 #' named 'Variables' (required) and 'Categories' (if any). The 'Variables' 
@@ -1867,7 +1870,10 @@ as_dataschema_mlstr <- function(object){
 #' @examples
 #' {
 #' 
-#' as_harmonized_dossier(Rmonize_DEMO$harmonized_dossier)
+#' # Use Rmonize_DEMO to run examples.
+#' library(dplyr)
+#' 
+#' glimpse(as_harmonized_dossier(Rmonize_DEMO$harmonized_dossier))
 #'   
 #' }
 #'
@@ -2086,10 +2092,13 @@ name list of variables.")
 #' @examples
 #' {
 #'
-#' harmonized_dossier <- Rmonize_DEMO$harmonized_dossier
+#' # use madshapR_DEMO provided by the package
+#' library(dplyr)
 #' 
-#' pooled_harmonized_dataset_create(
-#'  harmonized_dossier,harmonized_col_id = 'adm_unique_id')
+#' harmonized_dossier <- Rmonize_DEMO$harmonized_dossier
+#'
+#' glimpse(pooled_harmonized_dataset_create(
+#'   harmonized_dossier,harmonized_col_id = 'adm_unique_id'))
 #'   
 #' }
 #'

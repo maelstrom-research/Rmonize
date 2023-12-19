@@ -78,7 +78,7 @@ additional details</a>.</td>
 </table>
 </div>
 
-### Categories *
+### Categories
 
 Metadata table containing the list of categories and related metadata (coding 
 and description of the response options) defined for categorical variables 

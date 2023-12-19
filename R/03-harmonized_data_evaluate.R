@@ -37,8 +37,8 @@
 #' in particular [Opal environments](https://www.obiba.org/pages/products/opal).
 #'
 #' @param harmonized_dossier A list containing the harmonized dataset(s).
-#' @param taxonomy An optional data frame identifying a variable 
-#' classification schema.
+#' @param taxonomy An optional data frame identifying a variable classification 
+#' schema.
 #' @param dataschema A DataSchema object.
 #' @param as_dataschema_mlstr Whether the output DataSchema should be coerced 
 #' with specific format restrictions for compatibility with other 
@@ -50,7 +50,10 @@
 #' @examples
 #' {
 #' 
-#' harmonized_dossier_evaluate(Rmonize_DEMO$harmonized_dossier)
+#' #' # use Rmonize_DEMO provided by the package
+#' library(dplyr)
+#'
+#' glimpse(harmonized_dossier_evaluate(Rmonize_DEMO$harmonized_dossier))
 #' 
 #' }
 #'
@@ -132,8 +135,8 @@ harmonized_dossier_evaluate <- function(
 #' [available online](https://opaldoc.obiba.org/en/latest/web-user-guide/administration/taxonomies.html).
 #'
 #' @param data_proc_elem A Data Processing Elements object.
-#' @param taxonomy An optional data frame identifying a variable 
-#' classification schema.
+#' @param taxonomy An optional data frame identifying a variable classification 
+#' schema.
 #'
 #' @returns
 #' A list of data frames containing assessment reports.
@@ -305,8 +308,8 @@ data_proc_elem_evaluate <- function(data_proc_elem, taxonomy = NULL){
 #' [available online](https://opaldoc.obiba.org/en/latest/web-user-guide/administration/taxonomies.html).
 #'
 #' @param dataschema A DataSchema object.
-#' @param taxonomy An optional data frame identifying a variable 
-#' classification schema.
+#' @param taxonomy An optional data frame identifying a variable classification 
+#' schema.
 #'
 #' @returns
 #' A list of data frames containing assessment reports.

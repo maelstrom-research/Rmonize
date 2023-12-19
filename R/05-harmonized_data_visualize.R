@@ -40,7 +40,8 @@
 #' can be associated with variables as attributes. Acceptable valueTypes 
 #' include 'text', 'integer', 'decimal', 'boolean', datetime', 'date'. The full 
 #' list of OBiBa valueType possibilities and their correspondence with R data 
-#' types are available using [valueType_list].
+#' types are available using [valueType_list]. The valueType can be used to 
+#' coerce the variable to the corresponding data type.
 #'
 #' A taxonomy is a classification schema that can be defined for variable 
 #' attributes. A taxonomy is usually extracted from an 
@@ -53,20 +54,19 @@
 #' @param harmonized_dossier A list containing the harmonized dataset(s).
 #' @param bookdown_path A character string identifying the folder path where 
 #' the bookdown report files will be saved.
-#' @param group_by A character string identifying the column in each 
-#' harmonized dataset to use as a grouping variable. Visual elements will be 
-#' grouped by this column.
+#' @param group_by A character string identifying the column in the dataset
+#' to use as a grouping variable. Elements will be grouped by this 
+#' column.
 #' @param harmonized_dossier_summary A list which identifies an existing 
 #' summary produced by [harmonized_dossier_summarize()] of the harmonized 
 #' variables. 
 #' Using this parameter can save time in generating the visual report.
 #' @param dataschema A DataSchema object.
 #' @param data_proc_elem A Data Processing Elements object.
-#' @param valueType_guess Whether the output should be generated based on more 
-#' precise valueType inferred from the data. FALSE by default 
-#' (will use the valueType declared).
-#' @param taxonomy An optional data frame identifying a variable 
-#' classification schema.
+#' @param valueType_guess Whether the output should include a more accurate 
+#' valueType that could be applied to the dataset. FALSE by default.
+#' @param taxonomy An optional data frame identifying a variable classification 
+#' schema.
 #'
 #' @returns
 #' A folder containing files for the bookdown site. To open the bookdown site 

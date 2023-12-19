@@ -74,7 +74,7 @@ Rmonize_help()
 Rmonize_templates()
 
 # Demo files are available here, along with an online demonstration process 
-Rmonize_DEMO()
+Rmonize_DEMO
 
 ```
 

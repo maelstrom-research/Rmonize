@@ -50,19 +50,19 @@
 #' can be associated with variables as attributes. Acceptable valueTypes 
 #' include 'text', 'integer', 'decimal', 'boolean', datetime', 'date'. The full 
 #' list of OBiBa valueType possibilities and their correspondence with R data 
-#' types are available using [valueType_list].
+#' types are available using [valueType_list]. The valueType can be used to 
+#' coerce the variable to the corresponding data type.
 #'
 #' @param harmonized_dossier A list containing the harmonized dataset(s).
-#' @param group_by A character string identifying the column in each 
-#' harmonized dataset to use as a grouping variable. Summary elements will be 
-#' grouped by this column.
+#' @param group_by A character string identifying the column in the dataset
+#' to use as a grouping variable. Elements will be grouped by this 
+#' column.
 #' @param dataschema A DataSchema object.
 #' @param data_proc_elem A Data Processing Elements object.
-#' @param taxonomy An optional data frame identifying a variable 
-#' classification schema.
-#' @param valueType_guess Whether the output should be generated based on more 
-#' precise valueType inferred from the data. FALSE by default 
-#' (will use the valueType declared).
+#' @param taxonomy An optional data frame identifying a variable classification 
+#' schema.
+#' @param valueType_guess Whether the output should include a more accurate 
+#' valueType that could be applied to the dataset. FALSE by default.
 #'
 #' @returns
 #' A list of data frames containing overall assessment reports and summaries 
