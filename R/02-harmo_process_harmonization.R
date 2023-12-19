@@ -38,6 +38,9 @@
 #' @param data_proc_elem A Data Processing Elements object.
 #' @param harmonized_col_dataset A character string identifying the column 
 #' to use for dataset names. NULL by default.
+#' @param harmonized_col_id A character string identifying the name of the 
+#' column present in every dataset to use as a dataset identifier. 
+#' NULL by default.
 #'
 #' @returns
 #' A list of data frame(s), containing harmonized dataset(s). The DataSchema 
@@ -50,7 +53,7 @@
 #' # Use Rmonize_DEMO to run examples.
 #' 
 #' library(dplyr)
-#' library(madshapR)
+#' library(madshapR) # data_dict_filter
 #' 
 #' dataset_MELBOURNE <- Rmonize_DEMO$dataset_MELBOURNE[1]
 #' dossier <- dossier_create(list(dataset_MELBOURNE))
@@ -78,10 +81,11 @@
 #'
 #' @export
 harmo_process <- function(
-    dossier, 
-    dataschema = dataschema_extract(data_proc_elem), 
-    data_proc_elem,
-    harmonized_col_dataset = NULL
+    dossier,
+    dataschema = attributes(dossier)$`Rmonize::DataSchema`,
+    data_proc_elem = attributes(dossier)$`Rmonize::Data Processing Elements`,
+    harmonized_col_dataset = attributes(dossier)$`Rmonize::harmonized_col_dataset`,
+    harmonized_col_id = attributes(dossier)$`Rmonize::harmonized_col_id`
     ){
   
   # future dev
@@ -99,13 +103,29 @@ harmo_process <- function(
     return(x)}
   
   # check arguments
+  if(is.null(dataschema) & is.null(data_proc_elem) & !is.null(harmonized_col_id)){
+    
+    dossier <- 
+      as_harmonized_dossier(
+        dossier,
+        harmonized_col_id = harmonized_col_id,
+        harmonized_col_dataset = harmonized_col_dataset) 
+    
+    return(harmo_process(dossier))}
+  
+  dossier <- as_dossier(dossier)
+  
+  # check arguments
   if(is.null(data_proc_elem)) 
     stop(call. = FALSE, 
          'The Data Processing Element argument is missing')
   
   data_proc_elem <- as_data_proc_elem(data_proc_elem)
-  dataschema <- as_dataschema_mlstr(dataschema)
-  dossier <- as_dossier(dossier)
+  
+  if(is.null(dataschema)){
+    dataschema <- dataschema_extract(data_proc_elem)
+  }else{
+    dataschema <- as_dataschema_mlstr(dataschema)}
 
   # clean dataschema_variable and input dataset names
   data_proc_elem$dataschema_variable <- 
@@ -134,10 +154,24 @@ harmo_process <- function(
         .data$`rule_category` == "undetermined","__BLANK__",
         .data$`input_variables`))
   
-  harmonized_col_id <- 
-    unique(dpe[dpe$`rule_category` %in% 'id_creation',][[
-          'output_variable']])
+  if(is.null(harmonized_col_id)){
+    harmonized_col_id <- 
+      unique(dpe[
+        dpe$`rule_category` %in% 'id_creation',][[
+          'output_variable']])}
   
+  # test if harmonized_col_id exists in dpe and dataschema
+  if(! harmonized_col_id %in% dataschema$Variables$name)
+    stop(call. = FALSE,
+'\n\nThe harmonized_col_id `',harmonized_col_id,'`',
+'\nmust be present in your DataSchema and in the Data Processing Elements.')
+  
+  # test if harmonized_col_id exists in dpe and dpe
+  if(! harmonized_col_id %in% data_proc_elem$dataschema_variable)
+    stop(call. = FALSE,
+'\n\nThe harmonized_col_id `',harmonized_col_id,'`',
+'\nmust be present in your DataSchema and in the Data Processing Elements.')
+
   dpe <- dpe %>%
     group_by(.data$`input_dataset`) %>%
     group_split() %>%
@@ -193,10 +227,22 @@ Please correct elements and reprocess.')
       unique %>% 
       extract_var
     
-    dossier[[i]] <- as_dataset(dossier[[i]],col_id = var_id)
+    dossier[[i]] <- try(as_dataset(dossier[[i]],col_id = var_id),silent = TRUE)
+    
+    if(class(dossier[[i]])[1] == 'try-error'){
+      
+stop(call. = FALSE, 
+'In your Data Processing Elements, the input variable `',var_id,'` does not 
+exists in the input dataset `',create_id_row$`input_dataset`,'`.
+
+This element is mandatory for the data processing to be initiated. 
+Please correct elements and reprocess.')
+      
+    }
     
     dossier[[i]] <- 
-      dossier[[i]] %>% select(col_id(dossier[[i]]),any_of(!! names_in_dpe))
+      dossier[[i]] %>% 
+      select(all_of(col_id(dossier[[i]])),any_of(!! names_in_dpe))
   }
   
   # rid of data dictionary
@@ -1498,7 +1544,7 @@ contain NA values.')
     
     # id_creation rule must exist
     object %>%
-      group_by(.data$`input_dataset`) %>% group_split() %>%
+      group_by(.data$`input_dataset`) %>% group_split() %>% as.list() %>%
       lapply(function(x){
       col_id <- 
         x[x$`Mlstr_harmo::rule_category` %in% 'id_creation',][['dataschema_variable']]
@@ -1856,7 +1902,7 @@ as_dataschema_mlstr <- function(object){
 #' @param dataschema A DataSchema object.
 #' @param data_proc_elem A Data Processing Elements object.
 #' @param harmonized_col_id A character string identifying the name of the 
-#' column present in every datase to use as a dataset identifier.
+#' column present in every dataset to use as a dataset identifier.
 #' @param harmonized_col_dataset A character string identifying the column 
 #' to use for dataset names.
 #' @param harmonized_data_dict_apply Whether to apply the datashema to each 
@@ -1908,7 +1954,7 @@ as_harmonized_dossier <- function(
   
   # check the DataSchema
   if(is.null(dataschema)){
-    dataschema <- data_dict_extract(bind_rows(object))
+    dataschema <- data_dict_extract(bind_rows(as.list(object)))
     dataschema$Variables <- 
       dataschema$Variables %>%
       select(-starts_with("Mlstr_harmo::"),-starts_with("Rmonize::"))}
@@ -1954,7 +2000,7 @@ as_harmonized_dossier <- function(
 
     # test if harmonized_col_dataset exists
     bind_rows(
-      object %>% lapply(function(x) x %>% 
+      as.list(object) %>% lapply(function(x) x %>% 
                           mutate(across(everything(),as.character)))) %>% 
       select(all_of(harmonized_col_dataset))
     
@@ -2076,7 +2122,7 @@ name list of variables.")
 #'
 #' @param harmonized_dossier A list containing the harmonized dataset(s).
 #' @param harmonized_col_id A character string identifying the name of the 
-#' column present in every datase to use as a dataset identifier.
+#' column present in every dataset to use as a dataset identifier.
 #' @param harmonized_col_dataset A character string identifying the column 
 #' to use for dataset names.
 #' @param add_col_dataset Whether to add an extra column to each 

@@ -132,7 +132,7 @@ harmonized_dossier_visualize <- function(
     
     # test if harmonized_col_dataset exists
     bind_rows(
-      harmonized_dossier %>% lapply(function(x) x %>%
+      as.list(harmonized_dossier) %>% lapply(function(x) x %>%
                                       mutate(across(everything(),as.character)))) %>%
       select(all_of(group_by))
   }
