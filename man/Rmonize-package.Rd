@@ -4,7 +4,7 @@
 \name{Rmonize-package}
 \alias{Rmonize}
 \alias{Rmonize-package}
-\title{Rmonize: Support Retrospective Harmonization of data}
+\title{Rmonize: Support Retrospective Harmonization of Data}
 \description{
 Functions to support rigorous retrospective data harmonization processing, evaluation, and documentation across datasets from different studies based on Maelstrom Research guidelines. The package includes the core functions to evaluate and format the main inputs that define the harmonization process, apply specified processing rules to generate harmonized data, diagnose processing errors, and summarize and evaluate harmonized outputs. The main inputs that define the processing are a DataSchema (list and definitions of harmonized variables to be generated) and Data Processing Elements (processing rules to be applied to generate harmonized variables from study-specific variables). The main outputs of processing are harmonized datasets, associated metadata, and tabular and visual summary reports. As described in Maelstrom Research guidelines for rigorous retrospective data harmonization (Fortier I and al. (2017) \doi{10.1093/ije/dyw075}).
 }

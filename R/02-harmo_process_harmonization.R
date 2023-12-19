@@ -1745,7 +1745,7 @@ Please refer to documentation.")
 #' 
 #' The object may be specifically formatted to be compatible with additional 
 #' [Maelstrom Research software](https://maelstrom-research.org/page/software), 
-#' in particular [Opal environments](https://www.obiba.org/pages/products/opal).
+#' in particular [Opal environments](https://www.obiba.org/pages/products/opal/).
 #'
 #' @param object A potential DataSchema object to be coerced.
 #' @param as_dataschema_mlstr Whether the output DataSchema should be coerced 
@@ -1823,7 +1823,7 @@ bold("Useful tip:\n"),
 #' 
 #' The object may be specifically formatted to be compatible with additional 
 #' [Maelstrom Research software](https://maelstrom-research.org/page/software), 
-#' in particular [Opal environments](https://www.obiba.org/pages/products/opal).
+#' in particular [Opal environments](https://www.obiba.org/pages/products/opal/).
 #'
 #' @param object A potential DataSchema object to be coerced.
 #'
@@ -2284,7 +2284,7 @@ categorical variable DataSchema, or to set `add_col_dataset` = FALSE.')
 #' 
 #' The object may be specifically formatted to be compatible with additional 
 #' [Maelstrom Research software](https://maelstrom-research.org/page/software), 
-#' in particular [Opal environments](https://www.obiba.org/pages/products/opal).
+#' in particular [Opal environments](https://www.obiba.org/pages/products/opal/).
 #'
 #' @seealso
 #' For a better assessment, please use [dataschema_evaluate()].

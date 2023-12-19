@@ -36,7 +36,7 @@
 #' 
 #' A taxonomy is a classification schema that can be defined for variable 
 #' attributes. A taxonomy is usually extracted from an 
-#' [Opal environment](https://www.obiba.org/pages/products/opal/), and a 
+#' [Opal environment](https://www.obiba.org/pages/products/opal//), and a 
 #' taxonomy object is a data frame that must contain at least the columns 
 #' `taxonomy`, `vocabulary`, and `terms`. Additional details about Opal 
 #' taxonomies are 
@@ -45,7 +45,7 @@
 #' The valueType is a declared property of a variable that is required in 
 #' certain functions to determine handling of the variables. Specifically, 
 #' valueType refers to the 
-#' [OBiBa data type of a variable](https://opaldoc.obiba.org/en/variables-data.html#value-types). 
+#' [OBiBa data type of a variable](https://opaldoc.obiba.org/en/dev/variables-data.html#value-types). 
 #' The valueType is specified in a data dictionary in a column 'valueType' and 
 #' can be associated with variables as attributes. Acceptable valueTypes 
 #' include 'text', 'integer', 'decimal', 'boolean', datetime', 'date'. The full 

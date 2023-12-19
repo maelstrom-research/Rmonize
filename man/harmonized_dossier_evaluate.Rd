@@ -51,7 +51,7 @@ must also be unique.
 
 A taxonomy is a classification schema that can be defined for variable
 attributes. A taxonomy is usually extracted from an
-\href{https://www.obiba.org/pages/products/opal/}{Opal environment}, and a
+\href{https://www.obiba.org/pages/products/opal//}{Opal environment}, and a
 taxonomy object is a data frame that must contain at least the columns
 \code{taxonomy}, \code{vocabulary}, and \code{terms}. Additional details about Opal
 taxonomies are
@@ -59,7 +59,7 @@ taxonomies are
 
 The object may be specifically formatted to be compatible with additional
 \href{https://maelstrom-research.org/page/software}{Maelstrom Research software},
-in particular \href{https://www.obiba.org/pages/products/opal}{Opal environments}.
+in particular \href{https://www.obiba.org/pages/products/opal/}{Opal environments}.
 }
 \examples{
 {

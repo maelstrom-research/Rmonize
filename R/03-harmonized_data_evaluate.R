@@ -26,7 +26,7 @@
 #'
 #' A taxonomy is a classification schema that can be defined for variable 
 #' attributes. A taxonomy is usually extracted from an 
-#' [Opal environment](https://www.obiba.org/pages/products/opal/), and a 
+#' [Opal environment](https://www.obiba.org/pages/products/opal//), and a 
 #' taxonomy object is a data frame that must contain at least the columns 
 #' `taxonomy`, `vocabulary`, and `terms`. Additional details about Opal 
 #' taxonomies are 
@@ -34,7 +34,7 @@
 #' 
 #' The object may be specifically formatted to be compatible with additional 
 #' [Maelstrom Research software](https://maelstrom-research.org/page/software), 
-#' in particular [Opal environments](https://www.obiba.org/pages/products/opal).
+#' in particular [Opal environments](https://www.obiba.org/pages/products/opal/).
 #'
 #' @param harmonized_dossier A list containing the harmonized dataset(s).
 #' @param taxonomy An optional data frame identifying a variable classification 
@@ -128,7 +128,7 @@ harmonized_dossier_evaluate <- function(
 #'
 #' A taxonomy is a classification schema that can be defined for variable 
 #' attributes. A taxonomy is usually extracted from an 
-#' [Opal environment](https://www.obiba.org/pages/products/opal/), and a 
+#' [Opal environment](https://www.obiba.org/pages/products/opal//), and a 
 #' taxonomy object is a data frame that must contain at least the columns 
 #' `taxonomy`, `vocabulary`, and `terms`. Additional details about Opal 
 #' taxonomies are 
@@ -301,7 +301,7 @@ data_proc_elem_evaluate <- function(data_proc_elem, taxonomy = NULL){
 #' 
 #' A taxonomy is a classification schema that can be defined for variable 
 #' attributes. A taxonomy is usually extracted from an 
-#' [Opal environment](https://www.obiba.org/pages/products/opal/), and a 
+#' [Opal environment](https://www.obiba.org/pages/products/opal//), and a 
 #' taxonomy object is a data frame that must contain at least the columns 
 #' `taxonomy`, `vocabulary`, and `terms`. Additional details about Opal 
 #' taxonomies are 

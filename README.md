@@ -45,9 +45,9 @@ outputs provided by Rmonize are the harmonized datasets, their
 associated data dictionaries, and reports with descriptive statistics,
 provided in summary tables or figures. Rmonize also uses two underlying
 packages,
-<a href="https://cran.r-project.org/web/packages/madshapR/index.html" 
+<a href="https://CRAN.R-project.org/package=fabR" 
 target="_blank">madshapR</a> and
-<a href="https://cran.r-project.org/web/packages/fabR/index.html" 
+<a href="https://CRAN.R-project.org/package=madshapR" 
 target="_blank">fabR</a>, which include many functions to work with data
 and metadata. The specific functions required by Rmonize are
 automatically loaded and accessible to the user without separately
@@ -78,8 +78,7 @@ For more information, you can go to:
 pages.](reference/index.html)
 
 [Descriptions of key terms and downloadable
-templates.](articles/a-Glossary-and-templates.html) (for DataSchema,
-Data Processing Elements, data dictionaries)
+templates.](articles/a-Glossary-and-templates.html)
 
 [Explanation of how to prepare the Data Processing
 Elements.](articles/b-The-Data-processing-elements.html)
