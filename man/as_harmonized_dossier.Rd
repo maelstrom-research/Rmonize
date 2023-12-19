@@ -21,7 +21,7 @@ as_harmonized_dossier(
 \item{data_proc_elem}{A Data Processing Elements object.}
 
 \item{harmonized_col_id}{A character string identifying the name of the
-column present in every datase to use as a dataset identifier.}
+column present in every dataset to use as a dataset identifier.}
 
 \item{harmonized_col_dataset}{A character string identifying the column
 to use for dataset names.}
@@ -54,10 +54,6 @@ harmonized dataset (data frame) is taken from the reference input dataset.
 A harmonized dossier also contains the DataSchema and
 Data Processing Elements used in processing as attributes.
 
-A harmonized data dictionary contains the list of variables and metadata
-about the variables and can be associated with each dataset in a
-harmonized dossier.
-
 A DataSchema is the list of core variables to generate across datasets and
 related metadata. A DataSchema object is a list of data frames with elements
 named 'Variables' (required) and 'Categories' (if any). The 'Variables'
@@ -79,7 +75,10 @@ primary identifier variable (e.g., participant unique ID).
 \examples{
 {
 
-as_harmonized_dossier(Rmonize_DEMO$harmonized_dossier)
+# Use Rmonize_DEMO to run examples.
+library(dplyr)
+
+glimpse(as_harmonized_dossier(Rmonize_DEMO$harmonized_dossier))
   
 }
 

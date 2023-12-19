@@ -16,8 +16,8 @@ harmonized_dossier_evaluate(
 
 \item{dataschema}{A DataSchema object.}
 
-\item{taxonomy}{An optional data frame identifying a variable
-classification schema.}
+\item{taxonomy}{An optional data frame identifying a variable classification
+schema.}
 
 \item{as_dataschema_mlstr}{Whether the output DataSchema should be coerced
 with specific format restrictions for compatibility with other
@@ -64,7 +64,10 @@ in particular \href{https://www.obiba.org/pages/products/opal}{Opal environments
 \examples{
 {
 
-harmonized_dossier_evaluate(Rmonize_DEMO$harmonized_dossier)
+#' # use Rmonize_DEMO provided by the package
+library(dplyr)
+
+glimpse(harmonized_dossier_evaluate(Rmonize_DEMO$harmonized_dossier))
 
 }
 

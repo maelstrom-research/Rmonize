@@ -9,8 +9,8 @@ dataschema_evaluate(dataschema, taxonomy = NULL)
 \arguments{
 \item{dataschema}{A DataSchema object.}
 
-\item{taxonomy}{An optional data frame identifying a variable
-classification schema.}
+\item{taxonomy}{An optional data frame identifying a variable classification
+schema.}
 }
 \value{
 A list of data frames containing assessment reports.

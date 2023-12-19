@@ -16,20 +16,19 @@ harmonized_dossier_summarize(
 \arguments{
 \item{harmonized_dossier}{A list containing the harmonized dataset(s).}
 
-\item{group_by}{A character string identifying the column in each
-harmonized dataset to use as a grouping variable. Summary elements will be
-grouped by this column.}
+\item{group_by}{A character string identifying the column in the dataset
+to use as a grouping variable. Elements will be grouped by this
+column.}
 
 \item{dataschema}{A DataSchema object.}
 
 \item{data_proc_elem}{A Data Processing Elements object.}
 
-\item{taxonomy}{An optional data frame identifying a variable
-classification schema.}
+\item{taxonomy}{An optional data frame identifying a variable classification
+schema.}
 
-\item{valueType_guess}{Whether the output should be generated based on more
-precise valueType inferred from the data. FALSE by default
-(will use the valueType declared).}
+\item{valueType_guess}{Whether the output should include a more accurate
+valueType that could be applied to the dataset. FALSE by default.}
 }
 \value{
 A list of data frames containing overall assessment reports and summaries
@@ -84,7 +83,8 @@ The valueType is specified in a data dictionary in a column 'valueType' and
 can be associated with variables as attributes. Acceptable valueTypes
 include 'text', 'integer', 'decimal', 'boolean', datetime', 'date'. The full
 list of OBiBa valueType possibilities and their correspondence with R data
-types are available using \link{valueType_list}.
+types are available using \link{valueType_list}. The valueType can be used to
+coerce the variable to the corresponding data type.
 }
 \examples{
 {

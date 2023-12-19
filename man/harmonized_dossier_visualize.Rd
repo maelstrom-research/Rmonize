@@ -21,9 +21,9 @@ harmonized_dossier_visualize(
 \item{bookdown_path}{A character string identifying the folder path where
 the bookdown report files will be saved.}
 
-\item{group_by}{A character string identifying the column in each
-harmonized dataset to use as a grouping variable. Visual elements will be
-grouped by this column.}
+\item{group_by}{A character string identifying the column in the dataset
+to use as a grouping variable. Elements will be grouped by this
+column.}
 
 \item{harmonized_dossier_summary}{A list which identifies an existing
 summary produced by \code{\link[=harmonized_dossier_summarize]{harmonized_dossier_summarize()}} of the harmonized
@@ -34,12 +34,11 @@ Using this parameter can save time in generating the visual report.}
 
 \item{data_proc_elem}{A Data Processing Elements object.}
 
-\item{valueType_guess}{Whether the output should be generated based on more
-precise valueType inferred from the data. FALSE by default
-(will use the valueType declared).}
+\item{valueType_guess}{Whether the output should include a more accurate
+valueType that could be applied to the dataset. FALSE by default.}
 
-\item{taxonomy}{An optional data frame identifying a variable
-classification schema.}
+\item{taxonomy}{An optional data frame identifying a variable classification
+schema.}
 }
 \value{
 A folder containing files for the bookdown site. To open the bookdown site
@@ -85,7 +84,8 @@ The valueType is specified in a data dictionary in a column 'valueType' and
 can be associated with variables as attributes. Acceptable valueTypes
 include 'text', 'integer', 'decimal', 'boolean', datetime', 'date'. The full
 list of OBiBa valueType possibilities and their correspondence with R data
-types are available using \link{valueType_list}.
+types are available using \link{valueType_list}. The valueType can be used to
+coerce the variable to the corresponding data type.
 
 A taxonomy is a classification schema that can be defined for variable
 attributes. A taxonomy is usually extracted from an

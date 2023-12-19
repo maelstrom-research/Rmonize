@@ -21,7 +21,7 @@ pooled_harmonized_dataset_create(
 to use for dataset names.}
 
 \item{harmonized_col_id}{A character string identifying the name of the
-column present in every datase to use as a dataset identifier.}
+column present in every dataset to use as a dataset identifier.}
 
 \item{add_col_dataset}{Whether to add an extra column to each
 harmonized dataset. The resulting data frame will have an additional column
@@ -73,10 +73,13 @@ primary identifier variable (e.g., participant unique ID).
 \examples{
 {
 
+# use madshapR_DEMO provided by the package
+library(dplyr)
+
 harmonized_dossier <- Rmonize_DEMO$harmonized_dossier
 
-pooled_harmonized_dataset_create(
- harmonized_dossier,harmonized_col_id = 'adm_unique_id')
+glimpse(pooled_harmonized_dataset_create(
+  harmonized_dossier,harmonized_col_id = 'adm_unique_id'))
   
 }
 

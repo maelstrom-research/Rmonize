@@ -30,9 +30,10 @@ primary identifier variable (e.g., participant unique ID).
 {
 
 # Use Rmonize_DEMO to run examples.
+library(dplyr)
 
-dataschema_extract(
-  data_proc_elem = Rmonize_DEMO$`data_processing_elements - final`)
+glimpse(dataschema_extract(
+  data_proc_elem = Rmonize_DEMO$`data_processing_elements - final`))
 }
 
 }

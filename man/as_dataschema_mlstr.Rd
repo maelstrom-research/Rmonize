@@ -38,8 +38,9 @@ in particular \href{https://www.obiba.org/pages/products/opal}{Opal environments
 {
 
 # Use Rmonize_DEMO to run examples.
+library(dplyr)
 
-as_dataschema_mlstr(Rmonize_DEMO$`dataschema - final`)
+glimpse(as_dataschema_mlstr(Rmonize_DEMO$`dataschema - final`))
 
 }
 

@@ -6,9 +6,10 @@
 \usage{
 harmo_process(
   dossier,
-  dataschema = dataschema_extract(data_proc_elem),
-  data_proc_elem,
-  harmonized_col_dataset = NULL
+  dataschema = attributes(dossier)$`Rmonize::DataSchema`,
+  data_proc_elem = attributes(dossier)$`Rmonize::Data Processing Elements`,
+  harmonized_col_dataset = attributes(dossier)$`Rmonize::harmonized_col_dataset`,
+  harmonized_col_id = attributes(dossier)$`Rmonize::harmonized_col_id`
 )
 }
 \arguments{
@@ -20,6 +21,10 @@ harmo_process(
 
 \item{harmonized_col_dataset}{A character string identifying the column
 to use for dataset names. NULL by default.}
+
+\item{harmonized_col_id}{A character string identifying the name of the
+column present in every dataset to use as a dataset identifier.
+NULL by default.}
 }
 \value{
 A list of data frame(s), containing harmonized dataset(s). The DataSchema
@@ -78,7 +83,8 @@ data_proc_elem <- Rmonize_DEMO$`data_processing_elements - final` \%>\%
          input_dataset == 'dataset_MELBOURNE')
 
 # perform harmonization
-harmo_process(dossier,dataschema,data_proc_elem)
+harmonized_dossier <- harmo_process(dossier,dataschema,data_proc_elem)
+glimpse(harmonized_dossier)
 
 }
 

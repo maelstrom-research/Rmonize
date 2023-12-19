@@ -41,8 +41,10 @@ of objects used by Rmonize.
 \examples{
 {
 
- library(dplyr)
- glimpse(Rmonize_DEMO$`dataschema - final`)
+# use madshapR_DEMO provided by the package
+library(dplyr)
+
+glimpse(Rmonize_DEMO$`dataschema - final`)
 
 }
 }
