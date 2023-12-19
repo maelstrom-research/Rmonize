@@ -101,17 +101,17 @@ taxonomies are
 # Use Rmonize_DEMO to run examples.
 
 library(fs)
-
+ 
 harmonized_dossier <- Rmonize_DEMO$harmonized_dossier
 harmonized_dossier_summary <- Rmonize_DEMO$harmonized_dossier_summary
-
+ 
 if(dir_exists(tempdir())) dir_delete(tempdir())
 bookdown_path <- tempdir()
-
+ 
 harmonized_dossier_visualize(
-  harmonized_dossier,
-  bookdown_path = bookdown_path,
-  harmonized_dossier_summary = harmonized_dossier_summary)
+   harmonized_dossier,
+   bookdown_path = bookdown_path,
+   harmonized_dossier_summary = harmonized_dossier_summary)
 
 # To open the file in browser, open 'bookdown_path/docs/index.html'.
 # Or use bookdown_open(bookdown_path) function

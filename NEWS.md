@@ -5,6 +5,17 @@ Bug corrections and enhancements after testing with real data.
 
 ## Bug fixes and improvements
 
+### Improvement in handling pooled data
+
+The functions `harmo_process()`, `pool_harmonized_dataset_create()`,
+`harmonized_dossier_create()`, `harmonized_dossier_evaluate()`,
+`harmonized_dossier_summarize()`, `harmonized_dossier_visualize()` share
+the same parameter “harmonized_col_dataset” which is (if exists) the
+name of the column referring the input dataset names. If this column
+exists and is declared by the user, this will be used across the
+pipeline as a grouping/separating variable. By default, the name of each
+dataset will be used instead.
+
 rename DEMO_file_harmo into Rmonize_DEMO and update examples
 
 suppress the parameter overwrite = TRUE in the functions xxx_visualize()

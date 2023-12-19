@@ -2195,7 +2195,7 @@ pooled_harmonized_dataset_create <- function(
     if(!is.null(harmonized_col_dataset)){
       toString(
         pooled_harmonized_dataset %>% reframe(
-          across(any_of(harmonized_col_dataset),  Rmonize:::is_category))) %>%
+          across(any_of(harmonized_col_dataset),  is_category))) %>%
         as.logical %>% 
         as_any_boolean == FALSE}else{NULL}
   
@@ -2248,7 +2248,7 @@ categorical variable DataSchema, or to set `add_col_dataset` = FALSE.')
   pooled_harmonized_dataset <-
     pooled_harmonized_dataset %>%
     bind_cols(col_dataset) %>%
-    mutate(across(any_of(harmonized_col_dataset), Rmonize:::as_category))
+    mutate(across(any_of(harmonized_col_dataset), as_category))
 
   attributes(pooled_harmonized_dataset)$`Rmonize::class` <- 
     "pooled_harmonized_dataset"

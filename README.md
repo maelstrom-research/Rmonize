@@ -67,14 +67,15 @@ Rmonize_help()
 Rmonize_templates()
 
 # Demo files are available here, along with an online demonstration process 
-Rmonize_DEMO()
+Rmonize_DEMO
 ```
 
 ## Getting started
 
 For more information, you can go to:
 
-[Documentation on Rmonize functions and help pages.](references.html)
+[Documentation on Rmonize functions and help
+pages.](reference/index.html)
 
 [Descriptions of key terms and downloadable
 templates.](articles/a-Glossary-and-templates.html) (for DataSchema,
