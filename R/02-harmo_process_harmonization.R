@@ -1217,7 +1217,7 @@ harmo_process_undetermined <- function(process_rule_slice){
 #' @description
 #' Reads a harmonized dossier, product of [harmo_process()], to list processes, 
 #' any errors, and an overview of each harmonization rule. The output printed 
-#' in the console can help in correcting any errors that occured during 
+#' in the console can help in correcting any errors that occurred during 
 #' data processing.
 #'
 #' @details
@@ -1829,7 +1829,7 @@ bold("Useful tip:\n"),
 #'
 #' @returns
 #' A list of data frame(s) named 'Variables' and (if any) 'Categories', with 
-#' `Rmonize::class` 'dataSchema_mlstr'.
+#' `Rmonize::class` 'dataschema_mlstr'.
 #'
 #' @examples
 #' {
@@ -1851,7 +1851,7 @@ as_dataschema_mlstr <- function(object){
   # object <- as_data_dict_mlstr(object)
   # 
   # # if all test pass:
-  # attributes(object)$`Rmonize::class` <- "dataSchema_mlstr"
+  attributes(object)$`Rmonize::class` <- "dataschema_mlstr"
 
   return(object)
 }
@@ -1905,7 +1905,7 @@ as_dataschema_mlstr <- function(object){
 #' column present in every dataset to use as a dataset identifier.
 #' @param harmonized_col_dataset A character string identifying the column 
 #' to use for dataset names.
-#' @param harmonized_data_dict_apply Whether to apply the datashema to each 
+#' @param harmonized_data_dict_apply Whether to apply the dataschema to each 
 #' harmonized dataset. FALSE by default.
 #'
 #' @returns

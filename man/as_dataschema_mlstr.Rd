@@ -11,7 +11,7 @@ as_dataschema_mlstr(object)
 }
 \value{
 A list of data frame(s) named 'Variables' and (if any) 'Categories', with
-\code{Rmonize::class} 'dataSchema_mlstr'.
+\code{Rmonize::class} 'dataschema_mlstr'.
 }
 \description{
 Checks if an object is a valid DataSchema with specific format restrictions

@@ -70,7 +70,7 @@ Rmonize_templates <- function(){
 #'   Data processing Element}
 #'   \item{dataschema - final}{Example DataSchema}
 #'   \item{pooled_harmonized_dataset}{Example pooled harmonized dataset}
-#'   \item{harmonized_dossier}{Exampleharmonized dossier}
+#'   \item{harmonized_dossier}{Example of harmonized dossier}
 #'   \item{harmonized_dossier_summary}{Example harmonized variables summary}
 #'   \item{data_dict_MELBOURNE}{Example Data dictionary for Melbourne dataset}
 #'   \item{data_dict_PARIS}{Example Data dictionary for Paris dataset}

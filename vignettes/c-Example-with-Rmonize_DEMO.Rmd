@@ -23,8 +23,11 @@ This vignette provides examples of applying Rmonize functions to prepare inputs,
 process data, and validate and consolidate harmonized data, using illustrative 
 demo objects included with the package. The vignette focuses on demonstrating 
 the usage of functions on inputs that already have valid structure and content. 
-See the [Glossary](../articles/a-Glossary-and-templates.html) and 
-[Reference](../reference/index.html) pages for more details about the terms used in 
+See the 
+[Glossary](https://maelstrom-research.github.io/Rmonize-documentation/articles/a-Glossary-and-templates.html)
+and 
+[Reference](https://maelstrom-research.github.io/Rmonize-documentation/reference/index.html) 
+pages for more details about the terms used in 
 this document.
 
 
@@ -50,7 +53,7 @@ Rmonize_DEMO
 
 # Demo objects
 Demo objects are available through the built-in 
-[Rmonize_DEMO](../reference/Rmonize_DEMO.html) object. They include example 
+[Rmonize_DEMO](https://maelstrom-research.github.io/Rmonize-documentation/reference/Rmonize_DEMO.html) object. They include example 
 input datasets, input data dictionaries, DataSchema, Data Processing Elements 
 (DPE), and harmonized datasets that provide illustrative examples of the 
 structure and content of the main objects used by Rmonize functions.
@@ -74,7 +77,7 @@ print(Rmonize_DEMO$`dataschema - final`)	             # A DataSchema
 ### DataSchema and Data Processing Elements (DPE)
 
 The DataSchema and DPE are generally prepared from Excel 
-[templates](../articles/a-Glossary-and-templates.html) and imported into R. 
+[templates](https://maelstrom-research.github.io/Rmonize-documentation/articles/a-Glossary-and-templates.html) and imported into R. 
 Separate documentation is provided for preparing Data Processing Elements. 
 The DataSchema will be an R list with named elements Variables and Categories. 
 The DPE will be a data frame. You can check the structure of each object and 
@@ -102,7 +105,7 @@ The DataSchema and DPE objects can be assigned explicitly
 If input data dictionaries (with metadata about variables and categories in 
 input datasets) are available, they can be associated with their corresponding 
 datasets using the function 
-[data_dict_apply()](../reference/data_dict_apply.html). If not provided, minimal
+[data_dict_apply()](https://maelstrom-research.github.io/madshapR-documentation/reference/data_dict_apply.html). If not provided, minimal
 data dictionaries will automatically be created to meet technical requirements 
 of Rmonize functions as needed.
 
@@ -124,10 +127,10 @@ dataset_TOKYO <- data_dict_apply(
 
 ```
 
-For use in [harmo_process()](../reference/harmo_process.html), one or more input 
+For use in [harmo_process()](https://maelstrom-research.github.io/Rmonize-documentation/reference/harmo_process.html), one or more input 
 datasets and any associated data dictionaries must be grouped into a named 
-list (referred to as a ‘dossier’ in Rmonize). This can be done explicitly with
-[dossier_create()](../reference/dossier_create.html).
+list (referred to as a "dossier" in Rmonize). This can be done explicitly with
+[dossier_create()](https://maelstrom-research.github.io/madshapR-documentation/reference/dossier_create.html).
 
 ```{r}
 
@@ -145,7 +148,7 @@ dossier <- dossier_create( dataset_list = list(
 ## Process data
 
 When the input dossier, DataSchema, and DPE are prepared, you can initiate 
-processing using [harmo_process()](../reference/harmo_process.html), which uses 
+processing using [harmo_process()](https://maelstrom-research.github.io/Rmonize-documentation/reference/harmo_process.html), which uses 
 information from the inputs jointly to generate harmonized datasets (one for 
 each input dataset). 
 
@@ -163,7 +166,7 @@ metadata, with associated information from the DataSchema and DPE). If there
 were any errors or warnings during the process, these will be printed in the 
 console. You can print a summary of any errors and warnings associated with 
 individual algorithms in the console with 
-[show_harmo_error()](../reference/show_harmo_error.html).
+[show_harmo_error()](https://maelstrom-research.github.io/Rmonize-documentation/reference/show_harmo_error.html).
 
 ```{r}
 
@@ -182,8 +185,8 @@ but the affected harmonized dataset(s) will be empty.
 You can assess and summarize harmonized datasets to identify potential issues, 
 produce summary statistics, and generate visual reports. To perform evaluations
 and summaries of the entire harmonized dossier, you can use 
-[harmonized_dossier_evaluate()](../reference/harmonized_dossier_evaluate.html) and
-[harmonized_dossier_summarize()](../reference/harmonized_dossier_summarize.html), 
+[harmonized_dossier_evaluate()](https://maelstrom-research.github.io/Rmonize-documentation/reference/harmonized_dossier_evaluate.html) and
+[harmonized_dossier_summarize()](https://maelstrom-research.github.io/Rmonize-documentation/reference/harmonized_dossier_summarize.html), 
 which produce summary tables (that can be exported to Excel).
 
 ```{r}
@@ -194,7 +197,7 @@ harmonized_dossier_summary <- harmonized_dossier_summarize(harmonized_dossier)
 
 ```
 
-A visual report with summary figures for each variable can also be produced using [harmonized_dossier_visualize()](../reference/harmonized_dossier_visualize.html). 
+A visual report with summary figures for each variable can also be produced using [harmonized_dossier_visualize()](https://maelstrom-research.github.io/Rmonize-documentation/reference/harmonized_dossier_visualize.html). 
 
 **Warning ⚠** *This tutorial creates a folder 'tmp' where the visual report is generated.*
 
@@ -213,7 +216,7 @@ bookdown_open(bookdown_path)
 
 To combine the individual harmonized datasets in a harmonized dossier into one 
 pooled harmonized dataset, use 
-[pooled_harmonized_dataset_create()](../reference/pooled_harmonized_dataset_create.html).
+[pooled_harmonized_dataset_create()](https://maelstrom-research.github.io/Rmonize-documentation/reference/pooled_harmonized_dataset_create.html).
 
 ```{r}
 
@@ -227,7 +230,7 @@ pooled_harmonized_dataset <-
 To get the harmonized data dictionary for an individual harmonized dataset 
 (which contains more details about algorithms and R scripts used in processing 
 for that dataset), use 
-[data_dict_extract()](../reference/data_dict_extract.html).
+[data_dict_extract()](https://maelstrom-research.github.io/madshapR-documentation/reference/data_dict_extract.html).
 
 ```{r}
 

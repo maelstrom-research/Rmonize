@@ -16,7 +16,7 @@ showing any errors in the processing.
 \description{
 Reads a harmonized dossier, product of \code{\link[=harmo_process]{harmo_process()}}, to list processes,
 any errors, and an overview of each harmonization rule. The output printed
-in the console can help in correcting any errors that occured during
+in the console can help in correcting any errors that occurred during
 data processing.
 }
 \details{

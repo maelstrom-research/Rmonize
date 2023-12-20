@@ -26,7 +26,7 @@ column present in every dataset to use as a dataset identifier.}
 \item{harmonized_col_dataset}{A character string identifying the column
 to use for dataset names.}
 
-\item{harmonized_data_dict_apply}{Whether to apply the datashema to each
+\item{harmonized_data_dict_apply}{Whether to apply the dataschema to each
 harmonized dataset. FALSE by default.}
 }
 \value{

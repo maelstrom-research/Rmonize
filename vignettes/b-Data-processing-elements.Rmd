@@ -288,7 +288,7 @@ each of them in **input_variables** by a semi-colon **;**
 instead.
 
 * The user must have the libraries present on their machine (and loaded) to function
-with the call of them in the Case Whenscript. To specify the library calling, use 
+with the call of them in the **case_when** script. To specify the library calling, use 
 double two-point **::**  in the formula.
 
 ```

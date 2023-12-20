@@ -21,10 +21,8 @@ current documentation provides a starting point to use the package.
 
 # Pipeline
 
-<b style="color:red">(figure to be discussed)</b>
-
 <img src="man/figures/fig_readme.png" 
-style="width: 50%; margin: 0 auto; display: flex; justify-content: center;">
+style="width: 100%; margin: 0 auto; display: flex; justify-content: center;">
 
 <br>
 
@@ -44,10 +42,9 @@ help users evaluate harmonized data content and quality. The main
 outputs provided by Rmonize are the harmonized datasets, their
 associated data dictionaries, and reports with descriptive statistics,
 provided in summary tables or figures. Rmonize also uses two underlying
-packages,
-<a href="https://CRAN.R-project.org/package=fabR" 
+packages, <a href="https://CRAN.R-project.org/package=madshapR" 
 target="_blank">madshapR</a> and
-<a href="https://CRAN.R-project.org/package=madshapR" 
+<a href="https://CRAN.R-project.org/package=fabR" 
 target="_blank">fabR</a>, which include many functions to work with data
 and metadata. The specific functions required by Rmonize are
 automatically loaded and accessible to the user without separately
@@ -75,13 +72,13 @@ Rmonize_DEMO
 For more information, you can go to:
 
 [Documentation on Rmonize functions and help
-pages.](reference/index.html)
+pages.](https://maelstrom-research.github.io/Rmonize-documentation/reference/index.html)
 
 [Descriptions of key terms and downloadable
-templates.](articles/a-Glossary-and-templates.html)
+templates.](https://maelstrom-research.github.io/Rmonize-documentation/articles/a-Glossary-and-templates.html)
 
 [Explanation of how to prepare the Data Processing
-Elements.](articles/b-The-Data-processing-elements.html)
+Elements.](https://maelstrom-research.github.io/Rmonize-documentation/articles/b-Data-processing-elements.html)
 
 [Example scripts with demo
-files.](articles/c-Example-with-DEMO-files.html)
+files.](https://maelstrom-research.github.io/Rmonize-documentation/articles/c-Example-with-Rmonize_DEMO.html)

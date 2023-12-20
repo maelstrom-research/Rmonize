@@ -34,7 +34,7 @@ An asterisk (<strong>*</strong>) indicates a required object or component. You
 can download templates or find additional documentation where available using the 
 links provided.
 
-## Dataschema
+## DataSchema
 
 List of core variables to generate across datasets and related metadata.
 
@@ -296,7 +296,8 @@ algorithms to generate harmonized variables in the DataSchema formats.
   download>Download an csv template</a>
 </button>
 
-See [additional documentation for Data Processing Elements](articles/b-The-Data-processing-elements.html).
+See 
+[additional documentation for Data Processing Elements](https://maelstrom-research.github.io/Rmonize-documentation/articles/b-Data-processing-elements.html).
 
 <div style="padding-left: 10px; padding-right: 10px; background-color: #eee;">
 <table style="display: table">

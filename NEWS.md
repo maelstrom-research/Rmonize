@@ -36,7 +36,7 @@ in reports, change % NA as proportion in reports.
 - <https://github.com/maelstrom-research/Rmonize/issues/29>
 
 `harmonized_dossier_visualize()` report shows variable labels in the
-same lang.
+same language.
 
 - <https://github.com/maelstrom-research/Rmonize/issues/28>
 
