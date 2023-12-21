@@ -2,58 +2,72 @@
 % Please edit documentation in R/03-harmonized_data_evaluate.R
 \name{harmonized_dossier_evaluate}
 \alias{harmonized_dossier_evaluate}
-\title{Generate a report of a harmonized dossier (list of harmonized datasets)}
+\title{Generate an assessment report for a harmonized dossier}
 \usage{
-harmonized_dossier_evaluate(harmonized_dossier, taxonomy = NULL)
+harmonized_dossier_evaluate(
+  harmonized_dossier,
+  dataschema = attributes(harmonized_dossier)$`Rmonize::DataSchema`,
+  taxonomy = NULL,
+  as_dataschema_mlstr = TRUE
+)
 }
 \arguments{
-\item{harmonized_dossier}{List of tibble(s), each of them being
-harmonized dataset.}
+\item{harmonized_dossier}{A list containing the harmonized dataset(s).}
 
-\item{taxonomy}{A tibble identifying the scheme used for variables
-classification.}
+\item{dataschema}{A DataSchema object.}
+
+\item{taxonomy}{An optional data frame identifying a variable classification
+schema.}
+
+\item{as_dataschema_mlstr}{Whether the output DataSchema should be coerced
+with specific format restrictions for compatibility with other
+Maelstrom Research software. TRUE by default.}
 }
 \value{
-A list of report(s), each of them being tibble(s) ('Overview and summary)
-for each harmonized dataset.
+A list of data frames containing assessment reports for each harmonized dataset.
 }
 \description{
-Assesses the content and structure of a harmonized dossier object (list of
-harmonized datasets) and reports possible issues in the datasets and
-data dictionaries  to facilitate assessment of input data. The report can be
-used to help assess data structure, presence of fields, coherence across
-elements, and taxonomy or data dictionary formats. This report is compatible
-with Excel and can be exported as an Excel spreadsheet.
+Assesses the content and structure of a harmonized dossier and generates
+reports of the results. This function can be used to evaluate data structure,
+presence of specific fields, coherence across elements, and data dictionary
+formats.
 }
 \details{
-A harmonized dossier must be a named list containing at least one data frame
-or data frame extension (e.g. a tibble), each of them being
-harmonized dataset(s). It is generally the product of applying harmonization
-processing to a dossier object. The name of each tibble will be use as the
-reference name of the dataset. A harmonized dossier has four attributes :
-\code{Rmonize::class} which is "harmonized_dossier" ; \code{Rmonize::DataSchema}
-(provided by user) ; \verb{Rmonize::Data Processing Elements} ;
-\code{Rmonize::harmonized_col_id} (provided by user) which refers to the column
-in each dataset which identifies unique combination observation/dataset.
-This id column name is the same across the dataset(s), the DataSchema and
-the Data Processing Elements (created by using 'id_creation') and is used to
-initiate the process of harmonization.
+A harmonized dossier is a named list containing one or more data frames,
+which are harmonized datasets. A harmonized dossier is generally the
+product of applying processing to a dossier object The name of each
+harmonized dataset (data frame) is taken from the reference input dataset.
+A harmonized dossier also contains the DataSchema and
+Data Processing Elements used in processing as attributes.
 
-A taxonomy is classification scheme that can be defined for variable
-attributes. If defined, a taxonomy must be a data frame like object. It must
-be compatible with (and is generally extracted from) an Opal environment. To
-work with certain functions, a valid taxonomy must contain at least the
-columns 'taxonomy', 'vocabulary', and 'terms'. In addition, the taxonomy
-may follow Maelstrom research taxonomy, and its content can be evaluated
-accordingly, such as naming convention restriction, tagging elements,
-or scales, which are specific to Maelstrom Research. In this particular
-case, the tibble must also contain 'vocabulary_short', 'taxonomy_scale',
-'vocabulary_scale' and 'term_scale' to work with some specific functions.
+A DataSchema is the list of core variables to generate across datasets and
+related metadata. A DataSchema object is a list of data frames with elements
+named 'Variables' (required) and 'Categories' (if any). The 'Variables'
+element must contain at least the \code{name} column, and the 'Categories'
+element must contain at least the \code{variable} and \code{name} columns to be usable
+in any function. In 'Variables' the \code{name} column must also have unique
+entries, and in 'Categories' the combination of \code{variable} and \code{name} columns
+must also be unique.
+
+A taxonomy is a classification schema that can be defined for variable
+attributes. A taxonomy is usually extracted from an
+\href{https://www.obiba.org/pages/products/opal//}{Opal environment}, and a
+taxonomy object is a data frame that must contain at least the columns
+\code{taxonomy}, \code{vocabulary}, and \code{terms}. Additional details about Opal
+taxonomies are
+\href{https://opaldoc.obiba.org/en/latest/web-user-guide/administration/taxonomies.html}{available online}.
+
+The object may be specifically formatted to be compatible with additional
+\href{https://maelstrom-research.org/page/software}{Maelstrom Research software},
+in particular \href{https://www.obiba.org/pages/products/opal/}{Opal environments}.
 }
 \examples{
 {
 
-harmonized_dossier_evaluate(DEMO_files_harmo$harmonized_dossier)
+#' # use Rmonize_DEMO provided by the package
+library(dplyr)
+
+glimpse(harmonized_dossier_evaluate(Rmonize_DEMO$harmonized_dossier))
 
 }
 

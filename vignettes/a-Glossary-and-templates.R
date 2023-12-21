@@ -12,7 +12,3 @@ knitr::opts_chunk$set(
 source('datatables.R')
 
 
-## ----eval = TRUE, echo = FALSE------------------------------------------------
- DT_glossary
-
-

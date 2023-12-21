@@ -2,61 +2,84 @@
 % Please edit documentation in R/02-harmo_process_harmonization.R
 \name{pooled_harmonized_dataset_create}
 \alias{pooled_harmonized_dataset_create}
-\title{Generate the pooled dataset from harmonized dataset(s) in a dossier}
+\title{Generate a pooled harmonized dataset from a harmonized dossier}
 \usage{
 pooled_harmonized_dataset_create(
   harmonized_dossier,
-  unique_col_dataset = NULL,
-  unique_col_id = NULL
+  harmonized_col_dataset =
+    attributes(harmonized_dossier)$`Rmonize::harmonized_col_dataset`,
+  harmonized_col_id = attributes(harmonized_dossier)$`Rmonize::harmonized_col_id`,
+  add_col_dataset = FALSE,
+  dataschema = attributes(harmonized_dossier)$`Rmonize::DataSchema`,
+  data_proc_elem = attributes(harmonized_dossier)$`Rmonize::Data Processing Elements`
 )
 }
 \arguments{
-\item{harmonized_dossier}{List of tibble(s), each of them being
-harmonized dataset.}
+\item{harmonized_dossier}{A list containing the harmonized dataset(s).}
 
-\item{unique_col_dataset}{A character string identifying the name the column
-referring each dataset names. NULL by default.}
+\item{harmonized_col_dataset}{A character string identifying the column
+to use for dataset names.}
 
-\item{unique_col_id}{A character string identifying the name of the
-column identifier of the dataset and will be the concatenation of
-id column value and dataset name. NULL by default.}
+\item{harmonized_col_id}{A character string identifying the name of the
+column present in every dataset to use as a dataset identifier.}
+
+\item{add_col_dataset}{Whether to add an extra column to each
+harmonized dataset. The resulting data frame will have an additional column
+and its data dictionary will be updated accordingly adding categories for
+this variable if necessary. FALSE by default.}
+
+\item{dataschema}{A DataSchema object.}
+
+\item{data_proc_elem}{A Data Processing Elements object.}
 }
 \value{
-A tibble, which is the pooled harmonized dataset from a harmonized dossier.
+A data frame containing the pooled harmonized dataset.
 }
 \description{
-Generates the pooled harmonized dataset from harmonized dataset(s) in a
-dossier. The pooled dataset has two columns which can be declared by
-the user (unique_col_dataset and unique_col_id).
-The first column refers to the name of each dataset which is the name of each
-tibble in the dossier. The second column refers to the column id in each
-harmonized dataset and  which identifies unique combination (concatenated)
-observation/dataset. These two columns are added to ensure every information
-is safe during the process. The pooled harmonized dataset comes with its
-data dictionary which is the harmonized dossier DataSchema, to which the
-two extra columns are added.
+Generates a pooled harmonized dataset from a harmonized dossier. The function
+has two arguments that can optionally be declared by the user
+(\code{unique_col_dataset} and \code{unique_col_id}). \code{unique_col_dataset} refers to
+the columns which contains name of each harmonized dataset. \code{unique_col_id}
+refers to the column in harmonized datasets which identifies unique
+combinations of observation/dataset. These two columns are added to ensure
+that there is always a unique entity identifier when datasets are pooled.
 }
 \details{
-A harmonized dossier must be a named list containing at least one data frame
-or data frame extension (e.g. a tibble), each of them being
-harmonized dataset(s). It is generally the product of applying harmonization
-processing to a dossier object. The name of each tibble will be use as the
-reference name of the dataset. A harmonized dossier has four attributes :
-\code{Rmonize::class} which is "harmonized_dossier" ; \code{Rmonize::DataSchema}
-(provided by user) ; \verb{Rmonize::Data Processing Elements} ;
-\code{Rmonize::harmonized_col_id} (provided by user) which refers to the column
-in each dataset which identifies unique combination observation/dataset.
-This id column name is the same across the dataset(s), the DataSchema and
-the Data Processing Elements (created by using 'id_creation') and is used to
-initiate the process of harmonization.
+A harmonized dossier is a named list containing one or more data frames,
+which are harmonized datasets. A harmonized dossier is generally the
+product of applying processing to a dossier object The name of each
+harmonized dataset (data frame) is taken from the reference input dataset.
+A harmonized dossier also contains the DataSchema and
+Data Processing Elements used in processing as attributes.
+
+A DataSchema is the list of core variables to generate across datasets and
+related metadata. A DataSchema object is a list of data frames with elements
+named 'Variables' (required) and 'Categories' (if any). The 'Variables'
+element must contain at least the \code{name} column, and the 'Categories'
+element must contain at least the \code{variable} and \code{name} columns to be usable
+in any function. In 'Variables' the \code{name} column must also have unique
+entries, and in 'Categories' the combination of \code{variable} and \code{name} columns
+must also be unique.
+
+The Data Processing Elements specifies the algorithms used to process input
+variables into harmonized variables in the DataSchema format. It is also
+contains metadata used to generate documentation of the processing.
+A Data Processing Elements object is a data frame with specific columns
+used in data processing: \code{dataschema_variable}, \code{input_dataset},
+\code{input_variables}, \code{Mlstr_harmo::rule_category} and \code{Mlstr_harmo::algorithm}.
+To initiate processing, the first entry must be the creation of a harmonized
+primary identifier variable (e.g., participant unique ID).
 }
 \examples{
 {
 
-harmonized_dossier <- DEMO_files_harmo$harmonized_dossier
+# use madshapR_DEMO provided by the package
+library(dplyr)
 
-pooled_harmonized_dataset_create(
- harmonized_dossier,unique_col_dataset = 'adm_unique_id')
+harmonized_dossier <- Rmonize_DEMO$harmonized_dossier
+
+glimpse(pooled_harmonized_dataset_create(
+  harmonized_dossier,harmonized_col_id = 'adm_unique_id'))
   
 }
 

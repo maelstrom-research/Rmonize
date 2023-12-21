@@ -2,41 +2,38 @@
 % Please edit documentation in R/02-harmo_process_harmonization.R
 \name{dataschema_extract}
 \alias{dataschema_extract}
-\title{Extract and create the DataSchema from a Data Processing Elements}
+\title{Generate a DataSchema based on Data Processing Elements}
 \usage{
 dataschema_extract(data_proc_elem)
 }
 \arguments{
-\item{data_proc_elem}{A tibble, identifying the input
-Data Processing Elements.}
+\item{data_proc_elem}{A Data Processing Elements object.}
 }
 \value{
-A list of tibble(s), 'Variables' and 'Categories' (if any), each of them
-being the two elements of the DataSchema.
+A list of data frame(s) named 'Variables' and (if any) 'Categories', with
+\code{Rmonize::class} 'dataschema'.
 }
 \description{
-Creates the DataSchema in the Maelstrom Research formats (with 'Variables'
-and 'Categories' in separate tibbles and standard columns in each) from any
-Data Processing Elements.
+Generates a DataSchema from a Data Processing Elements.
 }
 \details{
-A Data Processing Elements contains the rules and metadata that will be used
-to perform harmonization of input datasets in accordance with the DataSchema.
-It must be a data frame or data frame extension (e.g. a tibble) and it must
-contain certain columns which participate to the process, including the
-\code{dataschema_variable}, \code{input_dataset},\code{input_variables},
-\code{Mlstr_harmo::rule_category} and  \code{Mlstr_harmo::algorithm}. The mandatory
-first processing element must be "id_creation" in
-\code{Mlstr_harmo::rule_category} followed by the name of the column taken as
-identifier of each dataset to initiate the process of harmonization.
+The Data Processing Elements specifies the algorithms used to process input
+variables into harmonized variables in the DataSchema format. It is also
+contains metadata used to generate documentation of the processing.
+A Data Processing Elements object is a data frame with specific columns
+used in data processing: \code{dataschema_variable}, \code{input_dataset},
+\code{input_variables}, \code{Mlstr_harmo::rule_category} and \code{Mlstr_harmo::algorithm}.
+To initiate processing, the first entry must be the creation of a harmonized
+primary identifier variable (e.g., participant unique ID).
 }
 \examples{
 {
 
-# You can use our demonstration files to run examples
+# Use Rmonize_DEMO to run examples.
+library(dplyr)
 
-dataschema_extract(
-  data_proc_elem = DEMO_files_harmo$`data_processing_elements - final`)
+glimpse(dataschema_extract(
+  data_proc_elem = Rmonize_DEMO$`data_processing_elements - final`))
 }
 
 }

@@ -3,29 +3,21 @@
 \docType{import}
 \name{reexports}
 \alias{reexports}
-\alias{as_data_dict}
-\alias{is_data_dict}
 \alias{as_data_dict_mlstr}
-\alias{is_data_dict_mlstr}
-\alias{as_dataset}
-\alias{is_dataset}
-\alias{as_dossier}
-\alias{is_dossier}
-\alias{data_extract}
-\alias{data_dict_extract}
-\alias{data_dict_apply}
-\alias{dataset_zap_data_dict}
-\alias{dossier_create}
-\alias{dataset_evaluate}
-\alias{data_dict_evaluate}
-\alias{dossier_evaluate}
-\alias{dataset_summarize}
-\alias{dossier_summarize}
-\alias{dataset_visualize}
-\alias{valueType_adjust}
 \alias{as_taxonomy}
+\alias{as_valueType}
+\alias{as_category}
+\alias{is_category}
+\alias{data_extract}
+\alias{dataset_zap_data_dict}
+\alias{is_data_dict}
+\alias{is_data_dict_mlstr}
+\alias{is_dataset}
+\alias{is_dossier}
 \alias{is_taxonomy}
-\alias{bookdown_open}
+\alias{valueType_adjust}
+\alias{col_id}
+\alias{data_dict_filter}
 \title{Objects exported from other packages}
 \keyword{internal}
 \description{
@@ -33,6 +25,6 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{madshapR}{\code{\link[madshapR]{as_data_dict}}, \code{\link[madshapR]{as_data_dict_mlstr}}, \code{\link[madshapR]{as_dataset}}, \code{\link[madshapR]{as_dossier}}, \code{\link[madshapR]{as_taxonomy}}, \code{\link[madshapR:reexports]{bookdown_open}}, \code{\link[madshapR]{data_dict_apply}}, \code{\link[madshapR]{data_dict_evaluate}}, \code{\link[madshapR]{data_dict_extract}}, \code{\link[madshapR]{data_extract}}, \code{\link[madshapR]{dataset_evaluate}}, \code{\link[madshapR]{dataset_summarize}}, \code{\link[madshapR]{dataset_visualize}}, \code{\link[madshapR]{dataset_zap_data_dict}}, \code{\link[madshapR]{dossier_create}}, \code{\link[madshapR]{dossier_evaluate}}, \code{\link[madshapR]{dossier_summarize}}, \code{\link[madshapR]{is_data_dict}}, \code{\link[madshapR]{is_data_dict_mlstr}}, \code{\link[madshapR]{is_dataset}}, \code{\link[madshapR]{is_dossier}}, \code{\link[madshapR]{is_taxonomy}}, \code{\link[madshapR]{valueType_adjust}}}
+  \item{madshapR}{\code{\link[madshapR]{as_category}}, \code{\link[madshapR]{as_data_dict_mlstr}}, \code{\link[madshapR]{as_taxonomy}}, \code{\link[madshapR]{as_valueType}}, \code{\link[madshapR]{col_id}}, \code{\link[madshapR]{data_dict_filter}}, \code{\link[madshapR]{data_extract}}, \code{\link[madshapR]{dataset_zap_data_dict}}, \code{\link[madshapR]{is_category}}, \code{\link[madshapR]{is_data_dict}}, \code{\link[madshapR]{is_data_dict_mlstr}}, \code{\link[madshapR]{is_dataset}}, \code{\link[madshapR]{is_dossier}}, \code{\link[madshapR]{is_taxonomy}}, \code{\link[madshapR]{valueType_adjust}}}
 }}
 
