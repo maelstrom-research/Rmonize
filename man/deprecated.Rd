@@ -10,6 +10,6 @@ Rmonize_help(...)
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
-Use \code{\link[=madshapR_website]{madshapR_website()}} instead of \code{madshapR_help()}.
+Use \code{\link[=Rmonize_website]{Rmonize_website()}} instead of \code{Rmonize_help()}.
 }
 \keyword{internal}
