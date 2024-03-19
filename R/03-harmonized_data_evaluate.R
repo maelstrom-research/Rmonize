@@ -197,7 +197,7 @@ data_proc_elem_evaluate <- function(data_proc_elem, taxonomy = NULL){
           "recode",
           "rename",
           "undetermined"),NA_character_,.data$`Mlstr_harmo::rule_category`)) %>%
-    filter(!is.na(.data$`value`)) %>%
+    dplyr::filter(!is.na(.data$`value`)) %>%
     mutate(condition = "[ERR] - Rule category name doesn't exist") %>%
     select("Row number","value","condition") 
   

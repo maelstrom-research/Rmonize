@@ -405,7 +405,7 @@ Please correct elements and reprocess.')
     names_in_dpe <- 
       str_squish(unlist(strsplit(
         dpe[[i]] %>% 
-          filter(
+          dplyr::filter(
             .data$`input_variables` != '__BLANK__') %>%
           pull(.data$`input_variables`),split = ";"))) %>%
       unique %>% 
@@ -547,7 +547,7 @@ bold(i)," -----------------------------------------------------"),1,81))
         vT_test <- fabR::silently_run(
           as_valueType(unique(col[[j]]),
                        dataschema[['Variables']] %>%
-                         filter(.data$`name` == j) %>%
+                         dplyr::filter(.data$`name` == j) %>%
                          pull(.data$`valueType`)))
         
         if(is_error(attributes(vT_test)$condition))
@@ -1456,11 +1456,11 @@ show_harmo_error <- function(harmonized_dossier, show_warnings = TRUE){
         harmonized_dossier[[i]] %>% 
         summarise(across(everything(), ~all(is.na(.)))) %>%
         pivot_longer(everything()) %>%
-        filter(.data$`value` == TRUE) %>%
+        dplyr::filter(.data$`value` == TRUE) %>%
         select('dataschema_variable' = 'name','empty' = 'value')
       dpe <- 
         data_proc_elem %>% 
-        filter(.data$`input_dataset` == i & 
+        dplyr::filter(.data$`input_dataset` == i & 
              !(.data$`Mlstr_harmo::rule_category` %in% 
                    c('impossible','undetermined'))) %>%
         select('dataschema_variable') %>% distinct
@@ -1845,8 +1845,9 @@ identifier of dataset in your dossier.')
     object %>%
     group_by(.data$`input_dataset`) %>%
     group_modify(.f = ~ 
-                bind_rows(filter(.,`Mlstr_harmo::rule_category` %in% 'id_creation'),
-                          filter(.,!`Mlstr_harmo::rule_category` %in% 'id_creation')))
+                bind_rows(
+                  dplyr::filter(., `Mlstr_harmo::rule_category` %in% 'id_creation'),
+                  dplyr::filter(.,!`Mlstr_harmo::rule_category` %in% 'id_creation')))
     
   if(is.null(object[['index']])){
     object <-
