@@ -4,7 +4,7 @@
 #' @description
 #' `r lifecycle::badge("deprecated")`
 #'
-#' Use [madshapR_website()] instead of `madshapR_help()`.
+#' Use [Rmonize_website()] instead of `Rmonize_help()`.
 #'
 #' @name deprecated
 #' @keywords internal
@@ -18,6 +18,6 @@ Rmonize_help <- function(...) {
   
   # Unquote-splice to avoid argument matching
   
-  Rmonize_website(...)
+  Rmonize_website()
   
 }
