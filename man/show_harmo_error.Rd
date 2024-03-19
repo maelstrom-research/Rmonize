@@ -4,10 +4,13 @@
 \alias{show_harmo_error}
 \title{Print a summary of data processing in the console}
 \usage{
-show_harmo_error(harmonized_dossier)
+show_harmo_error(harmonized_dossier, show_warnings = TRUE)
 }
 \arguments{
 \item{harmonized_dossier}{A list containing the harmonized dataset(s).}
+
+\item{show_warnings}{Whether the function should print warnings or not.
+TRUE by default.}
 }
 \value{
 Nothing to be returned. The function prints messages in the console,
