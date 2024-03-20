@@ -8,7 +8,7 @@ DEMO_files_harmo <-
   file_index_read()
 # 
 # 
-# simple harmo 
+# simple harmo
 dataset_MELBOURNE_1 <- DEMO_files$dataset_MELBOURNE_1[1]
 dossier <- dossier_create(list(dataset_MELBOURNE_1))
 # Associate metadata from data dictionary to the the data
