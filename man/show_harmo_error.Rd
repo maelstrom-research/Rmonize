@@ -2,43 +2,37 @@
 % Please edit documentation in R/02-harmo_process_harmonization.R
 \name{show_harmo_error}
 \alias{show_harmo_error}
-\title{Generate a summary of the annotated Data Processing Elements in the console}
+\title{Print a summary of data processing in the console}
 \usage{
 show_harmo_error(harmonized_dossier)
 }
 \arguments{
-\item{harmonized_dossier}{List of tibble(s), each of them being
-harmonized dataset.}
+\item{harmonized_dossier}{A list containing the harmonized dataset(s).}
 }
 \value{
-No object returned, the function sends messages in the console, showing
-errors in the harmonization process.
+Nothing to be returned. The function prints messages in the console,
+showing any errors in the processing.
 }
 \description{
-Reads annotated Data Processing Elements to list processes, any errors, and
-an overview of each harmonization rule. This summary report can be used to
-asses harmonization and provide insight on the data structure, fields to
-investigate, and coherence across elements.
+Reads a harmonized dossier, product of \code{\link[=harmo_process]{harmo_process()}}, to list processes,
+any errors, and an overview of each harmonization rule. The output printed
+in the console can help in correcting any errors that occurred during
+data processing.
 }
 \details{
-A harmonized dossier must be a named list containing at least one data frame
-or data frame extension (e.g. a tibble), each of them being
-harmonized dataset(s). It is generally the product of applying harmonization
-processing to a dossier object. The name of each tibble will be use as the
-reference name of the dataset. A harmonized dossier has four attributes :
-\code{Rmonize::class} which is "harmonized_dossier" ; \code{Rmonize::DataSchema}
-(provided by user) ; \verb{Rmonize::Data Processing Elements} ;
-\code{Rmonize::harmonized_col_id} (provided by user) which refers to the column
-in each dataset which identifies unique combination observation/dataset.
-This id column name is the same across the dataset(s), the DataSchema and
-the Data Processing Elements (created by using 'id_creation') and is used to
-initiate the process of harmonization.
+A harmonized dossier is a named list containing one or more data frames,
+which are harmonized datasets. A harmonized dossier is generally the
+product of applying processing to a dossier object The name of each
+harmonized dataset (data frame) is taken from the reference input dataset.
+A harmonized dossier also contains the DataSchema and
+Data Processing Elements used in processing as attributes.
 }
 \examples{
 {
 
-harmonized_dossier <- DEMO_files_harmo$harmonized_dossier
-show_harmo_error(harmonized_dossier)
+  harmonized_dossier <- Rmonize_DEMO$harmonized_dossier
+  show_harmo_error(harmonized_dossier)
+
 }
 
 }

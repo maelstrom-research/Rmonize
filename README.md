@@ -8,60 +8,77 @@
 [![R-CMD-check](https://github.com/maelstrom-research/Rmonize/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/maelstrom-research/Rmonize/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-# Background
+# Overview
 
-Combining and co-analyzing data in a dossier offers potential advantages
-for addressing research questions, but data items collected in a dossier
-must first be made suitably equivalent, i.e., harmonized. This process
-of data harmonization is essential but challenging to implement in a
-rigorous and transparent way. To help address these challenges,
-<a href="https://www.maelstrom-research.org/" target="_blank"> Maelstrom
-Research</a> developed guidelines for rigorous
-<a href="https://maelstrom-research.org/page/maelstrom-guidelines" target="_blank">
-retrospective data harmonization</a>. An overview of the iterative steps
-of this process is shown in Figure 1.
+Harmonizing data (processing data items from different datasets under a
+common format) is essential to support research but can be
+methodologically and technically challenging. Rmonize is an R package
+developed by
+<a href="https://www.maelstrom-research.org/" target="_blank">Maelstrom
+Research</a> to address some of the key challenges faced and promote a
+streamlined, reusable, and well documented harmonization pipeline. The
+current documentation provides a starting point to use the package.
 
-<figure id="id">
-<img
-src="https://www.maelstrom-research.org/assets/images/HarmoStepsNew.png"
-class="class" style="width:50.0%;height:50.0%"
-alt="Figure 1. Iterative harmonization steps." />
-<figcaption aria-hidden="true">Figure 1. Iterative harmonization
-steps.</figcaption>
-</figure>
+# Pipeline
 
-# Rmonize
+<img src="man/figures/fig_readme.png" 
+style="width: 100%; margin: 0 auto; display: flex; justify-content: center;">
 
-The **Rmonize** R package addresses practical aspects of data
-harmonization processing (guidelines Step 3) and facilitates evaluation
-(Step 4) and documentation (Step 5) of harmonization products. It was
-developed to meet the needs of Maelstrom’s collaborative harmonization
-initiatives, focusing on harmonization of individual participant data
-from population-based cohort studies, but is intended as a general
-resource for diverse harmonization efforts. **Rmonize** is compatible
-with the Maelstrom ObiBa software suite and other commonly used data
-management and statistical software.
+<br>
 
-# Get started
+Data processing in Rmonize depends on three external user-provided
+elements: the input datasets (datasets collected by individual studies
+or data collection centres), DataSchema (list of core variables to
+generate across input datasets), and Data Processing Elements (elements
+and algorithms needed to process variables from input datasets into
+DataSchema formats). The DataSchema and Data Processing Elements are
+prepared in Excel spreadsheets and imported into R, and they can be
+easily modified and shared outside of R. The package includes integrated
+functions to support organized data processing and generate well
+documented outputs. These functions help to prepare and validate inputs,
+process input datasets into harmonized datasets, identify and
+troubleshoot errors in processing elements, and produce documentation to
+help users evaluate harmonized data content and quality. The main
+outputs provided by Rmonize are the harmonized datasets, their
+associated data dictionaries, and reports with descriptive statistics,
+provided in summary tables or figures. Rmonize also uses two underlying
+packages, <a href="https://CRAN.R-project.org/package=madshapR" 
+target="_blank">madshapR</a> and
+<a href="https://CRAN.R-project.org/package=fabR" 
+target="_blank">fabR</a>, which include many functions to work with data
+and metadata. The specific functions required by Rmonize are
+automatically loaded and accessible to the user without separately
+loading madshapR and fabR.
 
-## Install the package
+# Installation
 
 ``` r
-# To install the R package:
+# To install Rmonize:
 install.packages('Rmonize')
 
 library(Rmonize)
 # If you need help with the package, please use:
 Rmonize_help()
+
+# Downloadable templates are available here
+Rmonize_templates()
+
+# Demo files are available here, along with an online demonstration process 
+Rmonize_DEMO
 ```
 
-## Annexes
+## Getting started
 
-[Glossary and templates](articles/a-Glossary-and-templates.html)
+For more information, you can go to:
 
-[Understand the workflow](articles/b-Understand-the-workflow.html)
+[Documentation on Rmonize functions and help
+pages.](https://maelstrom-research.github.io/Rmonize-documentation/reference/index.html)
 
-[How to fill the Data Processing
-Elements](articles/c-The-Data-processing-elements.html)
+[Descriptions of key terms and downloadable
+templates.](https://maelstrom-research.github.io/Rmonize-documentation/articles/a-Glossary-and-templates.html)
 
-[Example with DEMO files](articles/d-Example-with-DEMO-files.html)
+[Explanation of how to prepare the Data Processing
+Elements.](https://maelstrom-research.github.io/Rmonize-documentation/articles/b-Data-processing-elements.html)
+
+[Example scripts with demo
+files.](https://maelstrom-research.github.io/Rmonize-documentation/articles/c-Example-with-Rmonize_DEMO.html)

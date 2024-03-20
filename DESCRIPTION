@@ -1,7 +1,7 @@
 Package: Rmonize
 Type: Package
-Title: Support Data Harmonization Following 'Maelstrom Research' Guidelines
-Version: 1.0.0.0000
+Title: Support Retrospective Harmonization of Data
+Version: 1.0.1
 Authors@R: 
     c(person(given = "Guillaume",
              family = "Fabre",
@@ -9,16 +9,7 @@ Authors@R:
              email = "guijoseph.fabre@gmail.com",
              comment = c(ORCID = "0000-0002-0124-9970")),
       person("Maelstrom-research group",
-             role=c("cph", "fnd")),
-      person(given = "Alexandre",
-             family = "Trottier",
-             role=c("ctb")),
-      person(given = "Tina",
-             family = "Wey",
-             role=c("ctb")),
-      person(given = "Samuel",
-             family = "El Bouzaïdi Tiali",
-             role=c("ctb")))
+             role=c("fnd")))
 Maintainer: Guillaume Fabre <guijoseph.fabre@gmail.com> 
 Description: Functions to support rigorous retrospective data harmonization 
     processing, evaluation, and documentation across datasets from different 
@@ -44,14 +35,12 @@ Imports: dplyr (>= 1.1.0),
     crayon,
     haven,
     utils,
-    fabR,
+    fs,
+    fabR (>= 2.0.0),
     madshapR
 Suggests: janitor,
     car,
     knitr
-Remotes:
-    github::guifabre/fabR@testing,
-    github::maelstrom-research/madshapR@testing
 URL: https://github.com/maelstrom-research/Rmonize/
 BugReports: https://github.com/maelstrom-research/Rmonize/issues
 Roxygen: list(markdown = TRUE)

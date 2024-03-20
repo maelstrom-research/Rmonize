@@ -2,58 +2,53 @@
 % Please edit documentation in R/03-harmonized_data_evaluate.R
 \name{dataschema_evaluate}
 \alias{dataschema_evaluate}
-\title{Generate a quality assessment report of the DataSchema}
+\title{Generate an assessment report for a DataSchema}
 \usage{
 dataschema_evaluate(dataschema, taxonomy = NULL)
 }
 \arguments{
-\item{dataschema}{A list of tibble(s) representing metadata of an
-associated harmonized dossier.}
+\item{dataschema}{A DataSchema object.}
 
-\item{taxonomy}{A tibble identifying the scheme used for variables
-classification.}
+\item{taxonomy}{An optional data frame identifying a variable classification
+schema.}
 }
 \value{
-A list of tibbles of report for the DataSchema.
+A list of data frames containing assessment reports.
 }
 \description{
-Assesses the content and structure of a DataSchema and reports potential
-issues to facilitate the assessment of input data. The report can be used to
-help assess data structure, presence of fields, coherence across elements,
-and taxonomy or data dictionary formats. This report is compatible with Excel
-and can be exported as an Excel spreadsheet.
+Assesses the content and structure of a DataSchema object and generates
+reports of the results. This function can be used to evaluate data structure,
+presence of specific fields, coherence across elements, and data dictionary
+formats.
 }
 \details{
-A DataSchema defines the harmonized variables to be generated, and also
-represents metadata of an associated harmonized dossier. It must be a list
-of data frame or data frame extension (e.g. a tibble) objects with elements
-named "Variables" (required) and "Categories" (if any). The "Variables"
-element must contain at least the \code{name} column, and the "Categories" element
-must contain at least the \code{variable} and \code{name} columns to be usable in any
-function. To be considered as a minimum workable DataSchema, in "Variables"
-the \code{name} column must also have unique and non-null entries, and in
-"Categories" the combination of \code{variable} and \code{name} columns must also be
-unique.
+A DataSchema is the list of core variables to generate across datasets and
+related metadata. A DataSchema object is a list of data frames with elements
+named 'Variables' (required) and 'Categories' (if any). The 'Variables'
+element must contain at least the \code{name} column, and the 'Categories'
+element must contain at least the \code{variable} and \code{name} columns to be usable
+in any function. In 'Variables' the \code{name} column must also have unique
+entries, and in 'Categories' the combination of \code{variable} and \code{name} columns
+must also be unique.
 
-A taxonomy is classification scheme that can be defined for variable
-attributes. If defined, a taxonomy must be a data frame like object. It must
-be compatible with (and is generally extracted from) an Opal environment. To
-work with certain functions, a valid taxonomy must contain at least the
-columns 'taxonomy', 'vocabulary', and 'terms'. In addition, the taxonomy
-may follow Maelstrom research taxonomy, and its content can be evaluated
-accordingly, such as naming convention restriction, tagging elements,
-or scales, which are specific to Maelstrom Research. In this particular
-case, the tibble must also contain 'vocabulary_short', 'taxonomy_scale',
-'vocabulary_scale' and 'term_scale' to work with some specific functions.
+A taxonomy is a classification schema that can be defined for variable
+attributes. A taxonomy is usually extracted from an
+\href{https://www.obiba.org/pages/products/opal//}{Opal environment}, and a
+taxonomy object is a data frame that must contain at least the columns
+\code{taxonomy}, \code{vocabulary}, and \code{terms}. Additional details about Opal
+taxonomies are
+\href{https://opaldoc.obiba.org/en/latest/web-user-guide/administration/taxonomies.html}{available online}.
 }
 \examples{
 {
+
+# use Rmonize_DEMO provided by the package
 
 library(dplyr)
 library(madshapR) # data_dict_filter
 
 dataschema <- 
-  DEMO_files_harmo$`dataschema - final` \%>\%
+  Rmonize_DEMO$`dataschema - final` \%>\%
   data_dict_filter("name == 'adm_unique_id'")
   
 dataschema_evaluate(dataschema)

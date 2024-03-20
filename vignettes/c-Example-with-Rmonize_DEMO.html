@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Example with Rmonize_DEMO</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Example with Rmonize_DEMO</h1>
+
+
+
+<div id="objective-of-the-vignette" class="section level1">
+<h1>Objective of the vignette</h1>
+<p>This vignette provides examples of applying Rmonize functions to
+prepare inputs, process data, and validate and consolidate harmonized
+data, using illustrative demo objects included with the package. The
+vignette focuses on demonstrating the usage of functions on inputs that
+already have valid structure and content. See the <a href="https://maelstrom-research.github.io/Rmonize-documentation/articles/a-Glossary-and-templates.html">Glossary</a>
+and <a href="https://maelstrom-research.github.io/Rmonize-documentation/reference/index.html">Reference</a>
+pages for more details about the terms used in this document.</p>
+</div>
+<div id="get-started" class="section level1">
+<h1>Get started</h1>
+<div id="install-the-package" class="section level2">
+<h2>Install the package</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># To install Rmonize:</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&#39;Rmonize&#39;</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">library</span>(Rmonize)</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="co"># If you need help with the package, please use:</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="fu">Rmonize_help</span>()</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co"># Downloadable templates are available here</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="fu">Rmonize_templates</span>()</span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co"># Demo files are available here, along with an online demonstration process </span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a>Rmonize_DEMO</span></code></pre></div>
+</div>
+</div>
+<div id="demo-objects" class="section level1">
+<h1>Demo objects</h1>
+<p>Demo objects are available through the built-in <a href="https://maelstrom-research.github.io/Rmonize-documentation/reference/Rmonize_DEMO.html">Rmonize_DEMO</a>
+object. They include example input datasets, input data dictionaries,
+DataSchema, Data Processing Elements (DPE), and harmonized datasets that
+provide illustrative examples of the structure and content of the main
+objects used by Rmonize functions.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># To see contents</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">names</span>(Rmonize_DEMO)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">print</span>(Rmonize_DEMO<span class="sc">$</span>dataset_TOKYO)                        <span class="co"># An input dataset</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="fu">print</span>(Rmonize_DEMO<span class="sc">$</span>data_dict_TOKYO)                      <span class="co"># An input data dictionary</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="fu">print</span>(Rmonize_DEMO<span class="sc">$</span><span class="st">`</span><span class="at">data_processing_elements - final</span><span class="st">`</span>) <span class="co"># A Data Processing Elements </span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="fu">print</span>(Rmonize_DEMO<span class="sc">$</span><span class="st">`</span><span class="at">dataschema - final</span><span class="st">`</span>)                 <span class="co"># A DataSchema</span></span></code></pre></div>
+</div>
+<div id="pipeline" class="section level1">
+<h1>Pipeline</h1>
+<div id="prepare-inputs" class="section level2">
+<h2>Prepare inputs</h2>
+<div id="dataschema-and-data-processing-elements-dpe" class="section level3">
+<h3>DataSchema and Data Processing Elements (DPE)</h3>
+<p>The DataSchema and DPE are generally prepared from Excel <a href="https://maelstrom-research.github.io/Rmonize-documentation/articles/a-Glossary-and-templates.html">templates</a>
+and imported into R. Separate documentation is provided for preparing
+Data Processing Elements. The DataSchema will be an R list with named
+elements Variables and Categories. The DPE will be a data frame. You can
+check the structure of each object and assign the correct attributes
+explicitly to ensure compatibility with Rmonize functions.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># as_dataschema and as_data_proc_elem will check the structure of object and </span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co"># assign attributes to them.</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>dataschema <span class="ot">&lt;-</span> <span class="fu">as_dataschema</span>(Rmonize_DEMO<span class="sc">$</span><span class="st">`</span><span class="at">dataschema - final</span><span class="st">`</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>data_proc_elem <span class="ot">&lt;-</span> <span class="fu">as_data_proc_elem</span>(Rmonize_DEMO<span class="sc">$</span><span class="st">`</span><span class="at">data_processing_elements - final</span><span class="st">`</span>)</span></code></pre></div>
+<p><em> Note: In the DEMO DPEs, all elements for three different input
+datasets are combined in one file. A DPE can also be prepared for each
+input dataset separately, and the individual DPEs combined as needed for
+processing. The DataSchema and DPE objects can be assigned explicitly
+</em></p>
+</div>
+<div id="combine-input-datasets-and-data-dictionaries-in-a-dossier" class="section level3">
+<h3>Combine input datasets and data dictionaries in a dossier</h3>
+<p>If input data dictionaries (with metadata about variables and
+categories in input datasets) are available, they can be associated with
+their corresponding datasets using the function <a href="https://maelstrom-research.github.io/madshapR-documentation/reference/data_dict_apply.html">data_dict_apply()</a>.
+If not provided, minimal data dictionaries will automatically be created
+to meet technical requirements of Rmonize functions as needed.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># Associate metadata from input data dictionaries to the input datasets.</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>dataset_MELBOURNE <span class="ot">&lt;-</span> <span class="fu">data_dict_apply</span>(</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  <span class="at">dataset =</span> Rmonize_DEMO<span class="sc">$</span>dataset_MELBOURNE,</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>  <span class="at">data_dict =</span> Rmonize_DEMO<span class="sc">$</span>data_dict_MELBOURNE)</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>dataset_PARIS <span class="ot">&lt;-</span> <span class="fu">data_dict_apply</span>(</span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>  <span class="at">dataset =</span> Rmonize_DEMO<span class="sc">$</span>dataset_PARIS,</span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>  <span class="at">data_dict =</span> Rmonize_DEMO<span class="sc">$</span>data_dict_PARIS)</span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>dataset_TOKYO <span class="ot">&lt;-</span> <span class="fu">data_dict_apply</span>(</span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>  <span class="at">dataset =</span> Rmonize_DEMO<span class="sc">$</span>dataset_TOKYO,</span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>  <span class="at">data_dict =</span> Rmonize_DEMO<span class="sc">$</span>data_dict_TOKYO)</span></code></pre></div>
+<p>For use in <a href="https://maelstrom-research.github.io/Rmonize-documentation/reference/harmo_process.html">harmo_process()</a>,
+one or more input datasets and any associated data dictionaries must be
+grouped into a named list (referred to as a “dossier” in Rmonize). This
+can be done explicitly with <a href="https://maelstrom-research.github.io/madshapR-documentation/reference/dossier_create.html">dossier_create()</a>.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co"># Group the datasets into a dossier object.</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co"># NB: The names of the datasets in the dossier must match the column </span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co"># input_dataset in the Data Processing Elements</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>dossier <span class="ot">&lt;-</span> <span class="fu">dossier_create</span>( <span class="at">dataset_list =</span> <span class="fu">list</span>(</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>  dataset_MELBOURNE, </span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>  dataset_PARIS, </span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>  dataset_TOKYO))</span></code></pre></div>
+</div>
+</div>
+<div id="process-data" class="section level2">
+<h2>Process data</h2>
+<p>When the input dossier, DataSchema, and DPE are prepared, you can
+initiate processing using <a href="https://maelstrom-research.github.io/Rmonize-documentation/reference/harmo_process.html">harmo_process()</a>,
+which uses information from the inputs jointly to generate harmonized
+datasets (one for each input dataset).</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>harmonized_dossier <span class="ot">&lt;-</span> <span class="fu">harmo_process</span>(</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>    dossier, </span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>    dataschema, </span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>    data_proc_elem)</span></code></pre></div>
+<p>This produces a harmonized dossier (a list of harmonized datasets and
+associated metadata, with associated information from the DataSchema and
+DPE). If there were any errors or warnings during the process, these
+will be printed in the console. You can print a summary of any errors
+and warnings associated with individual algorithms in the console with
+<a href="https://maelstrom-research.github.io/Rmonize-documentation/reference/show_harmo_error.html">show_harmo_error()</a>.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="fu">show_harmo_error</span>(harmonized_dossier)</span></code></pre></div>
+<p><em> Note: If there is a processing error, a harmonized dossier will
+be created, but the affected harmonized dataset(s) will be empty.
+</em></p>
+</div>
+<div id="validate-and-consolidate-harmonized-data" class="section level2">
+<h2>Validate and consolidate harmonized data</h2>
+<p>You can assess and summarize harmonized datasets to identify
+potential issues, produce summary statistics, and generate visual
+reports. To perform evaluations and summaries of the entire harmonized
+dossier, you can use <a href="https://maelstrom-research.github.io/Rmonize-documentation/reference/harmonized_dossier_evaluate.html">harmonized_dossier_evaluate()</a>
+and <a href="https://maelstrom-research.github.io/Rmonize-documentation/reference/harmonized_dossier_summarize.html">harmonized_dossier_summarize()</a>,
+which produce summary tables (that can be exported to Excel).</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># Evaluate and summarize a harmonized dossier containing multiple harmonized datasets.</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>harmonized_dossier_evaluation <span class="ot">&lt;-</span> <span class="fu">harmonized_dossier_evaluate</span>(harmonized_dossier)</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>harmonized_dossier_summary <span class="ot">&lt;-</span> <span class="fu">harmonized_dossier_summarize</span>(harmonized_dossier)</span></code></pre></div>
+<p>A visual report with summary figures for each variable can also be
+produced using <a href="https://maelstrom-research.github.io/Rmonize-documentation/reference/harmonized_dossier_visualize.html">harmonized_dossier_visualize()</a>.</p>
+<p><strong>Warning ⚠</strong> <em>This tutorial creates a folder ‘tmp’
+where the visual report is generated.</em></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co"># place your harmonized dossier in a folder. This folder name is mandatory, and </span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="co"># must not previously exist.</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>bookdown_path <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&#39;tmp/&#39;</span>,<span class="fu">basename</span>(<span class="fu">tempdir</span>()))</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="fu">harmonized_dossier_visualize</span>(harmonized_dossier, bookdown_path)</span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="co"># Open the visual report in a browser.</span></span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="fu">bookdown_open</span>(bookdown_path)</span></code></pre></div>
+<p>To combine the individual harmonized datasets in a harmonized dossier
+into one pooled harmonized dataset, use <a href="https://maelstrom-research.github.io/Rmonize-documentation/reference/pooled_harmonized_dataset_create.html">pooled_harmonized_dataset_create()</a>.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="co"># Generate one pooled harmonized dataset from a harmonized dossier</span></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>pooled_harmonized_dataset <span class="ot">&lt;-</span> </span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>  <span class="fu">pooled_harmonized_dataset_create</span>(harmonized_dossier)</span></code></pre></div>
+<p>To get the harmonized data dictionary for an individual harmonized
+dataset (which contains more details about algorithms and R scripts used
+in processing for that dataset), use <a href="https://maelstrom-research.github.io/madshapR-documentation/reference/data_dict_extract.html">data_dict_extract()</a>.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="co"># Extract the harmonized data dictionary for one harmonized dataset.</span></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>harmonized_TOKYO_dd <span class="ot">&lt;-</span> <span class="fu">data_dict_extract</span>(harmonized_dossier<span class="sc">$</span>dataset_TOKYO)</span></code></pre></div>
+</div>
+<div id="use-harmonized-data" class="section level2">
+<h2>Use harmonized data</h2>
+<p>Once you are satisfied with the outputs, they can be exported in any
+R compatible format. For example, harmonized datasets can be exported as
+labelled datasets that keep variable attributes as metadata (e.g. SAS
+files), and tabular reports can be exported as Excel files.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="fu">library</span>(fabR)</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="do">## Examples of exporting objects as Excel files.</span></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="co"># write_excel_allsheets(harmonized_dossier, &quot;myfile.xlsx&quot;)</span></span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a><span class="co"># write_excel_allsheets(harmonized_dossier_summary, &quot;myfile.xlsx&quot;)</span></span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="co"># write_excel_allsheets(harmonized_TOKYO_dd, &quot;myfile.xlsx&quot;)</span></span></code></pre></div>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
