@@ -205,6 +205,13 @@ Please write harmo_process(dataschema = my_object) instead.')
   if(is.null(object) & is.null(data_proc_elem) & is.null(dataschema))
     stop(call. = FALSE,"At least one element is missing.")
   
+  
+  if(!is.null(data_proc_elem))
+    if(is.null(data_proc_elem[['input_dataset']]) | 
+       is.null(data_proc_elem[['Mlstr_harmo::rule_category']]))
+      if(is.null(data_proc_elem[['rule_category']]))
+        as_data_proc_elem(data_proc_elem)
+  
   # create dossier from data proc elem.
   
   if(is.null(object) & !is.null(data_proc_elem)){
@@ -268,25 +275,36 @@ Please write harmo_process(dataschema = my_object) instead.')
     
   if(is_dataset(dossier)) dossier <- list(dossier)
   
-  fargs <- as.list(match.call(expand.dots = TRUE))
   if(is.null(names(dossier)))
+    if(length(dossier) == 1 & !is.null(data_proc_elem))
+      if(length(unique(data_proc_elem$input_dataset)) == 1 &
+         !is.na(unique(data_proc_elem$input_dataset)))
+        names(dossier) <- unique(data_proc_elem$input_dataset)
+  
+  if(is.null(names(dossier))){
+    fargs <- as.list(match.call(expand.dots = TRUE))
     if(!is.null(fargs$object)){
       names(dossier) <- make_name_list(as.character(fargs['object']), dossier)
     }else{
       names(dossier) <- make_name_list(as.character(fargs['dossier']), dossier)
-    }
+    }    
+  }
+
   
   # check arguments. make sure col_is harmonizable if exists
   dossier <- dossier_create(dossier)
+  
+  if(!is.null(data_proc_elem))
+    if(length(dossier) == 1)
+      if(length(unique(data_proc_elem$input_dataset)) == 1 &
+         is.na(unique(data_proc_elem$input_dataset)))
+        data_proc_elem$input_dataset <- names(dossier)
   
   if(!is.null(harmonized_col_id)){
     dossier <- 
       dossier %>% 
       lapply(function(x) 
         x %>% 
-          # mutate(across(
-          # all_of(harmonized_col_id),
-          # ~ as_valueType(.,'text'))) %>%
           as_dataset(harmonized_col_id)
     )}
 
@@ -298,6 +316,21 @@ Please write harmo_process(dataschema = my_object) instead.')
   #       harmonized_col_id = harmonized_col_id,
   #       harmonized_col_dataset = harmonized_col_dataset)  
   # return(harmo_process(dossier))}
+  
+  
+  if(!is.null(data_proc_elem))
+    if(length(dossier) == 1)
+      if(length(unique(data_proc_elem$input_dataset)) == 1 &
+         is.na(unique(data_proc_elem$input_dataset)))
+        data_proc_elem$input_dataset <- names(dossier)
+  
+  if(!is.null(data_proc_elem))
+    if(length(dossier) == 1)
+      if(length(unique(data_proc_elem$input_dataset)) == 1 &
+         length(str_subset(data_proc_elem$`Mlstr_harmo::rule_category`,'id_creation')) == 0){
+           id_creation <- data_proc_elem_get(dossier %>% lapply(function(x) x[1]))
+           data_proc_elem <- bind_rows(id_creation,data_proc_elem)
+         }
 
   # check arguments
   if(is.null(data_proc_elem)){
