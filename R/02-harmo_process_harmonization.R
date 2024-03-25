@@ -328,8 +328,12 @@ Please write harmo_process(dataschema = my_object) instead.')
     if(length(dossier) == 1)
       if(length(unique(data_proc_elem$input_dataset)) == 1 &
          length(str_subset(data_proc_elem$`Mlstr_harmo::rule_category`,'id_creation')) == 0){
-           id_creation <- data_proc_elem_get(dossier %>% lapply(function(x) x[1]))
-           data_proc_elem <- bind_rows(id_creation,data_proc_elem)
+        
+        if(is.null(harmonized_col_id)) 
+          dossier <- add_index_dossier(dossier)
+        
+        id_creation <- data_proc_elem_get(dossier %>% lapply(function(x) x[1]))
+        data_proc_elem <- bind_rows(id_creation,data_proc_elem)
          }
 
   # check arguments
@@ -562,16 +566,16 @@ bold(i)," -----------------------------------------------------"),1,81))
       process_rule  <- dpe[[i]][dpe[[i]]$output_variable == j,]
       idx <- idx + 1
       
+      harmo_parse_process_rule <- 
+      
       r_script <-
-        # Rmonize:::harmo_parse_process_rule(
-        harmo_parse_process_rule(
+        get("harmo_parse_process_rule", envir = asNamespace("Rmonize"))(
           process_rule_slice = process_rule,
           input_dataset = input_dataset,
           r_script = TRUE)
       
       col <-
-        # Rmonize:::harmo_parse_process_rule(
-        harmo_parse_process_rule(
+        get("harmo_parse_process_rule", envir = asNamespace("Rmonize"))(
           process_rule_slice = process_rule, 
           input_dataset = input_dataset, 
           r_script = FALSE)
