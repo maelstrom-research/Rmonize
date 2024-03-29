@@ -11,3 +11,4 @@
 ^Meta$
 ^NEWS\.Rmd$
 ^CRAN-SUBMISSION$
+^tests$
