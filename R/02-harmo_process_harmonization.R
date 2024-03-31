@@ -98,6 +98,9 @@ harmo_process <- function(
   # dans le DataSchema
   # controle de version ?
   
+  if(is.null(object)) object <- dossier
+  if(is.null(dossier)) dossier <- object
+  
   if(.debug == FALSE){
     
     # check arguments
@@ -120,27 +123,64 @@ input elements before processing harmonization.")
     col_ids <- 
       dossier %>% lapply(function(x) col_id(x)) %>% unique
     
+
+    
     if(length(col_ids) > 1 | is.null(col_ids[[1]])){
       for(i in names(dossier)){
         # stop()}
-        dossier[[i]] <- 
-          dossier[[i]] %>%
-          add_index(name_index = "Rmonize::index",.force = TRUE) %>%
-          mutate(`Rmonize::index` = paste0(i,".",.data$`Rmonize::index`)) %>%
-          as_dataset(col_id = "Rmonize::index")
+        
+        if(!("Rmonize::index" %in% names(dossier[[i]]))){
+          dossier[[i]] <- 
+            dossier[[i]] %>%
+            add_index(name_index = "Rmonize::index",.force = TRUE) %>%
+            mutate(`Rmonize::index` = paste0(i,".",.data$`Rmonize::index`)) %>%
+            as_dataset(col_id = "Rmonize::index")          
+        }else{
+          dossier[[i]] <- 
+            dossier[[i]] %>%
+            as_dataset(col_id = "Rmonize::index")          
+        }
       }}
     return(dossier)
   }
     
   data_proc_elem_get <- function(dossier){
     
-    dataschema <- 
+    bind_dossier_names <- 
       dossier %>% 
-      lapply(function(x)mutate(x, across(everything(),as.character))) %>%
+      lapply(function(x) mutate(x[1,], across(everything(),as.character))) %>%
       bind_rows() %>%
-      tibble() %>%
-      valueType_self_adjust() %>%
-      data_dict_extract()
+      names
+    
+    total_len <- 
+      dossier %>% 
+      lapply(function(x) nrow(x)) %>%
+      unlist() %>% sum
+      # bind_rows() %>%
+    
+    bind_dossier <- tibble(.rows = total_len)
+    
+    for(i in seq_along(bind_dossier_names)){
+      # stop()}
+      
+      cols_to_bind <- 
+        dossier %>%
+        lapply(function(x) select(x,any_of(bind_dossier_names[[i]])))
+        
+      bound_cols <- silently_run(bind_rows(cols_to_bind))
+      
+      if(class(bound_cols)[[1]] == 'try-error'){
+        bound_cols <- 
+          cols_to_bind %>%
+          lapply(function(x) mutate(x, across(everything(),as.character))) %>%
+          bind_rows() %>%
+          valueType_self_adjust()}
+      
+        bind_dossier <- bind_dossier %>% bind_cols(bound_cols)
+        message(i)
+    }
+        
+    dataschema <- data_dict_extract(bind_dossier)
       
     data_proc_elem <-
       tibble(
@@ -205,7 +245,6 @@ Please write harmo_process(dataschema = my_object) instead.')
   if(is.null(object) & is.null(data_proc_elem) & is.null(dataschema))
     stop(call. = FALSE,"At least one element is missing.")
   
-  
   if(!is.null(data_proc_elem))
     if(is.null(data_proc_elem[['input_dataset']]) | 
        is.null(data_proc_elem[['Mlstr_harmo::rule_category']]))
@@ -252,6 +291,7 @@ Please write harmo_process(dataschema = my_object) instead.')
         data_proc_elem = data_proc_elem,
         harmonized_col_dataset = harmonized_col_dataset,
         harmonized_col_id = harmonized_col_id,
+        dossier = dossier,
         .debug = .debug))
 
   }
@@ -266,10 +306,12 @@ Please write harmo_process(dataschema = my_object) instead.')
     
     return(
       harmo_process(
-        object,dataschema,
-        data_proc_elem,
-        harmonized_col_dataset,
-        harmonized_col_id,
+        object = object,
+        dataschema = dataschema,
+        data_proc_elem = data_proc_elem,
+        harmonized_col_dataset = harmonized_col_dataset,
+        harmonized_col_id = harmonized_col_id,
+        dossier = dossier,
         .debug = .debug))
   }
     
@@ -283,6 +325,7 @@ Please write harmo_process(dataschema = my_object) instead.')
   
   if(is.null(names(dossier))){
     fargs <- as.list(match.call(expand.dots = TRUE))
+    
     if(!is.null(fargs$object)){
       names(dossier) <- make_name_list(as.character(fargs['object']), dossier)
     }else{
@@ -291,12 +334,12 @@ Please write harmo_process(dataschema = my_object) instead.')
   }
 
   
-  # check arguments. make sure col_is harmonizable if exists
+  # check arguments. make sure col_id is harmonizable if exists
   dossier <- dossier_create(dossier)
   
   if(!is.null(data_proc_elem))
     if(length(dossier) == 1)
-      if(length(unique(data_proc_elem$input_dataset)) == 1 &
+      if(length(unique(data_proc_elem$input_dataset)) == 1 |
          is.na(unique(data_proc_elem$input_dataset)))
         data_proc_elem$input_dataset <- names(dossier)
   
@@ -317,12 +360,6 @@ Please write harmo_process(dataschema = my_object) instead.')
   #       harmonized_col_dataset = harmonized_col_dataset)  
   # return(harmo_process(dossier))}
   
-  
-  if(!is.null(data_proc_elem))
-    if(length(dossier) == 1)
-      if(length(unique(data_proc_elem$input_dataset)) == 1 &
-         is.na(unique(data_proc_elem$input_dataset)))
-        data_proc_elem$input_dataset <- names(dossier)
   
   if(!is.null(data_proc_elem))
     if(length(dossier) == 1)
@@ -452,12 +489,14 @@ Please correct elements and reprocess.')
     
     if(class(dossier[[i]])[1] == 'try-error'){
       
-stop(call. = FALSE, 
-'In your Data Processing Elements, the input variable `',var_id,'` does not 
-exists in the input dataset `',create_id_row$`input_dataset`,'`.
-
-This element is mandatory for the data processing to be initiated. 
-Please correct elements and reprocess.')
+      stop('ERROR 100')
+# stop(call. = FALSE, 
+# 'In your Data Processing Elements, the input variable `',var_id,'` does not 
+# exists in the input dataset `',create_id_row$`input_dataset`,'`.
+# 
+# This element is mandatory for the data processing to be initiated. 
+# Please correct elements and reprocess.')
+      
       
     }
     
@@ -2175,10 +2214,12 @@ as_harmonized_dossier <- function(
     stop(call. = FALSE,
          '`harmonized_data_dict_apply` must be TRUE or FALSE (TRUE by default)')
 
-  # check the id column (mandatory to exist)
-  if(is.null(harmonized_col_id)) 
-    stop(call. = FALSE,
-         '`harmonized_col_id` must be provided')
+  # check the id column 
+  if(is.null(harmonized_col_id))
+    stop('ERORR 100')
+  #   stop(call. = FALSE,
+  #        '`harmonized_col_id` must be provided')
+  
   # check if col_id exists
   bind_rows(
     object %>% lapply(function(x) x %>% 
