@@ -177,7 +177,6 @@ input elements before processing harmonization.")
           valueType_self_adjust()}
       
         bind_dossier <- bind_dossier %>% bind_cols(bound_cols)
-        message(i)
     }
         
     dataschema <- data_dict_extract(bind_dossier)
@@ -385,7 +384,7 @@ Please write harmo_process(dataschema = my_object) instead.')
     dataschema <- dataschema_extract(data_proc_elem)
   }else{
     dataschema <- as_dataschema_mlstr(dataschema)}
-
+  
   # clean dataschema_variable and input dataset names
   data_proc_elem$dataschema_variable <- 
     extract_var(data_proc_elem$dataschema_variable)
@@ -420,16 +419,25 @@ Please write harmo_process(dataschema = my_object) instead.')
           'output_variable']])}
   
   # test if harmonized_col_id exists in dpe and dataschema
-  if(! harmonized_col_id %in% dataschema$Variables$name)
-    stop(call. = FALSE,
-'\n\nThe harmonized_col_id `',harmonized_col_id,'`',
-'\nmust be present in your DataSchema and in the Data Processing Elements.')
+  if(! harmonized_col_id %in% dataschema$Variables$name){
+    
+    dataschema_col_id <- data_dict_extract(dossier[[1]][1])
+    dataschema$Variables <-
+      bind_rows(dataschema_col_id$Variables,dataschema$Variables)
+    
+#     stop(call. = FALSE,
+# '\n\nThe harmonized_col_id `',harmonized_col_id,'`',
+# '\nmust be present in your DataSchema and in the Data Processing Elements.')
+    
+  }
+
   
   # test if harmonized_col_id exists in dpe and dpe
   if(! harmonized_col_id %in% data_proc_elem$dataschema_variable)
-    stop(call. = FALSE,
-'\n\nThe harmonized_col_id `',harmonized_col_id,'`',
-'\nmust be present in your DataSchema and in the Data Processing Elements.')
+    stop(message('ERROR 100'))
+#     stop(call. = FALSE,
+# '\n\nThe harmonized_col_id `',harmonized_col_id,'`',
+# '\nmust be present in your DataSchema and in the Data Processing Elements.')
 
   dpe <- dpe %>%
     group_by(.data$`input_dataset`) %>%
@@ -489,7 +497,7 @@ Please correct elements and reprocess.')
     
     if(class(dossier[[i]])[1] == 'try-error'){
       
-      stop('ERROR 100')
+      stop(message('ERROR 100'))
 # stop(call. = FALSE, 
 # 'In your Data Processing Elements, the input variable `',var_id,'` does not 
 # exists in the input dataset `',create_id_row$`input_dataset`,'`.
@@ -2216,7 +2224,7 @@ as_harmonized_dossier <- function(
 
   # check the id column 
   if(is.null(harmonized_col_id))
-    stop('ERORR 100')
+    stop(message('ERROR 100'))
   #   stop(call. = FALSE,
   #        '`harmonized_col_id` must be provided')
   
