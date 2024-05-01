@@ -21,7 +21,7 @@ Useful links:
 
 Other contributors:
 \itemize{
-  \item Maelstrom-research group [funder]
+  \item Maelstrom-research group \email{info@maelstrom-research.org} [funder, copyright holder]
 }
 
 }
