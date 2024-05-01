@@ -1,15 +1,16 @@
 Package: Rmonize
 Type: Package
 Title: Support Retrospective Harmonization of Data
-Version: 1.0.2.1003
+Version: 1.1.0
 Authors@R: 
     c(person(given = "Guillaume",
              family = "Fabre",
-             role = c("aut", "cre"),
+             role = c("aut","cre"),
              email = "guijoseph.fabre@gmail.com",
              comment = c(ORCID = "0000-0002-0124-9970")),
       person("Maelstrom-research group",
-             role=c("fnd")))
+             role=c("fnd","cph"),
+             email="info@maelstrom-research.org"))
 Maintainer: Guillaume Fabre <guijoseph.fabre@gmail.com> 
 Description: Functions to support rigorous retrospective data harmonization 
     processing, evaluation, and documentation across datasets from different 
@@ -42,8 +43,6 @@ Imports: dplyr (>= 1.1.0),
 Suggests: janitor,
     car,
     knitr
-Remotes: guifabre/fabR@testing,
-    maelstrom-research/madshapR@testing
 URL: https://github.com/maelstrom-research/Rmonize/
 BugReports: https://github.com/maelstrom-research/Rmonize/issues
 Roxygen: list(markdown = TRUE)
