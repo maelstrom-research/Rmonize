@@ -11,10 +11,10 @@
 #' @import dplyr
 #' @importFrom lifecycle deprecate_warn
 #' @export
-Rmonize_help <- function(...) {
+Rmonize_help <- function() {
   
   deprecate_warn(
-    "1.0.2", "Rmonize_help()", "Rmonize_website()")
+    "1.1.0", "Rmonize_help()", "Rmonize_website()")
   
   # Unquote-splice to avoid argument matching
   
