@@ -1,26 +1,15 @@
 ## R CMD check results
 
-0 errors ✔ | 0 warnings ✔ | 1 note ✖
+0 errors ✔ | 0 warnings ✔ | 0 note ✖
 
-New submission
+# Rmonize 1.1.0 (release : 2024-05-01)
 
+* To be able to perform testings on harmonization, an additional 
+parameter `.debug` has been added
+* To avoid confusion with help(function), the function `Rmonize_help()` has been 
+renamed `Rmonize_website()`.
+* set a minimum dplyr dependence to avoid bugs
 
-> first submission : 
-
-<em> 
-
-Found the following (possibly) invalid file URIs:
-     URI: articles/b-The-Data-processing-elements.html
-       From: inst/doc/a-Glossary-and-templates.html
-     URI: reference/index.html
-       From: README.md
-     URI: articles/a-Glossary-and-templates.html
-       From: README.md
-     URI: articles/b-The-Data-processing-elements.html
-       From: README.md
-     URI: articles/c-Example-with-DEMO-files.html
-       From: README.md
-       
-</em>
-
-> corrected.
+https://github.com/maelstrom-research/Rmonize/issues/56
+https://github.com/maelstrom-research/Rmonize/issues/54
+https://github.com/maelstrom-research/Rmonize/issues/52

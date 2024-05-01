@@ -1,4 +1,30 @@
 
+# Rmonize 1.1.0 (release : 2024-05-01)
+
+## Bug fixes and improvements
+
+- To process the data during testing, the DataSchema and/or the Data
+  Processing Elements and/or input datasets might not be available. To
+  be able to perform testings on harmonization, an additional parameter
+  `.debug` has been added
+  <https://github.com/maelstrom-research/Rmonize/issues/56>
+
+- The report function can now work when the code is indented in the Data
+  Processing Elements.
+  <https://github.com/maelstrom-research/Rmonize/issues/54>
+
+- The function `show_harmo_error()` now allows the user to avoid showing
+  warnings <https://github.com/maelstrom-research/Rmonize/issues/52>
+
+## deprecated functions
+
+To avoid confusion with help(function), the function `Rmonize_help()`
+has been renamed `Rmonize_website()`.
+
+## Dependency changes
+
+- set a minimum dplyr dependence to avoid bugs
+
 # Rmonize 1.0.1
 
 Bug corrections and enhancements after testing with real data.

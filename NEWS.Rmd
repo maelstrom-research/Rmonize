@@ -2,7 +2,7 @@
 output: github_document
 ---
 
-# fabR 2.0.2 (release : 2024-04-01)
+# Rmonize 1.1.0 (release : 2024-05-01)
 
 ## Bug fixes and improvements
 
