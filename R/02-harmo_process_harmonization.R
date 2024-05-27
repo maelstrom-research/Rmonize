@@ -33,7 +33,8 @@
 #' To initiate processing, the first entry must be the creation of a harmonized 
 #' primary identifier variable (e.g., participant unique ID).
 #'
-#' @param dossier List of data frame(s) containing input dataset(s).
+#' @param object Data frame(s) or list of data frame(s) containing input 
+#' dataset(s).
 #' @param dataschema A DataSchema object.
 #' @param data_proc_elem A Data Processing Elements object.
 #' @param harmonized_col_dataset A character string identifying the column 
@@ -41,6 +42,8 @@
 #' @param harmonized_col_id A character string identifying the name of the 
 #' column present in every dataset to use as a dataset identifier. 
 #' NULL by default.
+#' @param .debug Allow user to test the inputs before processing harmonization.
+#' @param dossier `r lifecycle::badge("deprecated")`
 #'
 #' @returns
 #' A list of data frame(s), containing harmonized dataset(s). The DataSchema 
@@ -81,11 +84,13 @@
 #'
 #' @export
 harmo_process <- function(
-    dossier,
+    object = NULL,
     dataschema = attributes(dossier)$`Rmonize::DataSchema`,
     data_proc_elem = attributes(dossier)$`Rmonize::Data Processing Elements`,
     harmonized_col_dataset = attributes(dossier)$`Rmonize::harmonized_col_dataset`,
-    harmonized_col_id = attributes(dossier)$`Rmonize::harmonized_col_id`
+    harmonized_col_id = attributes(dossier)$`Rmonize::harmonized_col_id`,
+    .debug = FALSE,
+    dossier = object
     ){
   
   # future dev
@@ -93,40 +98,293 @@ harmo_process <- function(
   # dans le DataSchema
   # controle de version ?
   
+  if(is.null(object)) object <- dossier
+  if(is.null(dossier)) dossier <- object
+  
+  if(.debug == FALSE){
+    
+    # check arguments
+    if(is.null(object) | is.null(dataschema) | is.null(data_proc_elem))
+      stop(call. = FALSE,
+"
+
+`object`, `dataschema` and `data_proc_elem` are mandatory and must be provided.
+If you want to allow the code to run, you can specify 
+harmo_process(object, dataset, dataprocelem, .debug = TRUE) to test your
+input elements before processing harmonization.")
+
+  }
+  
+  add_index_dossier <- function(dossier){
+    
+    dossier <- as_dossier(dossier)
+    dataset_names <- names(dossier)
+    
+    col_ids <- 
+      dossier %>% lapply(function(x) col_id(x)) %>% unique
+    
+
+    
+    if(length(col_ids) > 1 | is.null(col_ids[[1]])){
+      for(i in names(dossier)){
+        # stop()}
+        
+        if(!("Rmonize::index" %in% names(dossier[[i]]))){
+          dossier[[i]] <- 
+            dossier[[i]] %>%
+            add_index(name_index = "Rmonize::index",.force = TRUE) %>%
+            mutate(`Rmonize::index` = paste0(i,".",.data$`Rmonize::index`)) %>%
+            as_dataset(col_id = "Rmonize::index")          
+        }else{
+          dossier[[i]] <- 
+            dossier[[i]] %>%
+            as_dataset(col_id = "Rmonize::index")          
+        }
+      }}
+    return(dossier)
+  }
+    
+  data_proc_elem_get <- function(dossier){
+    
+    bind_dossier_names <- 
+      dossier %>% 
+      lapply(function(x) mutate(x[1,], across(everything(),as.character))) %>%
+      bind_rows() %>%
+      names
+    
+    total_len <- 
+      dossier %>% 
+      lapply(function(x) nrow(x)) %>%
+      unlist() %>% sum
+      # bind_rows() %>%
+    
+    bind_dossier <- tibble(.rows = total_len)
+    
+    for(i in seq_along(bind_dossier_names)){
+      # stop()}
+      
+      cols_to_bind <- 
+        dossier %>%
+        lapply(function(x) select(x,any_of(bind_dossier_names[[i]])))
+        
+      bound_cols <- silently_run(bind_rows(cols_to_bind))
+      
+      if(class(bound_cols)[[1]] == 'try-error'){
+        bound_cols <- 
+          cols_to_bind %>%
+          lapply(function(x) mutate(x, across(everything(),as.character))) %>%
+          bind_rows() %>%
+          valueType_self_adjust()}
+      
+        bind_dossier <- bind_dossier %>% bind_cols(bound_cols)
+    }
+        
+    dataschema <- data_dict_extract(bind_dossier)
+      
+    data_proc_elem <-
+      tibble(
+        index = as.integer(),
+        dataschema_variable = as.character(),
+        input_dataset = as.character(),
+        valueType = as.character(),
+        input_variables = as.character(),
+        `Mlstr_harmo::rule_category` = as.character(),
+        `Mlstr_harmo::algorithm` = as.character())
+    
+    for(i in names(dossier)){
+      # stop()}
+      data_proc_elem_i <- 
+        dataschema$Variables %>%
+        rename("dataschema_variable" = "name") %>%
+        mutate(
+          input_dataset = i,
+          input_variables = case_when(
+            .data$`dataschema_variable` %in% names(dossier[[i]]) ~ .data$`dataschema_variable`,
+            TRUE ~ "__BLANK__",
+          ),
+          `Mlstr_harmo::rule_category` = case_when(
+            col_id(dossier[[i]]) == .data$dataschema_variable ~ "id_creation",
+            .data$`dataschema_variable` %in% names(dossier[[i]]) ~ "direct_mapping",
+            TRUE  ~ "impossible"
+          ),
+          `Mlstr_harmo::algorithm` = .data$`Mlstr_harmo::rule_category`) %>%
+        add_index(.force = TRUE)  %>%
+        select(-'label')
+      
+      data_proc_elem <- bind_rows(data_proc_elem,data_proc_elem_i)
+      
+    }
+      
+    data_proc_elem <- as_data_proc_elem(data_proc_elem)
+    return(data_proc_elem)
+  }
+
   extract_var <- function(x){
     x <- x %>%
       str_replace_all('"',"`") %>%
       str_replace_all("'","`") %>%
-      str_remove_all("`") 
+      str_remove_all("`") %>%
+      str_squish()
     x = x[!is.na(x)]
     
     return(x)}
   
   # check arguments
-  if(is.null(dataschema) & is.null(data_proc_elem) & !is.null(harmonized_col_id)){
+  
+  if(is_data_proc_elem(object)) 
+    stop(call. = FALSE,'
+This object is a Data Processing Elements. 
+Please write harmo_process(data_proc_elem = my_object) instead.')
+  
+  if(is_dataschema(object)) 
+    stop(call. = FALSE,'
+This object is a DataSchema. 
+Please write harmo_process(dataschema = my_object) instead.')
+  
+  if(is.null(object) & is.null(data_proc_elem) & is.null(dataschema))
+    stop(call. = FALSE,"At least one element is missing.")
+  
+  if(!is.null(data_proc_elem))
+    if(is.null(data_proc_elem[['input_dataset']]) | 
+       is.null(data_proc_elem[['Mlstr_harmo::rule_category']]))
+      if(is.null(data_proc_elem[['rule_category']]))
+        as_data_proc_elem(data_proc_elem)
+  
+  # create dossier from data proc elem.
+  
+  if(is.null(object) & !is.null(data_proc_elem)){
     
-    dossier <- 
-      as_harmonized_dossier(
-        dossier,
+    data_proc_elem <- as_data_proc_elem(data_proc_elem)
+    name_datasets <- unique(data_proc_elem$input_dataset)
+    object <- lapply(as.list(name_datasets),function(x) tibble())
+    names(object) <- name_datasets
+    
+    for(i in name_datasets){
+      # stop()}
+      
+      input_vars <- 
+        unique(extract_var(
+          data_proc_elem %>% 
+            dplyr::filter(.data$`input_dataset` == i & 
+                            .data$`input_variables` != '__BLANK__') %>%
+            select("input_variables") %>%
+            separate_longer_delim(cols = "input_variables",";") %>%
+            pull("input_variables")))
+      
+      object[[i]] <- 
+        as_tibble(data.frame(matrix(nrow=0,ncol=length(input_vars)))) %>%
+        mutate(across(everything(),as.character))
+      
+      names(object[[i]]) <- input_vars
+    }
+    
+    # harmonized_col_id <- extract_var(
+    #   data_proc_elem %>%
+    #     dplyr::filter(.data$`Mlstr_harmo::rule_category` == "id_creation") %>%
+    #     pull("dataschema_variable") %>% unique)
+    
+    return(
+      harmo_process(
+        object = object,
+        dataschema = dataschema,
+        data_proc_elem = data_proc_elem,
+        harmonized_col_dataset = harmonized_col_dataset,
         harmonized_col_id = harmonized_col_id,
-        harmonized_col_dataset = harmonized_col_dataset) 
+        dossier = dossier,
+        .debug = .debug))
+
+  }
+  
+  if(is.null(object) & is.null(data_proc_elem) & !is.null(dataschema)){
     
-    return(harmo_process(dossier))}
+    input_vars <- dataschema$Variables$name
+    object <- as_tibble(data.frame(matrix(nrow=0,ncol=length(input_vars))))
+    names(object) <- input_vars
+    
+    object <- valueType_adjust(from = dataschema,to = object)
+    
+    return(
+      harmo_process(
+        object = object,
+        dataschema = dataschema,
+        data_proc_elem = data_proc_elem,
+        harmonized_col_dataset = harmonized_col_dataset,
+        harmonized_col_id = harmonized_col_id,
+        dossier = dossier,
+        .debug = .debug))
+  }
+    
+  if(is_dataset(dossier)) dossier <- list(dossier)
   
-  dossier <- as_dossier(dossier)
+  if(is.null(names(dossier)))
+    if(length(dossier) == 1 & !is.null(data_proc_elem))
+      if(length(unique(data_proc_elem$input_dataset)) == 1 &
+         !is.na(unique(data_proc_elem$input_dataset)))
+        names(dossier) <- unique(data_proc_elem$input_dataset)
   
+  if(is.null(names(dossier))){
+    fargs <- as.list(match.call(expand.dots = TRUE))
+    
+    if(!is.null(fargs$object)){
+      names(dossier) <- make_name_list(as.character(fargs['object']), dossier)
+    }else{
+      names(dossier) <- make_name_list(as.character(fargs['dossier']), dossier)
+    }    
+  }
+
+  
+  # check arguments. make sure col_id is harmonizable if exists
+  dossier <- dossier_create(dossier)
+  
+  if(!is.null(data_proc_elem))
+    if(length(dossier) == 1)
+      if(length(unique(data_proc_elem$input_dataset)) == 1 |
+         is.na(unique(data_proc_elem$input_dataset)))
+        data_proc_elem$input_dataset <- names(dossier)
+  
+  if(!is.null(harmonized_col_id)){
+    dossier <- 
+      dossier %>% 
+      lapply(function(x) 
+        x %>% 
+          as_dataset(harmonized_col_id)
+    )}
+
   # check arguments
-  if(is.null(data_proc_elem)) 
-    stop(call. = FALSE, 
-         'The Data Processing Element argument is missing')
+  # if(is.null(dataschema) & is.null(data_proc_elem) & !is.null(harmonized_col_id)){
+  #   dossier <- 
+  #     as_harmonized_dossier(
+  #       dossier,
+  #       harmonized_col_id = harmonized_col_id,
+  #       harmonized_col_dataset = harmonized_col_dataset)  
+  # return(harmo_process(dossier))}
   
-  data_proc_elem <- as_data_proc_elem(data_proc_elem)
   
+  if(!is.null(data_proc_elem))
+    if(length(dossier) == 1)
+      if(length(unique(data_proc_elem$input_dataset)) == 1 &
+         length(str_subset(data_proc_elem$`Mlstr_harmo::rule_category`,'id_creation')) == 0){
+        
+        if(is.null(harmonized_col_id)) 
+          dossier <- add_index_dossier(dossier)
+        
+        id_creation <- data_proc_elem_get(dossier %>% lapply(function(x) x[1]))
+        data_proc_elem <- bind_rows(id_creation,data_proc_elem)
+         }
+
+  # check arguments
+  if(is.null(data_proc_elem)){
+    dossier <- add_index_dossier(dossier)
+    data_proc_elem <- data_proc_elem_get(dossier)
+  }else{
+    data_proc_elem <- as_data_proc_elem(data_proc_elem)
+  }
+
   if(is.null(dataschema)){
     dataschema <- dataschema_extract(data_proc_elem)
   }else{
     dataschema <- as_dataschema_mlstr(dataschema)}
-
+  
   # clean dataschema_variable and input dataset names
   data_proc_elem$dataschema_variable <- 
     extract_var(data_proc_elem$dataschema_variable)
@@ -161,23 +419,31 @@ harmo_process <- function(
           'output_variable']])}
   
   # test if harmonized_col_id exists in dpe and dataschema
-  if(! harmonized_col_id %in% dataschema$Variables$name)
-    stop(call. = FALSE,
-'\n\nThe harmonized_col_id `',harmonized_col_id,'`',
-'\nmust be present in your DataSchema and in the Data Processing Elements.')
+  if(! harmonized_col_id %in% dataschema$Variables$name){
+    
+    dataschema_col_id <- data_dict_extract(dossier[[1]][1])
+    dataschema$Variables <-
+      bind_rows(dataschema_col_id$Variables,dataschema$Variables)
+    
+#     stop(call. = FALSE,
+# '\n\nThe harmonized_col_id `',harmonized_col_id,'`',
+# '\nmust be present in your DataSchema and in the Data Processing Elements.')
+    
+  }
+
   
   # test if harmonized_col_id exists in dpe and dpe
   if(! harmonized_col_id %in% data_proc_elem$dataschema_variable)
-    stop(call. = FALSE,
-'\n\nThe harmonized_col_id `',harmonized_col_id,'`',
-'\nmust be present in your DataSchema and in the Data Processing Elements.')
+    stop(message('ERROR 100'))
+#     stop(call. = FALSE,
+# '\n\nThe harmonized_col_id `',harmonized_col_id,'`',
+# '\nmust be present in your DataSchema and in the Data Processing Elements.')
 
   dpe <- dpe %>%
     group_by(.data$`input_dataset`) %>%
     group_split() %>%
     as.list
   names(dpe) <- sort(unique(bind_rows(dpe)$input_dataset))
-
 
   vars <- extract_var(unique(data_proc_elem$dataschema_variable))
   dataschema <- 
@@ -221,7 +487,7 @@ Please correct elements and reprocess.')
     names_in_dpe <- 
       str_squish(unlist(strsplit(
         dpe[[i]] %>% 
-          filter(
+          dplyr::filter(
             .data$`input_variables` != '__BLANK__') %>%
           pull(.data$`input_variables`),split = ";"))) %>%
       unique %>% 
@@ -231,12 +497,14 @@ Please correct elements and reprocess.')
     
     if(class(dossier[[i]])[1] == 'try-error'){
       
-stop(call. = FALSE, 
-'In your Data Processing Elements, the input variable `',var_id,'` does not 
-exists in the input dataset `',create_id_row$`input_dataset`,'`.
-
-This element is mandatory for the data processing to be initiated. 
-Please correct elements and reprocess.')
+      stop(message('ERROR 100'))
+# stop(call. = FALSE, 
+# 'In your Data Processing Elements, the input variable `',var_id,'` does not 
+# exists in the input dataset `',create_id_row$`input_dataset`,'`.
+# 
+# This element is mandatory for the data processing to be initiated. 
+# Please correct elements and reprocess.')
+      
       
     }
     
@@ -281,6 +549,7 @@ Please correct elements and reprocess.')
     
     harmonized_dossier[[i]] <-
       harmonized_dossier[[i]] %>% bind_rows(harmonization_id)
+    
     harmonized_dossier[[i]] <- harmonized_dossier_init[[i]] <-
       as_dataset(
         harmonized_dossier[[i]],
@@ -344,16 +613,16 @@ bold(i)," -----------------------------------------------------"),1,81))
       process_rule  <- dpe[[i]][dpe[[i]]$output_variable == j,]
       idx <- idx + 1
       
+      harmo_parse_process_rule <- 
+      
       r_script <-
-        # Rmonize:::harmo_parse_process_rule(
-        harmo_parse_process_rule(
+        get("harmo_parse_process_rule", envir = asNamespace("Rmonize"))(
           process_rule_slice = process_rule,
           input_dataset = input_dataset,
           r_script = TRUE)
       
       col <-
-        # Rmonize:::harmo_parse_process_rule(
-        harmo_parse_process_rule(
+        get("harmo_parse_process_rule", envir = asNamespace("Rmonize"))(
           process_rule_slice = process_rule, 
           input_dataset = input_dataset, 
           r_script = FALSE)
@@ -362,7 +631,7 @@ bold(i)," -----------------------------------------------------"),1,81))
         vT_test <- fabR::silently_run(
           as_valueType(unique(col[[j]]),
                        dataschema[['Variables']] %>%
-                         filter(.data$`name` == j) %>%
+                         dplyr::filter(.data$`name` == j) %>%
                          pull(.data$`valueType`)))
         
         if(is_error(attributes(vT_test)$condition))
@@ -1085,7 +1354,7 @@ harmo_process_recode <- function(process_rule_slice){
     mutate(
       input_variables  = str_remove_all(.data$`input_variables`,'`'),
       replacement      =
-        .data$`script`,
+        .data$`script` %>% str_squish(),
       replacement      =
         str_replace_all(.data$`replacement`,"\'","{madshapR::apostrophy}"),
       replacement      =
@@ -1229,6 +1498,8 @@ harmo_process_undetermined <- function(process_rule_slice){
 #' Data Processing Elements used in processing as attributes.
 #'
 #' @param harmonized_dossier A list containing the harmonized dataset(s).
+#' @param show_warnings Whether the function should print warnings or not. 
+#' TRUE by default.
 #'
 #' @returns
 #' Nothing to be returned. The function prints messages in the console, 
@@ -1249,7 +1520,7 @@ harmo_process_undetermined <- function(process_rule_slice){
 #' @importFrom utils capture.output
 #'
 #' @export
-show_harmo_error <- function(harmonized_dossier){
+show_harmo_error <- function(harmonized_dossier, show_warnings = TRUE){
 
   # list of primary error in the Data Processing Elements.
   # print the list of error + the index
@@ -1269,11 +1540,11 @@ show_harmo_error <- function(harmonized_dossier){
         harmonized_dossier[[i]] %>% 
         summarise(across(everything(), ~all(is.na(.)))) %>%
         pivot_longer(everything()) %>%
-        filter(.data$`value` == TRUE) %>%
+        dplyr::filter(.data$`value` == TRUE) %>%
         select('dataschema_variable' = 'name','empty' = 'value')
       dpe <- 
         data_proc_elem %>% 
-        filter(.data$`input_dataset` == i & 
+        dplyr::filter(.data$`input_dataset` == i & 
              !(.data$`Mlstr_harmo::rule_category` %in% 
                    c('impossible','undetermined'))) %>%
         select('dataschema_variable') %>% distinct
@@ -1316,12 +1587,21 @@ show_harmo_error <- function(harmonized_dossier){
                    .data$`input_dataset`, " \n"),
       rule = paste0(.data$`Mlstr_harmo::algorithm`))
 
+  if(show_warnings == FALSE){
+    report_log <-
+      report_log %>%
+      dplyr::filter(.data$warning != TRUE)
+  }
+  
   if(nrow(report_log) > 0){
     message(bold(
-"\n
-- ERROR/WARNING STATUS DETAILS: -------------------------------------------\n"),
-"\nHere is the list of the errors  and warnings encountered in the process 
-of harmonization:\n")
+paste0("\n
+- ERROR",ifelse(show_warnings == TRUE,"/WARNING",""),
+" STATUS DETAILS: -------------------------------------------\n")),
+paste0("\nHere is the list of the errors",ifelse(show_warnings == TRUE," and warnings",""),
+" encountered in the process 
+of harmonization:\n"))
+    
     for(i in seq_len(nrow(report_log))){
       message(
 "---------------------------------------------------------------------------\n")
@@ -1649,8 +1929,9 @@ identifier of dataset in your dossier.')
     object %>%
     group_by(.data$`input_dataset`) %>%
     group_modify(.f = ~ 
-                bind_rows(filter(.,`Mlstr_harmo::rule_category` %in% 'id_creation'),
-                          filter(.,!`Mlstr_harmo::rule_category` %in% 'id_creation')))
+                bind_rows(
+                  dplyr::filter(., `Mlstr_harmo::rule_category` %in% 'id_creation'),
+                  dplyr::filter(.,!`Mlstr_harmo::rule_category` %in% 'id_creation')))
     
   if(is.null(object[['index']])){
     object <-
@@ -1923,7 +2204,7 @@ as_dataschema_mlstr <- function(object){
 #'   
 #' }
 #'
-#' @import dplyr
+#' @import dplyr fabR
 #' @importFrom rlang .data
 #'
 #' @export
@@ -1935,18 +2216,19 @@ as_harmonized_dossier <- function(
     harmonized_col_dataset = attributes(object)$`Rmonize::harmonized_col_dataset`,
     harmonized_data_dict_apply = FALSE){
 
-  # check object
-  as_dossier(object)
+  silently_run(dossier_create(object))
   
   if(!is.logical(harmonized_data_dict_apply))
     stop(call. = FALSE,
-         '`harmonized_data_dict_apply` must be TRUE or F*ALSE (TRUE by default)')
+         '`harmonized_data_dict_apply` must be TRUE or FALSE (TRUE by default)')
 
-  # check the id column (mandatory to exist)
-  if(is.null(harmonized_col_id)) 
-    stop(call. = FALSE,
-         '`harmonized_col_id` must be provided')
-  # check if exists
+  # check the id column 
+  if(is.null(harmonized_col_id))
+    stop(message('ERROR 100'))
+  #   stop(call. = FALSE,
+  #        '`harmonized_col_id` must be provided')
+  
+  # check if col_id exists
   bind_rows(
     object %>% lapply(function(x) x %>% 
                         mutate(across(everything(),as.character)))) %>% 
@@ -2032,16 +2314,18 @@ name list of variables.")
     message(bold("\n
 - CREATION OF HARMONIZED DATA DICTIONARY : --------------------------------\n"))
     
-    harmo_data_dict <- dataschema
-    harmo_data_dict[['Variables']][['Mlstr_harmo::rule_category']] <- NULL
-    harmo_data_dict[['Variables']][['Mlstr_harmo::algorithm']] <- NULL
-    harmo_data_dict[['Variables']][['Rmonize::r_script']] <- NULL
-    harmo_data_dict[['Variables']][['Mlstr_harmo::comment']] <- NULL
-    harmo_data_dict[['Variables']][['Mlstr_harmo::status']] <- NULL
-    harmo_data_dict[['Variables']][['Mlstr_harmo::status_detail']] <- NULL
+
     
     for(i in names(object)){
       # stop()}
+      
+      harmo_data_dict <- dataschema
+      harmo_data_dict[['Variables']][['Mlstr_harmo::rule_category']] <- NULL
+      harmo_data_dict[['Variables']][['Mlstr_harmo::algorithm']] <- NULL
+      harmo_data_dict[['Variables']][['Rmonize::r_script']] <- NULL
+      harmo_data_dict[['Variables']][['Mlstr_harmo::comment']] <- NULL
+      harmo_data_dict[['Variables']][['Mlstr_harmo::status']] <- NULL
+      harmo_data_dict[['Variables']][['Mlstr_harmo::status_detail']] <- NULL
       
       input_data_proc_elem <-
         data_proc_elem %>%

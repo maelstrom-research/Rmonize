@@ -441,7 +441,7 @@ id_creation    = paste(
     'harmonized_id',
     'input_dataset',
     'input_id',
-    '<b>id_creation</b><em style="color:red"> (mandatory)</em>',
+    '<b>id_creation</b>',
     '<b>id_creation</b>'),
   '</code>') %>% setNames(col_names_dpe) %>% as_tibble_row()
 

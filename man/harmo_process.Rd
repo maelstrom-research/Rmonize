@@ -5,15 +5,18 @@
 \title{Generate harmonized dataset(s) and associated metadata}
 \usage{
 harmo_process(
-  dossier,
+  object = NULL,
   dataschema = attributes(dossier)$`Rmonize::DataSchema`,
   data_proc_elem = attributes(dossier)$`Rmonize::Data Processing Elements`,
   harmonized_col_dataset = attributes(dossier)$`Rmonize::harmonized_col_dataset`,
-  harmonized_col_id = attributes(dossier)$`Rmonize::harmonized_col_id`
+  harmonized_col_id = attributes(dossier)$`Rmonize::harmonized_col_id`,
+  .debug = FALSE,
+  dossier = object
 )
 }
 \arguments{
-\item{dossier}{List of data frame(s) containing input dataset(s).}
+\item{object}{Data frame(s) or list of data frame(s) containing input
+dataset(s).}
 
 \item{dataschema}{A DataSchema object.}
 
@@ -25,6 +28,10 @@ to use for dataset names. NULL by default.}
 \item{harmonized_col_id}{A character string identifying the name of the
 column present in every dataset to use as a dataset identifier.
 NULL by default.}
+
+\item{.debug}{Allow user to test the inputs before processing harmonization.}
+
+\item{dossier}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}}
 }
 \value{
 A list of data frame(s), containing harmonized dataset(s). The DataSchema

@@ -37,6 +37,9 @@ madshapR::is_taxonomy
 #' @importFrom madshapR valueType_adjust
 madshapR::valueType_adjust
 
+#' @importFrom madshapR valueType_self_adjust
+madshapR::valueType_self_adjust
+
 #' @importFrom madshapR col_id
 madshapR::col_id
 

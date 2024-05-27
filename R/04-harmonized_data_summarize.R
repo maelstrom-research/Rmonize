@@ -117,11 +117,16 @@ harmonized_dossier_summarize <- function(
       data_proc_elem = data_proc_elem,
       dataschema = dataschema)
   
+  pooled_harmonized_dataset <-
+    as_dataset(
+      pooled_harmonized_dataset,
+      col_id = 
+        attributes(pooled_harmonized_dataset)$`Rmonize::harmonized_col_id`)
+  
   harmonized_dossier_summary <-
     dataset_summarize(
       dataset = pooled_harmonized_dataset,
-      group_by = 
-        attributes(pooled_harmonized_dataset)$`Rmonize::harmonized_col_dataset`,
+      group_by = group_by,
       taxonomy = taxonomy, 
       valueType_guess = valueType_guess)
   

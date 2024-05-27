@@ -1,12 +1,16 @@
 .Rproj.user
+Rmonize.Rproj
 .Rhistory
 .RData
 .Ruserdata
 tests/
 docs/
 _pkgdown.yml
-Rmonize.Rproj
+docs
+inst/doc
 roxy_Rmonize.xlsx
+^README.Rmd$
+^NEWS.Rmd$
 /doc/
 /Meta/
 data-raw
