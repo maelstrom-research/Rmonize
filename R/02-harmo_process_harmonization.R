@@ -209,7 +209,11 @@ input elements before processing harmonization.")
           ),
           `Mlstr_harmo::algorithm` = .data$`Mlstr_harmo::rule_category`) %>%
         add_index(.force = TRUE)  %>%
-        select(-'label')
+        select(
+          "index","dataschema_variable","valueType",
+          "input_dataset","input_variables",
+          "Mlstr_harmo::rule_category",
+          "Mlstr_harmo::algorithm")
       
       data_proc_elem <- bind_rows(data_proc_elem,data_proc_elem_i)
       
@@ -251,7 +255,6 @@ Please write harmo_process(dataschema = my_object) instead.')
         as_data_proc_elem(data_proc_elem)
   
   # create dossier from data proc elem.
-  
   if(is.null(object) & !is.null(data_proc_elem)){
     
     data_proc_elem <- as_data_proc_elem(data_proc_elem)
@@ -295,6 +298,7 @@ Please write harmo_process(dataschema = my_object) instead.')
 
   }
   
+  # if only a dataSchema is present
   if(is.null(object) & is.null(data_proc_elem) & !is.null(dataschema)){
     
     input_vars <- dataschema$Variables$name
@@ -434,7 +438,7 @@ Please write harmo_process(dataschema = my_object) instead.')
   
   # test if harmonized_col_id exists in dpe and dpe
   if(! harmonized_col_id %in% data_proc_elem$dataschema_variable)
-    stop(message('ERROR 100'))
+    stop(message('ERROR 101'))
 #     stop(call. = FALSE,
 # '\n\nThe harmonized_col_id `',harmonized_col_id,'`',
 # '\nmust be present in your DataSchema and in the Data Processing Elements.')
@@ -476,6 +480,9 @@ Please correct elements and reprocess.')
   # intersection of dossier and dpe
   dossier <- dossier[intersect(names(dossier), names(dpe))]
   
+  # dossier <<- dossier
+  # dpe <<- dpe
+  
   # selection of needed columns
   for(i in names(dossier)){
     # stop()}
@@ -497,7 +504,7 @@ Please correct elements and reprocess.')
     
     if(class(dossier[[i]])[1] == 'try-error'){
       
-      stop(message('ERROR 100'))
+      stop(message('ERROR 102'))
 # stop(call. = FALSE, 
 # 'In your Data Processing Elements, the input variable `',var_id,'` does not 
 # exists in the input dataset `',create_id_row$`input_dataset`,'`.
@@ -1072,13 +1079,58 @@ harmo_process_id_creation <- function(process_rule_slice){
   process_script_to_eval <-
     process_rule_slice %>%
     mutate(
-      replacement      = .data$`input_variables`,
+      replacement      =
+        .data$`script` %>% str_squish(),
       to_eval_test     =
         paste0(
           "  mutate(\n",
           "  '",.data$`output_variable`,"' = ",.data$`replacement`,")")) %>%
     pull(.data$`to_eval_test`)
 
+  return(process_script_to_eval)
+}
+
+#' @title
+#' Internal function for 'dataset_id_creation' in the process of harmonization
+#'
+#' @description
+#' Creates dataset id in the process of harmonization.
+#'
+#' @details
+#' The Data Processing Elements specifies the algorithms used to process input 
+#' variables into harmonized variables in the DataSchema format. It is also 
+#' contains metadata used to generate documentation of the processing. 
+#' A Data Processing Elements object is a data frame with specific columns 
+#' used in data processing: `dataschema_variable`, `input_dataset`, 
+#' `input_variables`, `Mlstr_harmo::rule_category` and `Mlstr_harmo::algorithm`. 
+#' To initiate processing, the first entry must be the creation of a harmonized 
+#' primary identifier variable (e.g., participant unique ID).
+#'
+#' @param process_rule_slice A one-rowed data frame, identifying the occurring
+#' Data Processing Elements. 
+#'
+#' @returns
+#' A character string of R code for harmonizing a specific column in
+#' an input dataset. That line code is the transcription of the
+#' harmonisation rule in the Data Processing Elements.
+#' 
+#' @import dplyr stringr
+#' @importFrom rlang .data
+#'
+#' @noRd
+harmo_process_dataset_id_creation <- function(process_rule_slice){
+  
+  process_script_to_eval <-
+    process_rule_slice %>%
+    mutate(
+      replacement      =
+        .data$`script` %>% str_squish(),
+      to_eval_test     =
+        paste0(
+          "  mutate(\n",
+          "  '",.data$`output_variable`,"' = ",.data$`replacement`,")")) %>%
+    pull(.data$`to_eval_test`)
+  
   return(process_script_to_eval)
 }
 
@@ -1217,9 +1269,6 @@ harmo_process_operation <- function(process_rule_slice){
     mutate(
       replacement      =
         .data$`script` %>% str_squish(),
-      replacement      =
-        .data$`replacement` %>%
-        str_replace_all("\\$",paste0(.data$`input_dataset`,"$")),
       to_eval_test     =
         paste0(
           "  mutate(\n",
@@ -1262,7 +1311,8 @@ harmo_process_other <- function(process_rule_slice){
   process_script_to_eval <-
     process_rule_slice %>%
     mutate(
-      replacement      = .data$`script` %>% str_squish(),
+      replacement      = 
+        .data$`script` %>% str_squish(),
       to_eval_test =
         paste0(
           "  mutate(\n",
@@ -2224,7 +2274,7 @@ as_harmonized_dossier <- function(
 
   # check the id column 
   if(is.null(harmonized_col_id))
-    stop(message('ERROR 100'))
+    stop(message('ERROR 103'))
   #   stop(call. = FALSE,
   #        '`harmonized_col_id` must be provided')
   
