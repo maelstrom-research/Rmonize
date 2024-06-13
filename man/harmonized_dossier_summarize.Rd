@@ -10,7 +10,8 @@ harmonized_dossier_summarize(
   dataschema = attributes(harmonized_dossier)$`Rmonize::DataSchema`,
   data_proc_elem = attributes(harmonized_dossier)$`Rmonize::Data Processing Element`,
   taxonomy = NULL,
-  valueType_guess = FALSE
+  valueType_guess = FALSE,
+  add_col_dataset = TRUE
 )
 }
 \arguments{
@@ -29,6 +30,11 @@ schema.}
 
 \item{valueType_guess}{Whether the output should include a more accurate
 valueType that could be applied to the dataset. FALSE by default.}
+
+\item{add_col_dataset}{Whether to add an extra column to each
+harmonized dataset. The resulting data frame will have an additional column
+and its data dictionary will be updated accordingly adding categories for
+this variable if necessary. FALSE by default.}
 }
 \value{
 A list of data frames containing overall assessment reports and summaries

@@ -63,6 +63,10 @@
 #' Using this parameter can save time in generating the visual report.
 #' @param dataschema A DataSchema object.
 #' @param data_proc_elem A Data Processing Elements object.
+#' @param add_col_dataset Whether to add an extra column to each 
+#' harmonized dataset. The resulting data frame will have an additional column 
+#' and its data dictionary will be updated accordingly adding categories for 
+#' this variable if necessary. FALSE by default.
 #' @param valueType_guess Whether the output should include a more accurate 
 #' valueType that could be applied to the dataset. FALSE by default.
 #' @param taxonomy An optional data frame identifying a variable classification 
@@ -111,6 +115,7 @@ harmonized_dossier_visualize <- function(
     harmonized_dossier_summary = NULL,
     dataschema = attributes(harmonized_dossier)$`Rmonize::DataSchema`,
     data_proc_elem = attributes(harmonized_dossier)$`Rmonize::Data Processing Element`,
+    add_col_dataset = TRUE,
     valueType_guess = FALSE,
     taxonomy = NULL){
 
@@ -142,7 +147,7 @@ harmonized_dossier_visualize <- function(
     pooled_harmonized_dataset_create(
       harmonized_dossier = harmonized_dossier,
       harmonized_col_dataset = group_by,
-      add_col_dataset = TRUE,
+      add_col_dataset = add_col_dataset,
       data_proc_elem = data_proc_elem,
       dataschema = dataschema)
   
