@@ -44,7 +44,7 @@ Suggests: janitor,
     car,
     knitr
 URL: https://github.com/maelstrom-research/Rmonize/
-Remotes: maelstrom-research/madshapR@testing
+Remotes: maelstrom-research/madshapR@testing-2
 BugReports: https://github.com/maelstrom-research/Rmonize/issues
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
