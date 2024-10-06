@@ -33,16 +33,21 @@ generate across input datasets), and Data Processing Elements (elements
 and algorithms needed to process variables from input datasets into
 DataSchema formats). The DataSchema and Data Processing Elements are
 prepared in Excel spreadsheets and imported into R, and they can be
-easily modified and shared outside of R. The package includes integrated
-functions to support organized data processing and generate well
-documented outputs. These functions help to prepare and validate inputs,
-process input datasets into harmonized datasets, identify and
-troubleshoot errors in processing elements, and produce documentation to
-help users evaluate harmonized data content and quality. The main
-outputs provided by Rmonize are the harmonized datasets, their
-associated data dictionaries, and reports with descriptive statistics,
-provided in summary tables or figures. Rmonize also uses two underlying
-packages, <a href="https://CRAN.R-project.org/package=madshapR" 
+easily modified and shared outside of R.
+
+------------------------------------------------------------------------
+
+The package includes integrated functions to support organized data
+processing and generate well documented outputs. These functions help to
+prepare and validate inputs, process input datasets into harmonized
+datasets, identify and troubleshoot errors in processing elements, and
+produce documentation to help users evaluate harmonized data content and
+quality. The main outputs provided by Rmonize are the harmonized
+datasets, their associated data dictionaries, and reports with
+descriptive statistics, provided in summary tables or figures.
+
+Rmonize also uses two underlying packages,
+<a href="https://CRAN.R-project.org/package=madshapR" 
 target="_blank">madshapR</a> and
 <a href="https://CRAN.R-project.org/package=fabR" 
 target="_blank">fabR</a>, which include many functions to work with data
@@ -58,7 +63,7 @@ install.packages('Rmonize')
 
 library(Rmonize)
 # If you need help with the package, please use:
-Rmonize_help()
+Rmonize_website()
 
 # Downloadable templates are available here
 Rmonize_templates()

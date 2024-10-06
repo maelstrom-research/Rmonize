@@ -12,15 +12,15 @@
 #' @examples
 #' {
 #'
-#' Rmonize_help()
+#' Rmonize_website()
 #'
 #' }
 #'
 #' @importFrom utils browseURL
 #'
 #' @export
-Rmonize_help <- function(){
-
+Rmonize_website <- function(){
+  
   browseURL("https://maelstrom-research.github.io/Rmonize-documentation/")
 
 }

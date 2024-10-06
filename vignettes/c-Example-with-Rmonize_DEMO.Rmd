@@ -41,7 +41,7 @@ install.packages('Rmonize')
 
 library(Rmonize)
 # If you need help with the package, please use:
-Rmonize_help()
+Rmonize_website()
 
 # Downloadable templates are available here
 Rmonize_templates()
@@ -53,10 +53,10 @@ Rmonize_DEMO
 
 # Demo objects
 Demo objects are available through the built-in 
-[Rmonize_DEMO](https://maelstrom-research.github.io/Rmonize-documentation/reference/Rmonize_DEMO.html) object. They include example 
-input datasets, input data dictionaries, DataSchema, Data Processing Elements 
-(DPE), and harmonized datasets that provide illustrative examples of the 
-structure and content of the main objects used by Rmonize functions.
+[Rmonize_DEMO](https://maelstrom-research.github.io/Rmonize-documentation/reference/Rmonize_DEMO.html) 
+object. They include example input datasets, input data dictionaries, DataSchema, 
+Data Processing Elements (DPE), and harmonized datasets that provide illustrative 
+examples of the structure and content of the main objects used by Rmonize functions.
 
 
 ```{r}
