@@ -27,16 +27,16 @@ knitr::opts_chunk$set(
 #  names(Rmonize_DEMO)
 #  print(Rmonize_DEMO$dataset_TOKYO)	                     # An input dataset
 #  print(Rmonize_DEMO$data_dict_TOKYO)             	     # An input data dictionary
-#  print(Rmonize_DEMO$`data_processing_elements - final`) # A Data Processing Elements
-#  print(Rmonize_DEMO$`dataschema - final`)	             # A DataSchema
+#  print(Rmonize_examples$`Data Processing Elements`) # A Data Processing Elements
+#  print(Rmonize_examples$`DataSchema`)	             # A DataSchema
 #  
 
 ## -----------------------------------------------------------------------------
 #  # as_dataschema and as_data_proc_elem will check the structure of object and
 #  # assign attributes to them.
 #  
-#  dataschema <- as_dataschema(Rmonize_DEMO$`dataschema - final`)
-#  data_proc_elem <- as_data_proc_elem(Rmonize_DEMO$`data_processing_elements - final`)
+#  dataschema <- as_dataschema(Rmonize_examples$`DataSchema`)
+#  data_proc_elem <- as_data_proc_elem(Rmonize_examples$`Data Processing Elements`)
 #  
 
 ## -----------------------------------------------------------------------------

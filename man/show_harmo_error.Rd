@@ -30,12 +30,3 @@ harmonized dataset (data frame) is taken from the reference input dataset.
 A harmonized dossier also contains the DataSchema and
 Data Processing Elements used in processing as attributes.
 }
-\examples{
-{
-
-  harmonized_dossier <- Rmonize_DEMO$harmonized_dossier
-  show_harmo_error(harmonized_dossier)
-
-}
-
-}

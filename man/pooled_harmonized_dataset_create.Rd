@@ -70,17 +70,3 @@ used in data processing: \code{dataschema_variable}, \code{input_dataset},
 To initiate processing, the first entry must be the creation of a harmonized
 primary identifier variable (e.g., participant unique ID).
 }
-\examples{
-{
-
-# use madshapR_DEMO provided by the package
-library(dplyr)
-
-harmonized_dossier <- Rmonize_DEMO$harmonized_dossier
-
-glimpse(pooled_harmonized_dataset_create(
-  harmonized_dossier,harmonized_col_id = 'adm_unique_id'))
-  
-}
-
-}

@@ -37,14 +37,3 @@ The object may be specifically formatted to be compatible with additional
 \href{https://maelstrom-research.org/page/software}{Maelstrom Research software},
 in particular \href{https://www.obiba.org/pages/products/opal/}{Opal environments}.
 }
-\examples{
-{
-
-# Use Rmonize_DEMO to run examples.
-library(dplyr)
-
-glimpse(as_dataschema(Rmonize_DEMO$`dataschema - final`))
-
-}
-
-}

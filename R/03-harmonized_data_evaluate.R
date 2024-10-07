@@ -147,7 +147,7 @@ harmonized_dossier_evaluate <- function(
 #' 
 #' # use Rmonize_DEMO provided by the package
 #' 
-#' data_proc_elem <- Rmonize_DEMO$`data_processing_elements - final`   
+#' data_proc_elem <- Rmonize_examples$`Data Processing Elements`   
 #' data_proc_elem_evaluate(data_proc_elem)
 #' 
 #' }
@@ -324,7 +324,7 @@ data_proc_elem_evaluate <- function(data_proc_elem, taxonomy = NULL){
 #' library(madshapR) # data_dict_filter
 #' 
 #' dataschema <- 
-#'   Rmonize_DEMO$`dataschema - final` %>%
+#'   Rmonize_examples$`DataSchema` %>%
 #'   data_dict_filter("name == 'adm_unique_id'")
 #'   
 #' dataschema_evaluate(dataschema)

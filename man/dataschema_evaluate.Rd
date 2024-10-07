@@ -48,7 +48,7 @@ library(dplyr)
 library(madshapR) # data_dict_filter
 
 dataschema <- 
-  Rmonize_DEMO$`dataschema - final` \%>\%
+  Rmonize_examples$`DataSchema` \%>\%
   data_dict_filter("name == 'adm_unique_id'")
   
 dataschema_evaluate(dataschema)

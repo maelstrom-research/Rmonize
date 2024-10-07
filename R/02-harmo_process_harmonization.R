@@ -50,28 +50,23 @@
 #' and Data Processing Elements are preserved as attributes of the 
 #' output harmonized dossier.
 #'
-#' @examples
+#' @examplesOK
 #' {
 #' 
 #' # Use Rmonize_DEMO to run examples.
 #'  
 #' library(dplyr)
-#' library(madshapR) # data_dict_filter
+#' library(stringr)
 #' 
-#' dataset_MELBOURNE <- Rmonize_DEMO$dataset_MELBOURNE[1]
-#' dossier <- dossier_create(list(dataset_MELBOURNE))
+#' dossier <- dossier_create(
+#'   Rmonize_examples[str_detect(names(Rmonize_examples),"dataset")])
 #' 
-#' dataschema <-
-#'   Rmonize_DEMO$`dataschema - final` %>%
-#'   data_dict_filter('name == "adm_unique_id"')
-#' 
-#' data_proc_elem <- Rmonize_DEMO$`data_processing_elements - final` %>%
-#'   dplyr::filter(dataschema_variable == 'adm_unique_id',
-#'          input_dataset == 'dataset_MELBOURNE')
+#' dataschema <- Rmonize_examples$DataSchema
+#' data_proc_elem <- Rmonize_examples$`Data Processing Elements`
 #' 
 #' # perform harmonization
 #' harmonized_dossier <- harmo_process(dossier,dataschema,data_proc_elem)
-#' glimpse(harmonized_dossier)
+#' glimpse(harmonized_dossier$dataset_study1)
 #' 
 #' }
 #'
@@ -974,7 +969,7 @@ harmo_process_case_when <- function(process_rule_slice){
 
   process_script_to_eval <-
     process_rule_slice %>%
-    # Rmonize_DEMO$`data_processing_elements - final` %>%
+    # Rmonize_examples$`Data Processing Elements` %>%
     # dplyr::filter(`Mlstr_harmo::rule_category` == 'case_when') %>%
     # slice(1) %>%
     # select(
@@ -1555,11 +1550,24 @@ harmo_process_undetermined <- function(process_rule_slice){
 #' Nothing to be returned. The function prints messages in the console, 
 #' showing any errors in the processing.
 #'
-#' @examples
+#' @examplesOK
 #' {
 #'
-#'   harmonized_dossier <- Rmonize_DEMO$harmonized_dossier
-#'   show_harmo_error(harmonized_dossier)
+#' # Use Rmonize_DEMO to run examples.
+#'  
+#' library(dplyr)
+#' library(stringr)
+#' 
+#' # perform data processing
+#' dossier <- dossier_create(
+#'   Rmonize_examples[str_detect(names(Rmonize_examples),"dataset")])
+#' dataschema <- Rmonize_examples$DataSchema
+#' data_proc_elem <- Rmonize_examples$`Data Processing Elements`
+#' harmonized_dossier <- harmo_process(dossier,dataschema,data_proc_elem)
+#' 
+#' # show error(s) on the console
+#' show_harmo_error(harmonized_dossier)
+#' attributes(harmonized_dossier$dataset_study1)
 #' 
 #' }
 #'
@@ -1724,14 +1732,15 @@ of harmonization:\n"))
 #' A list of data frame(s) named 'Variables' and (if any) 'Categories', with 
 #' `Rmonize::class` 'dataschema'.
 #'
-#' @examples
+#' @examplesOK
 #' {
 #'
 #' # Use Rmonize_DEMO to run examples.
 #' library(dplyr)
 #'
-#' glimpse(dataschema_extract(
-#'   data_proc_elem = Rmonize_DEMO$`data_processing_elements - final`))
+#' dataschema <- dataschema_extract(Rmonize_examples$`Data Processing Elements`)
+#' 
+#' glimpse(dataschema)
 #' }
 #'
 #' @import dplyr
@@ -1785,13 +1794,15 @@ dataschema_extract <- function(data_proc_elem){
 #' @returns
 #' A data frame with `Rmonize::class` 'data_proc_elem'.
 #'
-#' @examples
+#' @examplesOK
 #' {
 #'
 #' # Use Rmonize_DEMO to run examples.
 #' library(dplyr)
 #'
-#' glimpse(head(as_data_proc_elem(Rmonize_DEMO$`data_processing_elements - final`),3))
+#' data_proc_elem <- as_data_proc_elem(Rmonize_examples$`Data Processing Elements`)
+#' 
+#' head(data_proc_elem)
 #' 
 #' }
 #'
@@ -2087,13 +2098,14 @@ Please refer to documentation.")
 #' A list of data frame(s) named 'Variables' and (if any) 'Categories', 
 #' with `Rmonize::class` 'dataschema'.
 #'
-#' @examples
+#' @examplesOK
 #' {
 #'
 #' # Use Rmonize_DEMO to run examples.
 #' library(dplyr)
 #'
-#' glimpse(as_dataschema(Rmonize_DEMO$`dataschema - final`))
+#' dataschema <- as_dataschema(Rmonize_examples$`DataSchema`)
+#' glimpse(dataschema)
 #' 
 #' }
 #'
@@ -2162,13 +2174,14 @@ bold("Useful tip:\n"),
 #' A list of data frame(s) named 'Variables' and (if any) 'Categories', with 
 #' `Rmonize::class` 'dataschema_mlstr'.
 #'
-#' @examples
+#' @examplesOK
 #' {
 #'
 #' # Use Rmonize_DEMO to run examples.
 #' library(dplyr)
 #'
-#' glimpse(as_dataschema_mlstr(Rmonize_DEMO$`dataschema - final`))
+#' dataschema_mlstr <- as_dataschema_mlstr(Rmonize_examples$`DataSchema`)
+#' glimpse(dataschema_mlstr)
 #' 
 #' }
 #'
@@ -2244,13 +2257,24 @@ as_dataschema_mlstr <- function(object){
 #' The DataSchema and Data Processing Elements are preserved as attributes of 
 #' the output harmonized dossier.
 #'
-#' @examples
+#' @examplesOK
 #' {
 #' 
 #' # Use Rmonize_DEMO to run examples.
+#'  
 #' library(dplyr)
+#' library(stringr)
 #' 
-#' glimpse(as_harmonized_dossier(Rmonize_DEMO$harmonized_dossier))
+#' # perform harmonization
+#' dossier <- dossier_create(
+#'   Rmonize_examples[str_detect(names(Rmonize_examples),"dataset")])
+#' dataschema <- Rmonize_examples$DataSchema
+#' data_proc_elem <- Rmonize_examples$`Data Processing Elements`
+#' harmonized_dossier <- harmo_process(dossier,dataschema,data_proc_elem)
+#' 
+#' harmonized_dossier <- as_harmonized_dossier(harmonized_dossier)
+#' 
+#' glimpse(harmonized_dossier)
 #'   
 #' }
 #'
@@ -2469,16 +2493,26 @@ name list of variables.")
 #' @returns
 #' A data frame containing the pooled harmonized dataset.
 #' 
-#' @examples
+#' @examplesOK
 #' {
 #'
-#' # use madshapR_DEMO provided by the package
+#' # Use Rmonize_DEMO to run examples.
+#'  
 #' library(dplyr)
+#' library(stringr)
 #' 
-#' harmonized_dossier <- Rmonize_DEMO$harmonized_dossier
-#'
-#' glimpse(pooled_harmonized_dataset_create(
-#'   harmonized_dossier,harmonized_col_id = 'adm_unique_id'))
+#' # perform harmonization
+#' dossier <- dossier_create(
+#'   Rmonize_examples[str_detect(names(Rmonize_examples),"dataset")])
+#' dataschema <- Rmonize_examples$DataSchema
+#' data_proc_elem <- Rmonize_examples$`Data Processing Elements`
+#' harmonized_dossier <- harmo_process(dossier,dataschema,data_proc_elem)
+#' 
+#' # create the pooled harmonized dataset from the harmonized dossier
+#' pooled_harmonized_dataset <- pooled_harmonized_dataset_create(
+#'   harmonized_dossier,harmonized_col_id = 'adm_unique_id')
+#'   
+#' glimpse(pooled_harmonized_dataset)
 #'   
 #' }
 #'
@@ -2628,13 +2662,13 @@ categorical variable DataSchema, or to set `add_col_dataset` = FALSE.')
 #' @returns
 #' A logical.
 #'
-#' @examples
+#' @examplesOK
 #' {
 #' 
 #' # use Rmonize_DEMO provided by the package
 #'
-#' dataschema <- Rmonize_DEMO$`dataschema - final`
-#' is_dataschema_mlstr(dataschema)
+#' is_dataschema_mlstr(Rmonize_examples$`DataSchema`)
+#' is_dataschema_mlstr(Rmonize_examples$`Data Processing Elements`)
 #' is_dataschema_mlstr(iris)
 #'
 #'}
@@ -2678,13 +2712,13 @@ is_dataschema_mlstr <- function(object){
 #' @returns
 #' A logical.
 #'
-#' @examples
+#' @examplesOK
 #' {
 #' 
 #' # use Rmonize_DEMO provided by the package
 #'
-#' dataschema <- Rmonize_DEMO$`dataschema - final`
-#' is_dataschema(dataschema)
+#' is_dataschema(Rmonize_examples$`DataSchema`)
+#' is_dataschema(Rmonize_examples$`Data Processing Elements`)
 #' is_dataschema(iris)
 #'
 #'}
@@ -2726,13 +2760,14 @@ is_dataschema <- function(object){
 #' @returns
 #' A logical.
 #'
-#' @examples
+#' @examplesOK
 #' {
 #' 
 #' # use Rmonize_DEMO provided by the package
 #'
-#' data_proc_elem <- Rmonize_DEMO$`data_processing_elements - final`
-#' is_data_proc_elem(data_proc_elem)
+#' data_proc_elem <- Rmonize_examples$`Data Processing Elements`
+#' is_data_proc_elem(Rmonize_examples$`Data Processing Elements`)
+#' is_data_proc_elem(Rmonize_examples$`DataSchema`)
 #' is_data_proc_elem(iris)
 #'
 #'}

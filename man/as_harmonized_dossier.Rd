@@ -72,14 +72,3 @@ used in data processing: \code{dataschema_variable}, \code{input_dataset},
 To initiate processing, the first entry must be the creation of a harmonized
 primary identifier variable (e.g., participant unique ID).
 }
-\examples{
-{
-
-# Use Rmonize_DEMO to run examples.
-library(dplyr)
-
-glimpse(as_harmonized_dossier(Rmonize_DEMO$harmonized_dossier))
-  
-}
-
-}

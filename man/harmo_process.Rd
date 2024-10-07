@@ -70,29 +70,3 @@ used in data processing: \code{dataschema_variable}, \code{input_dataset},
 To initiate processing, the first entry must be the creation of a harmonized
 primary identifier variable (e.g., participant unique ID).
 }
-\examples{
-{
-
-# Use Rmonize_DEMO to run examples.
- 
-library(dplyr)
-library(madshapR) # data_dict_filter
-
-dataset_MELBOURNE <- Rmonize_DEMO$dataset_MELBOURNE[1]
-dossier <- dossier_create(list(dataset_MELBOURNE))
-
-dataschema <-
-  Rmonize_DEMO$`dataschema - final` \%>\%
-  data_dict_filter('name == "adm_unique_id"')
-
-data_proc_elem <- Rmonize_DEMO$`data_processing_elements - final` \%>\%
-  dplyr::filter(dataschema_variable == 'adm_unique_id',
-         input_dataset == 'dataset_MELBOURNE')
-
-# perform harmonization
-harmonized_dossier <- harmo_process(dossier,dataschema,data_proc_elem)
-glimpse(harmonized_dossier)
-
-}
-
-}

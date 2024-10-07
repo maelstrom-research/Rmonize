@@ -27,18 +27,6 @@ in any function. In 'Variables' the \code{name} column must also have unique
 entries, and in 'Categories' the combination of \code{variable} and \code{name} columns
 must also be unique.
 }
-\examples{
-{
-
-# use Rmonize_DEMO provided by the package
-
-dataschema <- Rmonize_DEMO$`dataschema - final`
-is_dataschema(dataschema)
-is_dataschema(iris)
-
-}
-
-}
 \seealso{
 For a better assessment, please use \code{\link[=dataschema_evaluate]{dataschema_evaluate()}}.
 }
