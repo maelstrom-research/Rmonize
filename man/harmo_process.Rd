@@ -74,14 +74,14 @@ primary identifier variable (e.g., participant unique ID).
 {
 
 # Use Rmonize_DEMO to run examples.
-
+ 
 library(dplyr)
 library(madshapR) # data_dict_filter
 
 dataset_MELBOURNE <- Rmonize_DEMO$dataset_MELBOURNE[1]
 dossier <- dossier_create(list(dataset_MELBOURNE))
 
-dataschema <- 
+dataschema <-
   Rmonize_DEMO$`dataschema - final` \%>\%
   data_dict_filter('name == "adm_unique_id"')
 

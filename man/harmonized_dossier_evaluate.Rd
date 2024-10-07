@@ -8,7 +8,7 @@ harmonized_dossier_evaluate(
   harmonized_dossier,
   dataschema = attributes(harmonized_dossier)$`Rmonize::DataSchema`,
   taxonomy = NULL,
-  as_dataschema_mlstr = TRUE
+  is_dataschema_mlstr = TRUE
 )
 }
 \arguments{
@@ -19,7 +19,7 @@ harmonized_dossier_evaluate(
 \item{taxonomy}{An optional data frame identifying a variable classification
 schema.}
 
-\item{as_dataschema_mlstr}{Whether the output DataSchema should be coerced
+\item{is_dataschema_mlstr}{Whether the output DataSchema should be coerced
 with specific format restrictions for compatibility with other
 Maelstrom Research software. TRUE by default.}
 }

@@ -40,7 +40,8 @@
 #' @param taxonomy An optional data frame identifying a variable classification 
 #' schema.
 #' @param dataschema A DataSchema object.
-#' @param as_dataschema_mlstr Whether the output DataSchema should be coerced 
+#' @param is_dataschema_mlstr
+#'  Whether the output DataSchema should be coerced 
 #' with specific format restrictions for compatibility with other 
 #' Maelstrom Research software. TRUE by default.
 #'
@@ -66,7 +67,7 @@ harmonized_dossier_evaluate <- function(
     harmonized_dossier,
     dataschema = attributes(harmonized_dossier)$`Rmonize::DataSchema`,
     taxonomy = NULL,
-    as_dataschema_mlstr = TRUE){
+    is_dataschema_mlstr = TRUE){
 
   # future dev 
   # assess harmonized data dictionary
@@ -75,9 +76,9 @@ harmonized_dossier_evaluate <- function(
   # tests
   if(!is.null(taxonomy)) as_taxonomy(taxonomy)
   
-  if(!is.logical(as_dataschema_mlstr))
+  if(!is.logical(is_dataschema_mlstr))
     stop(call. = FALSE,
-         '`as_dataschema_mlstr` must be TRUE or FALSE (FALSE by default)')
+         '`is_dataschema_mlstr` must be TRUE or FALSE (FALSE by default)')
   
   # creation of pooled_harmonized_dataset
   pooled_harmonized_dataset <- 
@@ -88,7 +89,7 @@ harmonized_dossier_evaluate <- function(
       dataset = pooled_harmonized_dataset,
       data_dict = dataschema,
       taxonomy = taxonomy,
-      as_data_dict_mlstr = as_dataschema_mlstr)
+      is_data_dict_mlstr = is_dataschema_mlstr)
 
   report_list <-
     report_list %>%
@@ -340,7 +341,7 @@ dataschema_evaluate <- function(dataschema, taxonomy = NULL){
   #   as_dataschema(dataschema,as_dataschema_mlstr = TRUE) %>%
   #   as_data_dict_mlstr()
 
-  report <- data_dict_evaluate(dataschema,taxonomy,as_data_dict_mlstr = TRUE)
+  report <- data_dict_evaluate(dataschema,taxonomy,is_data_dict_mlstr = TRUE)
 
   names(report) <- str_replace(names(report),"Data dictionary summary",
                                "Harmonized Data dictionary summary")
