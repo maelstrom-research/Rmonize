@@ -1567,7 +1567,6 @@ harmo_process_undetermined <- function(process_rule_slice){
 #' 
 #' # show error(s) on the console
 #' show_harmo_error(harmonized_dossier)
-#' attributes(harmonized_dossier$dataset_study1)
 #' 
 #' }
 #'
@@ -2274,7 +2273,7 @@ as_dataschema_mlstr <- function(object){
 #' 
 #' harmonized_dossier <- as_harmonized_dossier(harmonized_dossier)
 #' 
-#' glimpse(harmonized_dossier)
+#' glimpse(harmonized_dossier$dataset_study1)
 #'   
 #' }
 #'
