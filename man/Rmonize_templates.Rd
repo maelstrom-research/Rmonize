@@ -12,3 +12,11 @@ Nothing to be returned. The function opens a web page.
 \description{
 Direct call to online documentation to download templates.
 }
+\examples{
+{
+
+Rmonize_templates()
+
+}
+
+}

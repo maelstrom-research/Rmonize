@@ -50,15 +50,15 @@
 #' and Data Processing Elements are preserved as attributes of the 
 #' output harmonized dossier.
 #'
-#' @examplesOK
+#' @examples
 #' {
 #' 
-#' # Use Rmonize_DEMO to run examples.
+#' # Use Rmonize_examples to run examples.
 #'  
 #' library(dplyr)
 #' library(stringr)
 #' 
-#' # use Rmonize_DEMO provided by the package
+#' # use Rmonize_examples provided by the package
 #' library(stringr)
 #' 
 #' # perform data processing
@@ -1388,12 +1388,12 @@ harmo_process_paste <- function(process_rule_slice){
 #' an input dataset. That line code is the transcription of the
 #' harmonisation rule in the Data Processing Elements.
 #'
-#' @import dplyr stringr 
+#' @import dplyr stringr
 #' @importFrom rlang .data
 #'
 #' @noRd
 harmo_process_recode <- function(process_rule_slice){
-
+  
   process_script_to_eval <-
     process_rule_slice %>%
     # process_rule %>%
@@ -1551,10 +1551,10 @@ harmo_process_undetermined <- function(process_rule_slice){
 #' Nothing to be returned. The function prints messages in the console, 
 #' showing any errors in the processing.
 #'
-#' @examplesOK
+#' @examples
 #' {
 #'
-#' # Use Rmonize_DEMO to run examples.
+#' # Use Rmonize_examples to run examples.
 #'  
 #' library(dplyr)
 #' library(stringr)
@@ -1731,10 +1731,10 @@ of harmonization:\n"))
 #' A list of data frame(s) named 'Variables' and (if any) 'Categories', with 
 #' `Rmonize::class` 'dataschema'.
 #'
-#' @examplesOK
+#' @examples
 #' {
 #'
-#' # Use Rmonize_DEMO to run examples.
+#' # Use Rmonize_examples to run examples.
 #' library(dplyr)
 #'
 #' dataschema <- dataschema_extract(Rmonize_examples$`Data Processing Elements`)
@@ -1793,10 +1793,10 @@ dataschema_extract <- function(data_proc_elem){
 #' @returns
 #' A data frame with `Rmonize::class` 'data_proc_elem'.
 #'
-#' @examplesOK
+#' @examples
 #' {
 #'
-#' # Use Rmonize_DEMO to run examples.
+#' # Use Rmonize_examples to run examples.
 #' library(dplyr)
 #'
 #' data_proc_elem <- as_data_proc_elem(Rmonize_examples$`Data Processing Elements`)
@@ -2097,10 +2097,10 @@ Please refer to documentation.")
 #' A list of data frame(s) named 'Variables' and (if any) 'Categories', 
 #' with `Rmonize::class` 'dataschema'.
 #'
-#' @examplesOK
+#' @examples
 #' {
 #'
-#' # Use Rmonize_DEMO to run examples.
+#' # Use Rmonize_examples to run examples.
 #' library(dplyr)
 #'
 #' dataschema <- as_dataschema(Rmonize_examples$`DataSchema`)
@@ -2173,10 +2173,10 @@ bold("Useful tip:\n"),
 #' A list of data frame(s) named 'Variables' and (if any) 'Categories', with 
 #' `Rmonize::class` 'dataschema_mlstr'.
 #'
-#' @examplesOK
+#' @examples
 #' {
 #'
-#' # Use Rmonize_DEMO to run examples.
+#' # Use Rmonize_examples to run examples.
 #' library(dplyr)
 #'
 #' dataschema_mlstr <- as_dataschema_mlstr(Rmonize_examples$`DataSchema`)
@@ -2256,10 +2256,10 @@ as_dataschema_mlstr <- function(object){
 #' The DataSchema and Data Processing Elements are preserved as attributes of 
 #' the output harmonized dossier.
 #'
-#' @examplesOK
+#' @examples
 #' {
 #' 
-#' # Use Rmonize_DEMO to run examples.
+#' # Use Rmonize_examples to run examples.
 #'  
 #' library(dplyr)
 #' library(stringr)
@@ -2491,10 +2491,10 @@ name list of variables.")
 #' @returns
 #' A data frame containing the pooled harmonized dataset.
 #' 
-#' @examplesOK
+#' @examples
 #' {
 #'
-#' # Use Rmonize_DEMO to run examples.
+#' # Use Rmonize_examples to run examples.
 #'  
 #' library(dplyr)
 #' library(stringr)
@@ -2661,10 +2661,10 @@ categorical variable DataSchema, or to set `add_col_dataset` = FALSE.')
 #' @returns
 #' A logical.
 #'
-#' @examplesOK
+#' @examples
 #' {
 #' 
-#' # use Rmonize_DEMO provided by the package
+#' # use Rmonize_examples provided by the package
 #'
 #' is_dataschema_mlstr(Rmonize_examples$`DataSchema`)
 #' is_dataschema_mlstr(Rmonize_examples$`Data Processing Elements`)
@@ -2711,10 +2711,10 @@ is_dataschema_mlstr <- function(object){
 #' @returns
 #' A logical.
 #'
-#' @examplesOK
+#' @examples
 #' {
 #' 
-#' # use Rmonize_DEMO provided by the package
+#' # use Rmonize_examples provided by the package
 #'
 #' is_dataschema(Rmonize_examples$`DataSchema`)
 #' is_dataschema(Rmonize_examples$`Data Processing Elements`)
@@ -2759,10 +2759,10 @@ is_dataschema <- function(object){
 #' @returns
 #' A logical.
 #'
-#' @examplesOK
+#' @examples
 #' {
 #' 
-#' # use Rmonize_DEMO provided by the package
+#' # use Rmonize_examples provided by the package
 #'
 #' data_proc_elem <- Rmonize_examples$`Data Processing Elements`
 #' is_data_proc_elem(Rmonize_examples$`Data Processing Elements`)

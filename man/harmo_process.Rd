@@ -70,3 +70,25 @@ used in data processing: \code{dataschema_variable}, \code{input_dataset},
 To initiate processing, the first entry must be the creation of a harmonized
 primary identifier variable (e.g., participant unique ID).
 }
+\examples{
+{
+
+# Use Rmonize_examples to run examples.
+ 
+library(dplyr)
+library(stringr)
+
+# use Rmonize_examples provided by the package
+library(stringr)
+
+# perform data processing
+dossier            <- Rmonize_examples[str_detect(names(Rmonize_examples),"dataset")]
+dataschema         <- Rmonize_examples$DataSchema
+data_proc_elem     <- Rmonize_examples$`Data Processing Elements`
+harmonized_dossier <- harmo_process(dossier,dataschema,data_proc_elem)
+
+glimpse(harmonized_dossier$dataset_study1)
+
+}
+
+}

@@ -92,3 +92,22 @@ list of OBiBa valueType possibilities and their correspondence with R data
 types are available using \link{valueType_list}. The valueType can be used to
 coerce the variable to the corresponding data type.
 }
+\examples{
+{
+
+# use Rmonize_examples provided by the package
+library(stringr)
+
+# perform data processing
+dossier            <- Rmonize_examples[str_detect(names(Rmonize_examples),"dataset")]
+dataschema         <- Rmonize_examples$DataSchema
+data_proc_elem     <- Rmonize_examples$`Data Processing Elements`
+harmonized_dossier <- harmo_process(dossier,dataschema,data_proc_elem)
+
+summary_harmo      <- harmonized_dossier_summarize(harmonized_dossier, add_col_dataset = FALSE)
+
+glimpse(summary_harmonized_dossier)
+
+}
+
+}

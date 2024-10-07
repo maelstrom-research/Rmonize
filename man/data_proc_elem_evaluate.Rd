@@ -40,3 +40,14 @@ taxonomy object is a data frame that must contain at least the columns
 taxonomies are
 \href{https://opaldoc.obiba.org/en/latest/web-user-guide/administration/taxonomies.html}{available online}.
 }
+\examples{
+{
+
+# use Rmonize_examples provided by the package
+
+data_proc_elem <- Rmonize_examples$`Data Processing Elements`
+data_proc_elem_evaluate(data_proc_elem)
+
+}
+
+}

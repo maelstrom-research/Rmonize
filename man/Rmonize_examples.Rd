@@ -29,4 +29,13 @@ Rmonize_examples
 Illustrative input datasets, input data dictionaries, DataSchema,
 Data Processing Elements, and other objects to provide use case of Rmonize.
 }
+\examples{
+{
+
+library(dplyr)
+
+glimpse(Rmonize_examples$DataSchema)
+
+}
+}
 \keyword{datasets}

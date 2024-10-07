@@ -27,3 +27,16 @@ used in data processing: \code{dataschema_variable}, \code{input_dataset},
 To initiate processing, the first entry must be the creation of a harmonized
 primary identifier variable (e.g., participant unique ID).
 }
+\examples{
+{
+
+# use Rmonize_examples provided by the package
+
+data_proc_elem <- Rmonize_examples$`Data Processing Elements`
+is_data_proc_elem(Rmonize_examples$`Data Processing Elements`)
+is_data_proc_elem(Rmonize_examples$`DataSchema`)
+is_data_proc_elem(iris)
+
+}
+
+}

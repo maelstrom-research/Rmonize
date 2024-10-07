@@ -48,10 +48,10 @@
 #' @returns
 #' A list of data frames containing assessment reports for each harmonized dataset.
 #'
-#' @examplesOK
+#' @examples
 #' {
 #' 
-#' # use Rmonize_DEMO provided by the package
+#' # use Rmonize_examples provided by the package
 #' library(stringr)
 #' 
 #' # perform data processing
@@ -150,10 +150,10 @@ harmonized_dossier_evaluate <- function(
 #' @returns
 #' A list of data frames containing assessment reports.
 #'
-#' @examplesOK
+#' @examples
 #' {
 #' 
-#' # use Rmonize_DEMO provided by the package
+#' # use Rmonize_examples provided by the package
 #' 
 #' data_proc_elem <- Rmonize_examples$`Data Processing Elements`
 #' data_proc_elem_evaluate(data_proc_elem)
@@ -323,10 +323,10 @@ data_proc_elem_evaluate <- function(data_proc_elem, taxonomy = NULL){
 #' @returns
 #' A list of data frames containing assessment reports.
 #'
-#' @examplesOK
+#' @examples
 #' {
 #'
-#' # use Rmonize_DEMO provided by the package
+#' # use Rmonize_examples provided by the package
 #' 
 #' library(dplyr)
 #' 

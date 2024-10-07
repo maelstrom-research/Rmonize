@@ -72,10 +72,10 @@
 #' A list of data frames containing overall assessment reports and summaries 
 #' grouped by harmonized dataset.
 #'
-#' @examplesOK
+#' @examples
 #' {
 #' 
-#' # use Rmonize_DEMO provided by the package
+#' # use Rmonize_examples provided by the package
 #' library(stringr)
 #' 
 #' # perform data processing

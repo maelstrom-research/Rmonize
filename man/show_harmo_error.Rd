@@ -30,3 +30,23 @@ harmonized dataset (data frame) is taken from the reference input dataset.
 A harmonized dossier also contains the DataSchema and
 Data Processing Elements used in processing as attributes.
 }
+\examples{
+{
+
+# Use Rmonize_examples to run examples.
+ 
+library(dplyr)
+library(stringr)
+
+# perform data processing
+dossier            <- Rmonize_examples[str_detect(names(Rmonize_examples),"dataset")]
+dataschema         <- Rmonize_examples$DataSchema
+data_proc_elem     <- Rmonize_examples$`Data Processing Elements`
+harmonized_dossier <- harmo_process(dossier,dataschema,data_proc_elem)
+
+# show error(s) on the console
+show_harmo_error(harmonized_dossier)
+
+}
+
+}

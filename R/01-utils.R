@@ -9,7 +9,7 @@
 #' @returns
 #' Nothing to be returned. The function opens a web page.
 #'
-#' @examplesOK
+#' @examples
 #' {
 #'
 #' Rmonize_website()
@@ -34,7 +34,7 @@ Rmonize_website <- function(){
 #' @returns
 #' Nothing to be returned. The function opens a web page.
 #'
-#' @examplesOK
+#' @examples
 #' {
 #'
 #' Rmonize_templates()
@@ -72,10 +72,9 @@ Rmonize_templates <- function(){
 #'   ...
 #' }
 #'
-#' @examplesOK
+#' @examples
 #' {
 #'
-#' # use madshapR_DEMO provided by the package
 #' library(dplyr)
 #' 
 #' glimpse(Rmonize_examples$DataSchema)
