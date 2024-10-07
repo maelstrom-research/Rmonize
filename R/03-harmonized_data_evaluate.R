@@ -51,14 +51,13 @@
 #' @examplesOK
 #' {
 #' 
-#' #' # use Rmonize_DEMO provided by the package
+#' # use Rmonize_DEMO provided by the package
 #' library(stringr)
 #' 
-#' # perform harmonization
-#' dossier <- dossier_create(
-#'   Rmonize_examples[str_detect(names(Rmonize_examples),"dataset")])
-#' dataschema <- Rmonize_examples$DataSchema
-#' data_proc_elem <- Rmonize_examples$`Data Processing Elements`
+#' # perform data processing
+#' dossier            <- Rmonize_examples[str_detect(names(Rmonize_examples),"dataset")]
+#' dataschema         <- Rmonize_examples$DataSchema
+#' data_proc_elem     <- Rmonize_examples$`Data Processing Elements`
 #' harmonized_dossier <- harmo_process(dossier,dataschema,data_proc_elem)
 #' 
 #' eval_harmonized_dossier <- harmonized_dossier_evaluate(harmonized_dossier)
@@ -333,6 +332,7 @@ data_proc_elem_evaluate <- function(data_proc_elem, taxonomy = NULL){
 #' 
 #' dataschema <- Rmonize_examples$`DataSchema`
 #' eval_dataschema <- dataschema_evaluate(dataschema)
+#' 
 #' glimpse(eval_dataschema)
 #' 
 #' }

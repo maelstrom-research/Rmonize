@@ -72,13 +72,22 @@
 #' A list of data frames containing overall assessment reports and summaries 
 #' grouped by harmonized dataset.
 #'
-#' @examples
+#' @examplesOK
 #' {
 #' 
-#' harmonized_dossier <- Rmonize_DEMO$harmonized_dossier
-#'
-#' # summary harmonization
-#' harmonized_dossier_summarize(harmonized_dossier)
+#' # use Rmonize_DEMO provided by the package
+#' library(stringr)
+#' 
+#' # perform data processing
+#' dossier            <- Rmonize_examples[str_detect(names(Rmonize_examples),"dataset")]
+#' dataschema         <- Rmonize_examples$DataSchema
+#' data_proc_elem     <- Rmonize_examples$`Data Processing Elements`
+#' harmonized_dossier <- harmo_process(dossier,dataschema,data_proc_elem)
+#' 
+#' summary_harmonized_dossier <- harmonized_dossier_summarize(
+#'     harmonized_dossier, add_col_dataset = FALSE)
+#' 
+#' glimpse(summary_harmonized_dossier)
 #'
 #' }
 #'

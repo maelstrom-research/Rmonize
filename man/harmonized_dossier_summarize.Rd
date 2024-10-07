@@ -92,14 +92,3 @@ list of OBiBa valueType possibilities and their correspondence with R data
 types are available using \link{valueType_list}. The valueType can be used to
 coerce the variable to the corresponding data type.
 }
-\examples{
-{
-
-harmonized_dossier <- Rmonize_DEMO$harmonized_dossier
-
-# summary harmonization
-harmonized_dossier_summarize(harmonized_dossier)
-
-}
-
-}
