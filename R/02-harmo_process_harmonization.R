@@ -1738,8 +1738,8 @@ of harmonization:\n"))
 #' library(dplyr)
 #'
 #' dataschema <- dataschema_extract(Rmonize_examples$`Data Processing Elements`)
-#' 
 #' glimpse(dataschema)
+#' 
 #' }
 #'
 #' @import dplyr

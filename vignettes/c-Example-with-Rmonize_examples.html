@@ -12,7 +12,7 @@
 
 
 
-<title>Example with Rmonize_DEMO</title>
+<title>Example with Rmonize_examples</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -336,7 +336,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 
-<h1 class="title toc-ignore">Example with Rmonize_DEMO</h1>
+<h1 class="title toc-ignore">Example with Rmonize_examples</h1>
 
 
 
@@ -344,8 +344,8 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <h1>Objective of the vignette</h1>
 <p>This vignette provides examples of applying Rmonize functions to
 prepare inputs, process data, and validate and consolidate harmonized
-data, using illustrative demo objects included with the package. The
-vignette focuses on demonstrating the usage of functions on inputs that
+data, using illustrative Example objects included with the package. The
+vignette focuses on illustrating the usage of functions on inputs that
 already have valid structure and content. See the <a href="https://maelstrom-research.github.io/Rmonize-documentation/articles/a-Glossary-and-templates.html">Glossary</a>
 and <a href="https://maelstrom-research.github.io/Rmonize-documentation/reference/index.html">Reference</a>
 pages for more details about the terms used in this document.</p>
@@ -364,13 +364,13 @@ pages for more details about the terms used in this document.</p>
 <span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co"># Downloadable templates are available here</span></span>
 <span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="fu">Rmonize_templates</span>()</span>
 <span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a></span>
-<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co"># Demo files are available here, along with an online demonstration process </span></span>
-<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a>Rmonize_DEMO</span></code></pre></div>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co"># Example files are available here, along with an online illustrative process </span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a>Rmonize_examples</span></code></pre></div>
 </div>
 </div>
-<div id="demo-objects" class="section level1">
-<h1>Demo objects</h1>
-<p>Demo objects are available through the built-in <a href="https://maelstrom-research.github.io/Rmonize-documentation/reference/Rmonize_DEMO.html">Rmonize_DEMO</a>
+<div id="example-objects" class="section level1">
+<h1>Example objects</h1>
+<p>Example objects are available through the built-in <a href="https://maelstrom-research.github.io/Rmonize-documentation/reference/Rmonize_examples.html">Rmonize_examples</a>
 object. They include example input datasets, input data dictionaries,
 DataSchema, Data Processing Elements (DPE), and harmonized datasets that
 provide illustrative examples of the structure and content of the main
@@ -398,11 +398,11 @@ explicitly to ensure compatibility with Rmonize functions.</p>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a></span>
 <span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>dataschema <span class="ot">&lt;-</span> <span class="fu">as_dataschema</span>(Rmonize_examples<span class="sc">$</span><span class="st">`</span><span class="at">Data Processing Elements</span><span class="st">`</span>)</span>
 <span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>data_proc_elem <span class="ot">&lt;-</span> <span class="fu">as_data_proc_elem</span>(Rmonize_examples<span class="sc">$</span><span class="st">`</span><span class="at">DataSchema</span><span class="st">`</span>)</span></code></pre></div>
-<p><em> Note: In the DEMO DPEs, all elements for three different input
-datasets are combined in one file. A DPE can also be prepared for each
-input dataset separately, and the individual DPEs combined as needed for
-processing. The DataSchema and DPE objects can be assigned explicitly
-</em></p>
+<p><em> Note: In the example DPEs, all elements for three different
+input datasets are combined in one file. A DPE can also be prepared for
+each input dataset separately, and the individual DPEs combined as
+needed for processing. The DataSchema and DPE objects can be assigned
+explicitly </em></p>
 </div>
 <div id="combine-input-datasets-and-data-dictionaries-in-a-dossier" class="section level3">
 <h3>Combine input datasets and data dictionaries in a dossier</h3>
@@ -495,7 +495,7 @@ in processing for that dataset), use <a href="https://maelstrom-research.github.
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a></span>
 <span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="co"># Extract the harmonized data dictionary for one harmonized dataset.</span></span>
 <span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a></span>
-<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>harmonized_dataset_study1 <span class="ot">&lt;-</span> <span class="fu">data_dict_extract</span>(harmonized_dossier<span class="sc">$</span>dataset_study1)</span></code></pre></div>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>harmonized_data_dict_study1 <span class="ot">&lt;-</span> <span class="fu">data_dict_extract</span>(harmonized_dossier<span class="sc">$</span>dataset_study1)</span></code></pre></div>
 </div>
 <div id="use-harmonized-data" class="section level2">
 <h2>Use harmonized data</h2>
@@ -509,7 +509,7 @@ files), and tabular reports can be exported as Excel files.</p>
 <span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a></span>
 <span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="co"># write_excel_allsheets(harmonized_dossier, &quot;myfile.xlsx&quot;)</span></span>
 <span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a><span class="co"># write_excel_allsheets(harmonized_dossier_summary, &quot;myfile.xlsx&quot;)</span></span>
-<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="co"># write_excel_allsheets(harmonized_TOKYO_dd, &quot;myfile.xlsx&quot;)</span></span></code></pre></div>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="co"># write_excel_allsheets(harmonized_data_dict_study1, &quot;myfile.xlsx&quot;)</span></span></code></pre></div>
 </div>
 </div>
 

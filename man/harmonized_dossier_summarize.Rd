@@ -96,6 +96,7 @@ coerce the variable to the corresponding data type.
 {
 
 # use Rmonize_examples provided by the package
+library(dplyr)
 library(stringr)
 
 # perform data processing

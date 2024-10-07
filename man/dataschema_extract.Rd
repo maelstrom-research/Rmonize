@@ -33,8 +33,8 @@ primary identifier variable (e.g., participant unique ID).
 library(dplyr)
 
 dataschema <- dataschema_extract(Rmonize_examples$`Data Processing Elements`)
-
 glimpse(dataschema)
+
 }
 
 }

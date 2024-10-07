@@ -43,10 +43,9 @@ taxonomies are
 {
 
 # use Rmonize_examples provided by the package
-
 library(dplyr)
 
-dataschema <- Rmonize_examples$`DataSchema`
+dataschema      <- Rmonize_examples$`DataSchema`
 eval_dataschema <- dataschema_evaluate(dataschema)
 
 glimpse(eval_dataschema)

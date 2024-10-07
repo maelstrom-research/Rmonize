@@ -65,6 +65,7 @@ in particular \href{https://www.obiba.org/pages/products/opal/}{Opal environment
 {
 
 # use Rmonize_examples provided by the package
+library(dplyr)
 library(stringr)
 
 # perform data processing
