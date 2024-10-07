@@ -60,9 +60,9 @@
 #' data_proc_elem     <- Rmonize_examples$`Data Processing Elements`
 #' harmonized_dossier <- harmo_process(dossier,dataschema,data_proc_elem)
 #' 
-#' eval_harmonized_dossier <- harmonized_dossier_evaluate(harmonized_dossier)
+#' eval_harmo         <- harmonized_dossier_evaluate(harmonized_dossier)
 #' 
-#' glimpse(eval_harmonized_dossier)
+#' glimpse(eval_harmo)
 #' 
 #' }
 #'

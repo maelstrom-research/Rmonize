@@ -84,20 +84,26 @@
 #' @examples
 #' {
 #' 
-#' # Use Rmonize_DEMO to run examples.
+#' # use Rmonize_DEMO provided by the package
+#' library(stringr)
 #' 
+#' # perform data processing
+#' dossier            <- Rmonize_examples[str_detect(names(Rmonize_examples),"dataset")]
+#' dataschema         <- Rmonize_examples$DataSchema
+#' data_proc_elem     <- Rmonize_examples$`Data Processing Elements`
+#' harmonized_dossier <- harmo_process(dossier,dataschema,data_proc_elem)
+#'   
+#'   
+#'  # create a folder where the visual report will be palced 
 #' library(fs)
-#'  
-#' harmonized_dossier <- Rmonize_DEMO$harmonized_dossier
-#' harmonized_dossier_summary <- Rmonize_DEMO$harmonized_dossier_summary
-#'  
 #' if(dir_exists(tempdir())) dir_delete(tempdir())
 #' bookdown_path <- tempdir()
-#'  
+#'    
+#' # generate the visual report    
 #' harmonized_dossier_visualize(
-#'    harmonized_dossier,
-#'    bookdown_path = bookdown_path,
-#'    harmonized_dossier_summary = harmonized_dossier_summary)
+#'   harmonized_dossier,
+#'   bookdown_path = bookdown_path,
+#'   add_col_dataset = FALSE)
 #' 
 #' # To open the file in browser, open 'bookdown_path/docs/index.html'.
 #' # Or use bookdown_open(bookdown_path) function

@@ -84,8 +84,7 @@
 #' data_proc_elem     <- Rmonize_examples$`Data Processing Elements`
 #' harmonized_dossier <- harmo_process(dossier,dataschema,data_proc_elem)
 #' 
-#' summary_harmonized_dossier <- harmonized_dossier_summarize(
-#'     harmonized_dossier, add_col_dataset = FALSE)
+#' summary_harmo      <- harmonized_dossier_summarize(harmonized_dossier, add_col_dataset = FALSE)
 #' 
 #' glimpse(summary_harmonized_dossier)
 #'
