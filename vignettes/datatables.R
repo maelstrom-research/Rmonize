@@ -553,15 +553,15 @@ rule_categories <-
 data_proc_elem_expl <-
   rule_categories %>% slice(1:3) %>%
   mutate(`<b>input_dataset</b>` = str_replace(
-    `<b>input_dataset</b>`,'DATASET','dataset_MELBOURNE')) %>%
+    `<b>input_dataset</b>`,'DATASET','dataset_study1')) %>%
 
   bind_rows(
 
     rule_categories %>% slice(1,5,8) %>%
       mutate(`<b>input_dataset</b>` = str_replace(
-        `<b>input_dataset</b>`,'DATASET','dataset_PARIS')) %>%
+        `<b>input_dataset</b>`,'DATASET','dataset_study2')) %>%
       mutate(`<b>input_variables</b>` = str_replace(
-        `<b>input_variables</b>`,'col_id','ID_part')) %>%
+        `<b>input_variables</b>`,'col_id','s2_id')) %>%
       mutate(`<b>dataschema_variable</b>` = str_replace(
         `<b>dataschema_variable</b>`,'variable_D','variable_A')) %>%
       mutate(`<b>dataschema_variable</b>` = str_replace(

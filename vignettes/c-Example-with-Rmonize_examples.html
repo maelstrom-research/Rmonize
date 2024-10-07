@@ -376,11 +376,10 @@ DataSchema, Data Processing Elements (DPE), and harmonized datasets that
 provide illustrative examples of the structure and content of the main
 objects used by Rmonize functions.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># To see contents</span></span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">names</span>(Rmonize_DEMO)</span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">print</span>(Rmonize_DEMO<span class="sc">$</span>dataset_TOKYO)                        <span class="co"># An input dataset</span></span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="fu">print</span>(Rmonize_DEMO<span class="sc">$</span>data_dict_TOKYO)                      <span class="co"># An input data dictionary</span></span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="fu">print</span>(Rmonize_DEMO<span class="sc">$</span><span class="st">`</span><span class="at">data_processing_elements - final</span><span class="st">`</span>) <span class="co"># A Data Processing Elements </span></span>
-<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="fu">print</span>(Rmonize_DEMO<span class="sc">$</span><span class="st">`</span><span class="at">dataschema - final</span><span class="st">`</span>)                 <span class="co"># A DataSchema</span></span></code></pre></div>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">names</span>(Rmonize_examples)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">print</span>(Rmonize_examples<span class="sc">$</span>dataset_study1)             <span class="co"># An input dataset</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="fu">print</span>(Rmonize_examples<span class="sc">$</span><span class="st">`</span><span class="at">Data Processing Elements</span><span class="st">`</span>) <span class="co"># A Data Processing Elements </span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="fu">print</span>(Rmonize_examples<span class="sc">$</span><span class="st">`</span><span class="at">DataSchema</span><span class="st">`</span>)                 <span class="co"># A DataSchema</span></span></code></pre></div>
 </div>
 <div id="pipeline" class="section level1">
 <h1>Pipeline</h1>
@@ -397,8 +396,8 @@ explicitly to ensure compatibility with Rmonize functions.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># as_dataschema and as_data_proc_elem will check the structure of object and </span></span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co"># assign attributes to them.</span></span>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>dataschema <span class="ot">&lt;-</span> <span class="fu">as_dataschema</span>(Rmonize_DEMO<span class="sc">$</span><span class="st">`</span><span class="at">dataschema - final</span><span class="st">`</span>)</span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>data_proc_elem <span class="ot">&lt;-</span> <span class="fu">as_data_proc_elem</span>(Rmonize_DEMO<span class="sc">$</span><span class="st">`</span><span class="at">data_processing_elements - final</span><span class="st">`</span>)</span></code></pre></div>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>dataschema <span class="ot">&lt;-</span> <span class="fu">as_dataschema</span>(Rmonize_examples<span class="sc">$</span><span class="st">`</span><span class="at">Data Processing Elements</span><span class="st">`</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>data_proc_elem <span class="ot">&lt;-</span> <span class="fu">as_data_proc_elem</span>(Rmonize_examples<span class="sc">$</span><span class="st">`</span><span class="at">DataSchema</span><span class="st">`</span>)</span></code></pre></div>
 <p><em> Note: In the DEMO DPEs, all elements for three different input
 datasets are combined in one file. A DPE can also be prepared for each
 input dataset separately, and the individual DPEs combined as needed for
@@ -412,19 +411,12 @@ categories in input datasets) are available, they can be associated with
 their corresponding datasets using the function <a href="https://maelstrom-research.github.io/madshapR-documentation/reference/data_dict_apply.html">data_dict_apply()</a>.
 If not provided, minimal data dictionaries will automatically be created
 to meet technical requirements of Rmonize functions as needed.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># Associate metadata from input data dictionaries to the input datasets.</span></span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>dataset_MELBOURNE <span class="ot">&lt;-</span> <span class="fu">data_dict_apply</span>(</span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  <span class="at">dataset =</span> Rmonize_DEMO<span class="sc">$</span>dataset_MELBOURNE,</span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>  <span class="at">data_dict =</span> Rmonize_DEMO<span class="sc">$</span>data_dict_MELBOURNE)</span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>dataset_PARIS <span class="ot">&lt;-</span> <span class="fu">data_dict_apply</span>(</span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>  <span class="at">dataset =</span> Rmonize_DEMO<span class="sc">$</span>dataset_PARIS,</span>
-<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>  <span class="at">data_dict =</span> Rmonize_DEMO<span class="sc">$</span>data_dict_PARIS)</span>
-<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a></span>
-<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>dataset_TOKYO <span class="ot">&lt;-</span> <span class="fu">data_dict_apply</span>(</span>
-<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>  <span class="at">dataset =</span> Rmonize_DEMO<span class="sc">$</span>dataset_TOKYO,</span>
-<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>  <span class="at">data_dict =</span> Rmonize_DEMO<span class="sc">$</span>data_dict_TOKYO)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>dataset_study1 <span class="ot">&lt;-</span> Rmonize_examples<span class="sc">$</span>dataset_study1</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>dataset_study2 <span class="ot">&lt;-</span> Rmonize_examples<span class="sc">$</span>dataset_study2</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>dataset_study3 <span class="ot">&lt;-</span> Rmonize_examples<span class="sc">$</span>dataset_study3</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>dataset_study4 <span class="ot">&lt;-</span> Rmonize_examples<span class="sc">$</span>dataset_study4</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>dataset_study5 <span class="ot">&lt;-</span> Rmonize_examples<span class="sc">$</span>dataset_study5</span></code></pre></div>
 <p>For use in <a href="https://maelstrom-research.github.io/Rmonize-documentation/reference/harmo_process.html">harmo_process()</a>,
 one or more input datasets and any associated data dictionaries must be
 grouped into a named list (referred to as a “dossier” in Rmonize). This
@@ -434,10 +426,13 @@ can be done explicitly with <a href="https://maelstrom-research.github.io/madsha
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co"># NB: The names of the datasets in the dossier must match the column </span></span>
 <span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co"># input_dataset in the Data Processing Elements</span></span>
 <span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>dossier <span class="ot">&lt;-</span> <span class="fu">dossier_create</span>( <span class="at">dataset_list =</span> <span class="fu">list</span>(</span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>  dataset_MELBOURNE, </span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>  dataset_PARIS, </span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>  dataset_TOKYO))</span></code></pre></div>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>dossier <span class="ot">&lt;-</span> <span class="fu">dossier_create</span>(</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>  <span class="at">dataset_list =</span> <span class="fu">list</span>(</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>    dataset_study1,</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>    dataset_study2,</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>    dataset_study3,</span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>    dataset_study4,</span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>    dataset_study5))</span></code></pre></div>
 </div>
 </div>
 <div id="process-data" class="section level2">
@@ -500,7 +495,7 @@ in processing for that dataset), use <a href="https://maelstrom-research.github.
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a></span>
 <span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="co"># Extract the harmonized data dictionary for one harmonized dataset.</span></span>
 <span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a></span>
-<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>harmonized_TOKYO_dd <span class="ot">&lt;-</span> <span class="fu">data_dict_extract</span>(harmonized_dossier<span class="sc">$</span>dataset_TOKYO)</span></code></pre></div>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>harmonized_dataset_study1 <span class="ot">&lt;-</span> <span class="fu">data_dict_extract</span>(harmonized_dossier<span class="sc">$</span>dataset_study1)</span></code></pre></div>
 </div>
 <div id="use-harmonized-data" class="section level2">
 <h2>Use harmonized data</h2>

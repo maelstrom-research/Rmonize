@@ -68,8 +68,8 @@ Rmonize_website()
 # Downloadable templates are available here
 Rmonize_templates()
 
-# Demo files are available here, along with an online demonstration process 
-Rmonize_DEMO
+# Example files are available here, along with an online illustrative process 
+Rmonize_examples
 ```
 
 ## Getting started
@@ -85,5 +85,5 @@ templates.](https://maelstrom-research.github.io/Rmonize-documentation/articles/
 [Explanation of how to prepare the Data Processing
 Elements.](https://maelstrom-research.github.io/Rmonize-documentation/articles/b-Data-processing-elements.html)
 
-[Example scripts with demo
-files.](https://maelstrom-research.github.io/Rmonize-documentation/articles/c-Example-with-Rmonize_DEMO.html)
+[Example scripts with example
+files.](https://maelstrom-research.github.io/Rmonize-documentation/articles/c-Example-with-Rmonize_examples.html)

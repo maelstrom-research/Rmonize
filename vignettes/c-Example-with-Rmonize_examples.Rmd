@@ -1,8 +1,8 @@
 ---
-title: "Example with Rmonize_DEMO"
+title: "Example with Rmonize_examples"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Example with Rmonize_DEMO}
+  %\VignetteIndexEntry{Example with Rmonize_examples}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 
 This vignette provides examples of applying Rmonize functions to prepare inputs, 
 process data, and validate and consolidate harmonized data, using illustrative 
-demo objects included with the package. The vignette focuses on demonstrating 
+Example objects included with the package. The vignette focuses on illustrating 
 the usage of functions on inputs that already have valid structure and content. 
 See the 
 [Glossary](https://maelstrom-research.github.io/Rmonize-documentation/articles/a-Glossary-and-templates.html)
@@ -46,14 +46,14 @@ Rmonize_website()
 # Downloadable templates are available here
 Rmonize_templates()
 
-# Demo files are available here, along with an online demonstration process 
-Rmonize_DEMO
+# Example files are available here, along with an online illustrative process 
+Rmonize_examples
 
 ```
 
-# Demo objects
-Demo objects are available through the built-in 
-[Rmonize_DEMO](https://maelstrom-research.github.io/Rmonize-documentation/reference/Rmonize_DEMO.html) 
+# Example objects
+Example objects are available through the built-in 
+[Rmonize_examples](https://maelstrom-research.github.io/Rmonize-documentation/reference/Rmonize_examples.html) 
 object. They include example input datasets, input data dictionaries, DataSchema, 
 Data Processing Elements (DPE), and harmonized datasets that provide illustrative 
 examples of the structure and content of the main objects used by Rmonize functions.
@@ -61,11 +61,10 @@ examples of the structure and content of the main objects used by Rmonize functi
 
 ```{r}
 # To see contents
-names(Rmonize_DEMO)
-print(Rmonize_DEMO$dataset_TOKYO)	                     # An input dataset
-print(Rmonize_DEMO$data_dict_TOKYO)             	     # An input data dictionary
-print(Rmonize_DEMO$`data_processing_elements - final`) # A Data Processing Elements 
-print(Rmonize_DEMO$`dataschema - final`)	             # A DataSchema
+names(Rmonize_examples)
+print(Rmonize_examples$dataset_study1)             # An input dataset
+print(Rmonize_examples$`Data Processing Elements`) # A Data Processing Elements 
+print(Rmonize_examples$`DataSchema`)	             # A DataSchema
 
 ```
 
@@ -88,13 +87,13 @@ functions.
 # as_dataschema and as_data_proc_elem will check the structure of object and 
 # assign attributes to them.
 
-dataschema <- as_dataschema(Rmonize_DEMO$`dataschema - final`)
-data_proc_elem <- as_data_proc_elem(Rmonize_DEMO$`data_processing_elements - final`)
+dataschema <- as_dataschema(Rmonize_examples$`Data Processing Elements`)
+data_proc_elem <- as_data_proc_elem(Rmonize_examples$`DataSchema`)
 
 ```
 
 <em>
-Note: In the DEMO DPEs, all elements for three different input datasets are 
+Note: In the example DPEs, all elements for three different input datasets are 
 combined in one file. A DPE can also be prepared for each input dataset 
 separately, and the individual DPEs combined as needed for processing. 
 The DataSchema and DPE objects can be assigned explicitly
@@ -111,19 +110,14 @@ of Rmonize functions as needed.
 
 
 ```{r}
-# Associate metadata from input data dictionaries to the input datasets.
 
-dataset_MELBOURNE <- data_dict_apply(
-  dataset = Rmonize_DEMO$dataset_MELBOURNE,
-  data_dict = Rmonize_DEMO$data_dict_MELBOURNE)
+dataset_study1 <- Rmonize_examples$dataset_study1
+dataset_study2 <- Rmonize_examples$dataset_study2
+dataset_study3 <- Rmonize_examples$dataset_study3
+dataset_study4 <- Rmonize_examples$dataset_study4
+dataset_study5 <- Rmonize_examples$dataset_study5
 
-dataset_PARIS <- data_dict_apply(
-  dataset = Rmonize_DEMO$dataset_PARIS,
-  data_dict = Rmonize_DEMO$data_dict_PARIS)
 
-dataset_TOKYO <- data_dict_apply(
-  dataset = Rmonize_DEMO$dataset_TOKYO,
-  data_dict = Rmonize_DEMO$data_dict_TOKYO)
 
 ```
 
@@ -138,10 +132,13 @@ list (referred to as a "dossier" in Rmonize). This can be done explicitly with
 # NB: The names of the datasets in the dossier must match the column 
 # input_dataset in the Data Processing Elements
 
-dossier <- dossier_create( dataset_list = list(
-  dataset_MELBOURNE, 
-  dataset_PARIS, 
-  dataset_TOKYO))
+dossier <- dossier_create(
+  dataset_list = list(
+    dataset_study1,
+    dataset_study2,
+    dataset_study3,
+    dataset_study4,
+    dataset_study5))
 
 ```
 
@@ -236,7 +233,7 @@ for that dataset), use
 
 # Extract the harmonized data dictionary for one harmonized dataset.
 
-harmonized_TOKYO_dd <- data_dict_extract(harmonized_dossier$dataset_TOKYO)
+harmonized_data_dict_study1 <- data_dict_extract(harmonized_dossier$dataset_study1)
 
 ```
 
@@ -254,7 +251,7 @@ library(fabR)
 
 # write_excel_allsheets(harmonized_dossier, "myfile.xlsx")
 # write_excel_allsheets(harmonized_dossier_summary, "myfile.xlsx")
-# write_excel_allsheets(harmonized_TOKYO_dd, "myfile.xlsx")
+# write_excel_allsheets(harmonized_data_dict_study1, "myfile.xlsx")
 
 ```
 

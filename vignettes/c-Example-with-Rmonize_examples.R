@@ -18,15 +18,14 @@ knitr::opts_chunk$set(
 #  # Downloadable templates are available here
 #  Rmonize_templates()
 #  
-#  # Demo files are available here, along with an online demonstration process
-#  Rmonize_DEMO
+#  # Example files are available here, along with an online illustrative process
+#  Rmonize_examples
 #  
 
 ## -----------------------------------------------------------------------------
 #  # To see contents
-#  names(Rmonize_DEMO)
-#  print(Rmonize_DEMO$dataset_TOKYO)	                     # An input dataset
-#  print(Rmonize_DEMO$data_dict_TOKYO)             	     # An input data dictionary
+#  names(Rmonize_examples)
+#  print(Rmonize_examples$dataset_study1)             # An input dataset
 #  print(Rmonize_examples$`Data Processing Elements`) # A Data Processing Elements
 #  print(Rmonize_examples$`DataSchema`)	             # A DataSchema
 #  
@@ -35,24 +34,19 @@ knitr::opts_chunk$set(
 #  # as_dataschema and as_data_proc_elem will check the structure of object and
 #  # assign attributes to them.
 #  
-#  dataschema <- as_dataschema(Rmonize_examples$`DataSchema`)
-#  data_proc_elem <- as_data_proc_elem(Rmonize_examples$`Data Processing Elements`)
+#  dataschema <- as_dataschema(Rmonize_examples$`Data Processing Elements`)
+#  data_proc_elem <- as_data_proc_elem(Rmonize_examples$`DataSchema`)
 #  
 
 ## -----------------------------------------------------------------------------
-#  # Associate metadata from input data dictionaries to the input datasets.
 #  
-#  dataset_MELBOURNE <- data_dict_apply(
-#    dataset = Rmonize_DEMO$dataset_MELBOURNE,
-#    data_dict = Rmonize_DEMO$data_dict_MELBOURNE)
+#  dataset_study1 <- Rmonize_examples$dataset_study1
+#  dataset_study2 <- Rmonize_examples$dataset_study2
+#  dataset_study3 <- Rmonize_examples$dataset_study3
+#  dataset_study4 <- Rmonize_examples$dataset_study4
+#  dataset_study5 <- Rmonize_examples$dataset_study5
 #  
-#  dataset_PARIS <- data_dict_apply(
-#    dataset = Rmonize_DEMO$dataset_PARIS,
-#    data_dict = Rmonize_DEMO$data_dict_PARIS)
 #  
-#  dataset_TOKYO <- data_dict_apply(
-#    dataset = Rmonize_DEMO$dataset_TOKYO,
-#    data_dict = Rmonize_DEMO$data_dict_TOKYO)
 #  
 
 ## -----------------------------------------------------------------------------
@@ -61,10 +55,13 @@ knitr::opts_chunk$set(
 #  # NB: The names of the datasets in the dossier must match the column
 #  # input_dataset in the Data Processing Elements
 #  
-#  dossier <- dossier_create( dataset_list = list(
-#    dataset_MELBOURNE,
-#    dataset_PARIS,
-#    dataset_TOKYO))
+#  dossier <- dossier_create(
+#    dataset_list = list(
+#      dataset_study1,
+#      dataset_study2,
+#      dataset_study3,
+#      dataset_study4,
+#      dataset_study5))
 #  
 
 ## -----------------------------------------------------------------------------
@@ -110,7 +107,7 @@ knitr::opts_chunk$set(
 #  
 #  # Extract the harmonized data dictionary for one harmonized dataset.
 #  
-#  harmonized_TOKYO_dd <- data_dict_extract(harmonized_dossier$dataset_TOKYO)
+#  harmonized_data_dict_study1 <- data_dict_extract(harmonized_dossier$dataset_study1)
 #  
 
 ## -----------------------------------------------------------------------------
@@ -120,6 +117,6 @@ knitr::opts_chunk$set(
 #  
 #  # write_excel_allsheets(harmonized_dossier, "myfile.xlsx")
 #  # write_excel_allsheets(harmonized_dossier_summary, "myfile.xlsx")
-#  # write_excel_allsheets(harmonized_TOKYO_dd, "myfile.xlsx")
+#  # write_excel_allsheets(harmonized_data_dict_study1, "myfile.xlsx")
 #  
 
