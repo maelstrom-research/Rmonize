@@ -9,7 +9,7 @@
 #' @returns
 #' Nothing to be returned. The function opens a web page.
 #'
-#' @examples
+#' @examplesOK
 #' {
 #'
 #' Rmonize_website()
@@ -34,7 +34,7 @@ Rmonize_website <- function(){
 #' @returns
 #' Nothing to be returned. The function opens a web page.
 #'
-#' @examples
+#' @examplesOK
 #' {
 #'
 #' Rmonize_templates()
@@ -51,44 +51,40 @@ Rmonize_templates <- function(){
 }
 
 #' @title
-#' Demo objects to provide illustrative examples
+#' Objects to provide illustrative use case
 #'
 #' @description
-#' Demo input datasets, input data dictionaries, DataSchema, 
-#' Data Processing Elements, and other objects to provide illustrative examples 
-#' of objects used by Rmonize.
+#' Illustrative input datasets, input data dictionaries, DataSchema, 
+#' Data Processing Elements, and other objects to provide use case of Rmonize.
 #'
 #' @format ## `list`
-#' A list with 13 elements (data frames and lists) providing example objects 
+#' A list with 12 elements (data frames and lists) providing example objects 
 #' for testing the package:
 #'
 #' \describe{
-#'   \item{data_processing_elements - final}{Example Data Processing Elements}
-#'   \item{data_processing_elements - with error}{Example 
-#'   Data Processing Elements containing errors}
-#'   \item{data_processing_elements - work in progress}{Example incomplete
-#'   Data processing Element}
-#'   \item{dataschema - final}{Example DataSchema}
-#'   \item{pooled_harmonized_dataset}{Example pooled harmonized dataset}
-#'   \item{harmonized_dossier}{Example of harmonized dossier}
-#'   \item{harmonized_dossier_summary}{Example harmonized variables summary}
-#'   \item{data_dict_MELBOURNE}{Example Data dictionary for Melbourne dataset}
-#'   \item{data_dict_PARIS}{Example Data dictionary for Paris dataset}
-#'   \item{data_dict_TOKYO}{Example Data dictionary for Tokyo dataset}
-#'   \item{dataset_MELBOURNE}{Example Dataset for Melbourne}
-#'   \item{dataset_PARIS}{Example Dataset for Paris}
-#'   \item{dataset_TOKYO}{Example Dataset for Tokyo}
+#'   \item{dataset_study1}{Example Dataset for a study named "study1"}
+#'   \item{dataset_study2}{Example Dataset for a study named "study2"}
+#'   \item{dataset_study3}{Example Dataset for a study named "study3"}
+#'   \item{dataset_study4}{Example Dataset for a study named "study4"}
+#'   \item{dataset_study5}{Example Dataset for a study named "study5"}
+#'   \item{data_dict_study1}{Example Data dictionary for a study named "study1"}
+#'   \item{data_dict_study2}{Example Data dictionary for a study named "study2"}
+#'   \item{data_dict_study3}{Example Data dictionary for a study named "study3"}
+#'   \item{data_dict_study4}{Example Data dictionary for a study named "study4"}
+#'   \item{data_dict_study5}{Example Data dictionary for a study named "study5"}
+#'   \item{T3_PAE_use_case_2024_08_21}{Example Data Processing Elements}
+#'   \item{T2_PAE_use_case_2024_08_21}{Example DataSchema}
 #'   ...
 #' }
 #'
-#' @examples
+#' @examplesOK
 #' {
 #'
 #' # use madshapR_DEMO provided by the package
 #' library(dplyr)
 #' 
-#' glimpse(Rmonize_DEMO$`dataschema - final`)
+#' glimpse(Rmonize_usecase$T2_PAE_use_case_2024_08_21)
 #'
 #' }
-"Rmonize_DEMO"
+"Rmonize_usecase"
 
