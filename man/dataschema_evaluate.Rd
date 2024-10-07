@@ -39,20 +39,3 @@ taxonomy object is a data frame that must contain at least the columns
 taxonomies are
 \href{https://opaldoc.obiba.org/en/latest/web-user-guide/administration/taxonomies.html}{available online}.
 }
-\examples{
-{
-
-# use Rmonize_DEMO provided by the package
-
-library(dplyr)
-library(madshapR) # data_dict_filter
-
-dataschema <- 
-  Rmonize_examples$`DataSchema` \%>\%
-  data_dict_filter("name == 'adm_unique_id'")
-  
-dataschema_evaluate(dataschema)
-
-}
-
-}

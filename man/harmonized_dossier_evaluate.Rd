@@ -61,14 +61,3 @@ The object may be specifically formatted to be compatible with additional
 \href{https://maelstrom-research.org/page/software}{Maelstrom Research software},
 in particular \href{https://www.obiba.org/pages/products/opal/}{Opal environments}.
 }
-\examples{
-{
-
-#' # use Rmonize_DEMO provided by the package
-library(dplyr)
-
-glimpse(harmonized_dossier_evaluate(Rmonize_DEMO$harmonized_dossier))
-
-}
-
-}

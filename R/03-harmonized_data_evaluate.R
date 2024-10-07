@@ -48,13 +48,22 @@
 #' @returns
 #' A list of data frames containing assessment reports for each harmonized dataset.
 #'
-#' @examples
+#' @examplesOK
 #' {
 #' 
 #' #' # use Rmonize_DEMO provided by the package
-#' library(dplyr)
-#'
-#' glimpse(harmonized_dossier_evaluate(Rmonize_DEMO$harmonized_dossier))
+#' library(stringr)
+#' 
+#' # perform harmonization
+#' dossier <- dossier_create(
+#'   Rmonize_examples[str_detect(names(Rmonize_examples),"dataset")])
+#' dataschema <- Rmonize_examples$DataSchema
+#' data_proc_elem <- Rmonize_examples$`Data Processing Elements`
+#' harmonized_dossier <- harmo_process(dossier,dataschema,data_proc_elem)
+#' 
+#' eval_harmonized_dossier <- harmonized_dossier_evaluate(harmonized_dossier)
+#' 
+#' glimpse(eval_harmonized_dossier)
 #' 
 #' }
 #'
@@ -142,12 +151,12 @@ harmonized_dossier_evaluate <- function(
 #' @returns
 #' A list of data frames containing assessment reports.
 #'
-#' @examples
+#' @examplesOK
 #' {
 #' 
 #' # use Rmonize_DEMO provided by the package
 #' 
-#' data_proc_elem <- Rmonize_examples$`Data Processing Elements`   
+#' data_proc_elem <- Rmonize_examples$`Data Processing Elements`
 #' data_proc_elem_evaluate(data_proc_elem)
 #' 
 #' }
@@ -156,7 +165,7 @@ harmonized_dossier_evaluate <- function(
 #' @importFrom rlang .data
 #' @importFrom crayon bold
 #'
-#' @noRd
+#' @export
 data_proc_elem_evaluate <- function(data_proc_elem, taxonomy = NULL){
 
   data_proc_elem <- 
@@ -315,19 +324,16 @@ data_proc_elem_evaluate <- function(data_proc_elem, taxonomy = NULL){
 #' @returns
 #' A list of data frames containing assessment reports.
 #'
-#' @examples
+#' @examplesOK
 #' {
 #'
 #' # use Rmonize_DEMO provided by the package
 #' 
 #' library(dplyr)
-#' library(madshapR) # data_dict_filter
 #' 
-#' dataschema <- 
-#'   Rmonize_examples$`DataSchema` %>%
-#'   data_dict_filter("name == 'adm_unique_id'")
-#'   
-#' dataschema_evaluate(dataschema)
+#' dataschema <- Rmonize_examples$`DataSchema`
+#' eval_dataschema <- dataschema_evaluate(dataschema)
+#' glimpse(eval_dataschema)
 #' 
 #' }
 #'
