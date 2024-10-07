@@ -62,16 +62,11 @@ Rmonize_templates <- function(){
 #' for testing the package:
 #'
 #' \describe{
-#'   \item{dataset_study1}{Example Dataset for a study named "study1"}
-#'   \item{dataset_study2}{Example Dataset for a study named "study2"}
-#'   \item{dataset_study3}{Example Dataset for a study named "study3"}
-#'   \item{dataset_study4}{Example Dataset for a study named "study4"}
-#'   \item{dataset_study5}{Example Dataset for a study named "study5"}
-#'   \item{data_dict_study1}{Example Data dictionary for a study named "study1"}
-#'   \item{data_dict_study2}{Example Data dictionary for a study named "study2"}
-#'   \item{data_dict_study3}{Example Data dictionary for a study named "study3"}
-#'   \item{data_dict_study4}{Example Data dictionary for a study named "study4"}
-#'   \item{data_dict_study5}{Example Data dictionary for a study named "study5"}
+#'   \item{dataset_study1}{Example Dataset for a study named "study1", labelled with its data dictionary}
+#'   \item{dataset_study2}{Example Dataset for a study named "study2", labelled with its data dictionary}
+#'   \item{dataset_study3}{Example Dataset for a study named "study3", labelled with its data dictionary}
+#'   \item{dataset_study4}{Example Dataset for a study named "study4", labelled with its data dictionary}
+#'   \item{dataset_study5}{Example Dataset for a study named "study5", labelled with its data dictionary}
 #'   \item{T3_PAE_use_case_2024_08_21}{Example Data Processing Elements}
 #'   \item{T2_PAE_use_case_2024_08_21}{Example DataSchema}
 #'   ...
@@ -83,8 +78,8 @@ Rmonize_templates <- function(){
 #' # use madshapR_DEMO provided by the package
 #' library(dplyr)
 #' 
-#' glimpse(Rmonize_usecase$T2_PAE_use_case_2024_08_21)
+#' glimpse(Rmonize_examples$DataSchema)
 #'
 #' }
-"Rmonize_usecase"
+"Rmonize_examples"
 

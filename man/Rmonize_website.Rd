@@ -14,11 +14,3 @@ Direct call to the online documentation for the package, which includes a
 description of the latest version of the package, vignettes, user guides,
 and a reference list of functions and help pages.
 }
-\examples{
-{
-
-Rmonize_website()
-
-}
-
-}
