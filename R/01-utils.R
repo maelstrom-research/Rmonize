@@ -62,13 +62,20 @@ Rmonize_templates <- function(){
 #' for testing the package:
 #'
 #' \describe{
-#'   \item{dataset_study1}{Example Dataset for a study named "study1", labelled with its data dictionary}
-#'   \item{dataset_study2}{Example Dataset for a study named "study2", labelled with its data dictionary}
-#'   \item{dataset_study3}{Example Dataset for a study named "study3", labelled with its data dictionary}
-#'   \item{dataset_study4}{Example Dataset for a study named "study4", labelled with its data dictionary}
-#'   \item{dataset_study5}{Example Dataset for a study named "study5", labelled with its data dictionary}
-#'   \item{T3_PAE_use_case_2024_08_21}{Example Data Processing Elements}
-#'   \item{T2_PAE_use_case_2024_08_21}{Example DataSchema}
+#'   \item{dataset_study1}{Dataset example for a study named "study1", labelled with its data dictionary}
+#'   \item{dataset_study2}{Dataset example for a study named "study2", labelled with its data dictionary}
+#'   \item{dataset_study3}{Dataset example for a study named "study3", labelled with its data dictionary}
+#'   \item{dataset_study4}{Dataset example for a study named "study4", labelled with its data dictionary}
+#'   \item{dataset_study5}{Dataset example for a study named "study5", labelled with its data dictionary}
+#'   \item{Data Processing Elements}{Example Data Processing Elements}
+#'   \item{DataSchema}{Example DataSchema}
+#'   \item{harmo_dataset_study1}{Harmonized dataset example , labelled with its harmonized data dictionary}
+#'   \item{harmo_dataset_study2}{Harmonized dataset example , labelled with its harmonized data dictionary}
+#'   \item{harmo_dataset_study3}{Harmonized dataset example , labelled with its harmonized data dictionary}
+#'   \item{harmo_dataset_study4}{Harmonized dataset example , labelled with its harmonized data dictionary}
+#'   \item{harmo_dataset_study5}{Harmonized dataset example , labelled with its harmonized data dictionary}
+#'   \item{harmo_dataset_pooled}{Harmonized pooled dataset example, labelled with its harmonized data dictionary}
+#'   \item{summary - harmonized datasets}{Example of harmonized datasets summary}
 #'   ...
 #' }
 #'
