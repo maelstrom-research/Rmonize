@@ -69,12 +69,10 @@ library(dplyr)
 library(stringr)
 
 # perform data processing
-dossier            <- Rmonize_examples[str_detect(names(Rmonize_examples),"dataset")]
-dataschema         <- Rmonize_examples$DataSchema
-data_proc_elem     <- Rmonize_examples$`Data Processing Elements`
-harmonized_dossier <- harmo_process(dossier,dataschema,data_proc_elem)
+harmonized_dossier <-
+  Rmonize_examples[str_detect(names(Rmonize_examples),"harmonized_dossier")][[1]]
 
-eval_harmo         <- harmonized_dossier_evaluate(harmonized_dossier)
+eval_harmo <- harmonized_dossier_evaluate(harmonized_dossier)
 
 glimpse(eval_harmo)
 

@@ -5,13 +5,14 @@
 \title{Generate a web-based visual report for a harmonized dossier}
 \usage{
 harmonized_dossier_visualize(
-  harmonized_dossier,
+  harmonized_dossier = NULL,
   bookdown_path,
+  pooled_harmonized_dataset = NULL,
   group_by = attributes(harmonized_dossier)$`Rmonize::harmonized_col_dataset`,
   harmonized_dossier_summary = NULL,
   dataschema = attributes(harmonized_dossier)$`Rmonize::DataSchema`,
   data_proc_elem = attributes(harmonized_dossier)$`Rmonize::Data Processing Element`,
-  add_col_dataset = TRUE,
+  add_col_dataset = FALSE,
   valueType_guess = FALSE,
   taxonomy = NULL
 )
@@ -21,6 +22,8 @@ harmonized_dossier_visualize(
 
 \item{bookdown_path}{A character string identifying the folder path where
 the bookdown report files will be saved.}
+
+\item{pooled_harmonized_dataset}{A data frame containing the pooled harmonized dataset.}
 
 \item{group_by}{A character string identifying the column in the dataset
 to use as a grouping variable. Elements will be grouped by this
@@ -108,22 +111,20 @@ taxonomies are
 library(stringr)
 
 # perform data processing
-dossier            <- Rmonize_examples[str_detect(names(Rmonize_examples),"dataset")]
-dataschema         <- Rmonize_examples$DataSchema
-data_proc_elem     <- Rmonize_examples$`Data Processing Elements`
-harmonized_dossier <- harmo_process(dossier,dataschema,data_proc_elem)
-  
-  
- # create a folder where the visual report will be palced 
+pooled_harmonized_dataset <-
+  Rmonize_examples[str_detect(names(Rmonize_examples),"harmo_dataset_pooled")][[1]]
+summary_harmo  <- Rmonize_examples[str_detect(names(Rmonize_examples),"summary")][[1]]
+
+ # create a folder where the visual report will be palced
 library(fs)
 if(dir_exists(tempdir())) dir_delete(tempdir())
 bookdown_path <- tempdir()
-   
-# generate the visual report    
+
+# generate the visual report
 harmonized_dossier_visualize(
-  harmonized_dossier,
-  bookdown_path = bookdown_path,
-  add_col_dataset = FALSE)
+  pooled_harmonized_dataset = pooled_harmonized_dataset,
+  harmonized_dossier_summary = summary_harmo,
+  bookdown_path = bookdown_path)
 
 # To open the file in browser, open 'bookdown_path/docs/index.html'.
 # Or use bookdown_open(bookdown_path) function

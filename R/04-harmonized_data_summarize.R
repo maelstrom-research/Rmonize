@@ -59,14 +59,11 @@
 #' column.
 #' @param dataschema A DataSchema object.
 #' @param data_proc_elem A Data Processing Elements object.
+#' @param pooled_harmonized_dataset A data frame containing the pooled harmonized dataset.
 #' @param taxonomy An optional data frame identifying a variable classification 
 #' schema.
 #' @param valueType_guess Whether the output should include a more accurate 
 #' valueType that could be applied to the dataset. FALSE by default.
-#' @param add_col_dataset Whether to add an extra column to each 
-#' harmonized dataset. The resulting data frame will have an additional column 
-#' and its data dictionary will be updated accordingly adding categories for 
-#' this variable if necessary. FALSE by default.
 #'
 #' @returns
 #' A list of data frames containing overall assessment reports and summaries 
@@ -80,14 +77,12 @@
 #' library(stringr)
 #' 
 #' # perform data processing
-#' dossier            <- Rmonize_examples[str_detect(names(Rmonize_examples),"dataset")]
-#' dataschema         <- Rmonize_examples$DataSchema
-#' data_proc_elem     <- Rmonize_examples$`Data Processing Elements`
-#' harmonized_dossier <- harmo_process(dossier,dataschema,data_proc_elem)
+#' harmonized_dossier <-
+#'   Rmonize_examples[str_detect(names(Rmonize_examples),"harmonized_dossier")][[1]]
 #' 
-#' summary_harmo      <- harmonized_dossier_summarize(harmonized_dossier, add_col_dataset = FALSE)
+#' summary_harmo  <- harmonized_dossier_summarize(harmonized_dossier)
 #' 
-#' glimpse(summary_harmonized_dossier)
+#' glimpse(summary_harmo)
 #'
 #' }
 #'
@@ -97,13 +92,13 @@
 #'
 #' @export
 harmonized_dossier_summarize <- function(
-    harmonized_dossier,
+    harmonized_dossier = NULL,
     group_by = attributes(harmonized_dossier)$`Rmonize::harmonized_col_dataset`,
     dataschema = attributes(harmonized_dossier)$`Rmonize::DataSchema`,
     data_proc_elem = attributes(harmonized_dossier)$`Rmonize::Data Processing Element`,
+    pooled_harmonized_dataset = NULL,
     taxonomy = NULL,
-    valueType_guess = FALSE,
-    add_col_dataset = TRUE){
+    valueType_guess = FALSE){
 
   # tests
   if(!is.null(taxonomy)) as_taxonomy(taxonomy)
@@ -123,13 +118,15 @@ harmonized_dossier_summarize <- function(
   }
   
   # creation of pooled_harmonized_dataset
-  pooled_harmonized_dataset <- 
-    pooled_harmonized_dataset_create(
+  if(is.null(pooled_harmonized_dataset)){
+    pooled_harmonized_dataset <- 
+    suppressWarnings(pooled_harmonized_dataset_create(
       harmonized_dossier = harmonized_dossier,
       harmonized_col_dataset = group_by,
-      add_col_dataset = add_col_dataset,
+      dataschema = dataschema,
       data_proc_elem = data_proc_elem,
-      dataschema = dataschema)
+      add_col_dataset = TRUE))
+  }
   
   pooled_harmonized_dataset <-
     as_dataset(
@@ -140,9 +137,68 @@ harmonized_dossier_summarize <- function(
   harmonized_dossier_summary <-
     dataset_summarize(
       dataset = pooled_harmonized_dataset,
-      group_by = group_by,
+      group_by = attributes(pooled_harmonized_dataset)$`Rmonize::harmonized_col_dataset`,
       taxonomy = taxonomy, 
       valueType_guess = valueType_guess)
+  
+  # suppress the harmonized col dataset if exists
+  harmonized_col_dataset <- 
+    attributes(pooled_harmonized_dataset)$`Rmonize::harmonized_col_dataset`
+  if(harmonized_col_dataset == "Rmonize::harmonized_col_dataset"){
+    
+    # exclude from data dict assessment
+    harmonized_dossier_summary[['Data dictionary assessment']] <- 
+      harmonized_dossier_summary[['Data dictionary assessment']] %>%
+      dplyr::filter(!name_var %in% harmonized_col_dataset)
+    if(nrow(harmonized_dossier_summary[['Data dictionary assessment']]) == 0){
+      harmonized_dossier_summary[['Data dictionary assessment']] <- NULL
+    }
+    
+    
+    # exclude from dataset assessment    
+    harmonized_dossier_summary[['Dataset assessment']] <- 
+      harmonized_dossier_summary[['Dataset assessment']] %>%
+      dplyr::filter(!name %in% harmonized_col_dataset)
+    if(nrow(harmonized_dossier_summary[['Dataset assessment']]) == 0){
+      harmonized_dossier_summary[['Dataset assessment']] <- NULL
+    }
+    
+    # # exclude from categories summary
+    # harmonized_dossier_summary[['Categorical variable summary']] <- 
+    #   harmonized_dossier_summary[['Categorical variable summary']] %>%
+    #   dplyr::filter(!name %in% harmonized_col_dataset)
+    # if(nrow(harmonized_dossier_summary[['Categorical variable summary']]) == 0){
+    #   harmonized_dossier_summary[['Dataset assessment']] <- NULL
+    # }
+    
+    # exclude from Overview : categorical variable
+    line_to_change <- 
+      harmonized_dossier_summary[['Overview']] %>%
+      dplyr::filter(str_detect(.data$`Quality control of dataset`,
+                    "Nb. categorical variables")) %>%
+      pull("(all)")
+    
+    line_to_change <- as.character(as_any_integer(line_to_change) - 1)
+    harmonized_dossier_summary[['Overview']][
+      which(                                        
+      str_detect(harmonized_dossier_summary[['Overview']][["Quality control of dataset"]],
+                 "Nb. categorical variables")),"(all)"][[1]] <- line_to_change
+    
+    # exclude from Overview : number of variable
+    line_to_change <- 
+      harmonized_dossier_summary[['Overview']] %>%
+      dplyr::filter(str_detect(.data$`Quality control of dataset`,
+                    "Total number of variables \\(incl\\. identifier\\)")) %>%
+      pull("(all)")
+    
+    line_to_change <- as.character(as_any_integer(line_to_change) - 1)
+    harmonized_dossier_summary[['Overview']][
+      which(                                        
+        str_detect(harmonized_dossier_summary[['Overview']][["Quality control of dataset"]],
+         "Total number of variables \\(incl\\. identifier\\)")),"(all)"][[1]] <- line_to_change
+  
+  }
+  
   
   names(harmonized_dossier_summary) <- 
     str_replace(names(harmonized_dossier_summary),"Overview",

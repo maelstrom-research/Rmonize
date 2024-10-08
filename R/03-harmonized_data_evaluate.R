@@ -56,12 +56,10 @@
 #' library(stringr)
 #' 
 #' # perform data processing
-#' dossier            <- Rmonize_examples[str_detect(names(Rmonize_examples),"dataset")]
-#' dataschema         <- Rmonize_examples$DataSchema
-#' data_proc_elem     <- Rmonize_examples$`Data Processing Elements`
-#' harmonized_dossier <- harmo_process(dossier,dataschema,data_proc_elem)
+#' harmonized_dossier <-
+#'   Rmonize_examples[str_detect(names(Rmonize_examples),"harmonized_dossier")][[1]]
 #' 
-#' eval_harmo         <- harmonized_dossier_evaluate(harmonized_dossier)
+#' eval_harmo <- harmonized_dossier_evaluate(harmonized_dossier)
 #' 
 #' glimpse(eval_harmo)
 #' 
@@ -91,8 +89,10 @@ harmonized_dossier_evaluate <- function(
   
   # creation of pooled_harmonized_dataset
   pooled_harmonized_dataset <- 
-    pooled_harmonized_dataset_create(harmonized_dossier)
-
+    suppressWarnings(pooled_harmonized_dataset_create(
+      harmonized_dossier,
+      add_col_dataset = FALSE))
+  
   report_list <-
     dataset_evaluate(
       dataset = pooled_harmonized_dataset,
@@ -155,9 +155,12 @@ harmonized_dossier_evaluate <- function(
 #' {
 #' 
 #' # use Rmonize_examples provided by the package
+#' library(dplyr)
 #' 
 #' data_proc_elem <- Rmonize_examples$`Data Processing Elements`
-#' data_proc_elem_evaluate(data_proc_elem)
+#' eval_data_proc_elem <- data_proc_elem_evaluate(data_proc_elem)
+#' 
+#' glimpse(eval_data_proc_elem)
 #' 
 #' }
 #'
@@ -208,7 +211,7 @@ data_proc_elem_evaluate <- function(data_proc_elem, taxonomy = NULL){
           "rename",
           "undetermined"),NA_character_,.data$`Mlstr_harmo::rule_category`)) %>%
     dplyr::filter(!is.na(.data$`value`)) %>%
-    mutate(condition = "[ERR] - Rule category name doesn't exist") %>%
+    mutate(condition = "[ERROR] - Rule category name doesn't exist") %>%
     select("Row number","value","condition") 
   
   report$`Data Processing Elements assessment` <-

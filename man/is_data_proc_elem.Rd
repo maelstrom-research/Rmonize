@@ -32,7 +32,6 @@ primary identifier variable (e.g., participant unique ID).
 
 # use Rmonize_examples provided by the package
 
-data_proc_elem <- Rmonize_examples$`Data Processing Elements`
 is_data_proc_elem(Rmonize_examples$`Data Processing Elements`)
 is_data_proc_elem(Rmonize_examples$`DataSchema`)
 is_data_proc_elem(iris)

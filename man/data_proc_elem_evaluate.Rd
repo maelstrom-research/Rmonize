@@ -44,9 +44,12 @@ taxonomies are
 {
 
 # use Rmonize_examples provided by the package
+library(dplyr)
 
 data_proc_elem <- Rmonize_examples$`Data Processing Elements`
-data_proc_elem_evaluate(data_proc_elem)
+eval_data_proc_elem <- data_proc_elem_evaluate(data_proc_elem)
+
+glimpse(eval_data_proc_elem)
 
 }
 
