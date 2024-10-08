@@ -149,7 +149,7 @@ harmonized_dossier_summarize <- function(
     # exclude from data dict assessment
     harmonized_dossier_summary[['Data dictionary assessment']] <- 
       harmonized_dossier_summary[['Data dictionary assessment']] %>%
-      dplyr::filter(!name_var %in% harmonized_col_dataset)
+      dplyr::filter(!.data$`name_var` %in% harmonized_col_dataset)
     if(nrow(harmonized_dossier_summary[['Data dictionary assessment']]) == 0){
       harmonized_dossier_summary[['Data dictionary assessment']] <- NULL
     }
@@ -158,7 +158,7 @@ harmonized_dossier_summarize <- function(
     # exclude from dataset assessment    
     harmonized_dossier_summary[['Dataset assessment']] <- 
       harmonized_dossier_summary[['Dataset assessment']] %>%
-      dplyr::filter(!name %in% harmonized_col_dataset)
+      dplyr::filter(!.data$`name` %in% harmonized_col_dataset)
     if(nrow(harmonized_dossier_summary[['Dataset assessment']]) == 0){
       harmonized_dossier_summary[['Dataset assessment']] <- NULL
     }
