@@ -54,18 +54,18 @@
 #' {
 #' 
 #' # Use Rmonize_examples to run examples.
-#'  
 #' library(dplyr)
 #' library(stringr)
 #' 
-#' # use Rmonize_examples provided by the package
-#' library(stringr)
-#' 
 #' # perform data processing
-#' dossier            <- Rmonize_examples[str_detect(names(Rmonize_examples),"dataset")]
+#' dossier            <- Rmonize_examples[str_detect(names(Rmonize_examples),"^dataset_study")]
 #' dataschema         <- Rmonize_examples$DataSchema
 #' data_proc_elem     <- Rmonize_examples$`Data Processing Elements`
-#' harmonized_dossier <- harmo_process(dossier,dataschema,data_proc_elem)
+#' harmonized_dossier <- harmo_process(
+#'   dossier,
+#'   dataschema,
+#'   data_proc_elem,
+#'   harmonized_col_dataset = 'adm_study_id')
 #' 
 #' glimpse(harmonized_dossier$dataset_study1)
 #' 
@@ -759,10 +759,10 @@ bold(i)," -----------------------------------------------------"),1,81))
     message(
       "\n
 ------------------------------------------------------------------------------\n
-Your harmonization process contains errors. The tables with error(s) have not 
-been generated to avoid any version confusion. When harmonization elements and 
-rules are corrected, rerun the process with the updated Data Processing Elements 
-to generate complete harmonized tables.\n",
+The Data Processing Elements contain 'undetermined' statuses. Variables with 
+'undetermined' status will appear as empty columns in the harmonized datasets. 
+When the harmonization statuses are finalized, remember to rerun the process with 
+the updated Data Processing Elements and generate the final harmonized datasets.\n",
       
       bold("\n\nUseful tip: "),
 "If you identified errors and want to correct them later, you can specify
@@ -1560,11 +1560,9 @@ harmo_process_undetermined <- function(process_rule_slice){
 #' library(stringr)
 #' 
 #' # perform data processing
-#' dossier            <- Rmonize_examples[str_detect(names(Rmonize_examples),"dataset")]
-#' dataschema         <- Rmonize_examples$DataSchema
-#' data_proc_elem     <- Rmonize_examples$`Data Processing Elements`
-#' harmonized_dossier <- harmo_process(dossier,dataschema,data_proc_elem)
-#' 
+#' harmonized_dossier <- 
+#'   Rmonize_examples[str_detect(names(Rmonize_examples),"harmonized_dossier")][[1]]
+#'  
 #' # show error(s) on the console
 #' show_harmo_error(harmonized_dossier)
 #' 
@@ -2263,12 +2261,10 @@ as_dataschema_mlstr <- function(object){
 #'  
 #' library(dplyr)
 #' library(stringr)
-#' 
+#'
 #' # perform data processing
-#' dossier            <- Rmonize_examples[str_detect(names(Rmonize_examples),"dataset")]
-#' dataschema         <- Rmonize_examples$DataSchema
-#' data_proc_elem     <- Rmonize_examples$`Data Processing Elements`
-#' harmonized_dossier <- harmo_process(dossier,dataschema,data_proc_elem)
+#' harmonized_dossier <-
+#'   Rmonize_examples[str_detect(names(Rmonize_examples),"harmonized_dossier")][[1]]
 #' 
 #' harmonized_dossier <- as_harmonized_dossier(harmonized_dossier)
 #' 
@@ -2500,16 +2496,11 @@ name list of variables.")
 #' library(stringr)
 #' 
 #' # perform data processing
-#' dossier            <- Rmonize_examples[str_detect(names(Rmonize_examples),"dataset")]
-#' dataschema         <- Rmonize_examples$DataSchema
-#' data_proc_elem     <- Rmonize_examples$`Data Processing Elements`
-#' harmonized_dossier <- harmo_process(dossier,dataschema,data_proc_elem)
+#' harmonized_dossier <-
+#'   Rmonize_examples[str_detect(names(Rmonize_examples),"harmonized_dossier")][[1]]
 #' 
 #' # create the pooled harmonized dataset from the harmonized dossier
-#' pooled_harmonized_dataset <- 
-#'   pooled_harmonized_dataset_create(
-#'     harmonized_dossier,
-#'     harmonized_col_id = 'adm_unique_id')
+#' pooled_harmonized_dataset <- pooled_harmonized_dataset_create(harmonized_dossier)
 #'   
 #' glimpse(pooled_harmonized_dataset)
 #'   
@@ -2523,13 +2514,13 @@ pooled_harmonized_dataset_create <- function(
     harmonized_dossier,
     harmonized_col_dataset = attributes(harmonized_dossier)$`Rmonize::harmonized_col_dataset`,
     harmonized_col_id = attributes(harmonized_dossier)$`Rmonize::harmonized_col_id`,
-    add_col_dataset = FALSE,
+    add_col_dataset = TRUE,
     dataschema = attributes(harmonized_dossier)$`Rmonize::DataSchema`,
     data_proc_elem = attributes(harmonized_dossier)$`Rmonize::Data Processing Elements`){
   
-  if(!is.logical(add_col_dataset))
-    stop(call. = FALSE,
-         '`add_col_dataset` must be TRUE or FALSE (TRUE by default)')
+  # if(!is.logical(add_col_dataset))
+  #   stop(call. = FALSE,
+  #        '`add_col_dataset` must be TRUE or FALSE (TRUE by default)')
   
   # check harmonized dossier (except harmonized_col_dataset)
   as_harmonized_dossier(
@@ -2540,6 +2531,7 @@ pooled_harmonized_dataset_create <- function(
 
   pooled_harmonized_dataset <- 
     bind_rows(harmonized_dossier) %>%
+    as_dataset(col_id = harmonized_col_id) %>%
     data_dict_apply(dataschema)
 
   col_dataset <- 
@@ -2622,6 +2614,10 @@ categorical variable DataSchema, or to set `add_col_dataset` = FALSE.')
   
   attributes(pooled_harmonized_dataset)$`Rmonize::harmonized_col_id` <- 
     harmonized_col_id
+  
+  attributes(pooled_harmonized_dataset)$`Rmonize::harmonized_col_id` <- 
+    harmonized_col_id
+  
   
   if(!is.null(harmonized_col_dataset)){
     attributes(pooled_harmonized_dataset)$`Rmonize::harmonized_col_dataset` <- 
@@ -2764,7 +2760,6 @@ is_dataschema <- function(object){
 #' 
 #' # use Rmonize_examples provided by the package
 #'
-#' data_proc_elem <- Rmonize_examples$`Data Processing Elements`
 #' is_data_proc_elem(Rmonize_examples$`Data Processing Elements`)
 #' is_data_proc_elem(Rmonize_examples$`DataSchema`)
 #' is_data_proc_elem(iris)

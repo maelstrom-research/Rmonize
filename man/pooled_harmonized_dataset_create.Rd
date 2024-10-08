@@ -9,7 +9,7 @@ pooled_harmonized_dataset_create(
   harmonized_col_dataset =
     attributes(harmonized_dossier)$`Rmonize::harmonized_col_dataset`,
   harmonized_col_id = attributes(harmonized_dossier)$`Rmonize::harmonized_col_id`,
-  add_col_dataset = FALSE,
+  add_col_dataset = TRUE,
   dataschema = attributes(harmonized_dossier)$`Rmonize::DataSchema`,
   data_proc_elem = attributes(harmonized_dossier)$`Rmonize::Data Processing Elements`
 )
@@ -79,16 +79,11 @@ library(dplyr)
 library(stringr)
 
 # perform data processing
-dossier            <- Rmonize_examples[str_detect(names(Rmonize_examples),"dataset")]
-dataschema         <- Rmonize_examples$DataSchema
-data_proc_elem     <- Rmonize_examples$`Data Processing Elements`
-harmonized_dossier <- harmo_process(dossier,dataschema,data_proc_elem)
+harmonized_dossier <-
+  Rmonize_examples[str_detect(names(Rmonize_examples),"harmonized_dossier")][[1]]
 
 # create the pooled harmonized dataset from the harmonized dossier
-pooled_harmonized_dataset <- 
-  pooled_harmonized_dataset_create(
-    harmonized_dossier,
-    harmonized_col_id = 'adm_unique_id')
+pooled_harmonized_dataset <- pooled_harmonized_dataset_create(harmonized_dossier)
   
 glimpse(pooled_harmonized_dataset)
   
