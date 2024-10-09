@@ -200,9 +200,9 @@ harmonized_dossier_summarize <- function(
   
   
   # rename Sheets
-  names(harmonized_dossier_summary) <- 
-    str_replace(names(harmonized_dossier_summary),"Overview",
-                "Harmonization Overview")   
+  # names(harmonized_dossier_summary) <- 
+  #   str_replace(names(harmonized_dossier_summary),"Overview",
+  #               "Harmonization Overview")   
   # names(harmonized_dossier_summary) <- 
   #   str_replace(names(harmonized_dossier_summary),"Data dictionary summary",
   #               "Data dictionary summary")
@@ -218,8 +218,8 @@ harmonized_dossier_summarize <- function(
   
   
   ## change content
-  harmonized_dossier_summary$`Harmonization Overview` <- 
-    harmonized_dossier_summary$`Harmonization Overview` %>%
+  harmonized_dossier_summary$`Overview` <- 
+    harmonized_dossier_summary$`Overview` %>%
     rename("Harmonization overview" = "Overview")
   
   # add the harmo_status in the summary
@@ -231,7 +231,7 @@ harmonized_dossier_summarize <- function(
     data_proc_elem %>%
     select(
       "Variable name" = "dataschema_variable",
-      "Harmonisation status" = `Mlstr_harmo::status`, "group_index" = "input_dataset") %>%
+      "Harmonisation status" = "Mlstr_harmo::status", "group_index" = "input_dataset") %>%
     mutate(group_index = ifelse(.data$`Variable name` == harmonized_col_id,NA,.data$`group_index`)) %>%
     mutate(group_index = ifelse(.data$`Variable name` == harmonized_col_dataset,NA,.data$`group_index`)) %>%
     filter(!is.na(.data$`group_index`)) %>%
@@ -247,7 +247,8 @@ harmonized_dossier_summarize <- function(
       left_join(
         
         harmonized_dossier_summary[[i]] %>%
-          mutate(group_index = !!as.name(group_var_name)) %>% select(any_of(group_var_name),"group_index",`Variable name`) %>%
+          mutate(group_index = !!as.name(group_var_name)) %>% 
+          select(any_of(group_var_name),"group_index","Variable name") %>%
           mutate(group_index = ifelse(str_detect(.data$`group_index`,"(all)"),NA,.data$`group_index`)) %>%
           filter(!is.na(.data$`group_index`)) %>%
           group_by(.data$`group_index`) %>%
@@ -256,7 +257,7 @@ harmonized_dossier_summarize <- function(
         
         by = c(group_var_name, "Variable name")) %>% 
       select('Index',!!group_var_name,"Variable name","Variable label","Harmonisation status",everything(),-"group_index") %>%
-      mutate(`Harmonisation status` = replace_na(`Harmonisation status`,"complete"))
+      mutate("Harmonisation status" = replace_na(.data$`Harmonisation status`,"complete"))
   }
   
   # 
