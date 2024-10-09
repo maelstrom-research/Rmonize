@@ -151,8 +151,7 @@ harmonized_dossier_summarize <- function(
       harmonized_dossier_summary[['Data dictionary assessment']] %>%
       dplyr::filter(!.data$`name_var` %in% harmonized_col_dataset)
     if(nrow(harmonized_dossier_summary[['Data dictionary assessment']]) == 0){
-      harmonized_dossier_summary[['Data dictionary assessment']] <- NULL
-    }
+      harmonized_dossier_summary[['Data dictionary assessment']] <- NULL}
     
     
     # exclude from dataset assessment    
@@ -200,21 +199,28 @@ harmonized_dossier_summarize <- function(
   }
   
   
+  # rename Sheets
   names(harmonized_dossier_summary) <- 
     str_replace(names(harmonized_dossier_summary),"Overview",
                 "Harmonization Overview")   
-  names(harmonized_dossier_summary) <- 
-    str_replace(names(harmonized_dossier_summary),"Data dictionary summary",
-                "Harmonized Data dictionary summary")
-  names(harmonized_dossier_summary) <- 
-    str_replace(names(harmonized_dossier_summary),"Data dictionary assessment",
-                "Harmonized Data dictionary assessement")
-  names(harmonized_dossier_summary) <- 
-    str_replace(names(harmonized_dossier_summary),"Dataset assessment",
-                "Harmonized Dataset assessment")
-  names(harmonized_dossier_summary) <- 
-    str_replace(names(harmonized_dossier_summary),"Variables summary \\(all\\)",
-                "Harmonized Variables summary (all)")
+  # names(harmonized_dossier_summary) <- 
+  #   str_replace(names(harmonized_dossier_summary),"Data dictionary summary",
+  #               "Data dictionary summary")
+  # names(harmonized_dossier_summary) <- 
+  #   str_replace(names(harmonized_dossier_summary),"Data dictionary assessment",
+  #               "Data dictionary assessement")
+  # names(harmonized_dossier_summary) <- 
+  #   str_replace(names(harmonized_dossier_summary),"Dataset assessment",
+  #               "Dataset assessment")
+  # names(harmonized_dossier_summary) <- 
+  #   str_replace(names(harmonized_dossier_summary),"Variables summary \\(all\\)",
+  #               "Variables summary (all)")
+  
+  
+  ## change content
+  harmonized_dossier_summary$`Harmonization Overview` <- 
+    harmonized_dossier_summary$`Harmonization Overview` %>%
+    rename("Harmonization overview" = "Overview")
 
   return(harmonized_dossier_summary)
 }

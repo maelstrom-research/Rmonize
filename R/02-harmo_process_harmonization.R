@@ -56,10 +56,11 @@
 #' # Use Rmonize_examples to run examples.
 #' library(dplyr)
 #' library(stringr)
+#' library(lubridate)
 #' 
 #' # perform data processing
 #' dossier            <- Rmonize_examples[str_detect(names(Rmonize_examples),"^dataset_study")]
-#' dataschema         <- Rmonize_examples$DataSchema
+#' dataschema         <- Rmonize_examples$`DataSchema`
 #' data_proc_elem     <- Rmonize_examples$`Data Processing Elements`
 #' harmonized_dossier <- harmo_process(
 #'   dossier,
@@ -2309,7 +2310,7 @@ as_harmonized_dossier <- function(
       dataschema$Variables %>%
       select(-starts_with("Mlstr_harmo::"),-starts_with("Rmonize::"))}
 
-  dataschema <- as_dataschema(dataschema,as_dataschema_mlstr = TRUE)
+  dataschema <- as_dataschema_mlstr(dataschema)
   
   # check the DPE
   if(is.null(data_proc_elem)){
@@ -2341,8 +2342,7 @@ as_harmonized_dossier <- function(
   }
   
   data_proc_elem <- as_data_proc_elem(data_proc_elem)
-  dataschema <- as_data_dict_mlstr(dataschema)
-  
+
   # Warn user that the dataschema should have a categorical variable if
   # harmonized_col_dataset is provided.
   
@@ -2399,18 +2399,21 @@ name list of variables.")
         data_proc_elem %>%
         rename("name" = "dataschema_variable") %>%
         dplyr::filter(.data$`input_dataset` == !! i) %>%
-        select('name', 
-               'Mlstr_harmo::rule_category',
-               'Mlstr_harmo::algorithm',
-               matches('^Rmonize::r_script$'),
-               'Mlstr_harmo::status',
-               'Mlstr_harmo::status_detail',
-               'Mlstr_harmo::comment')
+        select(intersect(
+          c('name',names(data_proc_elem)),
+          c('name',
+            'Rmonize::r_script',
+            'Mlstr_harmo::rule_category',
+            'Mlstr_harmo::algorithm',
+            'Mlstr_harmo::status',
+            'Mlstr_harmo::status_detail',
+            'Mlstr_harmo::comment')))
       
       harmo_data_dict[['Variables']] <-
         harmo_data_dict[['Variables']] %>%
         full_join(input_data_proc_elem, by = 'name')
       
+      ## issue 68
       object[[i]] <- 
         valueType_adjust(
           from = harmo_data_dict,

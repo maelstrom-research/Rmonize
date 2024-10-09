@@ -76,10 +76,11 @@ primary identifier variable (e.g., participant unique ID).
 # Use Rmonize_examples to run examples.
 library(dplyr)
 library(stringr)
+library(lubridate)
 
 # perform data processing
 dossier            <- Rmonize_examples[str_detect(names(Rmonize_examples),"^dataset_study")]
-dataschema         <- Rmonize_examples$DataSchema
+dataschema         <- Rmonize_examples$`DataSchema`
 data_proc_elem     <- Rmonize_examples$`Data Processing Elements`
 harmonized_dossier <- harmo_process(
   dossier,
