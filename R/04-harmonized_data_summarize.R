@@ -86,7 +86,7 @@
 #'
 #' }
 #'
-#' @import dplyr stringr tidyr haven
+#' @import dplyr stringr tidyr
 #' @importFrom crayon bold
 #' @importFrom rlang .data
 #'
@@ -221,6 +221,48 @@ harmonized_dossier_summarize <- function(
   harmonized_dossier_summary$`Harmonization Overview` <- 
     harmonized_dossier_summary$`Harmonization Overview` %>%
     rename("Harmonization overview" = "Overview")
+  
+  # add the harmo_status in the summary
+  
+  harmonized_col_id <- attributes(harmonized_dossier)$`Rmonize::harmonized_col_id`
+  harmonized_col_dataset <- attributes(pooled_harmonized_dataset)$`Rmonize::harmonized_col_dataset`
+  
+  harmo_status <-
+    data_proc_elem %>%
+    select(
+      "Variable name" = "dataschema_variable",
+      "Harmonisation status" = `Mlstr_harmo::status`, "group_index" = "input_dataset") %>%
+    mutate(group_index = ifelse(.data$`Variable name` == harmonized_col_id,NA,.data$`group_index`)) %>%
+    mutate(group_index = ifelse(.data$`Variable name` == harmonized_col_dataset,NA,.data$`group_index`)) %>%
+    filter(!is.na(.data$`group_index`)) %>%
+    group_by(.data$`group_index`) %>%
+    mutate(group_index = cur_group_id())
+  
+  group_var_name <- paste0("Grouping variable: ",harmonized_col_dataset)
+  
+  for(i in names(harmonized_dossier_summary)[str_detect(names(harmonized_dossier_summary),"(V|v)ariable")]){
+
+    harmonized_dossier_summary[[i]] <-
+      harmonized_dossier_summary[[i]] %>%
+      left_join(
+        
+        harmonized_dossier_summary[[i]] %>%
+          mutate(group_index = !!as.name(group_var_name)) %>% select(any_of(group_var_name),"group_index",`Variable name`) %>%
+          mutate(group_index = ifelse(str_detect(.data$`group_index`,"(all)"),NA,.data$`group_index`)) %>%
+          filter(!is.na(.data$`group_index`)) %>%
+          group_by(.data$`group_index`) %>%
+          mutate(group_index = cur_group_id()) %>%
+          left_join(harmo_status,by = c('group_index', 'Variable name')),
+        
+        by = c(group_var_name, "Variable name")) %>% 
+      select('Index',!!group_var_name,"Variable name","Variable label","Harmonisation status",everything(),-"group_index") %>%
+      mutate(`Harmonisation status` = replace_na(`Harmonisation status`,"complete"))
+  }
+  
+  # 
+  # harmonized_dossier_summary[str_detect(names(harmonized_dossier_summary),"(V|v)ariable")] %>%
+    
+  
 
   return(harmonized_dossier_summary)
 }
