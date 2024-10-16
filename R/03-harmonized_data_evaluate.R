@@ -352,10 +352,10 @@ dataschema_evaluate <- function(dataschema, taxonomy = NULL){
 
   report <- data_dict_evaluate(dataschema,taxonomy,is_data_dict_mlstr = TRUE)
 
-  names(report) <- str_replace(names(report),"Data dictionary summary",
-                               "Harmonized Data dictionary summary")
-  names(report) <- str_replace(names(report),"Data dictionary assessment",
-                               "Harmonized Data dictionary assessement")
+  # names(report) <- str_replace(names(report),"Data dictionary summary",
+  #                              "Harmonized Data dictionary summary")
+  # names(report) <- str_replace(names(report),"Data dictionary assessment",
+  #                              "Harmonized Data dictionary assessement")
   
   #   dossier_name <- tibble(dossier = as.character(), dataset = as.character())
   #   for(i in names(dossier)) for(j in names(dossier[[i]])){
@@ -409,8 +409,6 @@ dataschema_evaluate <- function(dataschema, taxonomy = NULL){
   #          call. = FALSE)
   #
   #   }
-
-
 
   return(report)
 }
