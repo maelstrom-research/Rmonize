@@ -120,8 +120,6 @@ input elements before processing harmonization.")
     col_ids <- 
       dossier %>% lapply(function(x) col_id(x)) %>% unique
     
-    
-    
     if(length(col_ids) > 1 | is.null(col_ids[[1]])){
       for(i in names(dossier)){
         # stop()}
@@ -236,6 +234,7 @@ input elements before processing harmonization.")
     stop(call. = FALSE,'
 This object is a Data Processing Elements. 
 Please write harmo_process(data_proc_elem = my_object) instead.')
+  
   
   if(is_dataschema(object)) 
     stop(call. = FALSE,'
@@ -380,7 +379,7 @@ Please write harmo_process(dataschema = my_object) instead.')
   }else{
     data_proc_elem <- as_data_proc_elem(data_proc_elem)
   }
-  
+
   if(is.null(dataschema)){
     dataschema <- dataschema_extract(data_proc_elem)
   }else{
@@ -435,10 +434,10 @@ Please write harmo_process(dataschema = my_object) instead.')
   
   # test if harmonized_col_id exists in dpe and dpe
   if(! harmonized_col_id %in% data_proc_elem$dataschema_variable)
-    stop(message('ERROR 101'))
-  #     stop(call. = FALSE,
-  # '\n\nThe harmonized_col_id `',harmonized_col_id,'`',
-  # '\nmust be present in your DataSchema and in the Data Processing Elements.')
+    # stop(message('ERROR 101'))
+      stop(call. = FALSE,
+  '\n\nThe harmonized_col_id `',harmonized_col_id,'`',
+  '\nmust be present in your DataSchema and in the Data Processing Elements.')
   
   dpe <- dpe %>%
     group_by(.data$`input_dataset`) %>%
@@ -1909,14 +1908,14 @@ dataset(s). Your first processing element must be "id_creation" in
 dataset in your dossier.')
     })
     
-  nb_col_id <- 
-    unique(
-      object[
-        object$`Mlstr_harmo::rule_category` %in% 'id_creation',][[
-          'dataschema_variable']])
+    nb_col_id <- 
+      unique(
+        object[
+          object$`Mlstr_harmo::rule_category` %in% 'id_creation',][[
+            'dataschema_variable']])
   
-  if(length(nb_col_id) > 1)
-    stop(call. = FALSE,
+    if(length(nb_col_id) > 1)
+      stop(call. = FALSE,
 'In ',unique(object$input_dataset),': \n\n',
 'In the column `Mlstr_harmo::rule_category` of your Data Processing Elements, 
 "id_creation" is not unique across the harmonized dataset(s) to generate. 
@@ -1926,101 +1925,112 @@ generated harmonized dataset(s). Your first processing element must be
 "id_creation" in `Mlstr_harmo::rule_category` followed by the name of the column taken 
 identifier of dataset in your dossier.')
   
-  # harmo status must be either NA, complete, impossible or undetermined
-
-  # step cleaning : addition of missing columns
-  object <-
-    object %>%
-    bind_rows(tibble(
-      `valueType` = as.character(),
-      `Mlstr_harmo::status` = as.character(),
-      `Mlstr_harmo::status_detail` = as.character(),
-      `Mlstr_harmo::comment` = as.character()))
-
-  
-  # step cleaning : addition of `Mlstr_harmo::rule_category`.
-  object <-
-    object %>%
-    mutate(
-      `Mlstr_harmo::rule_category` = case_when(
-        if_any(c("input_variables",
-                 "Mlstr_harmo::rule_category",
-                 "Mlstr_harmo::algorithm"), ~ . == "undetermined") ~ 
-          'undetermined',
-        is.na(`Mlstr_harmo::rule_category`)                        ~ 
-          'undetermined',
-        TRUE                                                       ~ 
-          `Mlstr_harmo::rule_category`))
-  
-  # step cleaning : addition of Mlstr_harmo::status.
-  object <-
-    object %>%  
-    mutate(
-      `Mlstr_harmo::status` = case_when(
-        if_any(c("input_variables",
-                 "Mlstr_harmo::rule_category",
-                 "Mlstr_harmo::algorithm"), ~ . == "undetermined") ~ 
-          'undetermined',
-        if_any(c("Mlstr_harmo::rule_category",
-                 "Mlstr_harmo::algorithm"), ~ . == "impossible")   ~ 
-          'impossible',
-        is.na(`Mlstr_harmo::status`)                               ~ 
-          'complete',
-        TRUE                                                       ~ 
-          .data$`Mlstr_harmo::status`))
+    # harmo status must be either NA, complete, impossible or undetermined
     
-  # step cleaning : addition of Mlstr_harmo::status_detail.
-  object <-
-    object %>%  
-    mutate(
-      `Mlstr_harmo::status_detail` = case_when(
-        if_any(c("input_variables",
-                 "Mlstr_harmo::rule_category",
-                 "Mlstr_harmo::algorithm"), ~ . == "undetermined") ~ 
-          'undetermined',
-        is.na(`Mlstr_harmo::status_detail`)                        ~ 
-          'unknown',
-        TRUE                                                       ~ 
-          .data$`Mlstr_harmo::status_detail`))
-  
-  # step cleaning : id_creation must be the first entry
-  object <-
-    object %>%
-    group_by(.data$`input_dataset`) %>%
-    group_modify(.f = ~ 
-                bind_rows(
-                  dplyr::filter(., `Mlstr_harmo::rule_category` %in% 'id_creation'),
-                  dplyr::filter(.,!`Mlstr_harmo::rule_category` %in% 'id_creation')))
-    
-  if(is.null(object[['index']])){
+    # step cleaning : addition of missing columns
     object <-
       object %>%
-      add_index()}
+      bind_rows(tibble(
+        `valueType` = as.character(),
+        `Mlstr_harmo::status` = as.character(),
+        `Mlstr_harmo::status_detail` = as.character(),
+        `Mlstr_harmo::comment` = as.character()))
 
-  # step cleaning : addition of index
-  if(is.null(object[['index']])){
+  
+    # step cleaning : addition of `Mlstr_harmo::rule_category`.
     object <-
       object %>%
-      add_index()}
-  
-  # if all test pass:
-  object <- 
-    object %>%
-    ungroup %>%
-    select('index',
-           'dataschema_variable',
-           'valueType',
-           'input_dataset',
-           'input_variables',
-           'Mlstr_harmo::rule_category',
-           'Mlstr_harmo::algorithm',
-           'Mlstr_harmo::status',
-           'Mlstr_harmo::status_detail',
-           'Mlstr_harmo::comment',
-           everything())
+      mutate(
+        `Mlstr_harmo::rule_category` = case_when(
+          if_any(c("input_variables",
+                   "Mlstr_harmo::rule_category",
+                   "Mlstr_harmo::algorithm"), ~ . == "undetermined") ~ 
+            'undetermined',
+          is.na(`Mlstr_harmo::rule_category`)                        ~ 
+            'undetermined',
+          TRUE                                                       ~ 
+            `Mlstr_harmo::rule_category`))
     
-    attributes(object)$`Rmonize::class` <- "data_proc_elem"
-    return(object)
+    # step cleaning : addition of Mlstr_harmo::status.
+    object <-
+      object %>%  
+      mutate(
+        `Mlstr_harmo::status` = case_when(
+          if_any(c("input_variables",
+                   "Mlstr_harmo::rule_category",
+                   "Mlstr_harmo::algorithm"), ~ . == "undetermined") ~ 
+            'undetermined',
+          if_any(c("Mlstr_harmo::rule_category",
+                   "Mlstr_harmo::algorithm"), ~ . == "impossible")   ~ 
+            'impossible',
+          is.na(`Mlstr_harmo::status`)                               ~ 
+            'complete',
+          TRUE                                                       ~ 
+            .data$`Mlstr_harmo::status`))
+    
+    # step cleaning : addition of Mlstr_harmo::status_detail.
+    object <-
+      object %>%  
+      mutate(
+        `Mlstr_harmo::status_detail` = case_when(
+          if_any(c("input_variables",
+                   "Mlstr_harmo::rule_category",
+                   "Mlstr_harmo::algorithm"), ~ . == "undetermined") ~ 
+            'undetermined',
+          is.na(`Mlstr_harmo::status_detail`)                        ~ 
+            'unknown',
+          TRUE                                                       ~ 
+            .data$`Mlstr_harmo::status_detail`))
+    
+    # step cleaning : id_creation must be the first entry
+    object <-
+      object %>%
+      group_by(.data$`input_dataset`) %>%
+      group_modify(.f = ~ 
+                     bind_rows(
+                       dplyr::filter(., `Mlstr_harmo::rule_category` %in% 'id_creation'),
+                       dplyr::filter(.,!`Mlstr_harmo::rule_category` %in% 'id_creation')))
+    
+    if(is.null(object[['index']])){
+      object <-
+        object %>%
+        add_index()}
+    
+    # step cleaning : addition of index
+    if(is.null(object[['index']])){
+      object <-
+        object %>%
+        add_index()}
+    
+    # if all test pass:
+    object <- 
+      object %>%
+      ungroup %>%
+      select('index',
+             'dataschema_variable',
+             'valueType',
+             'input_dataset',
+             'input_variables',
+             'Mlstr_harmo::rule_category',
+             'Mlstr_harmo::algorithm',
+             'Mlstr_harmo::status',
+             'Mlstr_harmo::status_detail',
+             'Mlstr_harmo::comment',
+             everything())
+  
+    # test if car lib is present, when recode are in the data processing elements 
+    if("recode" %in% object$`Mlstr_harmo::rule_category`){
+      
+      test_car_lib <- 
+        try(parceval("car::recode(iris$Species,c(\"'setosa' = 'A'\"))"),silent = TRUE)
+      if(class(test_car_lib)[1] == "try-error")
+        stop(call. = FALSE,'
+`car` library must be installed in your environment to perform data processing.\n\n',
+             test_car_lib)}
+  
+
+  attributes(object)$`Rmonize::class` <- "data_proc_elem"
+  return(object)
 
   }
 
