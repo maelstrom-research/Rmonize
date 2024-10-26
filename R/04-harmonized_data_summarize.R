@@ -231,7 +231,7 @@ harmonized_dossier_summarize <- function(
     data_proc_elem %>%
     select(
       "Variable name" = "dataschema_variable",
-      "Harmonisation status" = "Mlstr_harmo::status", "group_index" = "input_dataset") %>%
+      "Harmonization status" = "Mlstr_harmo::status", "group_index" = "input_dataset") %>%
     mutate(group_index = ifelse(.data$`Variable name` == harmonized_col_id,NA,.data$`group_index`)) %>%
     mutate(group_index = ifelse(.data$`Variable name` == harmonized_col_dataset,NA,.data$`group_index`)) %>%
     filter(!is.na(.data$`group_index`)) %>%
@@ -256,8 +256,8 @@ harmonized_dossier_summarize <- function(
           left_join(harmo_status,by = c('group_index', 'Variable name')),
         
         by = c(group_var_name, "Variable name")) %>% 
-      select('Index',!!group_var_name,"Variable name","Variable label","Harmonisation status",everything(),-"group_index") %>%
-      mutate("Harmonisation status" = replace_na(.data$`Harmonisation status`,"complete"))
+      select('Index',!!group_var_name,"Variable name","Variable label","Harmonization status",everything(),-"group_index") %>%
+      mutate("Harmonization status" = replace_na(.data$`Harmonisation status`,"complete"))
   }
   
   # 
