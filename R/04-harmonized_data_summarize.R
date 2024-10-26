@@ -257,7 +257,7 @@ harmonized_dossier_summarize <- function(
         
         by = c(group_var_name, "Variable name")) %>% 
       select('Index',!!group_var_name,"Variable name","Variable label","Harmonization status",everything(),-"group_index") %>%
-      mutate("Harmonization status" = replace_na(.data$`Harmonisation status`,"complete"))
+      mutate("Harmonization status" = replace_na(.data$`Harmonization status`,"complete"))
   }
   
   # 
