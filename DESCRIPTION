@@ -1,7 +1,7 @@
 Package: Rmonize
 Type: Package
 Title: Support Retrospective Harmonization of Data
-Version: 1.1.0.9104
+Version: 1.1.0.9105
 Authors@R: 
     c(person(given = "Guillaume",
              family = "Fabre",
