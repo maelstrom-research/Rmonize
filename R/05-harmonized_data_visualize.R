@@ -176,21 +176,26 @@ harmonized_dossier_visualize <- function(
         valueType_guess = valueType_guess)
     }
   
-  names(harmonized_dossier_summary) <- 
-    str_replace(names(harmonized_dossier_summary),"Overview",
-    "Harmonization Overview")   
-  names(harmonized_dossier_summary) <- 
-    str_replace(names(harmonized_dossier_summary),"Data dictionary summary",
-    "Harmonized Data dictionary summary")
-  names(harmonized_dossier_summary) <- 
-    str_replace(names(harmonized_dossier_summary),"Data dictionary assessment",
-    "Harmonized Data dictionary assessement")
-  names(harmonized_dossier_summary) <- 
-    str_replace(names(harmonized_dossier_summary),"Dataset assessment",
-    "Harmonized Dataset assessment")
-  names(harmonized_dossier_summary) <- 
-    str_replace(names(harmonized_dossier_summary),"Variables summary \\(all\\)",
-    "Harmonized Variables summary (all)")
+  # names(harmonized_dossier_summary) <- 
+  #   str_replace(names(harmonized_dossier_summary),"Overview",
+  #   "Overview")   
+  # names(harmonized_dossier_summary) <- 
+  #   str_replace(names(harmonized_dossier_summary),"Data dictionary summary",
+  #   "Harmonized Data dictionary summary")
+  # names(harmonized_dossier_summary) <- 
+  #   str_replace(names(harmonized_dossier_summary),"Data dictionary assessment",
+  #   "Harmonized Data dictionary assessement")
+  # names(harmonized_dossier_summary) <- 
+  #   str_replace(names(harmonized_dossier_summary),"Dataset assessment",
+  #   "Harmonized Dataset assessment")
+  # names(harmonized_dossier_summary) <- 
+  #   str_replace(names(harmonized_dossier_summary),"Variables summary \\(all\\)",
+  #   "Harmonized Variables summary (all)")
+  
+  harmonized_dossier_summary$`Variables summary (all)` <- 
+    harmonized_dossier_summary$`Variables summary (all)` %>%
+    select(1:"Number of rows",-"Harmonisation status","Harmonisation status",everything())
+  
   
   dataset_visualize(
     dataset = pooled_harmonized_dataset,
