@@ -115,7 +115,8 @@ library(fs)
 # perform data processing
 pooled_harmonized_dataset <-
   Rmonize_examples[str_detect(names(Rmonize_examples),"harmo_dataset_pooled")][[1]]
-summary_harmo  <- Rmonize_examples[str_detect(names(Rmonize_examples),"summary")][[1]]
+harmonized_dossier_summary  <- 
+  Rmonize_examples[str_detect(names(Rmonize_examples),"summary")][[1]]
 
 # create a folder where the visual report will be palced
 if(dir_exists(tempdir())) dir_delete(tempdir())
@@ -124,7 +125,7 @@ bookdown_path <- tempdir()
 # generate the visual report
 harmonized_dossier_visualize(
   pooled_harmonized_dataset = pooled_harmonized_dataset,
-  harmonized_dossier_summary = summary_harmo,
+  harmonized_dossier_summary = harmonized_dossier_summary,
   bookdown_path = bookdown_path)
 
 # To open the file in browser, open 'bookdown_path/docs/index.html'.

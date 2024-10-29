@@ -93,7 +93,8 @@
 #' # perform data processing
 #' pooled_harmonized_dataset <-
 #'   Rmonize_examples[str_detect(names(Rmonize_examples),"harmo_dataset_pooled")][[1]]
-#' summary_harmo  <- Rmonize_examples[str_detect(names(Rmonize_examples),"summary")][[1]]
+#' harmonized_dossier_summary  <- 
+#'   Rmonize_examples[str_detect(names(Rmonize_examples),"summary")][[1]]
 #' 
 #' # create a folder where the visual report will be palced
 #' if(dir_exists(tempdir())) dir_delete(tempdir())
@@ -102,7 +103,7 @@
 #' # generate the visual report
 #' harmonized_dossier_visualize(
 #'   pooled_harmonized_dataset = pooled_harmonized_dataset,
-#'   harmonized_dossier_summary = summary_harmo,
+#'   harmonized_dossier_summary = harmonized_dossier_summary,
 #'   bookdown_path = bookdown_path)
 #' 
 #' # To open the file in browser, open 'bookdown_path/docs/index.html'.
@@ -192,10 +193,10 @@ harmonized_dossier_visualize <- function(
   #   str_replace(names(harmonized_dossier_summary),"Variables summary \\(all\\)",
   #   "Harmonized Variables summary (all)")
   
+  # [GF] - question: where to put the harmonization status
   harmonized_dossier_summary$`Variables summary (all)` <- 
     harmonized_dossier_summary$`Variables summary (all)` %>%
-    select(1:"Number of rows",-"Harmonisation status","Harmonisation status",everything())
-  
+    select(1:"Categories in data dictionary",-"Harmonisation status","Harmonisation status",everything())
   
   dataset_visualize(
     dataset = pooled_harmonized_dataset,
