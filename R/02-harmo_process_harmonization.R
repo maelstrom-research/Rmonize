@@ -759,13 +759,14 @@ Please correct elements and reprocess.')
     message(
       "\n
 ------------------------------------------------------------------------------\n
-The Data Processing Elements contain 'undetermined' statuses. Variables with 
-'undetermined' status will appear as empty columns in the harmonized datasets. 
-When the harmonization statuses are finalized, remember to rerun the process with 
-the updated Data Processing Elements and generate the final harmonized datasets.\n",
+The Data Processing Elements contain 'error' statuses. Dataset with any 'error' 
+status will appear as empty in the harmonized dossier. When the harmonization 
+statuses are finalized, remember to rerun the process with the updated 
+Data Processing Elements and generate the final harmonized datasets.\n",
+    
       
-      bold("\n\nUseful tip: "),
-      "If you identified errors and want to correct them later, you can specify
+bold("\n\nUseful tip: "),
+"If you identified errors and want to correct them later, you can specify
 'undetermined' in the column 'Mlstr_harmo::algorithm' of your problematic 
 Data Processing Elements(s). Such Data Processing Elements will be ignored.\n")
     
@@ -802,7 +803,7 @@ harmonized tables.")}
     message(
       "\n
 ------------------------------------------------------------------------------\n
-Your harmonization is done. Please check if everything worked correctly.\n")    
+Harmonization process is done. Please check if everything worked correctly.\n")    
     
   }
   
