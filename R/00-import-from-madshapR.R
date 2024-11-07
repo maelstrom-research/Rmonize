@@ -46,6 +46,9 @@ madshapR::col_id
 #' @importFrom madshapR data_dict_filter
 madshapR::data_dict_filter
 
+#' @importFrom madshapR data_dict_add_labels_short
+madshapR::data_dict_add_labels_short
+
 #' @importFrom madshapR as_dataset
 #' @name as_dataset
 #' @rdname as_dataset
