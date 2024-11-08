@@ -81,8 +81,7 @@ library(dplyr)
 library(stringr)
 
 # perform data processing
-harmonized_dossier <-
-  Rmonize_examples[str_detect(names(Rmonize_examples),"harmonized_dossier")][[1]]
+harmonized_dossier <- Rmonize_examples[["harmonized_dossier"]]
 
 harmonized_dossier <- as_harmonized_dossier(harmonized_dossier)
 

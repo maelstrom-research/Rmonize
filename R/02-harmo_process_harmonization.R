@@ -314,7 +314,14 @@ Please write harmo_process(dataschema = my_object) instead.')
         .debug = .debug))
   }
   
-  if(is_dataset(dossier)) dossier <- list(dossier)
+  if(is_dataset(dossier)){
+    
+    if(is.null(data_proc_elem)){
+      if(is.null(dataschema)) dataschema <- data_dict_extract(dossier)
+    }
+
+    dossier <- list(dossier)
+  } 
   
   if(is.null(names(dossier)))
     if(length(dossier) == 1 & !is.null(data_proc_elem))
@@ -331,7 +338,6 @@ Please write harmo_process(dataschema = my_object) instead.')
       names(dossier) <- make_name_list(as.character(fargs['dossier']), dossier)
     }    
   }
-  
   
   # check arguments. make sure col_id is harmonizable if exists
   dossier <- dossier_create(dossier)
@@ -500,15 +506,14 @@ Please correct elements and reprocess.')
     
     if(class(dossier[[i]])[1] == 'try-error'){
       
-      stop(message('ERROR 102'))
-      # stop(call. = FALSE, 
-      # 'In your Data Processing Elements, the input variable `',var_id,'` does not 
-      # exists in the input dataset `',create_id_row$`input_dataset`,'`.
-      # 
-      # This element is mandatory for the data processing to be initiated. 
-      # Please correct elements and reprocess.')
-      
-      
+      # stop(message('ERROR 102'))
+      stop(call. = FALSE,
+'In your Data Processing Elements, the input variable `',var_id,'` does not
+exists in the input dataset `',create_id_row$`input_dataset`,'`.
+
+This element is mandatory for the data processing to be initiated.
+Please correct elements and reprocess.')
+  
     }
     
     dossier[[i]] <- 
@@ -516,10 +521,11 @@ Please correct elements and reprocess.')
       select(all_of(col_id(dossier[[i]])),any_of(!! names_in_dpe))
   }
   
-  # rid of data dictionary
+  # get rid of data dictionary
   dossier <- 
     as_dossier(dossier) %>% 
-    lapply(dataset_zap_data_dict)
+    lapply(function(x) 
+      dataset_zap_data_dict(x,zap_factor = TRUE)) 
   
   dpe <- dpe_init <- dpe[intersect(names(dossier), names(dpe))]
   
@@ -563,7 +569,8 @@ Please correct elements and reprocess.')
     "- Data Processing Elements: ------------------------------------------------"))
   
   # recast <- tibble()
-  harmonization_report <- harmonization_report_init <- 
+  harmonization_report <- 
+    harmonization_report_init <- 
     tibble(
       output_variable = as.character(),
       input_dataset = as.character(),
@@ -580,8 +587,8 @@ Please correct elements and reprocess.')
     # stop()}
     
     message(str_sub(paste0("\n",
-                           "--harmonization of : ",
-                           bold(i)," -----------------------------------------------------"),1,81))
+"--harmonization of : ",
+bold(i)," -----------------------------------------------------"),1,81))
     
     create_id_row <- 
       dpe[[i]][dpe[[i]]$`output_variable` %in% harmonized_col_id,]
@@ -799,7 +806,7 @@ process with the updated Data Processing Elements to generate complete
 harmonized tables.")}
   
   
-  if(nb_error > 0){
+  if(nb_error == 0 & nb_undet == 0){
     message(
       "\n
 ------------------------------------------------------------------------------\n
@@ -2275,8 +2282,7 @@ as_dataschema_mlstr <- function(object){
 #' library(stringr)
 #'
 #' # perform data processing
-#' harmonized_dossier <-
-#'   Rmonize_examples[str_detect(names(Rmonize_examples),"harmonized_dossier")][[1]]
+#' harmonized_dossier <- Rmonize_examples[["harmonized_dossier"]]
 #' 
 #' harmonized_dossier <- as_harmonized_dossier(harmonized_dossier)
 #' 
@@ -2296,27 +2302,35 @@ as_harmonized_dossier <- function(
     harmonized_col_dataset = attributes(object)$`Rmonize::harmonized_col_dataset`,
     harmonized_data_dict_apply = FALSE){
 
-  silently_run(dossier_create(object))
+  # check if the object is enough a dossier
+  dossier_create(object)
+  
+  if(is_dataset(object)) object <- dossier_create(object[[1]])
   
   if(!is.logical(harmonized_data_dict_apply))
     stop(call. = FALSE,
-         '`harmonized_data_dict_apply` must be TRUE or FALSE (TRUE by default)')
+    '`harmonized_data_dict_apply` must be TRUE or FALSE (TRUE by default)')
 
   # check the id column 
   if(is.null(harmonized_col_id))
-    stop(message('ERROR 103'))
-  #   stop(call. = FALSE,
-  #        '`harmonized_col_id` must be provided')
+    # stop(message('ERROR 103'))
+    stop(call. = FALSE,                                                         # [GF] text to validate
+    '`harmonized_col_id` cannot be NULL and must be provided')
   
   # check if col_id exists
-  bind_rows(
-    object %>% lapply(function(x) x %>% 
-                        mutate(across(everything(),as.character)))) %>% 
-    select(all_of(harmonized_col_id))
+  dossier_create(object) %>% lapply(
+    function(x){
+      test <- silently_run(as_dataset(x, col_id = harmonized_col_id))
+      if(class(test)[[1]] == "try-error")
+        stop(call. = FALSE,
+        paste0("`",harmonized_col_id,
+               "` identifier column must be present in each harmonized dataset."))
+      return(x)
+    })
   
   # check the DataSchema
   if(is.null(dataschema)){
-    dataschema <- data_dict_extract(bind_rows(as.list(object)))
+    dataschema <- data_dict_extract(dossier_create(object)[[1]])
     dataschema$Variables <- 
       dataschema$Variables %>%
       select(-starts_with("Mlstr_harmo::"),-starts_with("Rmonize::"))}
@@ -2393,8 +2407,6 @@ name list of variables.")
     message(bold("\n
 - CREATION OF HARMONIZED DATA DICTIONARY : --------------------------------\n"))
     
-
-    
     for(i in names(object)){
       # stop()}
       
@@ -2423,6 +2435,8 @@ name list of variables.")
       harmo_data_dict[['Variables']] <-
         harmo_data_dict[['Variables']] %>%
         full_join(input_data_proc_elem, by = 'name')
+      
+      attributes(harmo_data_dict)[['Rmonize::class']] <- NULL
       
       ## issue 68
       object[[i]] <- 

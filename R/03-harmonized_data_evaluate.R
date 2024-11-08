@@ -40,8 +40,7 @@
 #' @param taxonomy An optional data frame identifying a variable classification 
 #' schema.
 #' @param dataschema A DataSchema object.
-#' @param is_dataschema_mlstr
-#'  Whether the output DataSchema should be coerced 
+#' @param is_dataschema_mlstr Whether the output DataSchema should be coerced 
 #' with specific format restrictions for compatibility with other 
 #' Maelstrom Research software. TRUE by default.
 #'
