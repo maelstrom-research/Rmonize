@@ -12,3 +12,4 @@
 ^Meta$
 ^CRAN-SUBMISSION$
 ^tests$
+^viz_dir$
