@@ -4,24 +4,10 @@
 \alias{harmonized_dossier_evaluate}
 \title{Generate an assessment report for a harmonized dossier}
 \usage{
-harmonized_dossier_evaluate(
-  harmonized_dossier,
-  dataschema = attributes(harmonized_dossier)$`Rmonize::DataSchema`,
-  taxonomy = NULL,
-  is_dataschema_mlstr = TRUE
-)
+harmonized_dossier_evaluate(harmonized_dossier)
 }
 \arguments{
 \item{harmonized_dossier}{A list containing the harmonized dataset(s).}
-
-\item{dataschema}{A DataSchema object.}
-
-\item{taxonomy}{An optional data frame identifying a variable classification
-schema.}
-
-\item{is_dataschema_mlstr}{Whether the output DataSchema should be coerced
-with specific format restrictions for compatibility with other
-Maelstrom Research software. TRUE by default.}
 }
 \value{
 A list of data frames containing assessment reports for each harmonized dataset.

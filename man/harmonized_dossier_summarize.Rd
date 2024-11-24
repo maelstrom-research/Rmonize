@@ -4,34 +4,10 @@
 \alias{harmonized_dossier_summarize}
 \title{Generate an assessment report and summary of a harmonized dossier}
 \usage{
-harmonized_dossier_summarize(
-  harmonized_dossier = NULL,
-  group_by = attributes(harmonized_dossier)$`Rmonize::harmonized_col_dataset`,
-  dataschema = attributes(harmonized_dossier)$`Rmonize::DataSchema`,
-  data_proc_elem = attributes(harmonized_dossier)$`Rmonize::Data Processing Element`,
-  pooled_harmonized_dataset = NULL,
-  taxonomy = NULL,
-  valueType_guess = FALSE
-)
+harmonized_dossier_summarize(harmonized_dossier)
 }
 \arguments{
 \item{harmonized_dossier}{A list containing the harmonized dataset(s).}
-
-\item{group_by}{A character string identifying the column in the dataset
-to use as a grouping variable. Elements will be grouped by this
-column.}
-
-\item{dataschema}{A DataSchema object.}
-
-\item{data_proc_elem}{A Data Processing Elements object.}
-
-\item{pooled_harmonized_dataset}{A data frame containing the pooled harmonized dataset.}
-
-\item{taxonomy}{An optional data frame identifying a variable classification
-schema.}
-
-\item{valueType_guess}{Whether the output should include a more accurate
-valueType that could be applied to the dataset. FALSE by default.}
 }
 \value{
 A list of data frames containing overall assessment reports and summaries

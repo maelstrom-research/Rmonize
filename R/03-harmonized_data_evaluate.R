@@ -37,13 +37,7 @@
 #' in particular [Opal environments](https://www.obiba.org/pages/products/opal/).
 #'
 #' @param harmonized_dossier A list containing the harmonized dataset(s).
-#' @param taxonomy An optional data frame identifying a variable classification 
-#' schema.
-#' @param dataschema A DataSchema object.
-#' @param is_dataschema_mlstr Whether the output DataSchema should be coerced 
-#' with specific format restrictions for compatibility with other 
-#' Maelstrom Research software. TRUE by default.
-#'
+#' 
 #' @returns
 #' A list of data frames containing assessment reports for each harmonized dataset.
 #'
@@ -69,50 +63,37 @@
 #' @importFrom rlang .data
 #'
 #' @export
-harmonized_dossier_evaluate <- function(
-    harmonized_dossier,
-    dataschema = attributes(harmonized_dossier)$`Rmonize::DataSchema`,
-    taxonomy = NULL,
-    is_dataschema_mlstr = TRUE){
-
-  # future dev 
-  # assess harmonized data dictionary
-  # exclude impossible from the evaluation
-  
-  # tests
-  if(!is.null(taxonomy)) as_taxonomy(taxonomy)
-  
-  if(!is.logical(is_dataschema_mlstr))
-    stop(call. = FALSE,
-         '`is_dataschema_mlstr` must be TRUE or FALSE (FALSE by default)')
+harmonized_dossier_evaluate <- function(harmonized_dossier){
   
   # creation of pooled_harmonized_dataset
   pooled_harmonized_dataset <- 
-    suppressWarnings(pooled_harmonized_dataset_create(
-      harmonized_dossier,
-      add_col_dataset = FALSE))
+    suppressWarnings(pooled_harmonized_dataset_create(harmonized_dossier))
   
-  report_list <-
+  harmonized_dossier_eval <-
     dataset_evaluate(
-      dataset = pooled_harmonized_dataset,
-      data_dict = dataschema,
-      taxonomy = taxonomy,
-      is_data_dict_mlstr = is_dataschema_mlstr)
-
-  report_list <-
-    report_list %>%
+      dataset = pooled_harmonized_dataset)
+  
+  names(harmonized_dossier_eval) <- 
+    str_replace(names(harmonized_dossier_eval),
+                "Data dictionary summary","Harmo data dictionary summary")
+  names(harmonized_dossier_eval) <- 
+    str_replace(names(harmonized_dossier_eval),
+                "Dataset assessment","Harmo dataset assessment")
+  names(harmonized_dossier_eval) <- 
+    str_replace(names(harmonized_dossier_eval),
+                "Data dictionary assessment","Harmo data dictionary assessment")
+  
+  harmonized_dossier_eval <- 
+    harmonized_dossier_eval %>%
     lapply(function(x){
-      
-        names(x) <- str_replace(names(x),"Data dictionary summary",
-                                "Harmonized Data dictionary summary")
-        names(x) <- str_replace(names(x),"Data dictionary assessment",
-                                "Harmonized Data dictionary assessement")
-        names(x) <- str_replace(names(x),"Dataset assessment",
-                                "Harmonized Dataset assessment")
-    return(x)
+      names(x) <- str_replace(names(x),
+                              "Data dictionary assessment","Harmo data dictionary assessment")
+      names(x) <- str_replace(names(x),
+                              "Dataset assessment","Harmo dataset assessment")
+      return(x)
     })
-
-  return(report_list)
+  
+  return(harmonized_dossier_eval)
 }
 
 #' @title

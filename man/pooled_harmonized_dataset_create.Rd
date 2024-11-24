@@ -9,7 +9,6 @@ pooled_harmonized_dataset_create(
   harmonized_col_dataset =
     attributes(harmonized_dossier)$`Rmonize::harmonized_col_dataset`,
   harmonized_col_id = attributes(harmonized_dossier)$`Rmonize::harmonized_col_id`,
-  add_col_dataset = TRUE,
   dataschema = attributes(harmonized_dossier)$`Rmonize::DataSchema`,
   data_proc_elem = attributes(harmonized_dossier)$`Rmonize::Data Processing Elements`
 )
@@ -23,11 +22,6 @@ to use for dataset names.}
 \item{harmonized_col_id}{A character string identifying the name of the
 column present in every dataset to use as a dataset identifier.}
 
-\item{add_col_dataset}{Whether to add an extra column to each
-harmonized dataset. The resulting data frame will have an additional column
-and its data dictionary will be updated accordingly adding categories for
-this variable if necessary. FALSE by default.}
-
 \item{dataschema}{A DataSchema object.}
 
 \item{data_proc_elem}{A Data Processing Elements object.}
@@ -38,11 +32,12 @@ A data frame containing the pooled harmonized dataset.
 \description{
 Generates a pooled harmonized dataset from a harmonized dossier. The function
 has two arguments that can optionally be declared by the user
-(\code{unique_col_dataset} and \code{unique_col_id}). \code{unique_col_dataset} refers to
-the columns which contains name of each harmonized dataset. \code{unique_col_id}
-refers to the column in harmonized datasets which identifies unique
-combinations of observation/dataset. These two columns are added to ensure
-that there is always a unique entity identifier when datasets are pooled.
+(\code{harmonized_col_dataset} and \code{harmonized_col_id}). \code{harmonized_col_dataset}
+refers to the columns which contains name of each harmonized dataset.
+\code{harmonized_col_id} refers to the column in harmonized datasets which
+identifies unique combinations of observation/dataset. These two columns are
+added to ensure that there is always a unique entity identifier when datasets
+are pooled.
 }
 \details{
 A harmonized dossier is a named list containing one or more data frames,
