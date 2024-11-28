@@ -209,152 +209,152 @@ harmonized_dossier_summarize <- function(harmonized_dossier){
       mutate("Harmonization status" = replace_na(.data$`Harmonization status`,"complete")) %>% select(-"name_var")}
 
   # add harmonization statuses in the dataset assessment
-  harmonized_dossier_summary[['Harmo dataset assessment']] <- 
-    harmonized_dossier_summary[['Harmo dataset assessment']] %>% 
-    bind_rows(tibble('Variable name' = as.character()))
+  # harmonized_dossier_summary[['Harmo dataset assessment']] <- 
+  #   harmonized_dossier_summary[['Harmo dataset assessment']] %>% 
+  #   bind_rows(tibble('Variable name' = as.character()))
   
  # if has error, modify the message for the study affected
-  has_error <- 
-    harmonized_dossier_summary[['Variables summary (all)']] %>%
-    filter(str_detect(.data$`Harmonization status`,"ERROR")) %>%
-    select("Category codes and labels long" = starts_with("Grouping")) %>% 
-    inner_join(dataschema_labels[["Categories"]],by = "Category codes and labels long") %>%
-    select(Value = "Category codes and labels long","name")
-    
+  # has_error <- 
+  #   harmonized_dossier_summary[['Variables summary (all)']] %>%
+  #   filter(str_detect(.data$`Harmonization status`,"ERROR")) %>%
+  #   select("Category codes and labels long" = starts_with("Grouping")) %>% 
+  #   inner_join(dataschema_labels[["Categories"]],by = "Category codes and labels long") %>%
+  #   select(Value = "Category codes and labels long","name")
+  #   
   
-  if(nrow(has_error) > 0){
+  # if(nrow(has_error) > 0){
 
-    harmonized_dossier_summary[['Harmo dataset assessment']] <- 
-      harmonized_dossier_summary[['Harmo dataset assessment']] %>%
-      mutate(
-        'Variable name' = 
-          ifelse(.data$`Value` %in% has_error$`name` & str_detect(
-            .data$`Harmo dataset assessment` , 
-"Grouping variable has empty group \\(no participant\\)"),
-"(all)",.data$`Variable name`), 
+    # harmonized_dossier_summary[['Harmo dataset assessment']] <- 
+    #   harmonized_dossier_summary[['Harmo dataset assessment']] %>%
+#       mutate(
+#         'Variable name' = 
+#           ifelse(.data$`Value` %in% has_error$`name` & str_detect(
+#             .data$`Harmo dataset assessment` , 
+# "Grouping variable has empty group \\(no participant\\)"),
+# "(all)",.data$`Variable name`), 
 
-        'Harmo dataset assessment' = 
-          ifelse(.data$`Value` %in% has_error$`name` & str_detect(
-            .data$`Harmo dataset assessment` , 
-"Grouping variable has empty group \\(no participant\\)"),
-"[ERROR] - The Data Processing Elements contain 'error' statuses for this study.", # [GF] to validate
-          .data$`Harmo dataset assessment`),
+#         'Harmo dataset assessment' = 
+#           ifelse(.data$`Value` %in% has_error$`name` & str_detect(
+#             .data$`Harmo dataset assessment` , 
+# "Grouping variable has empty group \\(no participant\\)"),
+# "[ERROR] - The Data Processing Elements contain 'error' statuses for this study.", # [GF] to validate
+#           .data$`Harmo dataset assessment`),
 
-        'Value' = 
-        ifelse(.data$`Value` %in% has_error$`name` & str_detect( 
-          .data$`Harmo dataset assessment` , "The Data Processing Elements"),
-          has_error$name,
-          .data$`Value`))
+        # 'Value' = 
+        # ifelse(.data$`Value` %in% has_error$`name` & str_detect( 
+        #   .data$`Harmo dataset assessment` , "The Data Processing Elements"),
+        #   has_error$name,
+        #   .data$`Value`))
     
-    }
+    # }
   
-  has_undet <- 
-    harmonized_dossier_summary[['Variables summary (all)']] %>%
-    filter(str_detect(.data$`Harmonization status`,"undetermined")) %>%
-    select("Variable name", "Category codes and labels long" = starts_with("Grouping")) %>% 
-    inner_join(dataschema_labels[["Categories"]],by = "Category codes and labels long") %>% 
-    select("Variable name", "Value" = "name") %>%
-    arrange(pick("Value")) %>%
-    group_by(pick("Value")) %>%
-    slice(1:4) %>% 
-    mutate("Variable name" = ifelse(
-      row_number() == 4,
-      '...', 
-      .data$`Variable name`)) %>%
-    reframe("Variable name" = paste0(.data$`Variable name`,collapse = " ; ")) %>%
-    mutate(
-      'Harmo dataset assessment' = "[INFO] - The data Processing Elements contain 'undetermined' statuses.")
+  # has_undet <- 
+  #   harmonized_dossier_summary[['Variables summary (all)']] %>%
+  #   filter(str_detect(.data$`Harmonization status`,"undetermined")) %>%
+  #   select("Variable name", "Category codes and labels long" = starts_with("Grouping")) %>% 
+  #   inner_join(dataschema_labels[["Categories"]],by = "Category codes and labels long") %>% 
+  #   select("Variable name", "Value" = "name") %>%
+  #   arrange(pick("Value")) %>%
+  #   group_by(pick("Value")) %>%
+  #   slice(1:4) %>% 
+  #   mutate("Variable name" = ifelse(
+  #     row_number() == 4,
+  #     '...', 
+  #     .data$`Variable name`)) %>%
+  #   reframe("Variable name" = paste0(.data$`Variable name`,collapse = " ; ")) %>%
+  #   mutate(
+  #     'Harmo dataset assessment' = "[INFO] - The data Processing Elements contain 'undetermined' statuses.")
   
   
-    harmonized_dossier_summary[['Harmo dataset assessment']] <- 
-      harmonized_dossier_summary[['Harmo dataset assessment']] %>%
-      bind_rows(has_undet)
+    # harmonized_dossier_summary[['Harmo dataset assessment']] <- 
+    #   harmonized_dossier_summary[['Harmo dataset assessment']] %>%
+    #   bind_rows(has_undet)
+    # 
+    # all_impossible <- 
+    #   harmonized_dossier_summary[['Variables summary (all)']] %>%
+    #   select("Variable name", 
+    #          "Harmonization status",
+    #          "Category codes and labels long" = starts_with("Grouping")) %>%
+    #   inner_join(dataschema_labels[["Categories"]],by = "Category codes and labels long") %>% 
+    #   filter(str_detect(.data$`Harmonization status`,"impossible")) %>%
+    #   group_by(pick("name")) %>%
+    #   count(.data$`name`) %>%
+    #   mutate(
+    #     count_dataschema_var = nrow(dataschema$Variables)-1- .data$`n`) %>%
+    #   dplyr::filter(.data$`count_dataschema_var` == 0) %>%
+    #   select("Value" = "name") %>%
+    #   mutate(
+    #     "Variable name" = "(all)",
+    #     'Harmo dataset assessment' = "[INFO] - The data Processing Elements contain 'impossible' statuses only.") %>%
+    #   ungroup
+    # 
+    # harmonized_dossier_summary[['Harmo dataset assessment']] <- 
+    #   harmonized_dossier_summary[['Harmo dataset assessment']] %>%
+    #   bind_rows(all_impossible)
     
-    all_impossible <- 
-      harmonized_dossier_summary[['Variables summary (all)']] %>%
-      select("Variable name", 
-             "Harmonization status",
-             "Category codes and labels long" = starts_with("Grouping")) %>%
-      inner_join(dataschema_labels[["Categories"]],by = "Category codes and labels long") %>% 
-      filter(str_detect(.data$`Harmonization status`,"impossible")) %>%
-      group_by(pick("name")) %>%
-      count(.data$`name`) %>%
-      mutate(
-        count_dataschema_var = nrow(dataschema$Variables)-1- .data$`n`) %>%
-      dplyr::filter(.data$`count_dataschema_var` == 0) %>%
-      select("Value" = "name") %>%
-      mutate(
-        "Variable name" = "(all)",
-        'Harmo dataset assessment' = "[INFO] - The data Processing Elements contain 'impossible' statuses only.") %>%
-      ungroup
-    
-    harmonized_dossier_summary[['Harmo dataset assessment']] <- 
-      harmonized_dossier_summary[['Harmo dataset assessment']] %>%
-      bind_rows(all_impossible)
-    
-    if(nrow(harmonized_dossier_summary[['Harmo dataset assessment']]) == 0){
-      harmonized_dossier_summary[['Harmo dataset assessment']] <- 
-        harmonized_dossier_summary[['Harmo dataset assessment']] %>% 
-        mutate(
-          'Variable name' = "(all)", 
-          'Harmo dataset assessment' = "[INFO] - No error/warning detected.") # [GF] to validate
-      }
+    # if(nrow(harmonized_dossier_summary[['Harmo dataset assessment']]) == 0){
+    #   harmonized_dossier_summary[['Harmo dataset assessment']] <- 
+    #     harmonized_dossier_summary[['Harmo dataset assessment']] %>% 
+    #     mutate(
+    #       'Variable name' = "(all)", 
+    #       'Harmo dataset assessment' = "[INFO] - No error/warning detected.") # [GF] to validate
+    #   }
     
     # replace the name of the datasets in the grouping variable column
-    for(i in names(harmonized_dossier_summary)[
-      str_detect(names(harmonized_dossier_summary),"(V|v)ariable")]){
-      
-      names(harmonized_dossier_summary[[i]]) <- 
-        str_replace(names(harmonized_dossier_summary[[i]]),group_var_name,"Harmonized dataset")
-      # names(x) <- str_replace(names(x),"Variable name","Harmonized dataset")  # [GF] Dataschema variable name? 
-      
-      harmonized_dossier_summary[[i]] <- 
-        harmonized_dossier_summary[[i]] %>%
-        left_join(
-          dataschema_labels$Categories %>% select(
-            "name_var" = "name",
-            "Harmonized dataset" = "Category codes and labels long"),
-          by = "Harmonized dataset") %>%
-        mutate("Harmonized dataset" = ifelse(is.na(.data$`name_var`),.data$`Harmonized dataset`,.data$`name_var`)) %>%
-        mutate("Quality assessment comment" = 
-                 str_replace_all(.data$`Quality assessment comment`, "\\[INFO\\] - Identifier variable\\.", # [GF] wording to validate
-                 "[INFO] - Harmonized identifier variable.")) %>%
-        mutate("Quality assessment comment" =
-                 str_replace_all(.data$`Quality assessment comment`, "\\[INFO\\] - Grouping variable\\.",   # [GF] wording to validate
-                 "[INFO] - Harmonized dataset identifier variable.")) %>%
-        mutate("Quality assessment comment" = 
-                 str_replace_all(.data$`Quality assessment comment`, "\\[INFO\\] - Empty group\\.",        # [GF] wording to validate
-                                 "[ERROR] - 'error' statuses for this study.")) %>%
-        select(-"name_var")}
-    
-    
-    study_names <-  
-      dataschema_labels[["Categories"]] %>%
-      dplyr::filter(.data$`variable` == harmonized_col_dataset) %>%
-      pull("name")
-    
-    names(harmonized_dossier_summary$`Harmonization overview`) <- 
-      c("Harmonization overview","(all)",study_names)
-      
-    index <- 
-      harmonized_dossier_summary$`Harmonization overview`[1] %>%
-      add_index %>% 
-      dplyr::filter(.data$`Harmonization overview` == "    Rows") %>% 
-      pull("index") 
-    
-    harmonized_dossier_summary$`Harmonization overview`[
-      index,c(3:ncol(harmonized_dossier_summary$`Harmonization overview`))] <- 
-      as.list(study_names)
-    
-    harmonized_dossier_summary$`Harmonization overview` <- 
-      harmonized_dossier_summary$`Harmonization overview` %>%
-      mutate(across(everything(),~str_replace_all(.,"\\(empty\\)","(error)")))        # [GF] wording to validate
-    
-    harmonized_dossier_summary$`Harmonization overview` <- 
-      harmonized_dossier_summary$`Harmonization overview` %>%
-      mutate(
-        "Harmonization overview" <- str_replace_all(.data$`Harmonization overview`,
-          "    Grouping variable","    Harmonized identifier variable"))        # [GF] wording to validate
+    # for(i in names(harmonized_dossier_summary)[
+    #   str_detect(names(harmonized_dossier_summary),"(V|v)ariable")]){
+    #   
+    #   names(harmonized_dossier_summary[[i]]) <- 
+    #     str_replace(names(harmonized_dossier_summary[[i]]),group_var_name,"Harmonized dataset")
+    #   # names(x) <- str_replace(names(x),"Variable name","Harmonized dataset")  # [GF] Dataschema variable name? 
+    #   
+    #   harmonized_dossier_summary[[i]] <- 
+    #     harmonized_dossier_summary[[i]] %>%
+    #     left_join(
+    #       dataschema_labels$Categories %>% select(
+    #         "name_var" = "name",
+    #         "Harmonized dataset" = "Category codes and labels long"),
+    #       by = "Harmonized dataset") %>%
+    #     mutate("Harmonized dataset" = ifelse(is.na(.data$`name_var`),.data$`Harmonized dataset`,.data$`name_var`)) %>%
+    #     mutate("Quality assessment comment" = 
+    #              str_replace_all(.data$`Quality assessment comment`, "\\[INFO\\] - Identifier variable\\.", # [GF] wording to validate
+    #              "[INFO] - Harmonized identifier variable.")) %>%
+    #     mutate("Quality assessment comment" =
+    #              str_replace_all(.data$`Quality assessment comment`, "\\[INFO\\] - Grouping variable\\.",   # [GF] wording to validate
+    #              "[INFO] - Harmonized dataset identifier variable.")) %>%
+    #     mutate("Quality assessment comment" = 
+    #              str_replace_all(.data$`Quality assessment comment`, "\\[INFO\\] - Empty group\\.",        # [GF] wording to validate
+    #                              "[ERROR] - 'error' statuses for this study.")) %>%
+    #     select(-"name_var")}
+    # 
+    # 
+    # study_names <-  
+    #   dataschema_labels[["Categories"]] %>%
+    #   dplyr::filter(.data$`variable` == harmonized_col_dataset) %>%
+    #   pull("name")
+    # 
+    # names(harmonized_dossier_summary$`Harmonization overview`) <- 
+    #   c("Harmonization overview","(all)",study_names)
+    #   
+    # index <- 
+    #   harmonized_dossier_summary$`Harmonization overview`[1] %>%
+    #   add_index %>% 
+    #   dplyr::filter(.data$`Harmonization overview` == "    Rows") %>% 
+    #   pull("index") 
+    # 
+    # harmonized_dossier_summary$`Harmonization overview`[
+    #   index,c(3:ncol(harmonized_dossier_summary$`Harmonization overview`))] <- 
+    #   as.list(study_names)
+    # 
+    # harmonized_dossier_summary$`Harmonization overview` <- 
+    #   harmonized_dossier_summary$`Harmonization overview` %>%
+    #   mutate(across(everything(),~str_replace_all(.,"\\(empty\\)","(error)")))        # [GF] wording to validate
+    # 
+    # harmonized_dossier_summary$`Harmonization overview` <- 
+    #   harmonized_dossier_summary$`Harmonization overview` %>%
+    #   mutate(
+    #     "Harmonization overview" <- str_replace_all(.data$`Harmonization overview`,
+    #       "    Grouping variable","    Harmonized identifier variable"))        # [GF] wording to validate
     
   return(harmonized_dossier_summary)
 }

@@ -64,10 +64,6 @@
 #' Using this parameter can save time in generating the visual report.
 #' @param dataschema A DataSchema object.
 #' @param data_proc_elem A Data Processing Elements object.
-#' @param add_col_dataset Whether to add an extra column to each 
-#' harmonized dataset. The resulting data frame will have an additional column 
-#' and its data dictionary will be updated accordingly adding categories for 
-#' this variable if necessary. FALSE by default.
 #' @param valueType_guess Whether the output should include a more accurate 
 #' valueType that could be applied to the dataset. FALSE by default.
 #' @param taxonomy An optional data frame identifying a variable classification 
@@ -123,7 +119,6 @@ harmonized_dossier_visualize <- function(
     harmonized_dossier_summary = NULL,
     dataschema = attributes(harmonized_dossier)$`Rmonize::DataSchema`,
     data_proc_elem = attributes(harmonized_dossier)$`Rmonize::Data Processing Element`,
-    add_col_dataset = FALSE,
     valueType_guess = FALSE,
     taxonomy = NULL){
 
@@ -140,11 +135,7 @@ harmonized_dossier_visualize <- function(
   if(!is.character(bookdown_path))
     stop(call. = FALSE,
          '`bookdown_path` must be a character string.')
-  
-  if(!is.logical(add_col_dataset))
-    stop(call. = FALSE,
-         '`add_col_dataset` must be TRUE or FALSE (TRUE by default)')
-  
+
   # test if group exists
   if(!is.null(group_by)){
     
@@ -162,8 +153,7 @@ harmonized_dossier_visualize <- function(
         harmonized_dossier = harmonized_dossier,
         harmonized_col_dataset = group_by,
         dataschema = dataschema,
-        data_proc_elem = data_proc_elem,
-        add_col_dataset = TRUE))}
+        data_proc_elem = data_proc_elem))}
 
   if(is.null(harmonized_dossier_summary)){
     harmonized_dossier_summary <-
@@ -177,9 +167,9 @@ harmonized_dossier_visualize <- function(
         valueType_guess = valueType_guess)
     }
   
-  # names(harmonized_dossier_summary) <- 
-  #   str_replace(names(harmonized_dossier_summary),"Overview",
-  #   "Overview")   
+  names(harmonized_dossier_summary) <-
+    str_replace(names(harmonized_dossier_summary),"Harmonization overview",
+    "Overview")
   # names(harmonized_dossier_summary) <- 
   #   str_replace(names(harmonized_dossier_summary),"Data dictionary summary",
   #   "Harmonized Data dictionary summary")
@@ -196,7 +186,7 @@ harmonized_dossier_visualize <- function(
   # [GF] - question: where to put the harmonization status
   harmonized_dossier_summary$`Variables summary (all)` <- 
     harmonized_dossier_summary$`Variables summary (all)` %>%
-    select(1:"Categories in data dictionary",-"Harmonisation status","Harmonisation status",everything())
+    select(1:"Categories in data dictionary",-"Harmonization status","Harmonization status",everything())
   
   dataset_visualize(
     dataset = pooled_harmonized_dataset,

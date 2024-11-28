@@ -440,7 +440,6 @@ Please write harmo_process(dataschema = my_object) instead.')
   
   # test if harmonized_col_id exists in dpe and dpe
   if(! harmonized_col_id %in% data_proc_elem$dataschema_variable)
-    # stop(message('ERROR 101'))
       stop(call. = FALSE,
   '\n\nThe harmonized_col_id `',harmonized_col_id,'`',
   '\nmust be present in your DataSchema and in the Data Processing Elements.')
@@ -507,8 +506,6 @@ Please correct elements and reprocess.')
     dossier[[i]] <- try(as_dataset(dossier[[i]],col_id = var_id),silent = TRUE)
     
     if(class(dossier[[i]])[1] == 'try-error'){
-      
-      # stop(message('ERROR 102'))
       stop(call. = FALSE,
 'In your Data Processing Elements, the input variable `',var_id,'` does not
 exists in the input dataset `',create_id_row$`input_dataset`,'`.
