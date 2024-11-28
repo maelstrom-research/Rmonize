@@ -183,7 +183,7 @@ harmonized_dossier_visualize <- function(
   #   str_replace(names(harmonized_dossier_summary),"Variables summary \\(all\\)",
   #   "Harmonized Variables summary (all)")
   
-  # [GF] - question: where to put the harmonization status
+  # [GF] WARNING : Categories in data dictionary en doublon
   harmonized_dossier_summary$`Variables summary (all)` <- 
     harmonized_dossier_summary$`Variables summary (all)` %>%
     select(1:"Categories in data dictionary",-"Harmonization status","Harmonization status",everything())

@@ -2319,8 +2319,7 @@ as_harmonized_dossier <- function(
 
   # check the id column 
   if(is.null(harmonized_col_id))
-    # stop(message('ERROR 103'))
-    stop(call. = FALSE,                                                         # [GF] text to validate
+    stop(call. = FALSE,                                                         # [GF] QUESTION : text to validate
     '`harmonized_col_id` cannot be NULL and must be provided')
   
   # check if col_id exists

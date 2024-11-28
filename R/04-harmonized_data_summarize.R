@@ -237,7 +237,7 @@ harmonized_dossier_summarize <- function(harmonized_dossier){
 #           ifelse(.data$`Value` %in% has_error$`name` & str_detect(
 #             .data$`Harmo dataset assessment` , 
 # "Grouping variable has empty group \\(no participant\\)"),
-# "[ERROR] - The Data Processing Elements contain 'error' statuses for this study.", # [GF] to validate
+# "[ERROR] - The Data Processing Elements contain 'error' statuses for this study.", # [GF] QUESTION to validate
 #           .data$`Harmo dataset assessment`),
 
         # 'Value' = 
@@ -282,7 +282,7 @@ harmonized_dossier_summarize <- function(harmonized_dossier){
     #   mutate(
     #     count_dataschema_var = nrow(dataschema$Variables)-1- .data$`n`) %>%
     #   dplyr::filter(.data$`count_dataschema_var` == 0) %>%
-    #   select("Value" = "name") %>%
+    #   select("Value" = "name") %>%                                             [GF] SUGGESTION : when the whole dataset harmo is impossible (except id)
     #   mutate(
     #     "Variable name" = "(all)",
     #     'Harmo dataset assessment' = "[INFO] - The data Processing Elements contain 'impossible' statuses only.") %>%
@@ -297,7 +297,7 @@ harmonized_dossier_summarize <- function(harmonized_dossier){
     #     harmonized_dossier_summary[['Harmo dataset assessment']] %>% 
     #     mutate(
     #       'Variable name' = "(all)", 
-    #       'Harmo dataset assessment' = "[INFO] - No error/warning detected.") # [GF] to validate
+    #       'Harmo dataset assessment' = "[INFO] - No error/warning detected.") # [GF] QUESTION : to validate
     #   }
     
     # replace the name of the datasets in the grouping variable column
@@ -306,7 +306,7 @@ harmonized_dossier_summarize <- function(harmonized_dossier){
     #   
     #   names(harmonized_dossier_summary[[i]]) <- 
     #     str_replace(names(harmonized_dossier_summary[[i]]),group_var_name,"Harmonized dataset")
-    #   # names(x) <- str_replace(names(x),"Variable name","Harmonized dataset")  # [GF] Dataschema variable name? 
+    #   # names(x) <- str_replace(names(x),"Variable name","Harmonized dataset")  # [GF] QUESTION Dataschema variable name? 
     #   
     #   harmonized_dossier_summary[[i]] <- 
     #     harmonized_dossier_summary[[i]] %>%
@@ -317,13 +317,13 @@ harmonized_dossier_summarize <- function(harmonized_dossier){
     #       by = "Harmonized dataset") %>%
     #     mutate("Harmonized dataset" = ifelse(is.na(.data$`name_var`),.data$`Harmonized dataset`,.data$`name_var`)) %>%
     #     mutate("Quality assessment comment" = 
-    #              str_replace_all(.data$`Quality assessment comment`, "\\[INFO\\] - Identifier variable\\.", # [GF] wording to validate
+    #              str_replace_all(.data$`Quality assessment comment`, "\\[INFO\\] - Identifier variable\\.", # [GF] QUESTION : wording to validate
     #              "[INFO] - Harmonized identifier variable.")) %>%
     #     mutate("Quality assessment comment" =
-    #              str_replace_all(.data$`Quality assessment comment`, "\\[INFO\\] - Grouping variable\\.",   # [GF] wording to validate
+    #              str_replace_all(.data$`Quality assessment comment`, "\\[INFO\\] - Grouping variable\\.",   # [GF] QUESTION : wording to validate
     #              "[INFO] - Harmonized dataset identifier variable.")) %>%
     #     mutate("Quality assessment comment" = 
-    #              str_replace_all(.data$`Quality assessment comment`, "\\[INFO\\] - Empty group\\.",        # [GF] wording to validate
+    #              str_replace_all(.data$`Quality assessment comment`, "\\[INFO\\] - Empty group\\.",        # [GF] QUESTION : wording to validate
     #                              "[ERROR] - 'error' statuses for this study.")) %>%
     #     select(-"name_var")}
     # 
@@ -348,13 +348,13 @@ harmonized_dossier_summarize <- function(harmonized_dossier){
     # 
     # harmonized_dossier_summary$`Harmonization overview` <- 
     #   harmonized_dossier_summary$`Harmonization overview` %>%
-    #   mutate(across(everything(),~str_replace_all(.,"\\(empty\\)","(error)")))        # [GF] wording to validate
+    #   mutate(across(everything(),~str_replace_all(.,"\\(empty\\)","(error)")))        # [GF] QUESTION : wording to validate
     # 
     # harmonized_dossier_summary$`Harmonization overview` <- 
     #   harmonized_dossier_summary$`Harmonization overview` %>%
     #   mutate(
     #     "Harmonization overview" <- str_replace_all(.data$`Harmonization overview`,
-    #       "    Grouping variable","    Harmonized identifier variable"))        # [GF] wording to validate
+    #       "    Grouping variable","    Harmonized identifier variable"))        # [GF] QUESTION : wording to validate
     
   return(harmonized_dossier_summary)
 }
