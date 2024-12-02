@@ -100,7 +100,7 @@
 #' harmonized_dossier_visualize(
 #'   pooled_harmonized_dataset = pooled_harmonized_dataset,
 #'   harmonized_dossier_summary = harmonized_dossier_summary,
-#'   bookdown_path = bookdown_path)
+#'   bookdown_path = "bookdown_path")
 #' 
 #' # To open the file in browser, open 'bookdown_path/docs/index.html'.
 #' # Or use bookdown_open(bookdown_path) function
@@ -157,14 +157,7 @@ harmonized_dossier_visualize <- function(
 
   if(is.null(harmonized_dossier_summary)){
     harmonized_dossier_summary <-
-      harmonized_dossier_summarize(
-        harmonized_dossier = harmonized_dossier,
-        group_by = group_by,
-        dataschema = dataschema,
-        data_proc_elem = data_proc_elem,
-        pooled_harmonized_dataset = pooled_harmonized_dataset,
-        taxonomy = taxonomy,
-        valueType_guess = valueType_guess)
+      harmonized_dossier_summarize(harmonized_dossier)
     }
   
   names(harmonized_dossier_summary) <-
