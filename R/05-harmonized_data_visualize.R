@@ -100,7 +100,7 @@
 #' harmonized_dossier_visualize(
 #'   pooled_harmonized_dataset = pooled_harmonized_dataset,
 #'   harmonized_dossier_summary = harmonized_dossier_summary,
-#'   bookdown_path = "bookdown_path")
+#'   bookdown_path = bookdown_path)
 #' 
 #' # To open the file in browser, open 'bookdown_path/docs/index.html'.
 #' # Or use bookdown_open(bookdown_path) function
