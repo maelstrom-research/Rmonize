@@ -69,6 +69,20 @@ harmonized_dossier_evaluate <- function(harmonized_dossier){
   pooled_harmonized_dataset <- 
     suppressWarnings(pooled_harmonized_dataset_create(harmonized_dossier))
   
+  harmo_data_dict <- 
+    attr(pooled_harmonized_dataset,"madshapR::Data dictionary") %>%  
+    data_dict_trim_labels()
+  
+  # suppress Rmonize::harmonized_col_dataset if exists (internal column added when pooling)
+  pooled_harmonized_dataset <- 
+    pooled_harmonized_dataset %>% 
+    select(-any_of("Rmonize::harmonized_col_dataset"))
+  
+  attr(pooled_harmonized_dataset,"madshapR::Data dictionary") <- 
+    data_dict_match_dataset(
+      pooled_harmonized_dataset,
+      attr(pooled_harmonized_dataset,"madshapR::Data dictionary"),output = "data_dict")
+  
   harmonized_dossier_eval <-
     dataset_evaluate(
       dataset = pooled_harmonized_dataset)
@@ -83,7 +97,30 @@ harmonized_dossier_evaluate <- function(harmonized_dossier){
     str_replace(names(harmonized_dossier_eval),
                 "Data dictionary assessment","Harmo data dictionary assessment")
   
-  harmonized_dossier_eval <- 
+  dataset_column_name <-
+    harmo_data_dict$Variables$`Variable name`[
+      harmo_data_dict$Variables$`name` ==
+        attributes(pooled_harmonized_dataset)$`Rmonize::harmonized_col_dataset`]
+
+  if(!is.null(harmonized_dossier_eval[['Harmo dataset assessment']])){
+    harmonized_dossier_eval[['Harmo dataset assessment']] <-
+      harmonized_dossier_eval[['Harmo dataset assessment']] %>%
+      dplyr::filter(
+        ! (.data$`Variable name` == dataset_column_name &
+             .data$`Dataset assessment` %in% c(
+               "[INFO] - Variable is categorical and has values defined in data dictionary that are not present in dataset.",
+               "[INFO] - Variable has a constant value.")))
+    
+    if(nrow(harmonized_dossier_eval[['Harmo dataset assessment']] %>%
+      dplyr::filter(.data$`Variable name` == dataset_column_name)) > 0){
+
+      # [GF] comment the variable dataset_column_name has some warnings and informations
+      # that are not relevant for harmo evaluate. Need further investigations
+      stop("ERROR 105")
+    }
+  }
+  
+  harmonized_dossier_eval <-
     harmonized_dossier_eval %>%
     lapply(function(x){
       names(x) <- str_replace(names(x),
