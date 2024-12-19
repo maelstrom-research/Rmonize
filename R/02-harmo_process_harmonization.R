@@ -345,7 +345,7 @@ Please write harmo_process(dataschema = my_object) instead.')
   if(!is.null(data_proc_elem))
     if(length(dossier) == 1)
       if(length(unique(data_proc_elem$input_dataset)) == 1 |
-         is.na(unique(data_proc_elem$input_dataset)))
+         all(is.na(unique(data_proc_elem$input_dataset))))
         data_proc_elem$input_dataset <- names(dossier)
   
   if(!is.null(harmonized_col_id)){
