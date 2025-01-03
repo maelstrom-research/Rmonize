@@ -49,6 +49,15 @@ madshapR::data_dict_filter
 #' @importFrom madshapR data_dict_trim_labels
 madshapR::data_dict_trim_labels
 
+#' @importFrom madshapR data_dict_update
+madshapR::data_dict_update
+
+#' @importFrom madshapR has_categories
+madshapR::has_categories
+
+#' @importFrom madshapR first_label_get
+madshapR::first_label_get
+
 #' @importFrom madshapR as_dataset
 #' @name as_dataset
 #' @rdname as_dataset
