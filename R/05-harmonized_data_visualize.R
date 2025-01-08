@@ -179,7 +179,7 @@ harmonized_dossier_visualize <- function(
   # [GF] WARNING : Categories in data dictionary en doublon
   harmonized_dossier_summary$`Variables summary (all)` <- 
     harmonized_dossier_summary$`Variables summary (all)` %>%
-    select(1:"Categories in data dictionary",-"Harmonization status","Harmonization status",everything())
+    select(1:"Non-valid categories",-"Harmonization status","Harmonization status",everything())
   
   dataset_visualize(
     dataset = pooled_harmonized_dataset,

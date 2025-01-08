@@ -255,7 +255,7 @@ harmonized_dossier_summarize <- function(harmonized_dossier){
         
         by = c(group_var_name, "Variable name")) %>% 
       select('Index',!!group_var_name,"Variable name","Variable label",
-             "Harmonization status",everything(),-"group_index") %>%
+             "Harmonization status",everything(),-"group_index",-"name_var") %>%
       mutate("Harmonization status" = replace_na(.data$`Harmonization status`,"complete")) # %>% select(-"name_var") 
     
     # %>% select(any_of(group_var_name),"Harmonization status",`Variable name`)
