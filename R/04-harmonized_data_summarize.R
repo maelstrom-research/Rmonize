@@ -590,13 +590,16 @@ harmonized_dossier_summarize <- function(harmonized_dossier){
       # filter(.data$`Variable name` != harmonized_col_dataset_short)
     }
     
+    
+    # [GF] to check.
     if(nrow(harmonized_dossier_summary[['Harmo dataset assessment']]) == 0){
+      
       harmonized_dossier_summary[['Harmo dataset assessment']] <-
         harmonized_dossier_summary[['Harmo dataset assessment']] %>%
         mutate(
           'Index' = NA_character_,
           'Variable name' = "(all)",
-          'Harmo dataset assessment' = "[INFO] - No error/warning detected.")}
+          'Harmo dataset assessment' = "[INFO] - No errors/warnings detected.")}
     
     # arrange by index.
     harmonized_dossier_summary[['Harmo dataset assessment']] <- 
