@@ -1,7 +1,7 @@
 Package: Rmonize
 Type: Package
 Title: Support Retrospective Harmonization of Data
-Version: 1.1.0.9303
+Version: 1.1.0.9400
 Authors@R: 
     c(person(given = "Guillaume",
              family = "Fabre",
@@ -28,7 +28,8 @@ Description: Functions to support rigorous retrospective data harmonization
     harmonization (Fortier I and al. (2017) <doi:10.1093/ije/dyw075>).
 License: GPL-3
 LazyData: true
-Depends: R (>= 3.4)
+Depends: 
+    R (>= 3.5)
 Imports: dplyr (>= 1.1.0), 
     rlang,
     stringr,

@@ -89,3 +89,40 @@ Rmonize_templates <- function(){
 #' }
 "Rmonize_examples"
 
+
+#' @title
+#' Objects to provide illustrative use case
+#'
+#' @description
+#' Illustrative input datasets, input data dictionaries, DataSchema, 
+#' Data Processing Elements to provide use case of Rmonize.
+#'
+#' @format ## `list`
+#' A list with elements (data frames and lists) providing example objects 
+#' for testing the package:
+#'
+#' \describe{
+#'   \item{original_dataset_study1a}{Dataset example for a study named "study1a"}
+#'   \item{original_dataset_study2a}{Dataset example for a study named "study2a"}
+#'   \item{original_dataset_study3a}{Dataset example for a study named "study3a"}
+#'   \item{original_dataset_study4}{Dataset example for a study named "study4"}
+#'   \item{original_dataset_study5}{Dataset example for a study named "study5"}
+#'   \item{original_data_dict_study4}{Data dictionary example for a study named "study5"}
+#'   \item{original_data_dict_study5}{Data dictionary example for a study named "study5"}
+#'   \item{DPE_use_case_no_errors}{Example Data Processing Elements containing no errors}
+#'   \item{DPE_use_case_with_errors}{Example Data Processing Elements containing errors}
+#'   \item{DataSchema_use_case}{Example DataSchema}
+#'   ...
+#' }
+#'
+#' @examples
+#' {
+#'
+#' library(dplyr)
+#' 
+#' glimpse(Rmonize_examples_v1.1.0.9400$DataSchema_use_case)
+#'
+#' }
+"Rmonize_examples_v1.1.0.9400"
+
+
