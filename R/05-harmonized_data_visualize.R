@@ -168,7 +168,7 @@ harmonized_dossier_visualize <- function(
   #   "Harmonized Data dictionary summary")
   # names(harmonized_dossier_summary) <- 
   #   str_replace(names(harmonized_dossier_summary),"Data dictionary assessment",
-  #   "Harmonized Data dictionary assessement")
+  #   "Harmonized Data dictionary assessment")
   # names(harmonized_dossier_summary) <- 
   #   str_replace(names(harmonized_dossier_summary),"Dataset assessment",
   #   "Harmonized Dataset assessment")

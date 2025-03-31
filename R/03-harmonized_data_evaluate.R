@@ -372,7 +372,7 @@ dataschema_evaluate <- function(dataschema, taxonomy = NULL){
   # names(report) <- str_replace(names(report),"Data dictionary summary",
   #                              "Harmonized Data dictionary summary")
   # names(report) <- str_replace(names(report),"Data dictionary assessment",
-  #                              "Harmonized Data dictionary assessement")
+  #                              "Harmonized Data dictionary assessment")
   
   #   dossier_name <- tibble(dossier = as.character(), dataset = as.character())
   #   for(i in names(dossier)) for(j in names(dossier[[i]])){
