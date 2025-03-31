@@ -102,16 +102,23 @@ Rmonize_templates <- function(){
 #' for testing the package:
 #'
 #' \describe{
-#'   \item{original_dataset_study1a}{Dataset example for a study named "study1a"}
-#'   \item{original_dataset_study2a}{Dataset example for a study named "study2a"}
-#'   \item{original_dataset_study3a}{Dataset example for a study named "study3a"}
-#'   \item{original_dataset_study4}{Dataset example for a study named "study4"}
-#'   \item{original_dataset_study5}{Dataset example for a study named "study5"}
+#'   \item{original_dataset_study1}{Original dataset example for a study named "study1"}
+#'   \item{original_dataset_study2}{Original dataset example for a study named "study2"}
+#'   \item{original_dataset_study3}{Original dataset example for a study named "study3"}
+#'   \item{original_dataset_study4}{Original dataset example for a study named "study4"}
+#'   \item{original_dataset_study5}{Original dataset example for a study named "study5"}
+#'   \item{input_dataset_study1}{Input dataset example for a study named "study1"}
+#'   \item{input_dataset_study2}{Input dataset example for a study named "study2"}
+#'   \item{input_dataset_study3}{Input dataset example for a study named "study3"}
+#'   \item{input_dataset_study4}{Input dataset example for a study named "study4"}
+#'   \item{input_dataset_study5}{Input dataset example for a study named "study5"}
 #'   \item{original_data_dict_study4}{Data dictionary example for a study named "study5"}
 #'   \item{original_data_dict_study5}{Data dictionary example for a study named "study5"}
+#'   \item{DataSchema_use_case}{Example DataSchema}
 #'   \item{DPE_use_case_no_errors}{Example Data Processing Elements containing no errors}
 #'   \item{DPE_use_case_with_errors}{Example Data Processing Elements containing errors}
-#'   \item{DataSchema_use_case}{Example DataSchema}
+#'   \item{harmonized_dossier_final}{Example harmonized dossier}
+#'   \item{pooled_harmonized_dataset}{Example example pooled harmonized dataset}
 #'   ...
 #' }
 #'
@@ -120,9 +127,10 @@ Rmonize_templates <- function(){
 #'
 #' library(dplyr)
 #' 
-#' glimpse(Rmonize_examples_v1.1.0.9400$DataSchema_use_case)
+#' glimpse(Rmonize_examples_v1.1.0.940x$DataSchema_use_case)
 #'
 #' }
-"Rmonize_examples_v1.1.0.9400"
+"Rmonize_examples_v1.1.0.940x"
+
 
 
