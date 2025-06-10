@@ -8,32 +8,31 @@
 #' formats.
 #'
 #' @details
-#' A harmonized dossier is a named list containing one or more data frames, 
-#' which are harmonized datasets. A harmonized dossier is generally the 
-#' product of applying processing to a dossier object The name of each 
-#' harmonized dataset (data frame) is taken from the reference input dataset. 
-#' A harmonized dossier also contains the DataSchema and 
+#' A harmonized dossier is a named list containing one or more data frames,
+#' which are harmonized datasets. A harmonized dossier is generally the
+#' product of applying processing to a dossier object. The name of each
+#' harmonized dataset (data frame) is taken from the reference input dataset.
+#' A harmonized dossier also contains the DataSchema and
 #' Data Processing Elements used in processing as attributes.
 #' 
-#' A DataSchema is the list of core variables to generate across datasets and 
-#' related metadata. A DataSchema object is a list of data frames with elements 
-#' named 'Variables' (required) and 'Categories' (if any). The 'Variables' 
-#' element must contain at least the `name` column, and the 'Categories' 
-#' element must contain at least the `variable` and `name` columns to be usable 
-#' in any function. In 'Variables' the `name` column must also have unique 
-#' entries, and in 'Categories' the combination of `variable` and `name` columns 
-#' must also be unique. 
-#'
-#' A taxonomy is a classification schema that can be defined for variable 
-#' attributes. A taxonomy is usually extracted from an 
-#' [Opal environment](https://www.obiba.org/pages/products/opal//), and a 
-#' taxonomy object is a data frame that must contain at least the columns 
-#' `taxonomy`, `vocabulary`, and `terms`. Additional details about Opal 
-#' taxonomies are 
-#' [available online](https://opaldoc.obiba.org/en/latest/web-user-guide/administration/taxonomies.html).
+#' A DataSchema is the list of core variables to generate across datasets and
+#' related metadata. A DataSchema object is a list of data frames with elements
+#' named 'Variables' (required) and 'Categories' (if any). The 'Variables'
+#' element must contain at least the `name` column, and the 'Categories'
+#' element must contain at least the `variable` and `name` columns to be usable
+#' in any function. In 'Variables' the `name` column must also have unique
+#' entries, and in 'Categories' the combination of `variable` and `name` columns
+#' must also be unique.
 #' 
-#' The object may be specifically formatted to be compatible with additional 
-#' [Maelstrom Research software](https://maelstrom-research.org/page/software), 
+#' A taxonomy is a classification schema that can be defined for variable
+#' attributes. A taxonomy is usually extracted from an
+#' [Opal environment](https://www.obiba.org/pages/products/opal//), and a
+#' taxonomy object is a data frame that must contain at least the columns
+#' `taxonomy`, `vocabulary`, and `terms`. Additional details about Opal
+#' taxonomies are
+#' [available online](https://opaldoc.obiba.org/en/latest/web-user-guide/administration/taxonomies.html).
+#' The object may be specifically formatted to be compatible with additional
+#' [Maelstrom Research software](https://maelstrom-research.org/page/software),
 #' in particular [Opal environments](https://www.obiba.org/pages/products/opal/).
 #'
 #' @param harmonized_dossier A list containing the harmonized dataset(s).
@@ -44,13 +43,12 @@
 #' @examples
 #' {
 #' 
-#' # use Rmonize_examples provided by the package
+#' # Use Rmonize_examples to run examples.
 #' library(dplyr)
 #' library(stringr)
 #' 
-#' # perform data processing
-#' harmonized_dossier <-
-#'   Rmonize_examples[str_detect(names(Rmonize_examples),"harmonized_dossier")][[1]]
+#' # Perform data processing
+#' harmonized_dossier <- Rmonize_examples$`harmonized_dossier`
 #' 
 #' eval_harmo <- harmonized_dossier_evaluate(harmonized_dossier)
 #' 
@@ -144,21 +142,21 @@ harmonized_dossier_evaluate <- function(harmonized_dossier){
 #' dictionary formats.
 #'
 #' @details
-#' The Data Processing Elements specifies the algorithms used to process input 
-#' variables into harmonized variables in the DataSchema format. It is also 
+#' The Data Processing Elements specifies the input elements and processing algorithms 
+#' to generate harmonized variables in the DataSchema formats. It is also
 #' contains metadata used to generate documentation of the processing.
-#' A Data Processing Elements object is a data frame with specific columns 
-#' used in data processing: `dataschema_variable`, `input_dataset`, 
-#' `input_variables`, `Mlstr_harmo::rule_category` and `Mlstr_harmo::algorithm`. 
-#' To initiate processing, the first entry must be the creation of a harmonized 
+#' A Data Processing Elements object is a data frame with specific columns
+#' used in data processing: `dataschema_variable`, `input_dataset`,
+#' `input_variables`, `Mlstr_harmo::rule_category` and `Mlstr_harmo::algorithm`.
+#' To initiate processing, the first entry must be the creation of a harmonized
 #' primary identifier variable (e.g., participant unique ID).
-#'
-#' A taxonomy is a classification schema that can be defined for variable 
-#' attributes. A taxonomy is usually extracted from an 
-#' [Opal environment](https://www.obiba.org/pages/products/opal//), and a 
-#' taxonomy object is a data frame that must contain at least the columns 
-#' `taxonomy`, `vocabulary`, and `terms`. Additional details about Opal 
-#' taxonomies are 
+#' 
+#' A taxonomy is a classification schema that can be defined for variable
+#' attributes. A taxonomy is usually extracted from an
+#' [Opal environment](https://www.obiba.org/pages/products/opal//), and a
+#' taxonomy object is a data frame that must contain at least the columns
+#' `taxonomy`, `vocabulary`, and `terms`. Additional details about Opal
+#' taxonomies are
 #' [available online](https://opaldoc.obiba.org/en/latest/web-user-guide/administration/taxonomies.html).
 #'
 #' @param data_proc_elem A Data Processing Elements object.
@@ -170,15 +168,13 @@ harmonized_dossier_evaluate <- function(harmonized_dossier){
 #'
 #' @examples
 #' {
-#' 
-#' # use Rmonize_examples provided by the package
+#' # Use Rmonize_examples to run examples.
 #' library(dplyr)
 #' 
-#' data_proc_elem <- Rmonize_examples$`Data Processing Elements`
+#' data_proc_elem <- Rmonize_examples$`Data_Processing_Element_no errors`
 #' eval_data_proc_elem <- data_proc_elem_evaluate(data_proc_elem)
 #' 
 #' glimpse(eval_data_proc_elem)
-#' 
 #' }
 #'
 #' @import dplyr fabR
@@ -346,11 +342,10 @@ data_proc_elem_evaluate <- function(data_proc_elem, taxonomy = NULL){
 #'
 #' @examples
 #' {
-#'
-#' # use Rmonize_examples provided by the package
+#' # Use Rmonize_examples to run examples.
 #' library(dplyr)
 #' 
-#' dataschema      <- Rmonize_examples$`DataSchema`
+#' dataschema <- Rmonize_examples$`DataSchema`
 #' eval_dataschema <- dataschema_evaluate(dataschema)
 #' 
 #' glimpse(eval_dataschema)

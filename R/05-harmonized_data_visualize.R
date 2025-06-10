@@ -2,53 +2,53 @@
 #' Generate a web-based visual report for a harmonized dossier
 #'
 #' @description
-#' Generates a visual report of a harmonized dossier in an HTML bookdown 
-#' document, with summary figures and statistics for each harmonized variable. 
+#' Generates a visual report of a harmonized dossier in an HTML bookdown
+#' document, with summary figures and statistics for each harmonized variable.
 #' The report outputs can be grouped by a categorical variable.
 #'
 #' @details
-#' A harmonized dossier is a named list containing one or more data frames, 
-#' which are harmonized datasets. A harmonized dossier is generally the 
-#' product of applying processing to a dossier object The name of each 
-#' harmonized dataset (data frame) is taken from the reference input dataset. 
-#' A harmonized dossier also contains the DataSchema and 
+#' A harmonized dossier is a named list containing one or more data frames,
+#' which are harmonized datasets. A harmonized dossier is generally the
+#' product of applying processing to a dossier object. The name of each
+#' harmonized dataset (data frame) is taken from the reference input dataset.
+#' A harmonized dossier also contains the DataSchema and
 #' Data Processing Elements used in processing as attributes.
 #' 
-#' A DataSchema is the list of core variables to generate across datasets and 
-#' related metadata. A DataSchema object is a list of data frames with elements 
-#' named 'Variables' (required) and 'Categories' (if any). The 'Variables' 
-#' element must contain at least the `name` column, and the 'Categories' 
-#' element must contain at least the `variable` and `name` columns to be usable 
-#' in any function. In 'Variables' the `name` column must also have unique 
-#' entries, and in 'Categories' the combination of `variable` and `name` columns 
-#' must also be unique. 
+#' A DataSchema is the list of core variables to generate across datasets and
+#' related metadata. A DataSchema object is a list of data frames with elements
+#' named 'Variables' (required) and 'Categories' (if any). The 'Variables'
+#' element must contain at least the `name` column, and the 'Categories'
+#' element must contain at least the `variable` and `name` columns to be usable
+#' in any function. In 'Variables' the `name` column must also have unique
+#' entries, and in 'Categories' the combination of `variable` and `name` columns
+#' must also be unique.
 #' 
-#' The Data Processing Elements specifies the algorithms used to process input 
-#' variables into harmonized variables in the DataSchema format. It is also 
-#' contains metadata used to generate documentation of the processing. 
-#' A Data Processing Elements object is a data frame with specific columns 
-#' used in data processing: `dataschema_variable`, `input_dataset`, 
-#' `input_variables`, `Mlstr_harmo::rule_category` and `Mlstr_harmo::algorithm`. 
-#' To initiate processing, the first entry must be the creation of a harmonized 
+#' The Data Processing Elements specifies the input elements and processing algorithms 
+#' to generate harmonized variables in the DataSchema formats. It is also
+#' contains metadata used to generate documentation of the processing.
+#' A Data Processing Elements object is a data frame with specific columns
+#' used in data processing: `dataschema_variable`, `input_dataset`,
+#' `input_variables`, `Mlstr_harmo::rule_category` and `Mlstr_harmo::algorithm`.
+#' To initiate processing, the first entry must be the creation of a harmonized
 #' primary identifier variable (e.g., participant unique ID).
 #' 
-#' The valueType is a declared property of a variable that is required in 
-#' certain functions to determine handling of the variables. Specifically, 
-#' valueType refers to the 
-#' [OBiBa data type of a variable](https://opaldoc.obiba.org/en/dev/variables-data.html#value-types). 
-#' The valueType is specified in a data dictionary in a column 'valueType' and 
-#' can be associated with variables as attributes. Acceptable valueTypes 
-#' include 'text', 'integer', 'decimal', 'boolean', datetime', 'date'. The full 
-#' list of OBiBa valueType possibilities and their correspondence with R data 
-#' types are available using [valueType_list]. The valueType can be used to 
+#' The valueType is a declared property of a variable that is required in
+#' certain functions to determine handling of the variables. Specifically,
+#' valueType refers to the
+#' [OBiBa data type of a variable](https://opaldoc.obiba.org/en/dev/variables-data.html#value-types).
+#' The valueType is specified in a data dictionary in a column 'valueType' and
+#' can be associated with variables as attributes. Acceptable valueTypes
+#' include 'text', 'integer', 'decimal', 'boolean', datetime', 'date'. The full
+#' list of OBiBa valueType possibilities and their correspondence with R data
+#' types are available using [valueType_list]. The valueType can be used to
 #' coerce the variable to the corresponding data type.
-#'
-#' A taxonomy is a classification schema that can be defined for variable 
-#' attributes. A taxonomy is usually extracted from an 
-#' [Opal environment](https://www.obiba.org/pages/products/opal//), and a 
-#' taxonomy object is a data frame that must contain at least the columns 
-#' `taxonomy`, `vocabulary`, and `terms`. Additional details about Opal 
-#' taxonomies are 
+#' 
+#' A taxonomy is a classification schema that can be defined for variable
+#' attributes. A taxonomy is usually extracted from an
+#' [Opal environment](https://www.obiba.org/pages/products/opal//), and a
+#' taxonomy object is a data frame that must contain at least the columns
+#' `taxonomy`, `vocabulary`, and `terms`. Additional details about Opal
+#' taxonomies are
 #' [available online](https://opaldoc.obiba.org/en/latest/web-user-guide/administration/taxonomies.html).
 #' 
 #' @param harmonized_dossier A list containing the harmonized dataset(s).
@@ -70,7 +70,7 @@
 #' schema.
 #'
 #' @returns
-#' A folder containing files for the bookdown site. To open the bookdown site 
+#' A folder containing files for the bookdown document. To open the bookdown document 
 #' in a browser, open 'docs/index.html', or use [bookdown_open()] with the 
 #' folder path.
 #'
@@ -81,29 +81,31 @@
 #' @examples
 #' {
 #' 
+#' @examples
+#' {
+#' 
 #' library(stringr)
 #' library(fs)
 #' 
-#' # use Rmonize_examples provided by the package
+#' # Use Rmonize_examples to run examples.
+#' # Perform data processing
 #' 
-#' # perform data processing
-#' pooled_harmonized_dataset <-
-#'   Rmonize_examples[str_detect(names(Rmonize_examples),"harmo_dataset_pooled")][[1]]
-#' harmonized_dossier_summary  <- 
-#'   Rmonize_examples[str_detect(names(Rmonize_examples),"summary")][[1]]
+#' pooled_harmonized_dataset <- Rmonize_examples$`pooled_harmonized_dataset`
+#' harmonized_dossier_summary <- Rmonize_examples$`summary_report_harmonized_dossier`
 #' 
-#' # create a folder where the visual report will be palced
+#' # Create a folder where the visual report will be placed
+#' 
 #' if(dir_exists(tempdir())) dir_delete(tempdir())
 #' bookdown_path <- tempdir()
 #' 
-#' # generate the visual report
+#' # Generate the visual report
 #' harmonized_dossier_visualize(
 #'   pooled_harmonized_dataset = pooled_harmonized_dataset,
 #'   harmonized_dossier_summary = harmonized_dossier_summary,
 #'   bookdown_path = bookdown_path)
-#' 
-#' # To open the file in browser, open 'bookdown_path/docs/index.html'.
-#' # Or use bookdown_open(bookdown_path) function
+#'   
+#' # To open the file in a browser, open 'bookdown_path/docs/index.html'.
+#' # Or use bookdown_open(bookdown_path) function.
 #' 
 #' }
 #'
