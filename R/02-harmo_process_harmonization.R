@@ -223,8 +223,9 @@ input elements before processing harmonization.")
       str_replace_all('"',"`") %>%
       str_replace_all("'","`") %>%
       str_remove_all("`") %>%
-      str_squish()
+      str_squish() 
     x = x[!is.na(x)]
+    x = x[nchar(x) > 0]
     
     return(x)}
   
@@ -260,7 +261,7 @@ Please write harmo_process(dataschema = my_object) instead.')
     
     for(i in name_datasets){
       # stop()}
-      
+       
       input_vars <- 
         unique(extract_var(
           data_proc_elem %>% 
