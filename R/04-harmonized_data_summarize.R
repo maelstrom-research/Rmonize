@@ -90,6 +90,7 @@ harmonized_dossier_summarize <- function(harmonized_dossier){
       str_remove_all("`") %>%
       str_squish()
     x = x[!is.na(x)]
+    x = x[nchar(x) > 0]
     
     return(x)}
   
@@ -115,12 +116,12 @@ harmonized_dossier_summarize <- function(harmonized_dossier){
       
       dataset_present <- 
         data_proc_elem %>% 
-        dplyr::filter(input_dataset %in% dataset_present & dataschema_variable == harmonized_col_dataset) %>%
+        dplyr::filter(.data$`input_dataset` %in% dataset_present & .data$`dataschema_variable` == harmonized_col_dataset) %>%
         pull("Mlstr_harmo::algorithm") %>% extract_var
       
       harmo_data_dict[['Categories']] <- 
         harmo_data_dict[['Categories']] %>%
-        dplyr::filter(!(variable == harmonized_col_dataset & !(name %in% dataset_present)))
+        dplyr::filter(!(.data$`variable` == harmonized_col_dataset & !(.data$`name` %in% dataset_present)))
     
       pooled_harmonized_dataset <- 
         pooled_harmonized_dataset %>%
@@ -273,16 +274,16 @@ harmonized_dossier_summarize <- function(harmonized_dossier){
       bind_rows(tibble(
         'Variable name' = as.character(),
         'Harmo dataset assessment' = as.character())) %>% 
-      filter(!(`Variable name` == harmonized_col_dataset_short &
-                 str_detect(`Harmo dataset assessment`,"Variable names contain special characters, contain spaces, or begin with a number")))
+      filter(!(.data$`Variable name` == harmonized_col_dataset_short &
+                 str_detect(.data$`Harmo dataset assessment`,"Variable names contain special characters, contain spaces, or begin with a number")))
 
     harmonized_dossier_summary[['Harmo data dictionary assessment']] <-
       harmonized_dossier_summary[['Harmo data dictionary assessment']] %>%
       bind_rows(tibble(
         'Variable name' = as.character(),
         'Harmo data dictionary assessment' = as.character())) %>% 
-      filter(!(`Variable name` == harmonized_col_dataset_short &
-                 str_detect(`Harmo data dictionary assessment`,"Variable names contain special characters, contain spaces, or begin with a number"))) 
+      filter(!(.data$`Variable name` == harmonized_col_dataset_short &
+                 str_detect(.data$`Harmo data dictionary assessment`,"Variable names contain special characters, contain spaces, or begin with a number"))) 
         
   }
   
@@ -295,8 +296,8 @@ harmonized_dossier_summarize <- function(harmonized_dossier){
       bind_rows(tibble(
         'Variable name' = as.character(),
         'Harmo dataset assessment' = as.character())) %>% 
-      filter(!(`Variable name` == harmonized_col_dataset_short &
-                 str_detect(`Harmo dataset assessment`,"Variable has a constant value")))
+      filter(!(.data$`Variable name` == harmonized_col_dataset_short &
+                 str_detect(.data$`Harmo dataset assessment`,"Variable has a constant value")))
   }
   
   # [GF] FURTHER DISCUSSIONS
@@ -336,7 +337,7 @@ harmonized_dossier_summarize <- function(harmonized_dossier){
     inner_join(harmo_data_dict[["Categories"]],by = "Categories in data dictionary long") %>%
     select(Value = "Categories in data dictionary long","Variable name") %>%
     mutate(
-      Value2 = Value, 
+      Value2 = .data$`Value`, 
       'Harmo dataset assessment' = '[ERROR] - There were errors in the processing of this dataset.') %>%
     select(Value = starts_with("Grouping"),"Variable name","Value2","Harmo dataset assessment") 
   
@@ -375,8 +376,8 @@ harmonized_dossier_summarize <- function(harmonized_dossier){
         harmonized_dossier_summary[['Harmo dataset assessment']] %>% 
         dplyr::filter(!(
           .data$`Variable name` == "(all)" & 
-            str_detect(`Harmo dataset assessment`,"The dataset has 0 rows"))) %>%
-        bind_rows(has_error %>% mutate("Variable name" = '(all)', "Value" = .data$`Value2`) %>% select(-Value2))
+            str_detect(.data$`Harmo dataset assessment`,"The dataset has 0 rows"))) %>%
+        bind_rows(has_error %>% mutate("Variable name" = '(all)', "Value" = .data$`Value2`) %>% select(-"Value2"))
     }
     
     # [GF] comment: may bug if dataset has 0 rows because there is no participants at the first place
@@ -428,7 +429,7 @@ harmonized_dossier_summarize <- function(harmonized_dossier){
         harmonized_dossier_summary[['Harmo dataset assessment']] %>%
         dplyr::filter(!(
           .data$`Variable name` == has_undet$`Variable name` & 
-            str_detect(`Harmo dataset assessment`,"Empty variable")))}
+            str_detect(.data$`Harmo dataset assessment`,"Empty variable")))}
     
       # for(i in names(harmonized_dossier_summary)[
       #   str_detect(names(harmonized_dossier_summary),"(V|v)ariable")]){
