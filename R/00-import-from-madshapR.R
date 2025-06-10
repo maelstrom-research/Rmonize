@@ -58,6 +58,9 @@ madshapR::has_categories
 #' @importFrom madshapR first_label_get
 madshapR::first_label_get
 
+#' @importFrom madshapR data_dict_match_dataset
+madshapR::data_dict_match_dataset
+
 #' @importFrom madshapR as_dataset
 #' @name as_dataset
 #' @rdname as_dataset
