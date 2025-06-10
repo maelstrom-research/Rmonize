@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Process inputs and generate harmonized outputs</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Process inputs and generate harmonized
+outputs</h1>
+
+
+
+<p>In the vignette Simple example of data processing with Rmonize, we
+ran through an example with no processing errors. In reality, you might
+encounter processing errors and need to troubleshoot the process and/or
+inputs. This vignette focuses on running the main processing function
+which uses the prepared input elements to produce harmonized datasets
+and identifying and correcting errors in the Data Processing Elements
+(DPE).</p>
+<div id="load-packages" class="section level2">
+<h2>Load packages</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># Load relevant packages</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(Rmonize)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># Collection of R packages for data science</span></span></code></pre></div>
+<blockquote>
+<p><strong>TIP:</strong> You must install and load any packages whose
+functions are used in individual algorithms in the Data Processing
+Elements (see below), otherwise an error will be generated when
+processing data with <code>harmo_process()</code>.</p>
+</blockquote>
+</div>
+<div id="read-input-elements" class="section level2">
+<h2>Read input elements</h2>
+<p>The input elements needed for processing are the input datasets,
+DataSchema, and DPEs, which are available from the examples included in
+the package. This example uses cleaned input datasets and a DataSchema
+that has no errors. We will start with a version of the DPE that has the
+correct structure and required columns (see <a href="https://maelstrom-research.github.io/Rmonize-documentation/articles/a-Glossary-and-templates.html">online
+documentation</a>), but has some issues that will create errors in
+processing.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># Get the input datasets</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>dataset_study1 <span class="ot">&lt;-</span> Rmonize_examples<span class="sc">$</span>input_dataset_study1</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>dataset_study2 <span class="ot">&lt;-</span> Rmonize_examples<span class="sc">$</span>input_dataset_study2</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>dataset_study3 <span class="ot">&lt;-</span> Rmonize_examples<span class="sc">$</span>input_dataset_study3</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>dataset_study4 <span class="ot">&lt;-</span> Rmonize_examples<span class="sc">$</span>input_dataset_study4</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>dataset_study5 <span class="ot">&lt;-</span> Rmonize_examples<span class="sc">$</span>input_dataset_study5</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co"># Get the DataSchema</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>dataschema <span class="ot">&lt;-</span> Rmonize_examples<span class="sc">$</span>DataSchema</span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co"># Get the Data Processing Elements</span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>dpe_with_errors <span class="ot">&lt;-</span> Rmonize_examples<span class="sc">$</span>Data_Processing_Elements_with_errors</span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co"># This version contains some examples of potential processing errors.</span></span></code></pre></div>
+<p>In the examples, the DPE contains processing instructions for all
+five datasets, but you can prepare separate DPE documents for each input
+dataset as well.</p>
+</div>
+<div id="process-data" class="section level2">
+<h2>Process data</h2>
+<p>If more than one input dataset is being processed at the same time,
+they are provided as a named list of data frames (which we refer to as a
+‘dossier’) with names matching the input_dataset values specified in the
+DPE. The dataschema_variable values in the DPE must also match the
+DataSchema provided. The output of <code>harmo_process()</code> is a
+‘harmonized dossier’, a list of harmonized dataset(s) with the same
+name(s) as the input dataset(s), with specific attributes/metadata.</p>
+<p>If there are basic issues with any of the input elements (e.g.,
+elements have incorrect structure or are missing required columns), the
+process will stop and print a message about the issue. If there are
+errors in running individual algorithms, as in this example, the overall
+process will run, but a message will be printed about ‘error’ statuses
+being present.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># Create an input dossier</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>input_dossier <span class="ot">&lt;-</span> <span class="fu">dossier_create</span>(<span class="fu">list</span>(</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  dataset_study1,</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  dataset_study2,</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>  dataset_study3,</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>  dataset_study4,</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>  dataset_study5))</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co"># Run processing function</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>harmonized_dossier_with_errors <span class="ot">&lt;-</span> <span class="fu">harmo_process</span>(</span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>  <span class="at">object =</span> input_dossier,</span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a>  <span class="at">dataschema =</span> dataschema,</span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a>  <span class="at">data_proc_elem =</span> dpe_with_errors,</span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a>  <span class="at">harmonized_col_dataset =</span> <span class="st">&#39;adm_study_id&#39;</span>) <span class="co"># Identifies the harmonized variable to use as dataset identifiers</span></span></code></pre></div>
+<blockquote>
+<p><strong>TIP:</strong> The function <code>harmo_process()</code> can
+be run on one study at a time (datasets and DPEs) or subsets of the
+variables (DataSchema and DPEs) to help isolate issues.</p>
+</blockquote>
+<blockquote>
+<p><strong>TIP:</strong> The dataset names in the list in the
+input_dossier must match the input_dataset in the DPE.</p>
+</blockquote>
+</div>
+<div id="check-for-and-correct-errors-in-the-dpe" class="section level2">
+<h2>Check for and correct errors in the DPE</h2>
+<p>Typically, any processing errors at this stage come from errors in
+the DPEs (e.g., incorrectly written algorithms or misspecified input
+variables). If there are any processing errors, the associated
+harmonized dataset created is empty (no harmonized variable values) but
+has attributes from the input elements, which can be used to identify
+errors. Individual errors are printed in the console during processing
+and can also be extracted with <code>show_harmo_error()</code>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># To identify processing errors to correct in the DPE</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">show_harmo_error</span>(</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  harmonized_dossier_with_errors,</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  <span class="at">show_warnings =</span> <span class="cn">TRUE</span>) <span class="co"># Can be informative, but can also be turned off, e.g., if there are known warnings produced by processing algorithms</span></span></code></pre></div>
+<p>This prints the specific DataSchema variables and input datasets
+affected by the errors and information about the specific error.</p>
+<p>In this example, there are errors in generating the DataSchema
+variables preg_gestational_age_del and pm_birthweight in dataset_study4.
+These variables have the specific errors ‘could not find function
+“flor”’ and ‘object ’bbb_weight’ not found’, respectively. In this case,
+inspecting the error messages and associated rows in the DPE indicate
+that the errors come from typos. The function ‘flor’ used in the
+algorithm for preg_gestational_age_del in dataset_study4 should instead
+be ‘floor’, and the input_variable ‘bbb_weight’ used for pm_birthweight
+in dataset_study4 should instead be ‘bb_weight’.</p>
+<p>You can use these error messages to make necessary corrections in the
+DPE Excel file and import the updated version of the DPE without errors
+(this approach is usually simpler and clearer for documenting versions
+of the DPE than making changes to the DPE in R).</p>
+<p>The processing is then rerun with the updated DPE and checked for
+processing errors as many times as needed.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># Get corrected DPEs with changes made based on error messages</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>dpe_no_errors <span class="ot">&lt;-</span> Rmonize_examples<span class="sc">$</span>Data_Processing_Elements_no_errors <span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="fu">as_data_proc_elem</span>()</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co"># Run processing function</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>harmonized_dossier <span class="ot">&lt;-</span> <span class="fu">harmo_process</span>(</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>  <span class="at">object =</span> input_dossier,</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>  <span class="at">dataschema =</span> dataschema,</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>  <span class="at">data_proc_elem =</span> dpe_no_errors,</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>  <span class="at">harmonized_col_dataset =</span> <span class="st">&#39;adm_study_id&#39;</span> <span class="co"># Identifies the harmonized variable to use as dataset identifiers</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>)</span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co"># Confirm there are no errors</span></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="fu">show_harmo_error</span>(</span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a>  harmonized_dossier,</span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>  <span class="at">show_warnings =</span> <span class="cn">TRUE</span></span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a>)</span></code></pre></div>
+<p>Typos are common sources of errors in the DPE, as are
+mis-specifications in algorithms. Filling out the DPE can take some time
+and attention to detail, but has benefits in comprehensively documenting
+the processing done, providing a clear way to communicate with others
+about the processing, and making it easier to identify issues and make
+revisions to the processing. <a href="https://maelstrom-research.github.io/Rmonize-documentation/articles/b-Data-processing-elements.html">See
+further documentation</a> for more details about the DPE.</p>
+<p>Once there are no processing errors, the harmonized dossier can be
+used to extract harmonization outputs (see the vignette Summarize and
+secure harmonized outputs).</p>
+</div>
+<div id="save-the-harmonized-dossier" class="section level2">
+<h2>Save the harmonized dossier</h2>
+<blockquote>
+<p><strong>TIP:</strong> The harmonized dossier should be saved as an R
+file so that the structure and all metadata is preserved and it can be
+easily used in other Rmonize functions.</p>
+</blockquote>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># Save the harmonized dossier as R file</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="fu">saveRDS</span>(harmonized_dossier, <span class="st">&quot;harmonized_dossier.rds&quot;</span>)</span></code></pre></div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
