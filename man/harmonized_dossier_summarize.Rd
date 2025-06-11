@@ -23,7 +23,7 @@ variable distributions and descriptive statistics.
 \details{
 A harmonized dossier is a named list containing one or more data frames,
 which are harmonized datasets. A harmonized dossier is generally the
-product of applying processing to a dossier object The name of each
+product of applying processing to a dossier object. The name of each
 harmonized dataset (data frame) is taken from the reference input dataset.
 A harmonized dossier also contains the DataSchema and
 Data Processing Elements used in processing as attributes.
@@ -37,8 +37,8 @@ in any function. In 'Variables' the \code{name} column must also have unique
 entries, and in 'Categories' the combination of \code{variable} and \code{name} columns
 must also be unique.
 
-The Data Processing Elements specifies the algorithms used to process input
-variables into harmonized variables in the DataSchema format. It is also
+The Data Processing Elements specifies the input elements and processing algorithms
+to generate harmonized variables in the DataSchema formats. It is also
 contains metadata used to generate documentation of the processing.
 A Data Processing Elements object is a data frame with specific columns
 used in data processing: \code{dataschema_variable}, \code{input_dataset},
@@ -67,19 +67,14 @@ coerce the variable to the corresponding data type.
 }
 \examples{
 {
-
-# use Rmonize_examples provided by the package
+# Use Rmonize_examples to run examples.
 library(dplyr)
-library(stringr)
 
-# perform data processing
-harmonized_dossier <-
-  Rmonize_examples[str_detect(names(Rmonize_examples),"harmonized_dossier")][[1]]
-
-summary_harmo  <- harmonized_dossier_summarize(harmonized_dossier)
+# Perform data processing
+harmonized_dossier <- Rmonize_examples$`harmonized_dossier`
+summary_harmo <- harmonized_dossier_summarize(harmonized_dossier)
 
 glimpse(summary_harmo)
-
 }
 
 }

@@ -20,7 +20,7 @@ pooled_harmonized_dataset_create(
 to use for dataset names.}
 
 \item{harmonized_col_id}{A character string identifying the name of the
-column present in every dataset to use as a dataset identifier.}
+column present in every dataset to use as a participant identifier.}
 
 \item{dataschema}{A DataSchema object.}
 
@@ -56,8 +56,8 @@ in any function. In 'Variables' the \code{name} column must also have unique
 entries, and in 'Categories' the combination of \code{variable} and \code{name} columns
 must also be unique.
 
-The Data Processing Elements specifies the algorithms used to process input
-variables into harmonized variables in the DataSchema format. It is also
+The Data Processing Elements specifies the input elements and processing algorithms
+to generate harmonized variables in the DataSchema formats. It is also
 contains metadata used to generate documentation of the processing.
 A Data Processing Elements object is a data frame with specific columns
 used in data processing: \code{dataschema_variable}, \code{input_dataset},
@@ -71,11 +71,9 @@ primary identifier variable (e.g., participant unique ID).
 # Use Rmonize_examples to run examples.
  
 library(dplyr)
-library(stringr)
 
-# perform data processing
-harmonized_dossier <-
-  Rmonize_examples[str_detect(names(Rmonize_examples),"harmonized_dossier")][[1]]
+# Perform data processing
+harmonized_dossier <- Rmonize_examples["harmonized_dossier"][[1]]
 
 # create the pooled harmonized dataset from the harmonized dossier
 pooled_harmonized_dataset <- pooled_harmonized_dataset_create(harmonized_dossier)

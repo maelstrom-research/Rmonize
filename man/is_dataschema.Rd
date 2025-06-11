@@ -30,15 +30,15 @@ must also be unique.
 \examples{
 {
 
-# use Rmonize_examples provided by the package
+# Use Rmonize_examples to run examples.
 
 is_dataschema(Rmonize_examples$`DataSchema`)
-is_dataschema(Rmonize_examples$`Data Processing Elements`)
+is_dataschema(Rmonize_examples$`Data_Processing_Element_no errors`)
 is_dataschema(iris)
 
 }
 
 }
 \seealso{
-For a better assessment, please use \code{\link[=dataschema_evaluate]{dataschema_evaluate()}}.
+\code{\link[=dataschema_evaluate]{dataschema_evaluate()}}.
 }

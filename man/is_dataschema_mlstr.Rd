@@ -38,12 +38,12 @@ in particular \href{https://www.obiba.org/pages/products/opal/}{Opal environment
 # use Rmonize_examples provided by the package
 
 is_dataschema_mlstr(Rmonize_examples$`DataSchema`)
-is_dataschema_mlstr(Rmonize_examples$`Data Processing Elements`)
+is_dataschema_mlstr(Rmonize_examples$`Data_Processing_Element_no errors`)
 is_dataschema_mlstr(iris)
 
 }
 
 }
 \seealso{
-For a better assessment, please use \code{\link[=dataschema_evaluate]{dataschema_evaluate()}}.
+\code{\link[=dataschema_evaluate]{dataschema_evaluate()}}.
 }

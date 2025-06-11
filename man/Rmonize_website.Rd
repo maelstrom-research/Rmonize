@@ -2,7 +2,7 @@
 % Please edit documentation in R/01-utils.R
 \name{Rmonize_website}
 \alias{Rmonize_website}
-\title{Call to online documentation}
+\title{Call to package website}
 \usage{
 Rmonize_website()
 }
@@ -10,9 +10,9 @@ Rmonize_website()
 Nothing to be returned. The function opens a web page.
 }
 \description{
-Direct call to the online documentation for the package, which includes a
-description of the latest version of the package, vignettes, user guides,
-and a reference list of functions and help pages.
+Direct call to the package website, which includes an overview of the
+Rmonize process, vignettes and user guides, a reference list of functions
+and help pages, and package updates.
 }
 \examples{
 {
