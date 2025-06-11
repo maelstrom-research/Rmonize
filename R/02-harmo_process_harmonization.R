@@ -38,10 +38,9 @@
 #' @param dataschema A DataSchema object.
 #' @param data_proc_elem A Data Processing Elements object.
 #' @param harmonized_col_dataset A character string identifying the column 
-#' to use for dataset names. NULL by default.
+#' to use for dataset names.
 #' @param harmonized_col_id A character string identifying the name of the 
-#' column present in every dataset to use as a dataset identifier. 
-#' NULL by default.
+#' column present in every dataset to use as a participant identifier.
 #' @param .debug Allow user to test the inputs before processing harmonization.
 #' @param dossier `r lifecycle::badge("deprecated")`
 #'
@@ -1569,7 +1568,6 @@ harmo_process_undetermined <- function(process_rule_slice){
 #' {
 #' # Use Rmonize_examples to run examples.
 #' library(dplyr)
-#' library(stringr)
 #' 
 #' # Perform data processing
 #' harmonized_dossier <- Rmonize_examples$`harmonized_dossier`
@@ -2275,8 +2273,8 @@ as_dataschema_mlstr <- function(object){
 #' @param object A A potential harmonized dossier object to be coerced.
 #' @param dataschema A DataSchema object.
 #' @param data_proc_elem A Data Processing Elements object.
-#' @param harmonized_col_id A character string identifying the name of the 
-#' column present in every dataset to use as a dataset identifier.
+#' @param harmonized_col_id  A character string identifying the name of the 
+#' column present in every dataset to use as a participant identifier.
 #' @param harmonized_col_dataset A character string identifying the column 
 #' to use for dataset names.
 #' @param harmonized_data_dict_apply Whether to apply the dataschema to each 
@@ -2293,7 +2291,6 @@ as_dataschema_mlstr <- function(object){
 #' # Use Rmonize_examples to run examples.
 #'  
 #' library(dplyr)
-#' library(stringr)
 #'
 #' harmonized_dossier <- Rmonize_examples[["harmonized_dossier"]]
 #' harmonized_dossier <- as_harmonized_dossier(harmonized_dossier)
@@ -2516,7 +2513,7 @@ name list of variables.")
 #'
 #' @param harmonized_dossier A list containing the harmonized dataset(s).
 #' @param harmonized_col_id A character string identifying the name of the 
-#' column present in every dataset to use as a dataset identifier.
+#' column present in every dataset to use as a participant identifier.
 #' @param harmonized_col_dataset A character string identifying the column 
 #' to use for dataset names.
 #' @param dataschema A DataSchema object.
@@ -2531,7 +2528,6 @@ name list of variables.")
 #' # Use Rmonize_examples to run examples.
 #'  
 #' library(dplyr)
-#' library(stringr)
 #' 
 #' # Perform data processing
 #' harmonized_dossier <- Rmonize_examples["harmonized_dossier"][[1]]
@@ -2630,10 +2626,10 @@ bold("\n\nUseful tip:\n"),
     
     warning(call. = FALSE,
 '\nAn additional variable `',harmonized_col_dataset,'` has been created
-with harmonized dataset names as values for each harmonized dataset.',
+with dataset names as values for each harmonized dataset.',
 bold("\n\nUseful tip:\n"),
-'To avoid this warning, we recommend to set `harmonized_col_dataset` as a 
-categorical variable DataSchema.')}
+'To avoid this warning, we recommend setting `harmonized_col_dataset` as a 
+categorical variable in the DataSchema.')}
     
   if(harmo_col == "to_name") {
       
@@ -2760,8 +2756,6 @@ is_dataschema_mlstr <- function(object){
 #' is_dataschema(Rmonize_examples$`DataSchema`)
 #' is_dataschema(Rmonize_examples$`Data_Processing_Element_no errors`)
 #' is_dataschema(iris)
-#' 
-#'}
 #'
 #'}
 #'
