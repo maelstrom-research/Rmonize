@@ -102,7 +102,8 @@ harmonized_dossier_summarize <- function(harmonized_dossier){
   data_proc_elem         <- attributes(harmonized_dossier)$`Rmonize::Data Processing Elements`
   dataschema             <- attributes(harmonized_dossier)$`Rmonize::DataSchema`
   
-  # remove empty groups, because of non presence of the dataset name
+  # remove empty groups, because of non presence of the dataset name. It assumes that
+  # harmonized_col_dataset is categorical.
   if(harmonized_col_dataset != "Rmonize::harmonized_col_dataset"){
     
     dataset_present <- names(harmonized_dossier)
@@ -123,7 +124,8 @@ harmonized_dossier_summarize <- function(harmonized_dossier){
         data_dict_apply(harmo_data_dict)
     }
   }
-    
+   
+
   harmonized_dossier_summary <-
     dataset_summarize(
       dataset = pooled_harmonized_dataset,
