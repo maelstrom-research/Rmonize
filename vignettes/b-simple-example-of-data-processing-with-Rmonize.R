@@ -52,7 +52,7 @@ knitr::include_graphics("images/vig2_fig01b.png")
 # dpe_study1 <- dpe %>%
 #   filter(input_dataset == "dataset_study1")
 
-## ----fig.cap="Subset of the example Data Processing Elements document.", out.width="80%", fig.align="center",echo=FALSE----
+## ----fig.cap="Subset of the example Data Processing Elements document.", out.width="100%", fig.align="center",echo=FALSE----
 knitr::include_graphics("images/vig2_fig02.png")
 
 ## ----eval=FALSE---------------------------------------------------------------
