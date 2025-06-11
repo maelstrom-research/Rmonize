@@ -77,6 +77,14 @@ The DataSchema defines the core variables to generate across datasets. For use i
 dataschema <- Rmonize_examples$DataSchema
 ```
 
+```{r, fig.cap="Subsets of the example DataSchema document, showing the Variables", out.width="80%", fig.align="center",echo=FALSE}
+knitr::include_graphics("images/vig2_fig01a.png")
+```
+
+```{r, fig.cap="Subsets of the example DataSchema document, showing the Categories", out.width="80%", fig.align="center",echo=FALSE}
+knitr::include_graphics("images/vig2_fig01b.png")
+```
+
 ### Data Processing Elements
 
 The Data Processing Elements (DPE) defines the input elements and, where applicable, the algorithms to generate harmonized variables in DataSchema formats. It documents the possibility (or not) to generate each DataSchema variable in each dataset, the specific processing steps, and any additional user-defined documentation. The DPE is also typically prepared from an Excel template (see the documentation on preparing the Data Processing Elements) and has one row per DataSchema variable per input dataset. The example DPE in the package can be used to process all five input datasets at the same time, or you can prepare a DPE for a single input dataset and run processing for one dataset at a time.
@@ -88,6 +96,10 @@ dpe <- Rmonize_examples$Data_Processing_Elements_no_errors
 # Get the Data Processing Elements for a single dataset (study1)
 dpe_study1 <- dpe %>%
   filter(input_dataset == "dataset_study1")
+```
+
+```{r,fig.cap="Subset of the example Data Processing Elements document.", out.width="100%", fig.align="center",echo=FALSE}
+knitr::include_graphics("images/vig2_fig02.png")
 ```
 
 ## Process the inputs into harmonized outputs
@@ -172,8 +184,7 @@ write_excel_allsheets(summary_report_harmonized_dossier, "my_summary_report.xlsx
 
 In this vignette, we used inputs that already have valid structure and content. In reality, you may need to explore your input datasets in more depth, get help preparing the Data Processing Elements, troubleshoot process errors, or better understand the harmonized outputs. For more in-depth exploration of specific steps, other vignettes and documentation are available:
 
-- Explore and prepare input datasets and data dictionaries
-- Prepare the Data Processing Elements document
-- Process inputs into harmonized outputs
-- Summarize and secure harmonized outputs
-
+-   Explore and prepare input datasets and data dictionaries
+-   Prepare the Data Processing Elements document
+-   Process inputs into harmonized outputs
+-   Summarize and secure harmonized outputs

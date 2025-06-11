@@ -40,6 +40,15 @@ View(harmonized_dossier)
 summary(attributes(harmonized_dossier))
 ```
 
+```{r,fig.cap="Information about the example harmonized dossier provided in the RStudio viewer.", out.width="80%", fig.align="center",echo=FALSE}
+knitr::include_graphics("images/vig5_fig01.png")
+```
+
+```{r,fig.cap="Additional Rmonize attributes are also associated with the harmonized dossier.", out.width="80%", fig.align="center",echo=FALSE}
+knitr::include_graphics("images/vig5_fig02.png")
+```
+
+
 ## Summarize harmonized datasets
 
 You can get more detailed summaries and descriptive statistics about the harmonized datasets and variables. By default, summaries of a harmonized dossier are generated for pooled data and grouped by dataset. The output of dataset summaries can easily be exported as Excel files.
@@ -52,6 +61,12 @@ summary_report_harmonized_dossier <- harmonized_dossier_summarize(harmonized_dos
 # Export to Excel
 write_excel_allsheets(summary_report_harmonized_dossier, "summary_report_harmonized_dossier.xlsx")
 ```
+
+
+```{r,fig.cap="Information about the example harmonized dossier summary report provided in the RStudio viewer.", out.width="80%", fig.align="center",echo=FALSE}
+knitr::include_graphics("images/vig5_fig03.png")
+```
+
 
 You can get visual summaries of the harmonized datasets and variables, which by default are produced for the pooled data and grouped by dataset. A categorical variable 'Rmonize::harmonized_col_dataset' is created based on the dataset names and included in the report.
 
@@ -70,6 +85,16 @@ bookdown_open(bookdown_path)
 ```
 
 To open the visual report outside of R, go to the folder containing the bookdown files, open the folder 'docs', and open the file 'index'.
+
+*Screenshots from the interactive html visual report of the harmonized dossier:*
+
+```{r, fig.cap="a) the Overview page", out.width="80%", fig.align="center",echo=FALSE}
+knitr::include_graphics("images/vig5_fig04a.png")
+```
+
+```{r, fig.cap="b) summary figure for the variable lsb_alc_binge_m_preg.", out.width="80%", fig.align="center",echo=FALSE}
+knitr::include_graphics("images/vig5_fig04b.png")
+```
 
 While there should be no technical data processing errors at this point, the harmonized datasets should always be validated. Data summaries and visual reports can help further verify that there were no remaining issues in data processing or data content. You can also use the reports to compare distributions for the pooled dataset and individual datasets.
 

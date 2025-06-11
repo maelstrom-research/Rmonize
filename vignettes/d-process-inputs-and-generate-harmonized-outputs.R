@@ -1,15 +1,15 @@
-## ----include = FALSE-----------------------------------------------------------------------------
+## ----include = FALSE----------------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
 
-## ----eval=FALSE----------------------------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 # # Load relevant packages
 # library(Rmonize)
 # library(tidyverse) # Collection of R packages for data science
 
-## ----eval=FALSE----------------------------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 # # Get the input datasets
 # dataset_study1 <- Rmonize_examples$input_dataset_study1
 # dataset_study2 <- Rmonize_examples$input_dataset_study2
@@ -24,7 +24,7 @@ knitr::opts_chunk$set(
 # dpe_with_errors <- Rmonize_examples$Data_Processing_Elements_with_errors
 # # This version contains some examples of potential processing errors.
 
-## ----eval=FALSE----------------------------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 # # Create an input dossier
 # input_dossier <- dossier_create(list(
 #   dataset_study1,
@@ -40,15 +40,24 @@ knitr::opts_chunk$set(
 #   data_proc_elem = dpe_with_errors,
 #   harmonized_col_dataset = 'adm_study_id') # Identifies the harmonized variable to use as dataset identifiers
 
-## ----eval=FALSE----------------------------------------------------------------------------------
+## ----fig.cap="Subset of processing information printed in the console, including messages about errors in running individual algorithms.", out.width="80%", fig.align="center",echo=FALSE----
+knitr::include_graphics("images/vig4_fig01.png")
+
+## ----eval=FALSE---------------------------------------------------------------
 # # To identify processing errors to correct in the DPE
 # show_harmo_error(
 #   harmonized_dossier_with_errors,
 #   show_warnings = TRUE) # Can be informative, but can also be turned off, e.g., if there are known warnings produced by processing algorithms
 
-## ----eval=FALSE----------------------------------------------------------------------------------
+## ----fig.cap="Subset of output from show_harmo_error() printed in the console.", out.width="80%", fig.align="center",echo=FALSE----
+knitr::include_graphics("images/vig4_fig02.png")
+
+## ----fig.cap="Example of locating the errors in the DPE document.", out.width="80%", fig.align="center",echo=FALSE----
+knitr::include_graphics("images/vig4_fig03.png")
+
+## ----eval=FALSE---------------------------------------------------------------
 # # Get corrected DPEs with changes made based on error messages
-# dpe_no_errors <- Rmonize_examples$Data_Processing_Elements_no_errors %>%
+# dpe_no_errors <- Rmonize_examples$`Data_Processing_Elements_no errors` %>%
 #   as_data_proc_elem()
 # 
 # # Run processing function
@@ -65,7 +74,7 @@ knitr::opts_chunk$set(
 #   show_warnings = TRUE
 # )
 
-## ----eval=FALSE----------------------------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 # # Save the harmonized dossier as R file
 # saveRDS(harmonized_dossier, "harmonized_dossier.rds")
 

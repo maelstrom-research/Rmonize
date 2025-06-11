@@ -71,6 +71,11 @@ harmonized_dossier_with_errors <- harmo_process(
   harmonized_col_dataset = 'adm_study_id') # Identifies the harmonized variable to use as dataset identifiers
 ```
 
+```{r,fig.cap="Subset of processing information printed in the console, including messages about errors in running individual algorithms.", out.width="80%", fig.align="center",echo=FALSE}
+knitr::include_graphics("images/vig4_fig01.png")
+```
+
+
 > **TIP:** The function `harmo_process()` can be run on one study at a time (datasets and DPEs) or subsets of the variables (DataSchema and DPEs) to help isolate issues.
 
 > **TIP:** The dataset names in the list in the input_dossier must match the input_dataset in the DPE.
@@ -88,15 +93,23 @@ show_harmo_error(
 
 This prints the specific DataSchema variables and input datasets affected by the errors and information about the specific error.
 
+```{r,fig.cap="Subset of output from show_harmo_error() printed in the console.", out.width="80%", fig.align="center",echo=FALSE}
+knitr::include_graphics("images/vig4_fig02.png")
+```
+
 In this example, there are errors in generating the DataSchema variables preg_gestational_age_del and pm_birthweight in dataset_study4. These variables have the specific errors 'could not find function "flor"' and 'object 'bbb_weight' not found', respectively. In this case, inspecting the error messages and associated rows in the DPE indicate that the errors come from typos. The function 'flor' used in the algorithm for preg_gestational_age_del in dataset_study4 should instead be 'floor', and the input_variable 'bbb_weight' used for pm_birthweight in dataset_study4 should instead be 'bb_weight'.
 
 You can use these error messages to make necessary corrections in the DPE Excel file and import the updated version of the DPE without errors (this approach is usually simpler and clearer for documenting versions of the DPE than making changes to the DPE in R).
+
+```{r,fig.cap="Example of locating the errors in the DPE document.", out.width="80%", fig.align="center",echo=FALSE}
+knitr::include_graphics("images/vig4_fig03.png")
+```
 
 The processing is then rerun with the updated DPE and checked for processing errors as many times as needed.
 
 ```{r eval=FALSE}
 # Get corrected DPEs with changes made based on error messages
-dpe_no_errors <- Rmonize_examples$Data_Processing_Elements_no_errors %>%
+dpe_no_errors <- Rmonize_examples$`Data_Processing_Elements_no errors` %>%
   as_data_proc_elem()
 
 # Run processing function
