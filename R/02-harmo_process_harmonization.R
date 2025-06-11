@@ -2314,7 +2314,7 @@ as_harmonized_dossier <- function(
   # check if the object is enough a dossier
   dossier_create(object)
   
-  if(is_dataset(object)) object <- dossier_create(object[[1]])
+  if(is_dataset(object)) object <- dossier_create(object)
   
   if(!is.logical(harmonized_data_dict_apply))
     stop(call. = FALSE,
@@ -2338,6 +2338,7 @@ as_harmonized_dossier <- function(
   
   # check the DataSchema
   if(is.null(dataschema)){
+    
     dataschema <- data_dict_extract(dossier_create(object)[[1]])
     dataschema$Variables <- 
       dataschema$Variables %>%

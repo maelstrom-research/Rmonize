@@ -81,16 +81,12 @@
 #' @examples
 #' {
 #' 
-#' @examples
-#' {
-#' 
-#' library(stringr)
 #' library(fs)
 #' 
 #' # Use Rmonize_examples to run examples.
 #' # Perform data processing
 #' 
-#' pooled_harmonized_dataset <- Rmonize_examples$`pooled_harmonized_dataset`
+#' harmonized_dossier <- Rmonize_examples$`harmonized_dossier`
 #' harmonized_dossier_summary <- Rmonize_examples$`summary_report_harmonized_dossier`
 #' 
 #' # Create a folder where the visual report will be placed
@@ -100,7 +96,7 @@
 #' 
 #' # Generate the visual report
 #' harmonized_dossier_visualize(
-#'   pooled_harmonized_dataset = pooled_harmonized_dataset,
+#'   harmonized_dossier = harmonized_dossier,
 #'   harmonized_dossier_summary = harmonized_dossier_summary,
 #'   bookdown_path = bookdown_path)
 #'   
@@ -138,15 +134,19 @@ harmonized_dossier_visualize <- function(
     stop(call. = FALSE,
          '`bookdown_path` must be a character string.')
 
-  # test if group exists
-  if(!is.null(group_by)){
-    
-    # test if harmonized_col_dataset exists
-    bind_rows(
-      as.list(harmonized_dossier) %>% lapply(function(x) x %>%
-                                      mutate(across(everything(),as.character)))) %>%
-      select(all_of(group_by))
-  }
+  # group_by from pooled_harmonized_dataset
+  if(!is.null(pooled_harmonized_dataset)){
+    if(is.null(group_by)) group_by <- 
+      attributes(pooled_harmonized_dataset)$`Rmonize::harmonized_col_dataset`}
+  
+  # # test if group exists
+  # if(!is.null(group_by)){
+  #   
+  #   # test if harmonized_col_dataset exists
+  #   bind_rows(
+  #     as.list(harmonized_dossier) %>% lapply(function(x) x %>%
+  #                                              mutate(across(everything(),as.character)))) %>%
+  #     select(all_of(group_by))}
   
   # creation of pooled_harmonized_dataset
   if(is.null(pooled_harmonized_dataset)){
@@ -156,7 +156,7 @@ harmonized_dossier_visualize <- function(
         harmonized_col_dataset = group_by,
         dataschema = dataschema,
         data_proc_elem = data_proc_elem))}
-
+  
   if(is.null(harmonized_dossier_summary)){
     harmonized_dossier_summary <-
       harmonized_dossier_summarize(harmonized_dossier)
