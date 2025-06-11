@@ -45,7 +45,6 @@
 #' 
 #' # Use Rmonize_examples to run examples.
 #' library(dplyr)
-#' library(stringr)
 #' 
 #' # Perform data processing
 #' harmonized_dossier <- Rmonize_examples$`harmonized_dossier`
@@ -172,16 +171,13 @@ harmonized_dossier_evaluate <- function(harmonized_dossier){
 #' library(dplyr)
 #' 
 #' data_proc_elem <- Rmonize_examples$`Data_Processing_Element_no errors`
-#' eval_data_proc_elem <- data_proc_elem_evaluate(data_proc_elem)
 #' 
-#' glimpse(eval_data_proc_elem)
+#' glimpse(data_proc_elem)
 #' }
 #'
 #' @import dplyr fabR
 #' @importFrom rlang .data
 #' @importFrom crayon bold
-#'
-#' @export
 data_proc_elem_evaluate <- function(data_proc_elem, taxonomy = NULL){
 
   data_proc_elem <- 

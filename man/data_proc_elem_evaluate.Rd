@@ -46,9 +46,8 @@ taxonomies are
 library(dplyr)
 
 data_proc_elem <- Rmonize_examples$`Data_Processing_Element_no errors`
-eval_data_proc_elem <- data_proc_elem_evaluate(data_proc_elem)
 
-glimpse(eval_data_proc_elem)
+glimpse(data_proc_elem)
 }
 
 }

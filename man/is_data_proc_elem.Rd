@@ -38,6 +38,3 @@ is_data_proc_elem(iris)
 }
 
 }
-\seealso{
-\code{\link[=data_proc_elem_evaluate]{data_proc_elem_evaluate()}}.
-}

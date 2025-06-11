@@ -2791,9 +2791,6 @@ is_dataschema <- function(object){
 #' `input_variables`, `Mlstr_harmo::rule_category` and `Mlstr_harmo::algorithm`.
 #' To initiate processing, the first entry must be the creation of a harmonized
 #' primary identifier variable (e.g., participant unique ID).
-#' 
-#' @seealso
-#' [data_proc_elem_evaluate()].
 #'
 #' @param object A potential Data Processing Elements object to be evaluated.
 #'
