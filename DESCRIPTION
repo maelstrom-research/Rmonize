@@ -1,7 +1,7 @@
 Package: Rmonize
 Type: Package
 Title: Tools for Data Harmonization
-Version: 1.1.0.9402
+Version: 1.1.0.9500
 Authors@R: 
     c(person(given = "Guillaume",
              family = "Fabre",
