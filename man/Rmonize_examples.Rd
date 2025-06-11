@@ -3,29 +3,31 @@
 \docType{data}
 \name{Rmonize_examples}
 \alias{Rmonize_examples}
-\title{Objects to provide illustrative use case}
+\title{Example objects to provide an illustrative use case}
 \format{
 \subsection{\code{list}}{
 
-A list with 12 elements (data frames and lists) providing example objects
-for testing the package:
-
+A list with elements (data frames and lists) providing example objects
+for using the package:
 \describe{
-\item{dataset_study1}{Dataset example for a study named "study1", labelled with its data dictionary}
-\item{dataset_study2}{Dataset example for a study named "study2", labelled with its data dictionary}
-\item{dataset_study3}{Dataset example for a study named "study3", labelled with its data dictionary}
-\item{dataset_study4}{Dataset example for a study named "study4", labelled with its data dictionary}
-\item{dataset_study5}{Dataset example for a study named "study5", labelled with its data dictionary}
-\item{Data Processing Elements}{Example Data Processing Elements}
+\item{original_dataset_study1}{Example original dataset from .sav file for "study1"}
+\item{original_dataset_study2}{Example original dataset from .sav file for "study2"}
+\item{original_dataset_study3}{Example original dataset from .csv file for "study3"}
+\item{original_dataset_study4}{Example original dataset from .xlsx file for "study4"}
+\item{original_dataset_study5}{Example original dataset from .xlsx file for "study5"}
+\item{original_data_dict_study4}{Example original data dictionary from .xlsx file, for "study4"}
+\item{original_data_dict_study5}{Example original data dictionary from .xlsx file, for "study5"}
+\item{input_dataset_study1}{Example input dataset ready for processing, for "study1"}
+\item{input_dataset_study2}{Example input dataset ready for processing, for "study2"}
+\item{input_dataset_study3}{Example input dataset ready for processing, for "study3"}
+\item{input_dataset_study4}{Example input dataset ready for processing, for "study4"}
+\item{input_dataset_study5}{Example input dataset ready for processing, for "study5"}
 \item{DataSchema}{Example DataSchema}
-\item{harmo_dataset_study1}{Harmonized dataset example , labelled with its harmonized data dictionary}
-\item{harmo_dataset_study2}{Harmonized dataset example , labelled with its harmonized data dictionary}
-\item{harmo_dataset_study3}{Harmonized dataset example , labelled with its harmonized data dictionary}
-\item{harmo_dataset_study4}{Harmonized dataset example , labelled with its harmonized data dictionary}
-\item{harmo_dataset_study5}{Harmonized dataset example , labelled with its harmonized data dictionary}
-\item{harmo_dataset_pooled}{Harmonized pooled dataset example, labelled with its harmonized data dictionary}
-\item{summary - harmonized datasets}{Example of harmonized datasets summary}
-...
+\item{Data_Processing_Element_no errors}{Example Data Processing Elements containing no errors}
+\item{Data_Processing_Element_with errors}{Example Data Processing Elements containing errors}
+\item{harmonized_dossier}{Example harmonized dossier}
+\item{pooled_harmonized_dataset}{Example pooled harmonized dataset}
+\item{summary_report_harmonized_dossier}{Example summary report of harmonized dossier}
 }
 }
 }
@@ -33,15 +35,15 @@ for testing the package:
 Rmonize_examples
 }
 \description{
-Illustrative input datasets, input data dictionaries, DataSchema,
-Data Processing Elements, and other objects to provide use case of Rmonize.
+Example input datasets, input data dictionaries, DataSchema,
+Data Processing Elements, harmonized output, and summary report.
 }
 \examples{
 {
 
 library(dplyr)
+glimpse(Rmonize_examples$`DataSchema`)
 
-glimpse(Rmonize_examples$DataSchema)
 
 }
 }
