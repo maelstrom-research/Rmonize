@@ -440,7 +440,7 @@ input dataset. The example DPE in the package can be used to process all
 five input datasets at the same time, or you can prepare a DPE for a
 single input dataset and run processing for one dataset at a time.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># Get the Data Processing Elements</span></span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>dpe <span class="ot">&lt;-</span> Rmonize_examples<span class="sc">$</span>Data_Processing_Elements_no_errors</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>dpe <span class="ot">&lt;-</span> Rmonize_examples<span class="sc">$</span><span class="st">`</span><span class="at">Data_Processing_Element_no errors</span><span class="st">`</span></span>
 <span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a></span>
 <span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co"># Get the Data Processing Elements for a single dataset (study1)</span></span>
 <span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>dpe_study1 <span class="ot">&lt;-</span> dpe <span class="sc">%&gt;%</span></span>
@@ -491,25 +491,28 @@ input_dataset column in the DPE.</p>
 <p>You can summarize harmonized dossiers with summary statistics and
 visual reports.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># Produce a summary report of the harmonized datasets and variables</span></span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>summary_report_harmonized_dossier <span class="ot">&lt;-</span> <span class="fu">harmonized_dossier_summarize</span>(harmonized_dossier)</span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="co"># Produce a visual report of the harmonized datasets and variables</span></span>
-<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="co"># You must specify a folder to contain the visual report files, and the folder name must not already exist.</span></span>
-<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co"># </span><span class="al">WARNING</span><span class="co">: This script creates a folder &#39;tmp&#39;.</span></span>
-<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>bookdown_path <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&#39;tmp/&#39;</span>,<span class="fu">basename</span>(<span class="fu">tempdir</span>()))</span>
-<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a></span>
-<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="fu">harmonized_dossier_visualize</span>(</span>
-<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>  harmonized_dossier,</span>
-<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>  <span class="at">bookdown_path =</span> bookdown_path)</span>
-<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a></span>
-<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a><span class="co"># Open the visual report in a browser.</span></span>
-<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a><span class="fu">bookdown_open</span>(bookdown_path)</span></code></pre></div>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>summary_report_harmonized_dossier <span class="ot">&lt;-</span> </span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="fu">harmonized_dossier_summarize</span>(harmonized_dossier)</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="co"># Produce a visual report of the harmonized datasets and variables</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co"># You must specify a folder to contain the visual report files, and the folder name must not already exist.</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="co"># </span><span class="al">WARNING</span><span class="co">: This script creates a folder &#39;tmp&#39;.</span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>bookdown_path <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&#39;tmp/&#39;</span>,<span class="fu">basename</span>(<span class="fu">tempdir</span>()))</span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">dir.exists</span>(bookdown_path)) <span class="fu">file.remove</span>(bookdown_path)</span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="fu">harmonized_dossier_visualize</span>(</span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a>  harmonized_dossier,</span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a>  <span class="at">bookdown_path =</span> bookdown_path,</span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a>  <span class="at">harmonized_dossier_summary =</span> summary_report_harmonized_dossier</span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a>    )</span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a></span>
+<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a><span class="co"># Open the visual report in a browser.</span></span>
+<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a><span class="fu">bookdown_open</span>(bookdown_path)</span></code></pre></div>
 <p>If there are multiple datasets in the harmonized dossier, you can
 combine them into one pooled harmonized dataset.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co"># Generate one pooled harmonized dataset from a harmonized dossier</span></span>
 <span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>pooled_harmonized_dataset <span class="ot">&lt;-</span> <span class="fu">pooled_harmonized_dataset_create</span>(</span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  <span class="at">harmonized_dossier =</span> harmonized_dossier,</span>
-<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>  <span class="at">harmonized_col_dataset =</span> <span class="st">&quot;adm_study_id&quot;</span>)</span></code></pre></div>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  <span class="at">harmonized_dossier =</span> harmonized_dossier)</span></code></pre></div>
 <blockquote>
 <p><strong>TIP:</strong> The parameter ‘harmonized_col_dataset’ can be
 used to indicate the variable that identifies each dataset, if such a
@@ -534,16 +537,22 @@ the outputs, they can be saved in various formats. For example,
 harmonized datasets can be exported as labelled datasets that keep
 variable attributes as metadata, and summary reports can be saved as
 Excel files.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co"># Save the harmonized dossier as an R file to preserve all metadata</span></span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="fu">saveRDS</span>(harmonized_dossier, <span class="st">&quot;my_dossier.rds&quot;</span>)</span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a></span>
-<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="co"># Export a harmonized dataset to another file format</span></span>
-<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
-<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="fu">write_sav</span>(harmonized_dossier<span class="sc">$</span>dataset_study1, <span class="st">&quot;my_spss_file.sav&quot;</span>)</span>
-<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a></span>
-<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a><span class="co"># Export a summary as an Excel file</span></span>
-<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a><span class="fu">library</span>(fabR)</span>
-<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a><span class="fu">write_excel_allsheets</span>(summary_report_harmonized_dossier, <span class="st">&quot;my_summary_report.xlsx&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="co"># </span><span class="al">WARNING</span><span class="co">: This script creates a folder &#39;tmp&#39;.</span></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>output_path <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&#39;tmp/&#39;</span>,<span class="fu">basename</span>(<span class="fu">tempdir</span>()))</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="fu">dir.create</span>(output_path)</span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="co"># Save the harmonized dossier as an R file to preserve all metadata</span></span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a><span class="fu">saveRDS</span>(harmonized_dossier, <span class="fu">paste0</span>(output_path,<span class="st">&quot;/my_dossier.rds&quot;</span>))</span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a><span class="co"># Export a harmonized dataset to another file format</span></span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a><span class="fu">write_sav</span>(harmonized_dossier<span class="sc">$</span>dataset_study1, <span class="fu">paste0</span>(output_path,<span class="st">&quot;/my_spss_file.sav&quot;</span>))</span>
+<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a></span>
+<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a><span class="co"># Export a summary as an Excel file</span></span>
+<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a><span class="fu">library</span>(fabR)</span>
+<span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a><span class="fu">write_excel_allsheets</span>(</span>
+<span id="cb11-16"><a href="#cb11-16" tabindex="-1"></a>  summary_report_harmonized_dossier, <span class="fu">paste0</span>(output_path,<span class="st">&quot;/my_summary_report.xlsx&quot;</span>))</span></code></pre></div>
 </div>
 <div id="next-steps" class="section level2">
 <h2>Next steps</h2>

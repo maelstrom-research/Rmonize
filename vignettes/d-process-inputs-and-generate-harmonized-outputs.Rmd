@@ -42,7 +42,7 @@ dataset_study5 <- Rmonize_examples$input_dataset_study5
 dataschema <- Rmonize_examples$DataSchema
 
 # Get the Data Processing Elements
-dpe_with_errors <- Rmonize_examples$Data_Processing_Elements_with_errors
+dpe_with_errors <- Rmonize_examples$`Data_Processing_Element_with errors`
 # This version contains some examples of potential processing errors.
 ```
 
@@ -109,7 +109,8 @@ The processing is then rerun with the updated DPE and checked for processing err
 
 ```{r eval=FALSE}
 # Get corrected DPEs with changes made based on error messages
-dpe_no_errors <- Rmonize_examples$`Data_Processing_Elements_no errors` %>%
+dpe_no_errors <- 
+  Rmonize_examples$`Data_Processing_Element_no errors` %>%
   as_data_proc_elem()
 
 # Run processing function
@@ -137,6 +138,9 @@ Once there are no processing errors, the harmonized dossier can be used to extra
 
 ```{r eval=FALSE}
 # Save the harmonized dossier as R file
-saveRDS(harmonized_dossier, "harmonized_dossier.rds")
+# WARNING: This script creates a folder 'tmp'.
+output_path <- paste0('tmp/',basename(tempdir()))
+dir.create(output_path)
+saveRDS(harmonized_dossier, paste0(output_path,"/harmonized_dossier.rds"))
 ```
 

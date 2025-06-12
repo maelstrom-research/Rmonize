@@ -46,7 +46,7 @@ knitr::include_graphics("images/vig2_fig01b.png")
 
 ## ----eval=FALSE---------------------------------------------------------------
 # # Get the Data Processing Elements
-# dpe <- Rmonize_examples$Data_Processing_Elements_no_errors
+# dpe <- Rmonize_examples$`Data_Processing_Element_no errors`
 # 
 # # Get the Data Processing Elements for a single dataset (study1)
 # dpe_study1 <- dpe %>%
@@ -72,16 +72,20 @@ knitr::include_graphics("images/vig2_fig02.png")
 
 ## ----eval=FALSE---------------------------------------------------------------
 # # Produce a summary report of the harmonized datasets and variables
-# summary_report_harmonized_dossier <- harmonized_dossier_summarize(harmonized_dossier)
+# summary_report_harmonized_dossier <-
+#   harmonized_dossier_summarize(harmonized_dossier)
 # 
 # # Produce a visual report of the harmonized datasets and variables
 # # You must specify a folder to contain the visual report files, and the folder name must not already exist.
 # # WARNING: This script creates a folder 'tmp'.
 # bookdown_path <- paste0('tmp/',basename(tempdir()))
+# if(dir.exists(bookdown_path)) file.remove(bookdown_path)
 # 
 # harmonized_dossier_visualize(
 #   harmonized_dossier,
-#   bookdown_path = bookdown_path)
+#   bookdown_path = bookdown_path,
+#   harmonized_dossier_summary = summary_report_harmonized_dossier
+#     )
 # 
 # # Open the visual report in a browser.
 # bookdown_open(bookdown_path)
@@ -89,22 +93,27 @@ knitr::include_graphics("images/vig2_fig02.png")
 ## ----eval=FALSE---------------------------------------------------------------
 # # Generate one pooled harmonized dataset from a harmonized dossier
 # pooled_harmonized_dataset <- pooled_harmonized_dataset_create(
-#   harmonized_dossier = harmonized_dossier,
-#   harmonized_col_dataset = "adm_study_id")
+#   harmonized_dossier = harmonized_dossier)
 
 ## ----eval=FALSE---------------------------------------------------------------
 # # Extract the data dictionary for one dataset
 # data_dictionary_study1 <- data_dict_extract(harmonized_dossier$dataset_study1)
 
 ## ----eval=FALSE---------------------------------------------------------------
+# 
+# # WARNING: This script creates a folder 'tmp'.
+# output_path <- paste0('tmp/',basename(tempdir()))
+# dir.create(output_path)
+# 
 # # Save the harmonized dossier as an R file to preserve all metadata
-# saveRDS(harmonized_dossier, "my_dossier.rds")
+# saveRDS(harmonized_dossier, paste0(output_path,"/my_dossier.rds"))
 # 
 # # Export a harmonized dataset to another file format
 # library(haven)
-# write_sav(harmonized_dossier$dataset_study1, "my_spss_file.sav")
+# write_sav(harmonized_dossier$dataset_study1, paste0(output_path,"/my_spss_file.sav"))
 # 
 # # Export a summary as an Excel file
 # library(fabR)
-# write_excel_allsheets(summary_report_harmonized_dossier, "my_summary_report.xlsx")
+# write_excel_allsheets(
+#   summary_report_harmonized_dossier, paste0(output_path,"/my_summary_report.xlsx"))
 

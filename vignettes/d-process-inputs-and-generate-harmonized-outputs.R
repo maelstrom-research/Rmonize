@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 # dataschema <- Rmonize_examples$DataSchema
 # 
 # # Get the Data Processing Elements
-# dpe_with_errors <- Rmonize_examples$Data_Processing_Elements_with_errors
+# dpe_with_errors <- Rmonize_examples$`Data_Processing_Element_with errors`
 # # This version contains some examples of potential processing errors.
 
 ## ----eval=FALSE---------------------------------------------------------------
@@ -57,7 +57,8 @@ knitr::include_graphics("images/vig4_fig03.png")
 
 ## ----eval=FALSE---------------------------------------------------------------
 # # Get corrected DPEs with changes made based on error messages
-# dpe_no_errors <- Rmonize_examples$`Data_Processing_Elements_no errors` %>%
+# dpe_no_errors <-
+#   Rmonize_examples$`Data_Processing_Element_no errors` %>%
 #   as_data_proc_elem()
 # 
 # # Run processing function
@@ -76,5 +77,8 @@ knitr::include_graphics("images/vig4_fig03.png")
 
 ## ----eval=FALSE---------------------------------------------------------------
 # # Save the harmonized dossier as R file
-# saveRDS(harmonized_dossier, "harmonized_dossier.rds")
+# # WARNING: This script creates a folder 'tmp'.
+# output_path <- paste0('tmp/',basename(tempdir()))
+# dir.create(output_path)
+# saveRDS(harmonized_dossier, paste0(output_path,"/harmonized_dossier.rds"))
 

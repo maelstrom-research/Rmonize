@@ -380,7 +380,7 @@ processing.</p>
 <span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>dataschema <span class="ot">&lt;-</span> Rmonize_examples<span class="sc">$</span>DataSchema</span>
 <span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a></span>
 <span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co"># Get the Data Processing Elements</span></span>
-<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>dpe_with_errors <span class="ot">&lt;-</span> Rmonize_examples<span class="sc">$</span>Data_Processing_Elements_with_errors</span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>dpe_with_errors <span class="ot">&lt;-</span> Rmonize_examples<span class="sc">$</span><span class="st">`</span><span class="at">Data_Processing_Element_with errors</span><span class="st">`</span></span>
 <span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co"># This version contains some examples of potential processing errors.</span></span></code></pre></div>
 <p>In the examples, the DPE contains processing instructions for all
 five datasets, but you can prepare separate DPE documents for each input
@@ -475,22 +475,23 @@ Example of locating the errors in the DPE document.
 <p>The processing is then rerun with the updated DPE and checked for
 processing errors as many times as needed.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># Get corrected DPEs with changes made based on error messages</span></span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>dpe_no_errors <span class="ot">&lt;-</span> Rmonize_examples<span class="sc">$</span><span class="st">`</span><span class="at">Data_Processing_Elements_no errors</span><span class="st">`</span> <span class="sc">%&gt;%</span></span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="fu">as_data_proc_elem</span>()</span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co"># Run processing function</span></span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>harmonized_dossier <span class="ot">&lt;-</span> <span class="fu">harmo_process</span>(</span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>  <span class="at">object =</span> input_dossier,</span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>  <span class="at">dataschema =</span> dataschema,</span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>  <span class="at">data_proc_elem =</span> dpe_no_errors,</span>
-<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>  <span class="at">harmonized_col_dataset =</span> <span class="st">&#39;adm_study_id&#39;</span> <span class="co"># Identifies the harmonized variable to use as dataset identifiers</span></span>
-<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>)</span>
-<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a></span>
-<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co"># Confirm there are no errors</span></span>
-<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="fu">show_harmo_error</span>(</span>
-<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a>  harmonized_dossier,</span>
-<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>  <span class="at">show_warnings =</span> <span class="cn">TRUE</span></span>
-<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a>)</span></code></pre></div>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>dpe_no_errors <span class="ot">&lt;-</span> </span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  Rmonize_examples<span class="sc">$</span><span class="st">`</span><span class="at">Data_Processing_Element_no errors</span><span class="st">`</span> <span class="sc">%&gt;%</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  <span class="fu">as_data_proc_elem</span>()</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co"># Run processing function</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>harmonized_dossier <span class="ot">&lt;-</span> <span class="fu">harmo_process</span>(</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>  <span class="at">object =</span> input_dossier,</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>  <span class="at">dataschema =</span> dataschema,</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>  <span class="at">data_proc_elem =</span> dpe_no_errors,</span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>  <span class="at">harmonized_col_dataset =</span> <span class="st">&#39;adm_study_id&#39;</span> <span class="co"># Identifies the harmonized variable to use as dataset identifiers</span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>)</span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co"># Confirm there are no errors</span></span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="fu">show_harmo_error</span>(</span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>  harmonized_dossier,</span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a>  <span class="at">show_warnings =</span> <span class="cn">TRUE</span></span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a>)</span></code></pre></div>
 <p>Typos are common sources of errors in the DPE, as are
 mis-specifications in algorithms. Filling out the DPE can take some time
 and attention to detail, but has benefits in comprehensively documenting
@@ -510,7 +511,10 @@ file so that the structure and all metadata is preserved and it can be
 easily used in other Rmonize functions.</p>
 </blockquote>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># Save the harmonized dossier as R file</span></span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="fu">saveRDS</span>(harmonized_dossier, <span class="st">&quot;harmonized_dossier.rds&quot;</span>)</span></code></pre></div>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co"># </span><span class="al">WARNING</span><span class="co">: This script creates a folder &#39;tmp&#39;.</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>output_path <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&#39;tmp/&#39;</span>,<span class="fu">basename</span>(<span class="fu">tempdir</span>()))</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="fu">dir.create</span>(output_path)</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="fu">saveRDS</span>(harmonized_dossier, <span class="fu">paste0</span>(output_path,<span class="st">&quot;/harmonized_dossier.rds&quot;</span>))</span></code></pre></div>
 </div>
 
 

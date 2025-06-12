@@ -28,11 +28,17 @@ knitr::include_graphics("images/vig5_fig02.png")
 
 ## ----eval=FALSE---------------------------------------------------------------
 # # Produce dataset and variable summaries
-# summary_report_harmonized_dossier <- harmonized_dossier_summarize(harmonized_dossier)
+# summary_report_harmonized_dossier <-
+#   harmonized_dossier_summarize(harmonized_dossier)
 # # Note: This report is also provided in Rmonize_examples$summary_report_harmonized_dossier.
 # 
 # # Export to Excel
-# write_excel_allsheets(summary_report_harmonized_dossier, "summary_report_harmonized_dossier.xlsx")
+# # WARNING: This script creates a folder 'tmp'.
+# output_path <- paste0('tmp/',basename(tempdir()))
+# dir.create(output_path)
+# write_excel_allsheets(
+#   summary_report_harmonized_dossier,
+#   paste0(output_path,"/summary_report_harmonized_dossier.xlsx"))
 
 ## ----fig.cap="Information about the example harmonized dossier summary report provided in the RStudio viewer.", out.width="80%", fig.align="center",echo=FALSE----
 knitr::include_graphics("images/vig5_fig03.png")
@@ -40,12 +46,15 @@ knitr::include_graphics("images/vig5_fig03.png")
 ## ----eval=FALSE---------------------------------------------------------------
 # # Produce a visual report of the harmonized datasets and variables
 # # You must specify a folder to contain the visual report files, and the folder name must not already exist.
-# # WARNING: This script creates a folder 'temp'.
-# bookdown_path <- paste0('temp/',basename(tempdir()))
+# # WARNING: This script creates a folder 'tmp'.
+# bookdown_path <- paste0('tmp/',basename(tempdir()))
+# if(dir.exists(bookdown_path)) file.remove(bookdown_path)
 # 
 # harmonized_dossier_visualize(
 #   harmonized_dossier,
-#   bookdown_path = bookdown_path)
+#   bookdown_path = bookdown_path,
+#   harmonized_dossier_summary = summary_report_harmonized_dossier
+#   )
 # 
 # # Open the visual report in a browser.
 # bookdown_open(bookdown_path)
@@ -58,25 +67,31 @@ knitr::include_graphics("images/vig5_fig04b.png")
 
 ## ----eval=FALSE---------------------------------------------------------------
 # # Extract the data dictionary
-# data_dict_harmonized_dossier <- harmonized_dossier %>%
+# data_dict_harmonized_dossier <-
+#   harmonized_dossier %>%
 #   lapply(data_dict_extract)
 
 ## ----eval=FALSE---------------------------------------------------------------
 # # Generate one pooled harmonized dataset from a harmonized dossier
-# pooled_harmonized_dataset <- pooled_harmonized_dataset_create(
-#   harmonized_dossier = harmonized_dossier,
-#   harmonized_col_dataset = "adm_study_id")
+# pooled_harmonized_dataset <-
+#   pooled_harmonized_dataset_create(
+#   harmonized_dossier = harmonized_dossier)
 
 ## ----eval=FALSE---------------------------------------------------------------
 # # Export harmonized datasets without metadata to Excel
+# # WARNING: This script creates a folder 'tmp'.
+# output_path <- paste0('tmp/',basename(tempdir()))
+# dir.create(output_path)
+# 
 # for(i in names(harmonized_dossier)){
-#   filename <- paste0(
-#     "outputs/harmonized_datasets/harmonized_",i,".xlsx")
+#   filename <-
+#       paste0(output_path,"/outputs/harmonized_datasets/harmonized_",i,".xlsx")
 #   write_excel_allsheets(harmonized_dossier[[i]],filename)}
 # 
 # # Export harmonized data dictionaries to Excel
 # for(i in names(data_dict_harmonized_dossier)){
-#   filename <- paste0(
-#     "outputs/harmonized_data_dictionaries/harmonized_data_dictionary_",i,".xlsx")
+#   filename <-
+#     paste0(output_path,
+#            "/outputs/harmonized_data_dictionaries/harmonized_data_dictionary_",i,".xlsx")
 #   write_excel_allsheets(data_dict_harmonized_dossier[[i]],filename)}
 
