@@ -109,12 +109,6 @@ harmonized_dossier_evaluate <- function(harmonized_dossier){
                "[INFO] - Variable has a constant value.")))
 
     
-    # exclude from warnings the fact that the dataset column could be an integer
-    # (not relevant)
-    harmonized_dossier_eval[['Harmo dataset assessment']] <- 
-      harmonized_dossier_eval[['Harmo dataset assessment']] %>%
-      dplyr::filter(!(.data$`Variable name` == dataset_column_name &
-                        .data$`Dataset assessment` == "[INFO] - Suggested valueType."))
 
     # [GF] comment the variable dataset_column_name has some warnings and informations
     # that are not relevant for harmo evaluate. Need further investigations
@@ -122,7 +116,15 @@ harmonized_dossier_evaluate <- function(harmonized_dossier){
     if(nrow(harmonized_dossier_eval[['Harmo dataset assessment']] %>%
       dplyr::filter(.data$`Variable name` == dataset_column_name)) > 0){
 
-      stop("ERROR 105")
+      # # exclude from warnings the fact that the dataset column could be an integer
+      # # (not relevant)
+      # harmonized_dossier_eval[['Harmo dataset assessment']] <- 
+      #   harmonized_dossier_eval[['Harmo dataset assessment']] %>%
+      #   dplyr::filter(!(.data$`Variable name` == dataset_column_name &
+      #                     .data$`Dataset assessment` == "[INFO] - Suggested valueType."))
+      # 
+      # 
+      # stop("ERROR 105")
     }
   }
   
