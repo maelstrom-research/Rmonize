@@ -509,7 +509,7 @@ Please correct elements and reprocess.')
     if(class(dossier[[i]])[1] == 'try-error'){
       stop(call. = FALSE,
 'In your Data Processing Elements, the input variable `',var_id,'` does not
-exists in the input dataset `',create_id_row$`input_dataset`,'`.
+exist in the input dataset `',create_id_row$`input_dataset`,'`.
 
 This element is mandatory for the data processing to be initiated.
 Please correct elements and reprocess.')
