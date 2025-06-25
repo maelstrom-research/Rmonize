@@ -507,7 +507,8 @@ harmonized_dossier_summarize <- function(harmonized_dossier){
   
   
   
-  # rename the groups by the name of the datasets if 
+  # rename the groups by the name of the datasets if more than 31 char. 
+  #  [GF] - to verify
   dataset_names <-
     harmo_data_dict[["Categories"]] %>%
     dplyr::filter(.data$`Variable name` == harmonized_col_dataset_short) %>%
