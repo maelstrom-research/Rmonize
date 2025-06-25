@@ -69,6 +69,11 @@ harmonized_dossier_visualize <- function(
 
   # check args
   render <- 'html'
+
+  # [GF] to test
+  if(!is_dossier(harmonized_dossier))
+    stop(call. = FALSE,
+         'Input parameter `harmonized_dossier` must be a harmonized dossier.')
   
   if(!is.character(bookdown_path))
     stop(call. = FALSE,
