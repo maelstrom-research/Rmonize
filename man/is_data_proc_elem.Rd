@@ -32,7 +32,7 @@ primary identifier variable (e.g., participant unique ID).
 
 # Use Rmonize_examples to run examples.
 
-is_data_proc_elem(Rmonize_examples$`Data_Processing_Element_no errors`)
+is_data_proc_elem(Rmonize_examples$`Data_Processing_Elements_no_errors`)
 is_data_proc_elem(Rmonize_examples$`DataSchema`)
 is_data_proc_elem(iris)
 }

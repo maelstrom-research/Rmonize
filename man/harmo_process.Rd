@@ -81,7 +81,7 @@ library(lubridate)
 dossier <- Rmonize_examples[str_detect(names(Rmonize_examples),"input_dataset_study")]
 names(dossier) <- str_remove(names(dossier), "input_")
 dataschema <- Rmonize_examples$`DataSchema`
-data_proc_elem <- Rmonize_examples$`Data_Processing_Element_no errors`
+data_proc_elem <- Rmonize_examples$`Data_Processing_Elements_no_errors`
 
 harmonized_dossier <- harmo_process(
   dossier,

@@ -38,7 +38,7 @@ in particular \href{https://www.obiba.org/pages/products/opal/}{Opal environment
 # use Rmonize_examples provided by the package
 
 is_dataschema_mlstr(Rmonize_examples$`DataSchema`)
-is_dataschema_mlstr(Rmonize_examples$`Data_Processing_Element_no errors`)
+is_dataschema_mlstr(Rmonize_examples$`Data_Processing_Elements_no_errors`)
 is_dataschema_mlstr(iris)
 
 }

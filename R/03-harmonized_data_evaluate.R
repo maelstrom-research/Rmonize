@@ -181,7 +181,7 @@ harmonized_dossier_evaluate <- function(harmonized_dossier){
 #' # Use Rmonize_examples to run examples.
 #' library(dplyr)
 #' 
-#' data_proc_elem <- Rmonize_examples$`Data_Processing_Element_no errors`
+#' data_proc_elem <- Rmonize_examples$`Data_Processing_Elements_no_errors`
 #' 
 #' glimpse(data_proc_elem)
 #' }

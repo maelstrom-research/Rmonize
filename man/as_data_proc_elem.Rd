@@ -34,7 +34,7 @@ primary identifier variable (e.g., participant unique ID).
 # Use Rmonize_examples to run examples.
 library(dplyr)
 
-data_proc_elem <- as_data_proc_elem(Rmonize_examples$`Data_Processing_Element_no errors`)
+data_proc_elem <- as_data_proc_elem(Rmonize_examples$`Data_Processing_Elements_no_errors`)
 
 head(data_proc_elem)
 

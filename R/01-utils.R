@@ -66,16 +66,16 @@ Rmonize_templates <- function(){
 #' \item{original_dataset_study3}{Example original dataset from .csv file for "study3"}
 #' \item{original_dataset_study4}{Example original dataset from .xlsx file for "study4"}
 #' \item{original_dataset_study5}{Example original dataset from .xlsx file for "study5"}
-#' \item{original_data_dict_study4}{Example original data dictionary from .xlsx file, for "study4"}
-#' \item{original_data_dict_study5}{Example original data dictionary from .xlsx file, for "study5"}
+#' \item{original_data_dictionary_study4}{Example original data dictionary from .xlsx file, for "study4"}
+#' \item{original_data_dictionary_study5}{Example original data dictionary from .xlsx file, for "study5"}
 #' \item{input_dataset_study1}{Example input dataset ready for processing, for "study1"}
 #' \item{input_dataset_study2}{Example input dataset ready for processing, for "study2"}
 #' \item{input_dataset_study3}{Example input dataset ready for processing, for "study3"}
 #' \item{input_dataset_study4}{Example input dataset ready for processing, for "study4"}
 #' \item{input_dataset_study5}{Example input dataset ready for processing, for "study5"}
 #' \item{DataSchema}{Example DataSchema}
-#' \item{Data_Processing_Element_no errors}{Example Data Processing Elements containing no errors}
-#' \item{Data_Processing_Element_with errors}{Example Data Processing Elements containing errors}
+#' \item{Data_Processing_Elements_no_errors}{Example Data Processing Elements containing no errors}
+#' \item{Data_Processing_Elements_with_errors}{Example Data Processing Elements containing errors}
 #' \item{harmonized_dossier}{Example harmonized dossier}
 #' \item{pooled_harmonized_dataset}{Example pooled harmonized dataset}
 #' \item{summary_report_harmonized_dossier}{Example summary report of harmonized dossier}

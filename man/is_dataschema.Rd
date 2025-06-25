@@ -33,7 +33,7 @@ must also be unique.
 # Use Rmonize_examples to run examples.
 
 is_dataschema(Rmonize_examples$`DataSchema`)
-is_dataschema(Rmonize_examples$`Data_Processing_Element_no errors`)
+is_dataschema(Rmonize_examples$`Data_Processing_Elements_no_errors`)
 is_dataschema(iris)
 
 }

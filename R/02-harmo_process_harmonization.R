@@ -61,7 +61,7 @@
 #' dossier <- Rmonize_examples[str_detect(names(Rmonize_examples),"input_dataset_study")]
 #' names(dossier) <- str_remove(names(dossier), "input_")
 #' dataschema <- Rmonize_examples$`DataSchema`
-#' data_proc_elem <- Rmonize_examples$`Data_Processing_Element_no errors`
+#' data_proc_elem <- Rmonize_examples$`Data_Processing_Elements_no_errors`
 #' 
 #' harmonized_dossier <- harmo_process(
 #'   dossier,
@@ -1755,7 +1755,7 @@ of harmonization:\n"))
 #' # Use Rmonize_examples to run examples.
 #' library(dplyr)
 #'
-#' dataschema <- dataschema_extract(Rmonize_examples$`Data_Processing_Element_no errors`)
+#' dataschema <- dataschema_extract(Rmonize_examples$`Data_Processing_Elements_no_errors`)
 #' glimpse(dataschema)
 #' 
 #' }
@@ -1817,7 +1817,7 @@ dataschema_extract <- function(data_proc_elem){
 #' # Use Rmonize_examples to run examples.
 #' library(dplyr)
 #'
-#' data_proc_elem <- as_data_proc_elem(Rmonize_examples$`Data_Processing_Element_no errors`)
+#' data_proc_elem <- as_data_proc_elem(Rmonize_examples$`Data_Processing_Elements_no_errors`)
 #' 
 #' head(data_proc_elem)
 #' 
@@ -2705,7 +2705,7 @@ categorical variable DataSchema.')}
 #' # use Rmonize_examples provided by the package
 #'
 #' is_dataschema_mlstr(Rmonize_examples$`DataSchema`)
-#' is_dataschema_mlstr(Rmonize_examples$`Data_Processing_Element_no errors`)
+#' is_dataschema_mlstr(Rmonize_examples$`Data_Processing_Elements_no_errors`)
 #' is_dataschema_mlstr(iris)
 #'
 #'}
@@ -2755,7 +2755,7 @@ is_dataschema_mlstr <- function(object){
 #' # Use Rmonize_examples to run examples.
 #' 
 #' is_dataschema(Rmonize_examples$`DataSchema`)
-#' is_dataschema(Rmonize_examples$`Data_Processing_Element_no errors`)
+#' is_dataschema(Rmonize_examples$`Data_Processing_Elements_no_errors`)
 #' is_dataschema(iris)
 #'
 #'}
@@ -2802,7 +2802,7 @@ is_dataschema <- function(object){
 #' 
 #' # Use Rmonize_examples to run examples.
 #' 
-#' is_data_proc_elem(Rmonize_examples$`Data_Processing_Element_no errors`)
+#' is_data_proc_elem(Rmonize_examples$`Data_Processing_Elements_no_errors`)
 #' is_data_proc_elem(Rmonize_examples$`DataSchema`)
 #' is_data_proc_elem(iris)
 #'}

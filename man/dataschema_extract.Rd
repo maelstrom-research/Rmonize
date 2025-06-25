@@ -44,7 +44,7 @@ in particular \href{https://www.obiba.org/pages/products/opal/}{Opal environment
 # Use Rmonize_examples to run examples.
 library(dplyr)
 
-dataschema <- dataschema_extract(Rmonize_examples$`Data_Processing_Element_no errors`)
+dataschema <- dataschema_extract(Rmonize_examples$`Data_Processing_Elements_no_errors`)
 glimpse(dataschema)
 
 }
