@@ -8,8 +8,8 @@ Authors@R:
              role = c("aut","cre"),
              email = "guijoseph.fabre@gmail.com",
              comment = c(ORCID = "0000-0002-0124-9970")),
-      person("Maelstrom-research group",
-             role=c("fnd","cph"),
+      person("Maelstrom Research",
+             role=c("aut","fnd","cph"),
              email="info@maelstrom-research.org"))
 Maintainer: Guillaume Fabre <guijoseph.fabre@gmail.com> 
 Description: Integrated tools to support rigorous and well documented data 
