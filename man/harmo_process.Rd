@@ -67,7 +67,7 @@ To initiate processing, the first entry must be the creation of a harmonized
 primary identifier variable (e.g., participant unique ID).
 }
 \examples{
-{
+\donttest{
 # Use Rmonize_examples to run examples.
 
 library(dplyr)

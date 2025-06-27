@@ -46,7 +46,7 @@ Rmonize_website <- function(){
 #' @export
 Rmonize_templates <- function(){
   
-  browseURL("https://maelstrom-research.github.io/Rmonize-documentation/docs/glossary/index.html")
+  browseURL("https://maelstrom-research.github.io/Rmonize-documentation/glossary/index.html")
 
 }
 

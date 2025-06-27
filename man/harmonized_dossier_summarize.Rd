@@ -66,7 +66,7 @@ types are available using \link{valueType_list}. The valueType can be used to
 coerce the variable to the corresponding data type.
 }
 \examples{
-{
+\donttest{
 # Use Rmonize_examples to run examples.
 library(dplyr)
 

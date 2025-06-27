@@ -70,8 +70,8 @@ users also install.
 
 ## Get help with Rmonize
 
-You can get package and function documentation in R, and additional help and 
-documentation are also provided on the website <https://maelstrom-research.github.io/Rmonize-documentation>.
+You can get package and function documentation in R, and additional help and
+documentation are also provided on the website <https://maelstrom-research.github.io/Rmonize-documentation/>
 
 ```{r eval=FALSE}
 # Get package documentation in R
@@ -107,7 +107,10 @@ Simple example of data processing with Rmonize.
 For more in-depth exploration of specific steps, see the vignettes and 
 documentation:
 
-- [Explore and prepare input datasets and data dictionaries](c-explore-and-prepare-input-datasets-and-data-dictionaries.html)
-- [Prepare the Data Processing Elements](../dpe/index.html)
-- [Process inputs into harmonized outputs](d-process-inputs-and-generate-harmonized-outputs.html)
-- [Summarize and secure harmonized outputs](e-summarize-and-secure-harmonized-outputs.html)
+- [Explore and prepare input datasets and data dictionaries](https://maelstrom-research.github.io/Rmonize-documentation/articles/c-explore-and-prepare-input-datasets-and-data-dictionaries.html)
+
+- [Prepare the Data Processing Elements](https://maelstrom-research.github.io/Rmonize-documentation/dpe/index.html)
+
+- [Process inputs into harmonized outputs](https://maelstrom-research.github.io/Rmonize-documentation/articles/d-process-inputs-and-generate-harmonized-outputs.html)
+
+- [Summarize and secure harmonized outputs](https://maelstrom-research.github.io/Rmonize-documentation/articles/e-summarize-and-secure-harmonized-outputs.html)

@@ -1,15 +1,15 @@
-## ----include = FALSE----------------------------------------------------------
+## ----include = FALSE----------------------------------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
 
-## ----eval=FALSE---------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------------------------
 # # Load relevant packages
 # library(Rmonize)
 # library(tidyverse) # Collection of R packages for data science
 
-## ----eval=FALSE---------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------------------------
 # # Get the input datasets
 # dataset_study1 <- Rmonize_examples$input_dataset_study1
 # dataset_study2 <- Rmonize_examples$input_dataset_study2
@@ -24,7 +24,7 @@ knitr::opts_chunk$set(
 # dpe_with_errors <- Rmonize_examples$`Data_Processing_Element_with errors`
 # # This version contains some examples of potential processing errors.
 
-## ----eval=FALSE---------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------------------------
 # # Create an input dossier
 # input_dossier <- dossier_create(list(
 #   dataset_study1,
@@ -44,7 +44,7 @@ knitr::opts_chunk$set(
 ## ----fig.cap="Subset of processing information printed in the console, including messages about errors in running individual algorithms.", out.width="80%", fig.align="center",echo=FALSE----
 knitr::include_graphics("images/vig4_fig01.png")
 
-## ----eval=FALSE---------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------------------------
 # # To identify processing errors to correct in the DPE
 # show_harmo_error(
 #   harmonized_dossier_with_errors,
@@ -57,7 +57,7 @@ knitr::include_graphics("images/vig4_fig02.png")
 ## ----fig.cap="Example of locating the errors in the DPE document.", out.width="80%", fig.align="center",echo=FALSE----
 knitr::include_graphics("images/vig4_fig03.png")
 
-## ----eval=FALSE---------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------------------------
 # # Get corrected DPEs with changes made based on error messages
 # dpe_no_errors <-
 #   Rmonize_examples$`Data_Processing_Element_no errors` %>%
@@ -78,7 +78,7 @@ knitr::include_graphics("images/vig4_fig03.png")
 #   show_warnings = TRUE
 # )
 
-## ----eval=FALSE---------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------------------------
 # # Save the harmonized dossier as R file
 # # WARNING: This script creates a folder 'tmp'.
 # output_path <- paste0('tmp/',basename(tempdir()))

@@ -32,7 +32,9 @@ pipelines.
 <div style="flex: 1;">
 
 Get an overview of processing with Rmonize and links to resources
-available for each step on the [Process](process/index.html) page.
+available for each step on the
+[Process](https://maelstrom-research.github.io/Rmonize-documentation/process/index.html)
+page.
 
 </div>
 
@@ -48,10 +50,11 @@ available for each step on the [Process](process/index.html) page.
 
 <div style="flex: 1;">
 
-[Install your working
-environment](articles/a-install-your-working-environment.html) and a
-[Simple example of data processing with
-Rmonize](articles/b-simple-example-of-data-processing-with-Rmonize.html).
+For a quick start to using the package, see the vignettes [Install your
+working
+environment](https://maelstrom-research.github.io/Rmonize-documentation/articles/a-install-your-working-environment.html)
+and a [Simple example of data processing with
+Rmonize](https://maelstrom-research.github.io/Rmonize-documentation/articles/b-simple-example-of-data-processing-with-Rmonize.html).
 
 </div>
 
@@ -67,9 +70,12 @@ Rmonize](articles/b-simple-example-of-data-processing-with-Rmonize.html).
 
 <div style="flex: 1;">
 
-The [Glossary](glossary/index.html) provides information about package
-terminology, and the [Functions](reference/index.html) page provides
-technical documentation on package functions and built-in materials
+The
+[Glossary](https://maelstrom-research.github.io/Rmonize-documentation/glossary/index.html)
+provides information about package terminology, and the
+[Functions](https://maelstrom-research.github.io/Rmonize-documentation/reference/index.html)
+page provides technical documentation on package functions and built-in
+materials
 
 </div>
 

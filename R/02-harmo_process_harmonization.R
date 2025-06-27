@@ -49,7 +49,7 @@
 #' the harmonized dossier.
 #'
 #' @examples
-#' {
+#' \donttest{
 #' # Use Rmonize_examples to run examples.
 #' 
 #' library(dplyr)

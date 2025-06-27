@@ -1,19 +1,19 @@
-## ----include = FALSE----------------------------------------------------------
+## ----include = FALSE----------------------------------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
 
-## ----eval=FALSE---------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------------------------
 # # Load relevant packages
 # library(Rmonize)
 # library(tidyverse) # Collection of R packages for data science
 
-## ----eval=FALSE---------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------------------------
 # # See available examples
 # names(Rmonize_examples)
 
-## ----eval=FALSE---------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------------------------
 # # Get the input datasets
 # dataset_study1 <- Rmonize_examples$input_dataset_study1
 # dataset_study2 <- Rmonize_examples$input_dataset_study2
@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 # dataset_study4 <- Rmonize_examples$input_dataset_study4
 # dataset_study5 <- Rmonize_examples$input_dataset_study5
 
-## ----eval=FALSE---------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------------------------
 # # Group multiple datasets into a dossier.
 # # IMPORTANT: The names of the datasets in the dossier must match the column
 # # input_dataset in the Data Processing Elements.
@@ -34,7 +34,7 @@ knitr::opts_chunk$set(
 #   dataset_study4,
 #   dataset_study5))
 
-## ----eval=FALSE---------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------------------------
 # # Get a DataSchema
 # dataschema <- Rmonize_examples$DataSchema
 
@@ -44,7 +44,7 @@ knitr::include_graphics("images/vig2_fig01a.png")
 ## ----fig.cap="Subsets of the example DataSchema document, showing the Categories", out.width="80%", fig.align="center",echo=FALSE----
 knitr::include_graphics("images/vig2_fig01b.png")
 
-## ----eval=FALSE---------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------------------------
 # # Get the Data Processing Elements
 # dpe <- Rmonize_examples$`Data_Processing_Element_no errors`
 # 
@@ -55,7 +55,7 @@ knitr::include_graphics("images/vig2_fig01b.png")
 ## ----fig.cap="Subset of the example Data Processing Elements document.", out.width="100%", fig.align="center",echo=FALSE----
 knitr::include_graphics("images/vig2_fig02.png")
 
-## ----eval=FALSE---------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------------------------
 # # Run processing function on all five datasets
 # harmonized_dossier <- harmo_process(
 #   object = input_dossier,
@@ -70,7 +70,7 @@ knitr::include_graphics("images/vig2_fig02.png")
 #   data_proc_elem = dpe_study1,
 #   harmonized_col_dataset = 'adm_study_id') # Identifies the harmonized variable to use as dataset identifiers
 
-## ----eval=FALSE---------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------------------------
 # # Produce a summary report of the harmonized datasets and variables
 # summary_report_harmonized_dossier <-
 #   harmonized_dossier_summarize(harmonized_dossier)
@@ -90,16 +90,16 @@ knitr::include_graphics("images/vig2_fig02.png")
 # # Open the visual report in a browser.
 # bookdown_open(bookdown_path)
 
-## ----eval=FALSE---------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------------------------
 # # Generate one pooled harmonized dataset from a harmonized dossier
 # pooled_harmonized_dataset <- pooled_harmonized_dataset_create(
 #   harmonized_dossier = harmonized_dossier)
 
-## ----eval=FALSE---------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------------------------
 # # Extract the data dictionary for one dataset
 # data_dictionary_study1 <- data_dict_extract(harmonized_dossier$dataset_study1)
 
-## ----eval=FALSE---------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------------------------
 # 
 # # WARNING: This script creates a folder 'tmp'.
 # output_path <- paste0('tmp/',basename(tempdir()))

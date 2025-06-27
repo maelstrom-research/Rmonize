@@ -40,7 +40,7 @@ A harmonized dossier also contains the DataSchema and
 Data Processing Elements used in processing as attributes.
 }
 \examples{
-{
+\donttest{
 
 library(fs)
 

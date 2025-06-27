@@ -32,7 +32,7 @@
 #' [bookdown_open()]
 #'
 #' @examples
-#' {
+#' \donttest{
 #' 
 #' library(fs)
 #' 

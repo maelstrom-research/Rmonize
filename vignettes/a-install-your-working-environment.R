@@ -1,10 +1,10 @@
-## ----include = FALSE----------------------------------------------------------
+## ----include = FALSE----------------------------------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
 
-## ----eval=FALSE---------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------------------------
 # # To install Rmonize from CRAN:
 # install.packages("Rmonize")
 # 
@@ -16,11 +16,11 @@ knitr::opts_chunk$set(
 # # Load the package
 # library(Rmonize)
 
-## ----eval=FALSE---------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------------------------
 # # Install package car from CRAN
 # install.packages("car")
 
-## ----eval=FALSE---------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------------------------
 # # Get package documentation in R
 # ?Rmonize
 # help("Rmonize")
@@ -28,7 +28,7 @@ knitr::opts_chunk$set(
 # # Access the website with a function
 # Rmonize_website()
 
-## ----eval=FALSE---------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------------------------
 # # See available examples
 # names(Rmonize_examples)
 # 

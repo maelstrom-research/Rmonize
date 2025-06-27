@@ -253,8 +253,8 @@ preparing the Data Processing Elements, troubleshoot process errors, or better
 understand the harmonized outputs. For more in-depth exploration of specific 
 steps, other vignettes and documentation are available:
 
-- [Explore and prepare input datasets and data dictionaries](c-explore-and-prepare-input-datasets-and-data-dictionaries.html)
-- [Prepare the Data Processing Elements](../dpe/index.html)
-- [Process inputs into harmonized outputs](d-process-inputs-and-generate-harmonized-outputs.html)
-- [Summarize and secure harmonized outputs](e-summarize-and-secure-harmonized-outputs.html)
+- [Explore and prepare input datasets and data dictionaries](https://maelstrom-research.github.io/Rmonize-documentation/articles/c-explore-and-prepare-input-datasets-and-data-dictionaries.html)
+- [Prepare the Data Processing Elements](https://maelstrom-research.github.io/Rmonize-documentation/dpe/index.html)
+- [Process inputs into harmonized outputs](https://maelstrom-research.github.io/Rmonize-documentation/articles/d-process-inputs-and-generate-harmonized-outputs.html)
+- [Summarize and secure harmonized outputs](https://maelstrom-research.github.io/Rmonize-documentation/articles/e-summarize-and-secure-harmonized-outputs.html)
 

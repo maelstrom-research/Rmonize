@@ -41,7 +41,7 @@
 #' A list of data frames containing assessment reports for each harmonized dataset.
 #'
 #' @examples
-#' {
+#' \donttest{
 #' 
 #' # Use Rmonize_examples to run examples.
 #' library(dplyr)
