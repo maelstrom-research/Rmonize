@@ -45,7 +45,8 @@ knitr::include_graphics("images/vig5_fig03.png")
 
 ## ----eval=FALSE---------------------------------------------------------------
 # # Produce a visual report of the harmonized datasets and variables
-# # You must specify a folder to contain the visual report files, and the folder name must not already exist.
+# # You must specify a folder to contain the visual report files, and the
+# # folder name must not already exist.
 # # WARNING: This script creates a folder 'tmp'.
 # bookdown_path <- paste0('tmp/',basename(tempdir()))
 # if(dir.exists(bookdown_path)) file.remove(bookdown_path)

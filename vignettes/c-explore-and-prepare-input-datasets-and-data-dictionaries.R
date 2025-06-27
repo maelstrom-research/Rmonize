@@ -32,8 +32,8 @@ knitr::opts_chunk$set(
 # original_dd_study2 <- data_dict_extract(original_dataset_study2)
 # 
 # # If data dictionaries are provided as separate files, assign them separately
-# original_dd_study4 <- Rmonize_examples$original_data_dict_study4
-# original_dd_study5 <- Rmonize_examples$original_data_dict_study5
+# original_dd_study4 <- Rmonize_examples$original_data_dictionary_study4
+# original_dd_study5 <- Rmonize_examples$original_data_dictionary_study5
 # 
 # # A minimal data dictionary can be extracted from any dataset, but it provides very limited information
 # extracted_dd_study3 <- data_dict_extract(original_dataset_study3)

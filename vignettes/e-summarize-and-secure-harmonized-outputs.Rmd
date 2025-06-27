@@ -14,7 +14,9 @@ knitr::opts_chunk$set(
 )
 ```
 
-Once you have processed inputs and generated harmonized outputs, you can examine the harmonized datasets and extract different outputs. This vignette shows you how to access and use harmonized outputs from the harmonized dossier.
+Once you have processed inputs and generated harmonized outputs, you can examine
+the harmonized datasets and extract different outputs. This vignette shows you 
+how to access and use harmonized outputs from the harmonized dossier.
 
 ## Load packages
 
@@ -27,7 +29,13 @@ library(tidyverse) # Collection of R packages for data science
 
 ## Get the harmonized dossier
 
-The harmonized dossier produced by `harmo_process()` is a list containing the harmonized datasets and associated metadata (including the DataSchema, DPEs, and harmonized data dictionaries), which can be further examined and summarized. We will use a harmonized dossier that is provided with the examples in the packages, which includes harmonized outputs from five study datasets (and is the equivalent of the harmonized dossier generated in the vignette Process inputs and generate harmonized outputs).
+The harmonized dossier produced by `harmo_process()` is a list containing the 
+harmonized datasets and associated metadata (including the DataSchema, DPEs, 
+and harmonized data dictionaries), which can be further examined and summarized. 
+We will use a harmonized dossier that is provided with the examples in the 
+packages, which includes harmonized outputs from five study datasets (and is 
+the equivalent of the harmonized dossier generated in the vignette Process inputs 
+and generate harmonized outputs).
 
 ```{r eval=FALSE}
 # Load harmonized dossier
@@ -51,7 +59,10 @@ knitr::include_graphics("images/vig5_fig02.png")
 
 ## Summarize harmonized datasets
 
-You can get more detailed summaries and descriptive statistics about the harmonized datasets and variables. By default, summaries of a harmonized dossier are generated for pooled data and grouped by dataset. The output of dataset summaries can easily be exported as Excel files.
+You can get more detailed summaries and descriptive statistics about the 
+harmonized datasets and variables. By default, summaries of a harmonized dossier 
+are generated for pooled data and grouped by dataset. The output of dataset 
+summaries can easily be exported as Excel files.
 
 ```{r eval=FALSE}
 # Produce dataset and variable summaries
@@ -74,11 +85,15 @@ knitr::include_graphics("images/vig5_fig03.png")
 ```
 
 
-You can get visual summaries of the harmonized datasets and variables, which by default are produced for the pooled data and grouped by dataset. A categorical variable 'Rmonize::harmonized_col_dataset' is created based on the dataset names and included in the report.
+You can get visual summaries of the harmonized datasets and variables, which by 
+default are produced for the pooled data and grouped by dataset. A categorical 
+variable 'Rmonize::harmonized_col_dataset' is created based on the dataset names 
+and included in the report.
 
 ```{r eval=FALSE}
 # Produce a visual report of the harmonized datasets and variables
-# You must specify a folder to contain the visual report files, and the folder name must not already exist.
+# You must specify a folder to contain the visual report files, and the 
+# folder name must not already exist.
 # WARNING: This script creates a folder 'tmp'.
 bookdown_path <- paste0('tmp/',basename(tempdir()))
 if(dir.exists(bookdown_path)) file.remove(bookdown_path)
@@ -105,11 +120,16 @@ knitr::include_graphics("images/vig5_fig04a.png")
 knitr::include_graphics("images/vig5_fig04b.png")
 ```
 
-While there should be no technical data processing errors at this point, the harmonized datasets should always be validated. Data summaries and visual reports can help further verify that there were no remaining issues in data processing or data content. You can also use the reports to compare distributions for the pooled dataset and individual datasets.
+While there should be no technical data processing errors at this point, the 
+harmonized datasets should always be validated. Data summaries and visual reports 
+can help further verify that there were no remaining issues in data processing or 
+data content. You can also use the reports to compare distributions for the pooled 
+dataset and individual datasets.
 
 ## Extract harmonized data dictionary
 
-A harmonized data dictionary with useful metadata about the datasets and variables can be extracted from the harmonized dossier.
+A harmonized data dictionary with useful metadata about the datasets and variables
+can be extracted from the harmonized dossier.
 
 ```{r eval=FALSE}
 # Extract the data dictionary
@@ -118,11 +138,17 @@ data_dict_harmonized_dossier <-
   lapply(data_dict_extract)
 ```
 
-> **INFO:** The function `data_dict_extract()` will create a data dictionary from metadata associated with any dataset. From a harmonized dataset generated from `harmo_process()`, the data dictionary will include all fields from the DataSchema, certain fields from the DPE, and the R script used to generate the variable for each dataset.
+> **INFO:** The function `data_dict_extract()` will create a data dictionary 
+from metadata associated with any dataset. From a harmonized dataset generated
+from `harmo_process()`, the data dictionary will include all fields from the 
+DataSchema, certain fields from the DPE, and the R script used to generate the 
+variable for each dataset.
 
 ## Create pooled harmonized dataset
 
-The harmonized dossier contains individual harmonized datasets as named data frames contained in a list. They can be explicitly combined into a pooled harmonized dataset, which includes much of the associated metadata.
+The harmonized dossier contains individual harmonized datasets as named data 
+frames contained in a list. They can be explicitly combined into a pooled 
+harmonized dataset, which includes much of the associated metadata.
 
 ```{r eval=FALSE}
 # Generate one pooled harmonized dataset from a harmonized dossier
@@ -131,11 +157,21 @@ pooled_harmonized_dataset <-
   harmonized_dossier = harmonized_dossier)
 ```
 
-> **TIP:** The parameter 'harmonized_col_dataset' can be used to indicate the variable that identifies each dataset, if such a variable is available (e.g., in this example, the values in the column adm_study_id identify each dataset). If 'harmonized_col_dataset' is empty, a new column will be created in the pooled dataset using the dataset names from the harmonized dossier as values, and a warning will be printed in the console. This is to ensure that source datasets are indicated if needed in further data analysis, and that participants (each row of the pooled dataset) can always be uniquely identified in case there is any overlap in IDs. It is good practice to include a categorical variable in the DataSchema that identifies the dataset.
+> **TIP:** The parameter 'harmonized_col_dataset' can be used to indicate the 
+variable that identifies each dataset, if such a variable is available (e.g., 
+in this example, the values in the column adm_study_id identify each dataset). 
+If 'harmonized_col_dataset' is empty, a new column will be created in the pooled 
+dataset using the dataset names from the harmonized dossier as values, and a 
+warning will be printed in the console. This is to ensure that source datasets 
+are indicated if needed in further data analysis, and that participants (each 
+row of the pooled dataset) can always be uniquely identified in case there is 
+any overlap in IDs. It is good practice to include a categorical variable in 
+the DataSchema that identifies the dataset.
 
 ## Export harmonized datasets to other formats
 
-You can work with the harmonized datasets in R or export them into other data formats. Data dictionaries can be exported as Excel files.
+You can work with the harmonized datasets in R or export them into other data 
+formats. Data dictionaries can be exported as Excel files.
 
 ```{r eval=FALSE}
 # Export harmonized datasets without metadata to Excel
@@ -156,4 +192,5 @@ for(i in names(data_dict_harmonized_dossier)){
   write_excel_allsheets(data_dict_harmonized_dossier[[i]],filename)}
 ```
 
-Once harmonized outputs are produced, they can be explored with any tools and preserved in any file formats you would typically use in R.
+Once harmonized outputs are produced, they can be explored with any tools and 
+preserved in any file formats you would typically use in R.

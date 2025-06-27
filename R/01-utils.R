@@ -21,7 +21,7 @@
 #' @export
 Rmonize_website <- function(){
   
-  browseURL("https://maelstrom-research.github.io/Rmonize-documentation/")
+  browseURL("https://maelstrom-research.github.io/Rmonize-documentation")
 
 }
 
@@ -46,7 +46,7 @@ Rmonize_website <- function(){
 #' @export
 Rmonize_templates <- function(){
   
-  browseURL("https://maelstrom-research.github.io/Rmonize-documentation/articles/a-Glossary-and-templates.html")
+  browseURL("https://maelstrom-research.github.io/Rmonize-documentation/docs/glossary/index.html")
 
 }
 

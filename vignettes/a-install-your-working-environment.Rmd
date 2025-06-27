@@ -48,7 +48,8 @@ remotes::install_github(
 library(Rmonize)
 ```
 
-Rmonize uses two underlying packages, [madshapR](https://cran.r-project.org/package=madshapR) and [fabR](https://cran.r-project.org/package=fabR), which include helpful 
+Rmonize uses two underlying packages, [madshapR](https://cran.r-project.org/package=madshapR) 
+and [fabR](https://cran.r-project.org/package=fabR), which include helpful 
 functions to work with data and metadata. Installing Rmonize also installs these 
 two packages, and Rmonize functions automatically call madshapR and fabR where 
 needed. In the vignettes, we will highlight some useful madshapR and fabR 
@@ -62,14 +63,15 @@ Rmonize to recode variables, to avoid errors during processing.
 install.packages("car")
 ```
 
-Rmonize and its related packages additionally use underlying packages from [tidyverse](https://www.tidyverse.org/), a useful and popular collection of 
+Rmonize and its related packages additionally use underlying packages from 
+[tidyverse](https://www.tidyverse.org/), a useful and popular collection of 
 R packages for data science, which we will use in the vignettes and suggest 
 users also install.
 
 ## Get help with Rmonize
 
 You can get package and function documentation in R, and additional help and 
-documentation are also provided on the website <https://maelstrom-research.github.io/Rmonize-documentation/>.
+documentation are also provided on the website <https://maelstrom-research.github.io/Rmonize-documentation>.
 
 ```{r eval=FALSE}
 # Get package documentation in R
@@ -94,7 +96,8 @@ names(Rmonize_examples)
 Rmonize_templates()
 ```
 
-You can report issues with the package on Github at <https://github.com/maelstrom-research/Rmonize/issues>.
+You can report issues with the package or see known issues on Github at 
+<https://github.com/maelstrom-research/Rmonize/issues>.
 
 ## Next steps
 
@@ -104,7 +107,7 @@ Simple example of data processing with Rmonize.
 For more in-depth exploration of specific steps, see the vignettes and 
 documentation:
 
-- Explore and prepare input datasets and data dictionaries (vignette)
-- Prepare the Data Processing Elements (online documentation)
-- Process inputs into harmonized outputs (vignette)
-- Summarize and secure harmonized outputs (vignette)
+- [Explore and prepare input datasets and data dictionaries](c-explore-and-prepare-input-datasets-and-data-dictionaries.html)
+- [Prepare the Data Processing Elements](../dpe/index.html)
+- [Process inputs into harmonized outputs](d-process-inputs-and-generate-harmonized-outputs.html)
+- [Summarize and secure harmonized outputs](e-summarize-and-secure-harmonized-outputs.html)

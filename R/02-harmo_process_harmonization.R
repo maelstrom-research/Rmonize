@@ -42,7 +42,6 @@
 #' @param harmonized_col_id A character string identifying the name of the 
 #' column present in every dataset to use as a participant identifier.
 #' @param .debug Allow user to test the inputs before processing harmonization.
-#' @param dossier `r lifecycle::badge("deprecated")`
 #'
 #' @returns
 #' A list of data frame(s) containing harmonized dataset(s).
@@ -81,13 +80,12 @@
 #'
 #' @export
 harmo_process <- function(
-    object = NULL,
-    dataschema = attributes(dossier)$`Rmonize::DataSchema`,
-    data_proc_elem = attributes(dossier)$`Rmonize::Data Processing Elements`,
-    harmonized_col_dataset = attributes(dossier)$`Rmonize::harmonized_col_dataset`,
-    harmonized_col_id = attributes(dossier)$`Rmonize::harmonized_col_id`,
-    .debug = FALSE,
-    dossier = object
+    object,
+    dataschema = attributes(object)$`Rmonize::DataSchema`,
+    data_proc_elem = attributes(object)$`Rmonize::Data Processing Elements`,
+    harmonized_col_dataset = attributes(object)$`Rmonize::harmonized_col_dataset`,
+    harmonized_col_id = attributes(object)$`Rmonize::harmonized_col_id`,
+    .debug = FALSE
 ){
   
   # future dev
@@ -95,8 +93,7 @@ harmo_process <- function(
   # dans le DataSchema
   # controle de version ?
   
-  if(is.null(object)) object <- dossier
-  if(is.null(dossier)) dossier <- object
+  dossier <- object
   
   if(.debug == FALSE){
     
@@ -290,7 +287,6 @@ Please write harmo_process(dataschema = my_object) instead.')
         data_proc_elem = data_proc_elem,
         harmonized_col_dataset = harmonized_col_dataset,
         harmonized_col_id = harmonized_col_id,
-        dossier = dossier,
         .debug = .debug))
     
   }
@@ -311,7 +307,6 @@ Please write harmo_process(dataschema = my_object) instead.')
         data_proc_elem = data_proc_elem,
         harmonized_col_dataset = harmonized_col_dataset,
         harmonized_col_id = harmonized_col_id,
-        dossier = dossier,
         .debug = .debug))
   }
   

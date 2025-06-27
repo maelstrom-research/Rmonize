@@ -416,19 +416,20 @@ variables, which by default are produced for the pooled data and grouped
 by dataset. A categorical variable ‘Rmonize::harmonized_col_dataset’ is
 created based on the dataset names and included in the report.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># Produce a visual report of the harmonized datasets and variables</span></span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="co"># You must specify a folder to contain the visual report files, and the folder name must not already exist.</span></span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co"># </span><span class="al">WARNING</span><span class="co">: This script creates a folder &#39;tmp&#39;.</span></span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>bookdown_path <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&#39;tmp/&#39;</span>,<span class="fu">basename</span>(<span class="fu">tempdir</span>()))</span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">dir.exists</span>(bookdown_path)) <span class="fu">file.remove</span>(bookdown_path)</span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="fu">harmonized_dossier_visualize</span>(</span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>  harmonized_dossier,</span>
-<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>  <span class="at">bookdown_path =</span> bookdown_path,</span>
-<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>  <span class="at">harmonized_dossier_summary =</span> summary_report_harmonized_dossier</span>
-<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>  )</span>
-<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a></span>
-<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co"># Open the visual report in a browser.</span></span>
-<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="fu">bookdown_open</span>(bookdown_path)</span></code></pre></div>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="co"># You must specify a folder to contain the visual report files, and the </span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co"># folder name must not already exist.</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co"># </span><span class="al">WARNING</span><span class="co">: This script creates a folder &#39;tmp&#39;.</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>bookdown_path <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&#39;tmp/&#39;</span>,<span class="fu">basename</span>(<span class="fu">tempdir</span>()))</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">dir.exists</span>(bookdown_path)) <span class="fu">file.remove</span>(bookdown_path)</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="fu">harmonized_dossier_visualize</span>(</span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>  harmonized_dossier,</span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>  <span class="at">bookdown_path =</span> bookdown_path,</span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>  <span class="at">harmonized_dossier_summary =</span> summary_report_harmonized_dossier</span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>  )</span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co"># Open the visual report in a browser.</span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="fu">bookdown_open</span>(bookdown_path)</span></code></pre></div>
 <p>To open the visual report outside of R, go to the folder containing
 the bookdown files, open the folder ‘docs’, and open the file
 ‘index’.</p>

@@ -37,16 +37,13 @@ Imports: dplyr (>= 1.1.0),
     haven,
     utils,
     fs,
-    lifecycle,
     fabR (>= 2.0.0),
-    madshapR
+    madshapR (>= 2.0.0)
 Suggests: janitor,
     car,
     lubridate,
     knitr
 URL: https://github.com/maelstrom-research/Rmonize/
-Remotes: maelstrom-research/madshapR@testing-2,
-    guifabre/fabR@testing-2
 BugReports: https://github.com/maelstrom-research/Rmonize/issues
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3

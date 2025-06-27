@@ -145,7 +145,6 @@ harmonized_dossier_evaluate <- function(harmonized_dossier){
 #' Generate an assessment report for Data Processing Elements
 #'
 #' @description
-#' `r lifecycle::badge("experimental")`
 #' Assesses the content and structure of a Data Processing Elements object and 
 #' generates reports of the results. This function can be used to evaluate data 
 #' structure, presence of specific fields, coherence across elements, and data 

@@ -16,7 +16,6 @@ schema.}
 A list of data frames containing assessment reports.
 }
 \description{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 Assesses the content and structure of a Data Processing Elements object and
 generates reports of the results. This function can be used to evaluate data
 structure, presence of specific fields, coherence across elements, and data
