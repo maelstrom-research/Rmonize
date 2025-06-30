@@ -4,6 +4,16 @@
 
 # Submission for CRAN : Rmonize 2.0.0
 
+package Rmonize_2.0.0.tar.gz does not pass the incoming checks automatically, please see the following pre-tests (additional issue checks):
+Windows: <https://win-builder.r-project.org/incoming_pretest/Rmonize_2.0.0_20250630_113644/Windows/00check.log>
+Status: 1 NOTE
+Debian: <https://win-builder.r-project.org/incoming_pretest/Rmonize_2.0.0_20250630_113644/Debian/00check.log>
+Status: 1 NOTE
+
+> CORRECTED.
+
+
+
 > side note 1: dear people of CRAN, please note that fabR, madshapR,
 Rmonize, mlstrOpalr, and BanffIT belong to a suite that is going to be 
 updated. fabR (2.1.1) has already been updated. 

@@ -62,7 +62,7 @@ The valueType is specified in a data dictionary in a column 'valueType' and
 can be associated with variables as attributes. Acceptable valueTypes
 include 'text', 'integer', 'decimal', 'boolean', datetime', 'date'. The full
 list of OBiBa valueType possibilities and their correspondence with R data
-types are available using \link{valueType_list}. The valueType can be used to
+types are available using \code{valueType_list}. The valueType can be used to
 coerce the variable to the corresponding data type.
 }
 \examples{
