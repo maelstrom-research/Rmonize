@@ -6,12 +6,12 @@
 [![R-CMD-check](https://github.com/maelstrom-research/Rmonize/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/maelstrom-research/Rmonize/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-<p style="display: flex; align-items: center; margin-bottom: 20px">
+<div style="display: flex; align-items: center; margin-bottom: 20px">
 
 <img src="man/figures/fig_logo.png" style="width: 20%; height: auto; margin-right: 20px"/>
 <span style="font-weight: bold; font-size: 24px;">Tools for
 Data Harmonization</span>
-</p>
+</div>
 
 Harmonizing data (achieving or improving inferential equivalence of data
 collected by separate studies) can be required in epidemiological
