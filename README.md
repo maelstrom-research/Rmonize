@@ -8,9 +8,9 @@
 
 <p style="display: flex; align-items: center; margin-bottom: 20px">
 
-<img src="man/figures/fig_logo.png" style="width: 20%; height: auto; margin-right:  20px"/>
-<span style="flex: 1; text-align: start"> Tools for Data
-Harmonization</span>
+<img src="man/figures/fig_logo.png" style="width: 20%; height: auto; margin-right: 20px"/>
+<span style="font-weight: bold; font-size: 24px; color: #333;">Tools for
+Data Harmonization</span>
 </p>
 
 Harmonizing data (achieving or improving inferential equivalence of data
