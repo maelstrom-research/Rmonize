@@ -8,7 +8,7 @@
 
 <p style="display: flex; align-items: center; margin-bottom: 20px">
 
-<img src="man/figures/fig_logo.png" style="max-width: 120px; height: auto; margin-right:  20px"/>
+<img src="man/figures/fig_logo.png" style="max-width: 50px; height: auto; margin-right:  20px"/>
 <span style="flex: 1; text-align: start"> Tools for Data
 Harmonization</span>
 </p>
