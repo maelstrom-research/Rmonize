@@ -6,8 +6,12 @@
 [![R-CMD-check](https://github.com/maelstrom-research/Rmonize/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/maelstrom-research/Rmonize/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-<img src="man/figures/fig_logo.png" 
-style="width: 30%; margin: 0 auto; display: flex; justify-content: left;">
+<p style="display: flex; align-items: center; margin-bottom: 20px">
+
+<img src="man/figures/fig_logo.png" style="max-width: 120px; height: auto; margin-right:  20px"/>
+<span style="flex: 1; text-align: start"> Tools for Data
+Harmonization</span>
+</p>
 
 Harmonizing data (achieving or improving inferential equivalence of data
 collected by separate studies) can be required in epidemiological
@@ -15,7 +19,6 @@ research but is methodologically and technically challenging. Data
 collected by separate studies are typically heterogenous, and decisions
 on if and how to process data must be made, executed accurately, and
 documented in a transparent manner. Rmonize is an R package developed by
-Maelstrom Research
 <a href="https://www.maelstrom-research.org/" target="_blank">Maelstrom
 Research</a> to address some of the key challenges in this process and
 facilitate streamlined, reusable, and well documented harmonization
@@ -25,7 +28,7 @@ pipelines.
 
 <div style="flex: 0 0 auto; margin-right: 20px;">
 
-<img src="man/figures/fig_1.png" style="width: 120px;">
+<img src="man/figures/fig_1.png" style="width: 80px;">
 
 </div>
 
@@ -44,7 +47,7 @@ page.
 
 <div style="flex: 0 0 auto; margin-right: 20px;">
 
-<img src="man/figures/fig_2.png" style="width: 120px;">
+<img src="man/figures/fig_2.png" style="width: 80px;">
 
 </div>
 
@@ -64,7 +67,7 @@ Rmonize](https://maelstrom-research.github.io/Rmonize-documentation/articles/b-s
 
 <div style="flex: 0 0 auto; margin-right: 20px;">
 
-<img src="man/figures/fig_3.png" style="width: 120px;">
+<img src="man/figures/fig_3.png" style="width: 80px;">
 
 </div>
 
@@ -75,7 +78,7 @@ The
 provides information about package terminology, and the
 [Functions](https://maelstrom-research.github.io/Rmonize-documentation/reference/index.html)
 page provides technical documentation on package functions and built-in
-materials
+materials.
 
 </div>
 

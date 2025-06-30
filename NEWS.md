@@ -13,7 +13,7 @@
 ## Superseded parameters.
 
 In functions show_harmo_error(), harmonized_dossier_evaluate(),
-harmonized_dossier_summarize() and harmonized_dossier_visualize(), The
+harmonized_dossier_summarize() and harmonized_dossier_visualize(), the
 parameters have been simplified into one and only “dossier”
 <https://github.com/maelstrom-research/Rmonize/issues/110>
 <https://github.com/maelstrom-research/Rmonize/issues/109>
