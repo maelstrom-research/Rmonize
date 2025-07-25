@@ -21,7 +21,7 @@ as_harmonized_dossier(
 \item{data_proc_elem}{A Data Processing Elements object.}
 
 \item{harmonized_col_id}{A character string identifying the name of the
-column present in every dataset to use as a dataset identifier.}
+column present in every dataset to use as a participant identifier.}
 
 \item{harmonized_col_dataset}{A character string identifying the column
 to use for dataset names.}
@@ -30,9 +30,9 @@ to use for dataset names.}
 harmonized dataset. FALSE by default.}
 }
 \value{
-A list of data frame(s), containing harmonized dataset(s).
+A list of data frame(s) containing harmonized dataset(s).
 The DataSchema and Data Processing Elements are preserved as attributes of
-the output harmonized dossier.
+the harmonized dossier.
 }
 \description{
 Checks if an object is a valid harmonized dossier and returns it with the
@@ -63,8 +63,8 @@ in any function. In 'Variables' the \code{name} column must also have unique
 entries, and in 'Categories' the combination of \code{variable} and \code{name} columns
 must also be unique.
 
-The Data Processing Elements specifies the algorithms used to process input
-variables into harmonized variables in the DataSchema format. It is also
+The Data Processing Elements specifies the input elements and processing algorithms
+to generate harmonized variables in the DataSchema formats. It is also
 contains metadata used to generate documentation of the processing.
 A Data Processing Elements object is a data frame with specific columns
 used in data processing: \code{dataschema_variable}, \code{input_dataset},
@@ -75,11 +75,15 @@ primary identifier variable (e.g., participant unique ID).
 \examples{
 {
 
-# Use Rmonize_DEMO to run examples.
+# Use Rmonize_examples to run examples.
+ 
 library(dplyr)
 
-glimpse(as_harmonized_dossier(Rmonize_DEMO$harmonized_dossier))
-  
+harmonized_dossier <- Rmonize_examples[["harmonized_dossier"]]
+harmonized_dossier <- as_harmonized_dossier(harmonized_dossier)
+
+glimpse(harmonized_dossier$dataset_study1)
+
 }
 
 }

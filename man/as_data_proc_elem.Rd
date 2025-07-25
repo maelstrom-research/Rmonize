@@ -19,8 +19,8 @@ validate inputs within other functions of the package but could be used
 separately to ensure that an object has an appropriate structure.
 }
 \details{
-The Data Processing Elements specifies the algorithms used to process input
-variables into harmonized variables in the DataSchema format. It is also
+The Data Processing Elements specifies the input elements and processing algorithms
+to generate harmonized variables in the DataSchema formats. It is also
 contains metadata used to generate documentation of the processing.
 A Data Processing Elements object is a data frame with specific columns
 used in data processing: \code{dataschema_variable}, \code{input_dataset},
@@ -31,10 +31,12 @@ primary identifier variable (e.g., participant unique ID).
 \examples{
 {
 
-# Use Rmonize_DEMO to run examples.
+# Use Rmonize_examples to run examples.
 library(dplyr)
 
-glimpse(head(as_data_proc_elem(Rmonize_DEMO$`data_processing_elements - final`),3))
+data_proc_elem <- as_data_proc_elem(Rmonize_examples$`Data_Processing_Elements_no_errors`)
+
+head(data_proc_elem)
 
 }
 

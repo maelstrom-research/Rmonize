@@ -4,24 +4,10 @@
 \alias{harmonized_dossier_evaluate}
 \title{Generate an assessment report for a harmonized dossier}
 \usage{
-harmonized_dossier_evaluate(
-  harmonized_dossier,
-  dataschema = attributes(harmonized_dossier)$`Rmonize::DataSchema`,
-  taxonomy = NULL,
-  as_dataschema_mlstr = TRUE
-)
+harmonized_dossier_evaluate(harmonized_dossier)
 }
 \arguments{
 \item{harmonized_dossier}{A list containing the harmonized dataset(s).}
-
-\item{dataschema}{A DataSchema object.}
-
-\item{taxonomy}{An optional data frame identifying a variable classification
-schema.}
-
-\item{as_dataschema_mlstr}{Whether the output DataSchema should be coerced
-with specific format restrictions for compatibility with other
-Maelstrom Research software. TRUE by default.}
 }
 \value{
 A list of data frames containing assessment reports for each harmonized dataset.
@@ -35,7 +21,7 @@ formats.
 \details{
 A harmonized dossier is a named list containing one or more data frames,
 which are harmonized datasets. A harmonized dossier is generally the
-product of applying processing to a dossier object The name of each
+product of applying processing to a dossier object. The name of each
 harmonized dataset (data frame) is taken from the reference input dataset.
 A harmonized dossier also contains the DataSchema and
 Data Processing Elements used in processing as attributes.
@@ -56,18 +42,22 @@ taxonomy object is a data frame that must contain at least the columns
 \code{taxonomy}, \code{vocabulary}, and \code{terms}. Additional details about Opal
 taxonomies are
 \href{https://opaldoc.obiba.org/en/latest/web-user-guide/administration/taxonomies.html}{available online}.
-
 The object may be specifically formatted to be compatible with additional
 \href{https://maelstrom-research.org/page/software}{Maelstrom Research software},
 in particular \href{https://www.obiba.org/pages/products/opal/}{Opal environments}.
 }
 \examples{
-{
+\donttest{
 
-#' # use Rmonize_DEMO provided by the package
+# Use Rmonize_examples to run examples.
 library(dplyr)
 
-glimpse(harmonized_dossier_evaluate(Rmonize_DEMO$harmonized_dossier))
+# Perform data processing
+harmonized_dossier <- Rmonize_examples$`harmonized_dossier`
+
+eval_harmo <- harmonized_dossier_evaluate(harmonized_dossier)
+
+glimpse(eval_harmo)
 
 }
 

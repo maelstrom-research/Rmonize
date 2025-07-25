@@ -37,11 +37,29 @@ madshapR::is_taxonomy
 #' @importFrom madshapR valueType_adjust
 madshapR::valueType_adjust
 
+#' @importFrom madshapR valueType_self_adjust
+madshapR::valueType_self_adjust
+
 #' @importFrom madshapR col_id
 madshapR::col_id
 
 #' @importFrom madshapR data_dict_filter
 madshapR::data_dict_filter
+
+#' @importFrom madshapR data_dict_trim_labels
+madshapR::data_dict_trim_labels
+
+#' @importFrom madshapR data_dict_update
+madshapR::data_dict_update
+
+#' @importFrom madshapR has_categories
+madshapR::has_categories
+
+#' @importFrom madshapR first_label_get
+madshapR::first_label_get
+
+#' @importFrom madshapR data_dict_match_dataset
+madshapR::data_dict_match_dataset
 
 #' @importFrom madshapR as_dataset
 #' @name as_dataset

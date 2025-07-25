@@ -17,23 +17,36 @@ A list of data frame(s) named 'Variables' and (if any) 'Categories', with
 Generates a DataSchema from a Data Processing Elements.
 }
 \details{
-The Data Processing Elements specifies the algorithms used to process input
-variables into harmonized variables in the DataSchema format. It is also
+The Data Processing Elements specifies the input elements and processing algorithms
+to generate harmonized variables in the DataSchema formats. It is also
 contains metadata used to generate documentation of the processing.
 A Data Processing Elements object is a data frame with specific columns
 used in data processing: \code{dataschema_variable}, \code{input_dataset},
 \code{input_variables}, \code{Mlstr_harmo::rule_category} and \code{Mlstr_harmo::algorithm}.
 To initiate processing, the first entry must be the creation of a harmonized
 primary identifier variable (e.g., participant unique ID).
+
+A DataSchema is the list of core variables to generate across datasets and
+related metadata. A DataSchema object is a list of data frames with elements
+named 'Variables' (required) and 'Categories' (if any). The 'Variables'
+element must contain at least the \code{name} column, and the 'Categories'
+element must contain at least the \code{variable} and \code{name} columns to be usable
+in any function. In 'Variables' the \code{name} column must also have unique
+entries, and in 'Categories' the combination of \code{variable} and \code{name} columns
+must also be unique.
+The object may be specifically formatted to be compatible with additional
+\href{https://maelstrom-research.org/page/software}{Maelstrom Research software},
+in particular \href{https://www.obiba.org/pages/products/opal/}{Opal environments}.
 }
 \examples{
 {
 
-# Use Rmonize_DEMO to run examples.
+# Use Rmonize_examples to run examples.
 library(dplyr)
 
-glimpse(dataschema_extract(
-  data_proc_elem = Rmonize_DEMO$`data_processing_elements - final`))
+dataschema <- dataschema_extract(Rmonize_examples$`Data_Processing_Elements_no_errors`)
+glimpse(dataschema)
+
 }
 
 }

@@ -4,9 +4,9 @@
 \name{Rmonize-package}
 \alias{Rmonize}
 \alias{Rmonize-package}
-\title{Rmonize: Support Retrospective Harmonization of Data}
+\title{Rmonize: Tools for Data Harmonization}
 \description{
-Functions to support rigorous retrospective data harmonization processing, evaluation, and documentation across datasets from different studies based on Maelstrom Research guidelines. The package includes the core functions to evaluate and format the main inputs that define the harmonization process, apply specified processing rules to generate harmonized data, diagnose processing errors, and summarize and evaluate harmonized outputs. The main inputs that define the processing are a DataSchema (list and definitions of harmonized variables to be generated) and Data Processing Elements (processing rules to be applied to generate harmonized variables from study-specific variables). The main outputs of processing are harmonized datasets, associated metadata, and tabular and visual summary reports. As described in Maelstrom Research guidelines for rigorous retrospective data harmonization (Fortier I and al. (2017) \doi{10.1093/ije/dyw075}).
+Integrated tools to support rigorous and well documented data harmonization based on Maelstrom Research guidelines. The package includes functions to assess and prepare input elements, apply specified processing rules to generate harmonized datasets, validate data processing and identify processing errors, and document and summarize harmonized outputs. The harmonization process is defined and structured by two key user-generated documents: the DataSchema (specifying the list of harmonized variables to generate across datasets) and the Data Processing Elements (specifying the input elements and processing algorithms to generate harmonized variables in DataSchema formats). The package was developed to address key challenges of retrospective data harmonization in epidemiology (as described in Fortier I and al. (2017) \doi{10.1093/ije/dyw075}) but can be used for any data harmonization initiative.
 }
 \seealso{
 Useful links:
@@ -19,9 +19,9 @@ Useful links:
 \author{
 \strong{Maintainer}: Guillaume Fabre \email{guijoseph.fabre@gmail.com} (\href{https://orcid.org/0000-0002-0124-9970}{ORCID})
 
-Other contributors:
+Authors:
 \itemize{
-  \item Maelstrom-research group [funder]
+  \item Maelstrom Research \email{info@maelstrom-research.org} [funder, copyright holder]
 }
 
 }

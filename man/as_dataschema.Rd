@@ -40,10 +40,11 @@ in particular \href{https://www.obiba.org/pages/products/opal/}{Opal environment
 \examples{
 {
 
-# Use Rmonize_DEMO to run examples.
+# Use Rmonize_examples to run examples.
 library(dplyr)
 
-glimpse(as_dataschema(Rmonize_DEMO$`dataschema - final`))
+dataschema <- as_dataschema(Rmonize_examples$`DataSchema`)
+glimpse(dataschema)
 
 }
 

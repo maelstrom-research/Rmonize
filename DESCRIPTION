@@ -1,33 +1,34 @@
 Package: Rmonize
 Type: Package
-Title: Support Retrospective Harmonization of Data
-Version: 1.0.1
+Title: Tools for Data Harmonization
+Version: 2.0.0
 Authors@R: 
     c(person(given = "Guillaume",
              family = "Fabre",
-             role = c("aut", "cre"),
+             role = c("aut","cre"),
              email = "guijoseph.fabre@gmail.com",
              comment = c(ORCID = "0000-0002-0124-9970")),
-      person("Maelstrom-research group",
-             role=c("fnd")))
+      person("Maelstrom Research",
+             role=c("aut","fnd","cph"),
+             email="info@maelstrom-research.org"))
 Maintainer: Guillaume Fabre <guijoseph.fabre@gmail.com> 
-Description: Functions to support rigorous retrospective data harmonization 
-    processing, evaluation, and documentation across datasets from different 
-    studies based on Maelstrom Research guidelines. The package includes the 
-    core functions to evaluate and format the main inputs that define the 
-    harmonization process, apply specified processing rules to generate 
-    harmonized data, diagnose processing errors, and summarize and evaluate 
-    harmonized outputs. The main inputs that define the processing are a 
-    DataSchema (list and definitions of harmonized variables to be generated) 
-    and Data Processing Elements (processing rules to be applied to generate 
-    harmonized variables from study-specific variables). The main outputs of 
-    processing are harmonized datasets, associated metadata, and tabular and 
-    visual summary reports. As described in 
-    Maelstrom Research guidelines for rigorous retrospective data 
-    harmonization (Fortier I and al. (2017) <doi:10.1093/ije/dyw075>).
+Description: Integrated tools to support rigorous and well documented data 
+    harmonization based on Maelstrom Research guidelines. The package includes 
+    functions to assess and prepare input elements, apply specified processing 
+    rules to generate harmonized datasets, validate data processing and identify 
+    processing errors, and document and summarize harmonized outputs. The 
+    harmonization process is defined and structured by two key user-generated 
+    documents: the DataSchema (specifying the list of harmonized variables to 
+    generate across datasets) and the Data Processing Elements (specifying the 
+    input elements and processing algorithms to generate harmonized variables 
+    in DataSchema formats). The package was developed to address key  challenges 
+    of retrospective data harmonization in epidemiology (as described in 
+    Fortier I and al. (2017) <doi:10.1093/ije/dyw075>) but can be used for any 
+    data harmonization initiative.
 License: GPL-3
 LazyData: true
-Depends: R (>= 3.4)
+Depends: 
+    R (>= 3.5)
 Imports: dplyr (>= 1.1.0), 
     rlang,
     stringr,
@@ -37,9 +38,10 @@ Imports: dplyr (>= 1.1.0),
     utils,
     fs,
     fabR (>= 2.0.0),
-    madshapR
+    madshapR (>= 2.0.0)
 Suggests: janitor,
     car,
+    lubridate,
     knitr
 URL: https://github.com/maelstrom-research/Rmonize/
 BugReports: https://github.com/maelstrom-research/Rmonize/issues

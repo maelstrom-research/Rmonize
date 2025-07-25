@@ -1,0 +1,276 @@
+---
+title: "Explore and prepare input datasets and data dictionaries"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Explore and prepare input datasets and data dictionaries}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+In the vignette Simple example of data processing with Rmonize, we used input datasets that are already cleaned and ready for processing. However, exploration of input datasets is a critical step in data harmonization. Generally, you will first need to examine the datasets received from different studies to understand their contents and make appropriate processing decisions. If data dictionaries or other metadata are provided, this information can be incorporated into dataset assessments and summaries. This vignette demonstrates some additional capabilities of Rmonize (using functions from the underlying package madshapR) to explore and prepare the input datasets and any associated data dictionaries for use in processing.
+
+## Load packages
+
+```{r eval=FALSE}
+# Load relevant packages
+library(Rmonize)
+library(madshapR) # Additional functions to work with data dictionaries
+library(fabR) # Additional functions to help with importing data
+
+library(tidyverse) # Collection of R packages for data science
+```
+
+## Get original datasets and data dictionaries
+
+We refer to the version of datasets received from participating studies with no modifications as 'original' datasets to distinguish them from the input datasets ready for processing, which might have been cleaned and/or formatted. Original datasets may come from various file formats and require different levels of assessment and cleaning. Depending on the file format, original datasets may also contain variable metadata that can be extracted. The examples provided with Rmonize include original datasets representing different file formats and requiring different degrees of preparation. There are few structural requirements for input datasets, except that they must be data frames or tibbles in R.
+
+```{r eval=FALSE}
+# Get original datasets that were read from different file formats
+
+# Datasets from .sav files that contain variable metadata
+original_dataset_study1 <- Rmonize_examples$original_dataset_study1
+original_dataset_study2 <- Rmonize_examples$original_dataset_study2
+
+# Dataset from .csv file, with no data dictionary
+original_dataset_study3 <- Rmonize_examples$original_dataset_study3
+
+# Datasets from .xlsx files, with data dictionaries in separate files
+original_dataset_study4 <- Rmonize_examples$original_dataset_study4
+original_dataset_study5 <- Rmonize_examples$original_dataset_study5
+```
+
+Input data dictionaries (containing metadata about the variables in a dataset) are not required for processing with Rmonize, but the information they provide can be incorporated into input dataset assessments and summaries. Data dictionaries can be read from separate files or extracted directly from datasets, if available.
+
+```{r eval=FALSE}
+# Existing metadata (e.g., from datasets from .sav files) can be extracted as data dictionaries
+original_dd_study1 <- data_dict_extract(original_dataset_study1)
+original_dd_study2 <- data_dict_extract(original_dataset_study2)
+
+# If data dictionaries are provided as separate files, assign them separately
+original_dd_study4 <- Rmonize_examples$original_data_dictionary_study4
+original_dd_study5 <- Rmonize_examples$original_data_dictionary_study5
+
+# A minimal data dictionary can be extracted from any dataset, but it provides very limited information
+extracted_dd_study3 <- data_dict_extract(original_dataset_study3)
+```
+
+For use in Rmonize, data dictionaries are formatted as a list with up to two named data frames with information about Variables (mandatory) and Categories (if any). You can see this format in data dictionaries extracted with `data_dict_extract()` and in online templates. Original data dictionaries in other formats might need to be modified to be compatible with Rmonize functions (see next section).
+
+## Get basic evaluations of datasets and data dictionaries
+
+A good first step is to check the basic structure of the original inputs. Rmonize and madshapR include functions to evaluate object structures and if they meet basic requirements for use in package functions. In many cases, datasets and data dictionaries will already have adequate structure, but if there are technical issues that would prevent inputs from being used properly, evaluation functions can help identify any modifications needed. In this section, we'll focus on the example inputs from study 4 to illustrate multiple possible evaluations and preparations. (Note that you would not normally need to perform so many different evaluations if the data dictionaries are pre-formatted.)
+
+First, we confirm that the dataset is a data frame (it is) and run a dataset evaluation.
+
+```{r eval=FALSE}
+# Confirm that the dataset is a tibble
+is_dataset(original_dataset_study4) # TRUE
+
+# Evaluate dataset only
+dataset_evaluate(original_dataset_study4)
+```
+
+The evaluation generates an overview of the variables in the dataset and informational messages if errors or potential issues are detected. Looking at the `Dataset assessment` produced from the example, there are suggestions for refined variable valueTypes (i.e., suitable encoding for variable data types) based on values in the dataset, but no errors. Possible issues that might be detected at this point include all-empty columns, duplicated columns, or non-standard variable names.
+
+Next, we examine the data dictionary. For package functions, a data dictionary must be an R list with a data frame element named "Variables" and have a few standardized column names (name, label, and valueType; see online documentation). An evaluation cannot be performed until the data dictionary meets these requirements, and any function using a data dictionary will check for and print relevant error messages. We make adjustments to the data dictionary for these requirements and evaluate the modified data dictionary.
+
+```{r eval=FALSE}
+# Make the data dictionary a list containing a data frame named 'Variables'
+modified_dd_study4 <- list(
+  "Variables" = original_dd_study4)
+
+# Rename columns using standardized names
+modified_dd_study4$Variables <- 
+  modified_dd_study4$Variables %>%
+  rename(name = Variable,
+         label = Label,
+         valueType = `Data type`)
+
+# Evaluate data dictionary only
+data_dict_evaluate(modified_dd_study4)
+```
+
+> **TIP:** While we make all adjustments to the data dictionary in this vignette with R scripts for illustrative purposes, you could alternatively make some changes (e.g., renaming the sheet and renaming columns) in the Excel document and reimport it into R.
+
+The evaluation generates an overview of the variables in the data dictionary and informational messages if errors or potential issues are detected. Notably, we see that there are error messages about valueTypes not being of an accepted type, and that there is no information about categories, even though there is a column called 'Category codes'. This is because there are specific accepted valueType values (see the package object 'valueType_list' and [online documentation](https://opaldoc.obiba.org/en/latest/variables-data.html#variables-and-categories)), and the information about categories should be in a separate data frame named 'Categories' (see online documentation). You can correct these issues by recoding the values in the valueType column and creating a separate 'Categories' data frame from the column with information about categories.
+
+```{r eval=FALSE}
+# Get the accepted 'valueType' values and their R equivalents
+madshapR::valueType_list
+
+# Recode variable valueTypes
+compatible_dd_study4 <- modified_dd_study4
+
+compatible_dd_study4$Variables <- 
+  compatible_dd_study4$Variables %>%
+  mutate(valueType = case_match(
+    valueType,
+    "character" ~ "text",
+    "numeric" ~ "decimal",
+    "integer" ~ "integer"
+  ))
+
+# Use function data_dict_expand() to create `Categories`
+?madshapR::data_dict_expand() # See the function documentation
+
+# Rename column `Category codes` with a standardized name for easy processing
+compatible_dd_study4$Variables <- 
+  compatible_dd_study4$Variables %>%
+  rename(`Categories::label` = `Category codes`)
+
+# Create 'Categories' data frame
+compatible_dd_study4 <- 
+  data_dict_expand(
+  data_dict = compatible_dd_study4) %>%
+  as_data_dict_mlstr() # Ensure correct formatting
+
+# Correctly code categories that indicate types of missing values
+compatible_dd_study4$Categories <- 
+  compatible_dd_study4$Categories %>%
+  mutate(
+    missing = ifelse(
+      label %in% c("Don't know", "Prefer not to answer"), TRUE, FALSE))
+
+# Rerun the data dictionary evaluation to confirm the corrections were made
+data_dict_evaluate(compatible_dd_study4)
+```
+
+After evaluating and modifying the dataset and data dictionary independently, you can assess their validity for use with each other. No modifications to the dataset are needed, but we format it explicitly as an Rmonize dataset and identify the column with unique identifiers so that this information can be used correctly in the evaluations.
+
+```{r eval=FALSE}
+# Format the dataset
+compatible_dataset_study4 <- 
+  as_dataset(original_dataset_study4, col_id = "ID")
+
+# Evaluate the dataset and data dictionary together, as separate objects
+# Tip: Assign the output to an object for easier viewing.
+dataset_evaluation_study4 <- dataset_evaluate(
+  dataset = compatible_dataset_study4,
+  data_dict = compatible_dd_study4)
+
+# View the new informational messages in the RStudio viewer
+View(dataset_evaluation_study4[["Dataset assessment"]])
+
+# Note: the informational messages about duplicated rows are a side effect
+# of a synthesized dataset with few variables. Rows are more likely to have
+# the same values.
+```
+
+> **TIP:** You can view the evaluation outputs in the console or assign them to an object for more viewing options. For example, this is helpful if there are many messages, and you want to search for errors specifically. You can view the object in the RStudio viewer, as in the script here, or export the output as a spreadsheet and view it externally.
+
+Now we get different informational messages in the 'Dataset assessment'. Importantly, we see a few issues. In this example there is a variable with different names in the dataset (marital_v1) and data dictionary (marital), and two variables (drink_four_preg_v1 and drink_four_preg_v3) where the valueType in the data dictionary is not compatible with the valueType in the dataset. Closer examination of the variables drink_four_preg_v1 and drink_four_preg_v3 in the dataset will show that missing values have been coded as strings "NA", making the variables have valueType 'character', as opposed to the data dictionary valueType 'integer'.
+
+Based on these messages, you can fix the name of marital_v1 in the data dictionary and adjust the valueTypes of drink_four_preg_v1 and drink_four_preg_v3 in the dataset.
+
+```{r eval=FALSE}
+# Correct a variable name in the data dictionary to match the dataset
+formatted_dd_study4 <- compatible_dd_study4
+formatted_dd_study4$Variables <- 
+  formatted_dd_study4$Variables %>%
+  mutate(name = ifelse(name == "marital", "marital_v1", name))
+formatted_dd_study4$Categories <- 
+  formatted_dd_study4$Categories %>%
+  mutate(variable = ifelse(variable == "marital", "marital_v1", variable))
+
+# Adjust two variable valueTypes in the dataset to match the data dictionary
+formatted_dataset_study4 <- compatible_dataset_study4 %>%
+  mutate(
+    # First convert "NA" strings to NA empty strings
+    across(c(drink_four_preg_v1, drink_four_preg_v3), ~ na_if(.x, "NA")),
+    # Convert the variables to integer
+    across(c(drink_four_preg_v1, drink_four_preg_v3), as_any_integer))
+```
+
+At this point, you can associate the dataset with its data dictionary to create one object that can be used in summary and reporting functions.
+
+```{r eval=FALSE}
+# Associate a dataset with its data dictionary (only possible when there are no
+# errors in the previous evaluation)
+dataset_with_dd_study4 <- data_dict_apply(
+  dataset = formatted_dataset_study4,
+  data_dict = formatted_dd_study4)
+
+# If you want, evaluate the dataset and data dictionary together
+# (confirms that there are no errors, but otherwise provides same information)
+dataset_evaluate(dataset_with_dd_study4)
+```
+
+## Generate dataset summaries
+
+You can get more detailed summaries and descriptive statistics about a dataset and each variable with `dataset_summarize()`. The statistics provided for each variable are automatically determined based on the variable's data dictionary valueType. In this example, the summary shows that the variable 'age_v1' has a maximum value of 350, which is an error in the original dataset. The output of dataset summaries can easily be exported as Excel files.
+
+```{r eval=FALSE}
+# Summarize a dataset with an associated data dictionary
+summary_dataset_with_dd_study4 <- dataset_summarize(
+  dataset = dataset_with_dd_study4)
+
+# View the summary outputs
+View(summary_dataset_with_dd_study4)
+summary_dataset_with_dd_study4$`Numerical variable summary` %>% View()
+
+# WARNING: This script creates a folder 'tmp'.
+output_path <- paste0('tmp/',basename(tempdir()))
+dir.create(output_path)
+write_excel_allsheets(
+  summary_dataset_with_dd_study4, paste0(output_path,"/summary_dataset_with_dd_study4.xlsx"))
+```
+
+> **TIP:** While you can run `dataset_summarize()` on any dataset, summaries are more useful after datasets and data dictionaries have been assessed and adjusted, if needed (e.g., categories correctly defined in the data dictionary and valid valueTypes defined in the dataset and data dictionary).
+
+## Generate visual reports
+
+You can also get visual summaries about a dataset and variables. The function `dataset_visualize()` generates an interactive html document with summary figures for each variable. The figures provided for each variable are automatically determined based on the variable's data dictionary valueType. Visual reports provide less detailed statistics than tables from `dataset_summarize()`, but some features of the data may be easier to see in visual summaries.
+
+```{r eval=FALSE}
+# Produce a visual report of the dataset and variables
+# You must specify a folder to contain the visual report files, and the folder name must not already exist.
+# WARNING: This script creates a folder 'tmp'.
+bookdown_path <- paste0('tmp/',basename(tempdir()))
+if(dir.exists(bookdown_path)) file.remove(bookdown_path)
+
+dataset_visualize(
+  dataset = dataset_with_dd_study4,
+  bookdown_path = bookdown_path,
+  dataset_summary = summary_dataset_with_dd_study4)
+
+# Open the visual report in a browser.
+bookdown_open(bookdown_path)
+# Or open 'bookdown_path/docs/index.html'.
+```
+
+> **TIP:** While you can run `dataset_visualize()` on any dataset, summaries are more useful after datasets and data dictionaries have been assessed and adjusted, if needed (e.g., categories correctly defined in the data dictionary and valid valueTypes defined in the dataset and data dictionary).
+
+> **TIP:** For large datasets with many rows and variables, it can take a long time to generate summaries and visual reports. You can summarize and generate reports for subsets of variables to shorten processing times. If a summary report for the dataset was previously generated and exists in the environment, it can be provided in the dataset_summary parameter of `dataset_visualize()` to shorten processing time.
+
+## Prepare input datasets ready for processing
+
+Once you have validated and applied any final cleaning that you want, we suggest saving a version of the prepared input datasets as R files that are easily accessible to maintain valueType information. If a data dictionary was associated with the dataset, this metadata can also be saved in the R file.
+
+```{r eval=FALSE}
+# Prepare a version of the cleaned validated input dataset (with associated data dictionary)
+input_dd_study4 <- formatted_dd_study4
+input_dataset_study4 <- formatted_dataset_study4 %>%
+  # Erroneous values noted in summary reports can be removed
+  mutate(age_v1 = ifelse(age_v1>100, NA, age_v1)) %>%
+  # If desired, specify the column that provides unique IDs
+  as_dataset(col_id = "ID") %>%
+  # Associate the data dictionary
+  data_dict_apply(data_dict = input_dd_study4)
+
+# Prepare a version of the cleaned validated input dataset as an R file
+saveRDS(input_dataset_study4, paste0(output_path,"/input_dataset_study4.rds"))
+```
+
+> **TIP:** In practice, it can be useful to create the Data Processing Elements (DPE) in conjunction with evaluation of the input datasets. This way the input elements, algorithms, and any comments and questions about processing for each row of the DPE can be written while the relevant input variables are being evaluated.
+
+> **TIP:** Errors or outliers detected in summaries can be corrected in the input dataset before processing data, or corrections can be made explicitly in the algorithms written in the Data Processing Elements.
+
+While not shown, the same overall preparation of input datasets would be applied to the original datasets from other studies. The amount of preparation needed will vary across different datasets, and the process is iterative and may also need to be adjusted with any updates to datasets or harmonization decisions.
+

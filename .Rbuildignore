@@ -4,10 +4,12 @@
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
-^README\.Rmd$
 ^\.github$
+^README\.Rmd$
+^NEWS\.Rmd$
 ^cran-comments\.md$
 ^doc$
 ^Meta$
-^NEWS\.Rmd$
 ^CRAN-SUBMISSION$
+^tests$
+^viz_dir$

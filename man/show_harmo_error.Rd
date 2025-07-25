@@ -4,14 +4,17 @@
 \alias{show_harmo_error}
 \title{Print a summary of data processing in the console}
 \usage{
-show_harmo_error(harmonized_dossier)
+show_harmo_error(harmonized_dossier, show_warnings = TRUE)
 }
 \arguments{
 \item{harmonized_dossier}{A list containing the harmonized dataset(s).}
+
+\item{show_warnings}{Whether the function should print warnings or not.
+TRUE by default.}
 }
 \value{
 Nothing to be returned. The function prints messages in the console,
-showing any errors in the processing.
+showing any errors in data processing.
 }
 \description{
 Reads a harmonized dossier, product of \code{\link[=harmo_process]{harmo_process()}}, to list processes,
@@ -29,10 +32,14 @@ Data Processing Elements used in processing as attributes.
 }
 \examples{
 {
+# Use Rmonize_examples to run examples.
+library(dplyr)
 
-  harmonized_dossier <- Rmonize_DEMO$harmonized_dossier
-  show_harmo_error(harmonized_dossier)
+# Perform data processing
+harmonized_dossier <- Rmonize_examples$`harmonized_dossier`
 
+# Show error(s) on the console
+show_harmo_error(harmonized_dossier)
 }
 
 }

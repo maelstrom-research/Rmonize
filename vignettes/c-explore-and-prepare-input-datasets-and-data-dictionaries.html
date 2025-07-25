@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Explore and prepare input datasets and data dictionaries</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Explore and prepare input datasets and data
+dictionaries</h1>
+
+
+
+<p>In the vignette Simple example of data processing with Rmonize, we
+used input datasets that are already cleaned and ready for processing.
+However, exploration of input datasets is a critical step in data
+harmonization. Generally, you will first need to examine the datasets
+received from different studies to understand their contents and make
+appropriate processing decisions. If data dictionaries or other metadata
+are provided, this information can be incorporated into dataset
+assessments and summaries. This vignette demonstrates some additional
+capabilities of Rmonize (using functions from the underlying package
+madshapR) to explore and prepare the input datasets and any associated
+data dictionaries for use in processing.</p>
+<div id="load-packages" class="section level2">
+<h2>Load packages</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># Load relevant packages</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(Rmonize)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">library</span>(madshapR) <span class="co"># Additional functions to work with data dictionaries</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">library</span>(fabR) <span class="co"># Additional functions to help with importing data</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># Collection of R packages for data science</span></span></code></pre></div>
+</div>
+<div id="get-original-datasets-and-data-dictionaries" class="section level2">
+<h2>Get original datasets and data dictionaries</h2>
+<p>We refer to the version of datasets received from participating
+studies with no modifications as ‘original’ datasets to distinguish them
+from the input datasets ready for processing, which might have been
+cleaned and/or formatted. Original datasets may come from various file
+formats and require different levels of assessment and cleaning.
+Depending on the file format, original datasets may also contain
+variable metadata that can be extracted. The examples provided with
+Rmonize include original datasets representing different file formats
+and requiring different degrees of preparation. There are few structural
+requirements for input datasets, except that they must be data frames or
+tibbles in R.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># Get original datasets that were read from different file formats</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co"># Datasets from .sav files that contain variable metadata</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>original_dataset_study1 <span class="ot">&lt;-</span> Rmonize_examples<span class="sc">$</span>original_dataset_study1</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>original_dataset_study2 <span class="ot">&lt;-</span> Rmonize_examples<span class="sc">$</span>original_dataset_study2</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co"># Dataset from .csv file, with no data dictionary</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>original_dataset_study3 <span class="ot">&lt;-</span> Rmonize_examples<span class="sc">$</span>original_dataset_study3</span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co"># Datasets from .xlsx files, with data dictionaries in separate files</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>original_dataset_study4 <span class="ot">&lt;-</span> Rmonize_examples<span class="sc">$</span>original_dataset_study4</span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>original_dataset_study5 <span class="ot">&lt;-</span> Rmonize_examples<span class="sc">$</span>original_dataset_study5</span></code></pre></div>
+<p>Input data dictionaries (containing metadata about the variables in a
+dataset) are not required for processing with Rmonize, but the
+information they provide can be incorporated into input dataset
+assessments and summaries. Data dictionaries can be read from separate
+files or extracted directly from datasets, if available.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># Existing metadata (e.g., from datasets from .sav files) can be extracted as data dictionaries</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>original_dd_study1 <span class="ot">&lt;-</span> <span class="fu">data_dict_extract</span>(original_dataset_study1)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>original_dd_study2 <span class="ot">&lt;-</span> <span class="fu">data_dict_extract</span>(original_dataset_study2)</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co"># If data dictionaries are provided as separate files, assign them separately</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>original_dd_study4 <span class="ot">&lt;-</span> Rmonize_examples<span class="sc">$</span>original_data_dictionary_study4</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>original_dd_study5 <span class="ot">&lt;-</span> Rmonize_examples<span class="sc">$</span>original_data_dictionary_study5</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co"># A minimal data dictionary can be extracted from any dataset, but it provides very limited information</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>extracted_dd_study3 <span class="ot">&lt;-</span> <span class="fu">data_dict_extract</span>(original_dataset_study3)</span></code></pre></div>
+<p>For use in Rmonize, data dictionaries are formatted as a list with up
+to two named data frames with information about Variables (mandatory)
+and Categories (if any). You can see this format in data dictionaries
+extracted with <code>data_dict_extract()</code> and in online templates.
+Original data dictionaries in other formats might need to be modified to
+be compatible with Rmonize functions (see next section).</p>
+</div>
+<div id="get-basic-evaluations-of-datasets-and-data-dictionaries" class="section level2">
+<h2>Get basic evaluations of datasets and data dictionaries</h2>
+<p>A good first step is to check the basic structure of the original
+inputs. Rmonize and madshapR include functions to evaluate object
+structures and if they meet basic requirements for use in package
+functions. In many cases, datasets and data dictionaries will already
+have adequate structure, but if there are technical issues that would
+prevent inputs from being used properly, evaluation functions can help
+identify any modifications needed. In this section, we’ll focus on the
+example inputs from study 4 to illustrate multiple possible evaluations
+and preparations. (Note that you would not normally need to perform so
+many different evaluations if the data dictionaries are
+pre-formatted.)</p>
+<p>First, we confirm that the dataset is a data frame (it is) and run a
+dataset evaluation.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># Confirm that the dataset is a tibble</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">is_dataset</span>(original_dataset_study4) <span class="co"># TRUE</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co"># Evaluate dataset only</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="fu">dataset_evaluate</span>(original_dataset_study4)</span></code></pre></div>
+<p>The evaluation generates an overview of the variables in the dataset
+and informational messages if errors or potential issues are detected.
+Looking at the <code>Dataset assessment</code> produced from the
+example, there are suggestions for refined variable valueTypes (i.e.,
+suitable encoding for variable data types) based on values in the
+dataset, but no errors. Possible issues that might be detected at this
+point include all-empty columns, duplicated columns, or non-standard
+variable names.</p>
+<p>Next, we examine the data dictionary. For package functions, a data
+dictionary must be an R list with a data frame element named “Variables”
+and have a few standardized column names (name, label, and valueType;
+see online documentation). An evaluation cannot be performed until the
+data dictionary meets these requirements, and any function using a data
+dictionary will check for and print relevant error messages. We make
+adjustments to the data dictionary for these requirements and evaluate
+the modified data dictionary.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># Make the data dictionary a list containing a data frame named &#39;Variables&#39;</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>modified_dd_study4 <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="st">&quot;Variables&quot;</span> <span class="ot">=</span> original_dd_study4)</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co"># Rename columns using standardized names</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>modified_dd_study4<span class="sc">$</span>Variables <span class="ot">&lt;-</span> </span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>  modified_dd_study4<span class="sc">$</span>Variables <span class="sc">%&gt;%</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">name =</span> Variable,</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>         <span class="at">label =</span> Label,</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>         <span class="at">valueType =</span> <span class="st">`</span><span class="at">Data type</span><span class="st">`</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co"># Evaluate data dictionary only</span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="fu">data_dict_evaluate</span>(modified_dd_study4)</span></code></pre></div>
+<blockquote>
+<p><strong>TIP:</strong> While we make all adjustments to the data
+dictionary in this vignette with R scripts for illustrative purposes,
+you could alternatively make some changes (e.g., renaming the sheet and
+renaming columns) in the Excel document and reimport it into R.</p>
+</blockquote>
+<p>The evaluation generates an overview of the variables in the data
+dictionary and informational messages if errors or potential issues are
+detected. Notably, we see that there are error messages about valueTypes
+not being of an accepted type, and that there is no information about
+categories, even though there is a column called ‘Category codes’. This
+is because there are specific accepted valueType values (see the package
+object ‘valueType_list’ and <a href="https://opaldoc.obiba.org/en/latest/variables-data.html#variables-and-categories">online
+documentation</a>), and the information about categories should be in a
+separate data frame named ‘Categories’ (see online documentation). You
+can correct these issues by recoding the values in the valueType column
+and creating a separate ‘Categories’ data frame from the column with
+information about categories.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># Get the accepted &#39;valueType&#39; values and their R equivalents</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>madshapR<span class="sc">::</span>valueType_list</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co"># Recode variable valueTypes</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>compatible_dd_study4 <span class="ot">&lt;-</span> modified_dd_study4</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>compatible_dd_study4<span class="sc">$</span>Variables <span class="ot">&lt;-</span> </span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>  compatible_dd_study4<span class="sc">$</span>Variables <span class="sc">%&gt;%</span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">valueType =</span> <span class="fu">case_match</span>(</span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>    valueType,</span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>    <span class="st">&quot;character&quot;</span> <span class="sc">~</span> <span class="st">&quot;text&quot;</span>,</span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>    <span class="st">&quot;numeric&quot;</span> <span class="sc">~</span> <span class="st">&quot;decimal&quot;</span>,</span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a>    <span class="st">&quot;integer&quot;</span> <span class="sc">~</span> <span class="st">&quot;integer&quot;</span></span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>  ))</span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a></span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="co"># Use function data_dict_expand() to create `Categories`</span></span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a>?madshapR<span class="sc">::</span><span class="fu">data_dict_expand</span>() <span class="co"># See the function documentation</span></span>
+<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a></span>
+<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a><span class="co"># Rename column `Category codes` with a standardized name for easy processing</span></span>
+<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a>compatible_dd_study4<span class="sc">$</span>Variables <span class="ot">&lt;-</span> </span>
+<span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a>  compatible_dd_study4<span class="sc">$</span>Variables <span class="sc">%&gt;%</span></span>
+<span id="cb6-22"><a href="#cb6-22" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">`</span><span class="at">Categories::label</span><span class="st">`</span> <span class="ot">=</span> <span class="st">`</span><span class="at">Category codes</span><span class="st">`</span>)</span>
+<span id="cb6-23"><a href="#cb6-23" tabindex="-1"></a></span>
+<span id="cb6-24"><a href="#cb6-24" tabindex="-1"></a><span class="co"># Create &#39;Categories&#39; data frame</span></span>
+<span id="cb6-25"><a href="#cb6-25" tabindex="-1"></a>compatible_dd_study4 <span class="ot">&lt;-</span> </span>
+<span id="cb6-26"><a href="#cb6-26" tabindex="-1"></a>  <span class="fu">data_dict_expand</span>(</span>
+<span id="cb6-27"><a href="#cb6-27" tabindex="-1"></a>  <span class="at">data_dict =</span> compatible_dd_study4) <span class="sc">%&gt;%</span></span>
+<span id="cb6-28"><a href="#cb6-28" tabindex="-1"></a>  <span class="fu">as_data_dict_mlstr</span>() <span class="co"># Ensure correct formatting</span></span>
+<span id="cb6-29"><a href="#cb6-29" tabindex="-1"></a></span>
+<span id="cb6-30"><a href="#cb6-30" tabindex="-1"></a><span class="co"># Correctly code categories that indicate types of missing values</span></span>
+<span id="cb6-31"><a href="#cb6-31" tabindex="-1"></a>compatible_dd_study4<span class="sc">$</span>Categories <span class="ot">&lt;-</span> </span>
+<span id="cb6-32"><a href="#cb6-32" tabindex="-1"></a>  compatible_dd_study4<span class="sc">$</span>Categories <span class="sc">%&gt;%</span></span>
+<span id="cb6-33"><a href="#cb6-33" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb6-34"><a href="#cb6-34" tabindex="-1"></a>    <span class="at">missing =</span> <span class="fu">ifelse</span>(</span>
+<span id="cb6-35"><a href="#cb6-35" tabindex="-1"></a>      label <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Don&#39;t know&quot;</span>, <span class="st">&quot;Prefer not to answer&quot;</span>), <span class="cn">TRUE</span>, <span class="cn">FALSE</span>))</span>
+<span id="cb6-36"><a href="#cb6-36" tabindex="-1"></a></span>
+<span id="cb6-37"><a href="#cb6-37" tabindex="-1"></a><span class="co"># Rerun the data dictionary evaluation to confirm the corrections were made</span></span>
+<span id="cb6-38"><a href="#cb6-38" tabindex="-1"></a><span class="fu">data_dict_evaluate</span>(compatible_dd_study4)</span></code></pre></div>
+<p>After evaluating and modifying the dataset and data dictionary
+independently, you can assess their validity for use with each other. No
+modifications to the dataset are needed, but we format it explicitly as
+an Rmonize dataset and identify the column with unique identifiers so
+that this information can be used correctly in the evaluations.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># Format the dataset</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>compatible_dataset_study4 <span class="ot">&lt;-</span> </span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="fu">as_dataset</span>(original_dataset_study4, <span class="at">col_id =</span> <span class="st">&quot;ID&quot;</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co"># Evaluate the dataset and data dictionary together, as separate objects</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co"># Tip: Assign the output to an object for easier viewing.</span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>dataset_evaluation_study4 <span class="ot">&lt;-</span> <span class="fu">dataset_evaluate</span>(</span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>  <span class="at">dataset =</span> compatible_dataset_study4,</span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>  <span class="at">data_dict =</span> compatible_dd_study4)</span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="co"># View the new informational messages in the RStudio viewer</span></span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="fu">View</span>(dataset_evaluation_study4[[<span class="st">&quot;Dataset assessment&quot;</span>]])</span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="co"># Note: the informational messages about duplicated rows are a side effect</span></span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a><span class="co"># of a synthesized dataset with few variables. Rows are more likely to have</span></span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="co"># the same values.</span></span></code></pre></div>
+<blockquote>
+<p><strong>TIP:</strong> You can view the evaluation outputs in the
+console or assign them to an object for more viewing options. For
+example, this is helpful if there are many messages, and you want to
+search for errors specifically. You can view the object in the RStudio
+viewer, as in the script here, or export the output as a spreadsheet and
+view it externally.</p>
+</blockquote>
+<p>Now we get different informational messages in the ‘Dataset
+assessment’. Importantly, we see a few issues. In this example there is
+a variable with different names in the dataset (marital_v1) and data
+dictionary (marital), and two variables (drink_four_preg_v1 and
+drink_four_preg_v3) where the valueType in the data dictionary is not
+compatible with the valueType in the dataset. Closer examination of the
+variables drink_four_preg_v1 and drink_four_preg_v3 in the dataset will
+show that missing values have been coded as strings “NA”, making the
+variables have valueType ‘character’, as opposed to the data dictionary
+valueType ‘integer’.</p>
+<p>Based on these messages, you can fix the name of marital_v1 in the
+data dictionary and adjust the valueTypes of drink_four_preg_v1 and
+drink_four_preg_v3 in the dataset.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># Correct a variable name in the data dictionary to match the dataset</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>formatted_dd_study4 <span class="ot">&lt;-</span> compatible_dd_study4</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>formatted_dd_study4<span class="sc">$</span>Variables <span class="ot">&lt;-</span> </span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>  formatted_dd_study4<span class="sc">$</span>Variables <span class="sc">%&gt;%</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">name =</span> <span class="fu">ifelse</span>(name <span class="sc">==</span> <span class="st">&quot;marital&quot;</span>, <span class="st">&quot;marital_v1&quot;</span>, name))</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>formatted_dd_study4<span class="sc">$</span>Categories <span class="ot">&lt;-</span> </span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>  formatted_dd_study4<span class="sc">$</span>Categories <span class="sc">%&gt;%</span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">variable =</span> <span class="fu">ifelse</span>(variable <span class="sc">==</span> <span class="st">&quot;marital&quot;</span>, <span class="st">&quot;marital_v1&quot;</span>, variable))</span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="co"># Adjust two variable valueTypes in the dataset to match the data dictionary</span></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>formatted_dataset_study4 <span class="ot">&lt;-</span> compatible_dataset_study4 <span class="sc">%&gt;%</span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a>    <span class="co"># First convert &quot;NA&quot; strings to NA empty strings</span></span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a>    <span class="fu">across</span>(<span class="fu">c</span>(drink_four_preg_v1, drink_four_preg_v3), <span class="sc">~</span> <span class="fu">na_if</span>(.x, <span class="st">&quot;NA&quot;</span>)),</span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a>    <span class="co"># Convert the variables to integer</span></span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a>    <span class="fu">across</span>(<span class="fu">c</span>(drink_four_preg_v1, drink_four_preg_v3), as_any_integer))</span></code></pre></div>
+<p>At this point, you can associate the dataset with its data dictionary
+to create one object that can be used in summary and reporting
+functions.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co"># Associate a dataset with its data dictionary (only possible when there are no</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="co"># errors in the previous evaluation)</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>dataset_with_dd_study4 <span class="ot">&lt;-</span> <span class="fu">data_dict_apply</span>(</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>  <span class="at">dataset =</span> formatted_dataset_study4,</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>  <span class="at">data_dict =</span> formatted_dd_study4)</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="co"># If you want, evaluate the dataset and data dictionary together</span></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="co"># (confirms that there are no errors, but otherwise provides same information)</span></span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="fu">dataset_evaluate</span>(dataset_with_dd_study4)</span></code></pre></div>
+</div>
+<div id="generate-dataset-summaries" class="section level2">
+<h2>Generate dataset summaries</h2>
+<p>You can get more detailed summaries and descriptive statistics about
+a dataset and each variable with <code>dataset_summarize()</code>. The
+statistics provided for each variable are automatically determined based
+on the variable’s data dictionary valueType. In this example, the
+summary shows that the variable ‘age_v1’ has a maximum value of 350,
+which is an error in the original dataset. The output of dataset
+summaries can easily be exported as Excel files.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="co"># Summarize a dataset with an associated data dictionary</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>summary_dataset_with_dd_study4 <span class="ot">&lt;-</span> <span class="fu">dataset_summarize</span>(</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  <span class="at">dataset =</span> dataset_with_dd_study4)</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="co"># View the summary outputs</span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="fu">View</span>(summary_dataset_with_dd_study4)</span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>summary_dataset_with_dd_study4<span class="sc">$</span><span class="st">`</span><span class="at">Numerical variable summary</span><span class="st">`</span> <span class="sc">%&gt;%</span> <span class="fu">View</span>()</span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="co"># </span><span class="al">WARNING</span><span class="co">: This script creates a folder &#39;tmp&#39;.</span></span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a>output_path <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&#39;tmp/&#39;</span>,<span class="fu">basename</span>(<span class="fu">tempdir</span>()))</span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a><span class="fu">dir.create</span>(output_path)</span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a><span class="fu">write_excel_allsheets</span>(</span>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a>  summary_dataset_with_dd_study4, <span class="fu">paste0</span>(output_path,<span class="st">&quot;/summary_dataset_with_dd_study4.xlsx&quot;</span>))</span></code></pre></div>
+<blockquote>
+<p><strong>TIP:</strong> While you can run
+<code>dataset_summarize()</code> on any dataset, summaries are more
+useful after datasets and data dictionaries have been assessed and
+adjusted, if needed (e.g., categories correctly defined in the data
+dictionary and valid valueTypes defined in the dataset and data
+dictionary).</p>
+</blockquote>
+</div>
+<div id="generate-visual-reports" class="section level2">
+<h2>Generate visual reports</h2>
+<p>You can also get visual summaries about a dataset and variables. The
+function <code>dataset_visualize()</code> generates an interactive html
+document with summary figures for each variable. The figures provided
+for each variable are automatically determined based on the variable’s
+data dictionary valueType. Visual reports provide less detailed
+statistics than tables from <code>dataset_summarize()</code>, but some
+features of the data may be easier to see in visual summaries.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co"># Produce a visual report of the dataset and variables</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="co"># You must specify a folder to contain the visual report files, and the folder name must not already exist.</span></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="co"># </span><span class="al">WARNING</span><span class="co">: This script creates a folder &#39;tmp&#39;.</span></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>bookdown_path <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&#39;tmp/&#39;</span>,<span class="fu">basename</span>(<span class="fu">tempdir</span>()))</span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">dir.exists</span>(bookdown_path)) <span class="fu">file.remove</span>(bookdown_path)</span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a><span class="fu">dataset_visualize</span>(</span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a>  <span class="at">dataset =</span> dataset_with_dd_study4,</span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a>  <span class="at">bookdown_path =</span> bookdown_path,</span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a>  <span class="at">dataset_summary =</span> summary_dataset_with_dd_study4)</span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a><span class="co"># Open the visual report in a browser.</span></span>
+<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a><span class="fu">bookdown_open</span>(bookdown_path)</span>
+<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a><span class="co"># Or open &#39;bookdown_path/docs/index.html&#39;.</span></span></code></pre></div>
+<blockquote>
+<p><strong>TIP:</strong> While you can run
+<code>dataset_visualize()</code> on any dataset, summaries are more
+useful after datasets and data dictionaries have been assessed and
+adjusted, if needed (e.g., categories correctly defined in the data
+dictionary and valid valueTypes defined in the dataset and data
+dictionary).</p>
+</blockquote>
+<blockquote>
+<p><strong>TIP:</strong> For large datasets with many rows and
+variables, it can take a long time to generate summaries and visual
+reports. You can summarize and generate reports for subsets of variables
+to shorten processing times. If a summary report for the dataset was
+previously generated and exists in the environment, it can be provided
+in the dataset_summary parameter of <code>dataset_visualize()</code> to
+shorten processing time.</p>
+</blockquote>
+</div>
+<div id="prepare-input-datasets-ready-for-processing" class="section level2">
+<h2>Prepare input datasets ready for processing</h2>
+<p>Once you have validated and applied any final cleaning that you want,
+we suggest saving a version of the prepared input datasets as R files
+that are easily accessible to maintain valueType information. If a data
+dictionary was associated with the dataset, this metadata can also be
+saved in the R file.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="co"># Prepare a version of the cleaned validated input dataset (with associated data dictionary)</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>input_dd_study4 <span class="ot">&lt;-</span> formatted_dd_study4</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>input_dataset_study4 <span class="ot">&lt;-</span> formatted_dataset_study4 <span class="sc">%&gt;%</span></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>  <span class="co"># Erroneous values noted in summary reports can be removed</span></span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">age_v1 =</span> <span class="fu">ifelse</span>(age_v1<span class="sc">&gt;</span><span class="dv">100</span>, <span class="cn">NA</span>, age_v1)) <span class="sc">%&gt;%</span></span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>  <span class="co"># If desired, specify the column that provides unique IDs</span></span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a>  <span class="fu">as_dataset</span>(<span class="at">col_id =</span> <span class="st">&quot;ID&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a>  <span class="co"># Associate the data dictionary</span></span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a>  <span class="fu">data_dict_apply</span>(<span class="at">data_dict =</span> input_dd_study4)</span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a></span>
+<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a><span class="co"># Prepare a version of the cleaned validated input dataset as an R file</span></span>
+<span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a><span class="fu">saveRDS</span>(input_dataset_study4, <span class="fu">paste0</span>(output_path,<span class="st">&quot;/input_dataset_study4.rds&quot;</span>))</span></code></pre></div>
+<blockquote>
+<p><strong>TIP:</strong> In practice, it can be useful to create the
+Data Processing Elements (DPE) in conjunction with evaluation of the
+input datasets. This way the input elements, algorithms, and any
+comments and questions about processing for each row of the DPE can be
+written while the relevant input variables are being evaluated.</p>
+</blockquote>
+<blockquote>
+<p><strong>TIP:</strong> Errors or outliers detected in summaries can be
+corrected in the input dataset before processing data, or corrections
+can be made explicitly in the algorithms written in the Data Processing
+Elements.</p>
+</blockquote>
+<p>While not shown, the same overall preparation of input datasets would
+be applied to the original datasets from other studies. The amount of
+preparation needed will vary across different datasets, and the process
+is iterative and may also need to be adjusted with any updates to
+datasets or harmonization decisions.</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

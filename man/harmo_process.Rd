@@ -5,31 +5,34 @@
 \title{Generate harmonized dataset(s) and associated metadata}
 \usage{
 harmo_process(
-  dossier,
-  dataschema = attributes(dossier)$`Rmonize::DataSchema`,
-  data_proc_elem = attributes(dossier)$`Rmonize::Data Processing Elements`,
-  harmonized_col_dataset = attributes(dossier)$`Rmonize::harmonized_col_dataset`,
-  harmonized_col_id = attributes(dossier)$`Rmonize::harmonized_col_id`
+  object,
+  dataschema = attributes(object)$`Rmonize::DataSchema`,
+  data_proc_elem = attributes(object)$`Rmonize::Data Processing Elements`,
+  harmonized_col_dataset = attributes(object)$`Rmonize::harmonized_col_dataset`,
+  harmonized_col_id = attributes(object)$`Rmonize::harmonized_col_id`,
+  .debug = FALSE
 )
 }
 \arguments{
-\item{dossier}{List of data frame(s) containing input dataset(s).}
+\item{object}{Data frame(s) or list of data frame(s) containing input
+dataset(s).}
 
 \item{dataschema}{A DataSchema object.}
 
 \item{data_proc_elem}{A Data Processing Elements object.}
 
 \item{harmonized_col_dataset}{A character string identifying the column
-to use for dataset names. NULL by default.}
+to use for dataset names.}
 
 \item{harmonized_col_id}{A character string identifying the name of the
-column present in every dataset to use as a dataset identifier.
-NULL by default.}
+column present in every dataset to use as a participant identifier.}
+
+\item{.debug}{Allow user to test the inputs before processing harmonization.}
 }
 \value{
-A list of data frame(s), containing harmonized dataset(s). The DataSchema
-and Data Processing Elements are preserved as attributes of the
-output harmonized dossier.
+A list of data frame(s) containing harmonized dataset(s).
+The DataSchema and Data Processing Elements are preserved as attributes of
+the harmonized dossier.
 }
 \description{
 Reads a DataSchema and Data Processing Elements to generate a
@@ -54,8 +57,8 @@ in any function. In 'Variables' the \code{name} column must also have unique
 entries, and in 'Categories' the combination of \code{variable} and \code{name} columns
 must also be unique.
 
-The Data Processing Elements specifies the algorithms used to process input
-variables into harmonized variables in the DataSchema format. It is also
+The Data Processing Elements specifies the input elements and processing algorithms
+to generate harmonized variables in the DataSchema formats. It is also
 contains metadata used to generate documentation of the processing.
 A Data Processing Elements object is a data frame with specific columns
 used in data processing: \code{dataschema_variable}, \code{input_dataset},
@@ -64,28 +67,26 @@ To initiate processing, the first entry must be the creation of a harmonized
 primary identifier variable (e.g., participant unique ID).
 }
 \examples{
-{
-
-# Use Rmonize_DEMO to run examples.
+\donttest{
+# Use Rmonize_examples to run examples.
 
 library(dplyr)
-library(madshapR) # data_dict_filter
+library(stringr)
+library(lubridate)
 
-dataset_MELBOURNE <- Rmonize_DEMO$dataset_MELBOURNE[1]
-dossier <- dossier_create(list(dataset_MELBOURNE))
+# Perform data processing
+dossier <- Rmonize_examples[str_detect(names(Rmonize_examples),"input_dataset_study")]
+names(dossier) <- str_remove(names(dossier), "input_")
+dataschema <- Rmonize_examples$`DataSchema`
+data_proc_elem <- Rmonize_examples$`Data_Processing_Elements_no_errors`
 
-dataschema <- 
-  Rmonize_DEMO$`dataschema - final` \%>\%
-  data_dict_filter('name == "adm_unique_id"')
-
-data_proc_elem <- Rmonize_DEMO$`data_processing_elements - final` \%>\%
-  dplyr::filter(dataschema_variable == 'adm_unique_id',
-         input_dataset == 'dataset_MELBOURNE')
-
-# perform harmonization
-harmonized_dossier <- harmo_process(dossier,dataschema,data_proc_elem)
-glimpse(harmonized_dossier)
-
+harmonized_dossier <- harmo_process(
+  dossier,
+  dataschema,
+  data_proc_elem,
+  harmonized_col_dataset = 'adm_study_id')
+  
+glimpse(harmonized_dossier$dataset_study1)
 }
 
 }

@@ -1,0 +1,116 @@
+---
+title: "Install your working environment"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Install your working environment}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Rmonize is an R package developed by Maelstrom Research to address some of the 
+methodological and technical challenges in data harmonization and to promote a 
+streamlined, reusable, and well documented harmonization workflow. To get 
+started with Rmonize, you first need to get set up in R.
+
+## Install R and RStudio
+
+To use Rmonize, you must [install R](https://www.r-project.org/) (version 3.4 or 
+higher), and you should have a basic familiarity with using R. While not 
+required, we strongly recommend that you [install RStudio](https://posit.co/downloads/), 
+an integrated development environment for R that enhances the user experience 
+and extends R functionality.
+
+## Install and load Rmonize
+
+Before using Rmonize for the first time, you need to install the package. The 
+latest stable version of the package can be installed from CRAN. The package is 
+also available on Github. After initial installation, you will only need to 
+reinstall Rmonize for updates. After installing Rmonize, load the package to use
+it each time you start a new session.
+
+```{r eval=FALSE}
+# To install Rmonize from CRAN:
+install.packages("Rmonize")
+
+# To install Rmonize from Github:
+remotes::install_github(
+  repo = "https://github.com/maelstrom-research/Rmonize",
+  ref = "main")
+
+# Load the package
+library(Rmonize)
+```
+
+Rmonize uses two underlying packages, [madshapR](https://cran.r-project.org/package=madshapR) 
+and [fabR](https://cran.r-project.org/package=fabR), which include helpful 
+functions to work with data and metadata. Installing Rmonize also installs these 
+two packages, and Rmonize functions automatically call madshapR and fabR where 
+needed. In the vignettes, we will highlight some useful madshapR and fabR 
+functions.
+
+You must also have the 'car' package installed, which is used internally by 
+Rmonize to recode variables, to avoid errors during processing.
+
+```{r eval=FALSE}
+# Install package car from CRAN
+install.packages("car")
+```
+
+Rmonize and its related packages additionally use underlying packages from 
+[tidyverse](https://www.tidyverse.org/), a useful and popular collection of 
+R packages for data science, which we will use in the vignettes and suggest 
+users also install.
+
+## Get help with Rmonize
+
+You can get package and function documentation in R, and additional help and
+documentation are also provided on the website <https://maelstrom-research.github.io/Rmonize-documentation/>
+
+```{r eval=FALSE}
+# Get package documentation in R
+?Rmonize
+help("Rmonize")
+
+# Access the website with a function
+Rmonize_website()
+```
+
+The package includes illustrative examples of input elements, outputs, and 
+reports to demonstrate the structure and content of key elements in the Rmonize 
+workflow. These examples are based on a use case with synthetic datasets from 
+five studies to be harmonized, and they are also used in the Rmonize help files 
+and vignettes.
+
+```{r eval=FALSE}
+# See available examples
+names(Rmonize_examples)
+
+# Downloadable templates are also available
+Rmonize_templates()
+```
+
+You can report issues with the package or see known issues on Github at 
+<https://github.com/maelstrom-research/Rmonize/issues>.
+
+## Next steps
+
+For a basic example of the harmonization processing workflow, see the vignette 
+Simple example of data processing with Rmonize.
+
+For more in-depth exploration of specific steps, see the vignettes and 
+documentation:
+
+- [Explore and prepare input datasets and data dictionaries](https://maelstrom-research.github.io/Rmonize-documentation/articles/c-explore-and-prepare-input-datasets-and-data-dictionaries.html)
+
+- [Prepare the Data Processing Elements](https://maelstrom-research.github.io/Rmonize-documentation/dpe/index.html)
+
+- [Process inputs into harmonized outputs](https://maelstrom-research.github.io/Rmonize-documentation/articles/d-process-inputs-and-generate-harmonized-outputs.html)
+
+- [Summarize and secure harmonized outputs](https://maelstrom-research.github.io/Rmonize-documentation/articles/e-summarize-and-secure-harmonized-outputs.html)

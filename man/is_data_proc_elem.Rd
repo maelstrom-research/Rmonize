@@ -18,8 +18,8 @@ mainly helps validate input within other functions of the package but could
 be used to check if an object is valid for use in a function.
 }
 \details{
-The Data Processing Elements specifies the algorithms used to process input
-variables into harmonized variables in the DataSchema format. It is also
+The Data Processing Elements specifies the input elements and processing algorithms
+to generate harmonized variables in the DataSchema formats. It is also
 contains metadata used to generate documentation of the processing.
 A Data Processing Elements object is a data frame with specific columns
 used in data processing: \code{dataschema_variable}, \code{input_dataset},
@@ -30,12 +30,11 @@ primary identifier variable (e.g., participant unique ID).
 \examples{
 {
 
-# use Rmonize_DEMO provided by the package
+# Use Rmonize_examples to run examples.
 
-data_proc_elem <- Rmonize_DEMO$`data_processing_elements - final`
-is_data_proc_elem(data_proc_elem)
+is_data_proc_elem(Rmonize_examples$`Data_Processing_Elements_no_errors`)
+is_data_proc_elem(Rmonize_examples$`DataSchema`)
 is_data_proc_elem(iris)
-
 }
 
 }

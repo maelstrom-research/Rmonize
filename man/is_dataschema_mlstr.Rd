@@ -35,15 +35,15 @@ in particular \href{https://www.obiba.org/pages/products/opal/}{Opal environment
 \examples{
 {
 
-# use Rmonize_DEMO provided by the package
+# use Rmonize_examples provided by the package
 
-dataschema <- Rmonize_DEMO$`dataschema - final`
-is_dataschema_mlstr(dataschema)
+is_dataschema_mlstr(Rmonize_examples$`DataSchema`)
+is_dataschema_mlstr(Rmonize_examples$`Data_Processing_Elements_no_errors`)
 is_dataschema_mlstr(iris)
 
 }
 
 }
 \seealso{
-For a better assessment, please use \code{\link[=dataschema_evaluate]{dataschema_evaluate()}}.
+\code{\link[=dataschema_evaluate]{dataschema_evaluate()}}.
 }

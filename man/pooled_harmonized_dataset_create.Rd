@@ -9,7 +9,6 @@ pooled_harmonized_dataset_create(
   harmonized_col_dataset =
     attributes(harmonized_dossier)$`Rmonize::harmonized_col_dataset`,
   harmonized_col_id = attributes(harmonized_dossier)$`Rmonize::harmonized_col_id`,
-  add_col_dataset = FALSE,
   dataschema = attributes(harmonized_dossier)$`Rmonize::DataSchema`,
   data_proc_elem = attributes(harmonized_dossier)$`Rmonize::Data Processing Elements`
 )
@@ -21,12 +20,7 @@ pooled_harmonized_dataset_create(
 to use for dataset names.}
 
 \item{harmonized_col_id}{A character string identifying the name of the
-column present in every dataset to use as a dataset identifier.}
-
-\item{add_col_dataset}{Whether to add an extra column to each
-harmonized dataset. The resulting data frame will have an additional column
-and its data dictionary will be updated accordingly adding categories for
-this variable if necessary. FALSE by default.}
+column present in every dataset to use as a participant identifier.}
 
 \item{dataschema}{A DataSchema object.}
 
@@ -38,11 +32,12 @@ A data frame containing the pooled harmonized dataset.
 \description{
 Generates a pooled harmonized dataset from a harmonized dossier. The function
 has two arguments that can optionally be declared by the user
-(\code{unique_col_dataset} and \code{unique_col_id}). \code{unique_col_dataset} refers to
-the columns which contains name of each harmonized dataset. \code{unique_col_id}
-refers to the column in harmonized datasets which identifies unique
-combinations of observation/dataset. These two columns are added to ensure
-that there is always a unique entity identifier when datasets are pooled.
+(\code{harmonized_col_dataset} and \code{harmonized_col_id}). \code{harmonized_col_dataset}
+refers to the columns which contains name of each harmonized dataset.
+\code{harmonized_col_id} refers to the column in harmonized datasets which
+identifies unique combinations of observation/dataset. These two columns are
+added to ensure that there is always a unique entity identifier when datasets
+are pooled.
 }
 \details{
 A harmonized dossier is a named list containing one or more data frames,
@@ -61,8 +56,8 @@ in any function. In 'Variables' the \code{name} column must also have unique
 entries, and in 'Categories' the combination of \code{variable} and \code{name} columns
 must also be unique.
 
-The Data Processing Elements specifies the algorithms used to process input
-variables into harmonized variables in the DataSchema format. It is also
+The Data Processing Elements specifies the input elements and processing algorithms
+to generate harmonized variables in the DataSchema formats. It is also
 contains metadata used to generate documentation of the processing.
 A Data Processing Elements object is a data frame with specific columns
 used in data processing: \code{dataschema_variable}, \code{input_dataset},
@@ -73,13 +68,17 @@ primary identifier variable (e.g., participant unique ID).
 \examples{
 {
 
-# use madshapR_DEMO provided by the package
+# Use Rmonize_examples to run examples.
+ 
 library(dplyr)
 
-harmonized_dossier <- Rmonize_DEMO$harmonized_dossier
+# Perform data processing
+harmonized_dossier <- Rmonize_examples["harmonized_dossier"][[1]]
 
-glimpse(pooled_harmonized_dataset_create(
-  harmonized_dossier,harmonized_col_id = 'adm_unique_id'))
+# create the pooled harmonized dataset from the harmonized dossier
+pooled_harmonized_dataset <- pooled_harmonized_dataset_create(harmonized_dossier)
+  
+glimpse(pooled_harmonized_dataset)
   
 }
 

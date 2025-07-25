@@ -8,52 +8,50 @@
 #' formats.
 #'
 #' @details
-#' A harmonized dossier is a named list containing one or more data frames, 
-#' which are harmonized datasets. A harmonized dossier is generally the 
-#' product of applying processing to a dossier object The name of each 
-#' harmonized dataset (data frame) is taken from the reference input dataset. 
-#' A harmonized dossier also contains the DataSchema and 
+#' A harmonized dossier is a named list containing one or more data frames,
+#' which are harmonized datasets. A harmonized dossier is generally the
+#' product of applying processing to a dossier object. The name of each
+#' harmonized dataset (data frame) is taken from the reference input dataset.
+#' A harmonized dossier also contains the DataSchema and
 #' Data Processing Elements used in processing as attributes.
 #' 
-#' A DataSchema is the list of core variables to generate across datasets and 
-#' related metadata. A DataSchema object is a list of data frames with elements 
-#' named 'Variables' (required) and 'Categories' (if any). The 'Variables' 
-#' element must contain at least the `name` column, and the 'Categories' 
-#' element must contain at least the `variable` and `name` columns to be usable 
-#' in any function. In 'Variables' the `name` column must also have unique 
-#' entries, and in 'Categories' the combination of `variable` and `name` columns 
-#' must also be unique. 
-#'
-#' A taxonomy is a classification schema that can be defined for variable 
-#' attributes. A taxonomy is usually extracted from an 
-#' [Opal environment](https://www.obiba.org/pages/products/opal//), and a 
-#' taxonomy object is a data frame that must contain at least the columns 
-#' `taxonomy`, `vocabulary`, and `terms`. Additional details about Opal 
-#' taxonomies are 
-#' [available online](https://opaldoc.obiba.org/en/latest/web-user-guide/administration/taxonomies.html).
+#' A DataSchema is the list of core variables to generate across datasets and
+#' related metadata. A DataSchema object is a list of data frames with elements
+#' named 'Variables' (required) and 'Categories' (if any). The 'Variables'
+#' element must contain at least the `name` column, and the 'Categories'
+#' element must contain at least the `variable` and `name` columns to be usable
+#' in any function. In 'Variables' the `name` column must also have unique
+#' entries, and in 'Categories' the combination of `variable` and `name` columns
+#' must also be unique.
 #' 
-#' The object may be specifically formatted to be compatible with additional 
-#' [Maelstrom Research software](https://maelstrom-research.org/page/software), 
+#' A taxonomy is a classification schema that can be defined for variable
+#' attributes. A taxonomy is usually extracted from an
+#' [Opal environment](https://www.obiba.org/pages/products/opal//), and a
+#' taxonomy object is a data frame that must contain at least the columns
+#' `taxonomy`, `vocabulary`, and `terms`. Additional details about Opal
+#' taxonomies are
+#' [available online](https://opaldoc.obiba.org/en/latest/web-user-guide/administration/taxonomies.html).
+#' The object may be specifically formatted to be compatible with additional
+#' [Maelstrom Research software](https://maelstrom-research.org/page/software),
 #' in particular [Opal environments](https://www.obiba.org/pages/products/opal/).
 #'
 #' @param harmonized_dossier A list containing the harmonized dataset(s).
-#' @param taxonomy An optional data frame identifying a variable classification 
-#' schema.
-#' @param dataschema A DataSchema object.
-#' @param as_dataschema_mlstr Whether the output DataSchema should be coerced 
-#' with specific format restrictions for compatibility with other 
-#' Maelstrom Research software. TRUE by default.
-#'
+#' 
 #' @returns
 #' A list of data frames containing assessment reports for each harmonized dataset.
 #'
 #' @examples
-#' {
+#' \donttest{
 #' 
-#' #' # use Rmonize_DEMO provided by the package
+#' # Use Rmonize_examples to run examples.
 #' library(dplyr)
-#'
-#' glimpse(harmonized_dossier_evaluate(Rmonize_DEMO$harmonized_dossier))
+#' 
+#' # Perform data processing
+#' harmonized_dossier <- Rmonize_examples$`harmonized_dossier`
+#' 
+#' eval_harmo <- harmonized_dossier_evaluate(harmonized_dossier)
+#' 
+#' glimpse(eval_harmo)
 #' 
 #' }
 #'
@@ -62,76 +60,112 @@
 #' @importFrom rlang .data
 #'
 #' @export
-harmonized_dossier_evaluate <- function(
-    harmonized_dossier,
-    dataschema = attributes(harmonized_dossier)$`Rmonize::DataSchema`,
-    taxonomy = NULL,
-    as_dataschema_mlstr = TRUE){
-
-  # future dev 
-  # assess harmonized data dictionary
-  # exclude impossible from the evaluation
-  
-  # tests
-  if(!is.null(taxonomy)) as_taxonomy(taxonomy)
-  
-  if(!is.logical(as_dataschema_mlstr))
-    stop(call. = FALSE,
-         '`as_dataschema_mlstr` must be TRUE or FALSE (FALSE by default)')
+harmonized_dossier_evaluate <- function(harmonized_dossier){
   
   # creation of pooled_harmonized_dataset
   pooled_harmonized_dataset <- 
-    pooled_harmonized_dataset_create(harmonized_dossier)
-
-  report_list <-
+    suppressWarnings(pooled_harmonized_dataset_create(harmonized_dossier))
+  
+  harmo_data_dict <- 
+    attr(pooled_harmonized_dataset,"madshapR::Data dictionary") %>%  
+    data_dict_trim_labels()
+  
+  # suppress Rmonize::harmonized_col_dataset if exists (internal column added when pooling)
+  pooled_harmonized_dataset <- 
+    pooled_harmonized_dataset %>% 
+    select(-any_of("Rmonize::harmonized_col_dataset"))
+  
+  attr(pooled_harmonized_dataset,"madshapR::Data dictionary") <- 
+    data_dict_match_dataset(
+      pooled_harmonized_dataset,
+      attr(pooled_harmonized_dataset,"madshapR::Data dictionary"),output = "data_dict")
+  
+  harmonized_dossier_eval <-
     dataset_evaluate(
-      dataset = pooled_harmonized_dataset,
-      data_dict = dataschema,
-      taxonomy = taxonomy,
-      as_data_dict_mlstr = as_dataschema_mlstr)
+      dataset = pooled_harmonized_dataset)
+  
+  names(harmonized_dossier_eval) <- 
+    str_replace(names(harmonized_dossier_eval),
+                "Data dictionary summary","Harmo data dictionary summary")
+  names(harmonized_dossier_eval) <- 
+    str_replace(names(harmonized_dossier_eval),
+                "Dataset assessment","Harmo dataset assessment")
+  names(harmonized_dossier_eval) <- 
+    str_replace(names(harmonized_dossier_eval),
+                "Data dictionary assessment","Harmo data dictionary assessment")
+  
+  dataset_column_name <-
+    harmo_data_dict$Variables$`Variable name`[
+      harmo_data_dict$Variables$`name` ==
+        attributes(pooled_harmonized_dataset)$`Rmonize::harmonized_col_dataset`]
 
-  report_list <-
-    report_list %>%
+  if(!is.null(harmonized_dossier_eval[['Harmo dataset assessment']])){
+    harmonized_dossier_eval[['Harmo dataset assessment']] <-
+      harmonized_dossier_eval[['Harmo dataset assessment']] %>%
+      dplyr::filter(
+        ! (.data$`Variable name` == dataset_column_name &
+             .data$`Dataset assessment` %in% c(
+               "[INFO] - Variable is categorical and has values defined in data dictionary that are not present in dataset.",
+               "[INFO] - Variable has a constant value.")))
+
+    
+
+    # [GF] comment the variable dataset_column_name has some warnings and informations
+    # that are not relevant for harmo evaluate. Need further investigations
+    
+    if(nrow(harmonized_dossier_eval[['Harmo dataset assessment']] %>%
+      dplyr::filter(.data$`Variable name` == dataset_column_name)) > 0){
+
+      # # exclude from warnings the fact that the dataset column could be an integer
+      # # (not relevant)
+      # harmonized_dossier_eval[['Harmo dataset assessment']] <- 
+      #   harmonized_dossier_eval[['Harmo dataset assessment']] %>%
+      #   dplyr::filter(!(.data$`Variable name` == dataset_column_name &
+      #                     .data$`Dataset assessment` == "[INFO] - Suggested valueType."))
+      # 
+      # 
+      # stop("ERROR 105")
+    }
+  }
+  
+  harmonized_dossier_eval <-
+    harmonized_dossier_eval %>%
     lapply(function(x){
-      
-        names(x) <- str_replace(names(x),"Data dictionary summary",
-                                "Harmonized Data dictionary summary")
-        names(x) <- str_replace(names(x),"Data dictionary assessment",
-                                "Harmonized Data dictionary assessement")
-        names(x) <- str_replace(names(x),"Dataset assessment",
-                                "Harmonized Dataset assessment")
-    return(x)
+      names(x) <- str_replace(names(x),
+                              "Data dictionary assessment","Harmo data dictionary assessment")
+      names(x) <- str_replace(names(x),
+                              "Dataset assessment","Harmo dataset assessment")
+      return(x)
     })
-
-  return(report_list)
+  
+  return(harmonized_dossier_eval)
 }
 
 #' @title
 #' Generate an assessment report for Data Processing Elements
 #'
 #' @description
-#' `r lifecycle::badge("experimental")`
 #' Assesses the content and structure of a Data Processing Elements object and 
 #' generates reports of the results. This function can be used to evaluate data 
 #' structure, presence of specific fields, coherence across elements, and data 
 #' dictionary formats.
 #'
 #' @details
-#' The Data Processing Elements specifies the algorithms used to process input 
-#' variables into harmonized variables in the DataSchema format. It is also 
+#' The Data Processing Elements specifies the input elements and processing algorithms 
+#' to generate harmonized variables in the DataSchema formats. It is also
 #' contains metadata used to generate documentation of the processing.
-#' A Data Processing Elements object is a data frame with specific columns 
-#' used in data processing: `dataschema_variable`, `input_dataset`, 
-#' `input_variables`, `Mlstr_harmo::rule_category` and `Mlstr_harmo::algorithm`. 
-#' To initiate processing, the first entry must be the creation of a harmonized 
+#' A Data Processing Elements object is a data frame with specific columns
+#' used in data processing: `dataschema_variable`, `input_dataset`,
+#' `input_variables`, `Mlstr_harmo::rule_category` and `Mlstr_harmo::algorithm`.
+#' To initiate processing, the first entry must be the creation of a harmonized
 #' primary identifier variable (e.g., participant unique ID).
-#'
-#' A taxonomy is a classification schema that can be defined for variable 
-#' attributes. A taxonomy is usually extracted from an 
-#' [Opal environment](https://www.obiba.org/pages/products/opal//), and a 
-#' taxonomy object is a data frame that must contain at least the columns 
-#' `taxonomy`, `vocabulary`, and `terms`. Additional details about Opal 
-#' taxonomies are 
+#' 
+#' A taxonomy is a classification schema that can be defined for variable
+#' attributes. A taxonomy is usually extracted from an
+#' [Opal environment](https://www.obiba.org/pages/products/opal//), and a
+#' taxonomy object is a data frame that must contain at least the columns
+#' `taxonomy`, `vocabulary`, and `terms`. Additional details about Opal
+#' taxonomies are
 #' [available online](https://opaldoc.obiba.org/en/latest/web-user-guide/administration/taxonomies.html).
 #'
 #' @param data_proc_elem A Data Processing Elements object.
@@ -143,19 +177,17 @@ harmonized_dossier_evaluate <- function(
 #'
 #' @examples
 #' {
+#' # Use Rmonize_examples to run examples.
+#' library(dplyr)
 #' 
-#' # use Rmonize_DEMO provided by the package
+#' data_proc_elem <- Rmonize_examples$`Data_Processing_Elements_no_errors`
 #' 
-#' data_proc_elem <- Rmonize_DEMO$`data_processing_elements - final`   
-#' data_proc_elem_evaluate(data_proc_elem)
-#' 
+#' glimpse(data_proc_elem)
 #' }
 #'
 #' @import dplyr fabR
 #' @importFrom rlang .data
 #' @importFrom crayon bold
-#'
-#' @noRd
 data_proc_elem_evaluate <- function(data_proc_elem, taxonomy = NULL){
 
   data_proc_elem <- 
@@ -197,8 +229,8 @@ data_proc_elem_evaluate <- function(data_proc_elem, taxonomy = NULL){
           "recode",
           "rename",
           "undetermined"),NA_character_,.data$`Mlstr_harmo::rule_category`)) %>%
-    filter(!is.na(.data$`value`)) %>%
-    mutate(condition = "[ERR] - Rule category name doesn't exist") %>%
+    dplyr::filter(!is.na(.data$`value`)) %>%
+    mutate(condition = "[ERROR] - Rule category name doesn't exist") %>%
     select("Row number","value","condition") 
   
   report$`Data Processing Elements assessment` <-
@@ -316,17 +348,13 @@ data_proc_elem_evaluate <- function(data_proc_elem, taxonomy = NULL){
 #'
 #' @examples
 #' {
-#'
-#' # use Rmonize_DEMO provided by the package
-#' 
+#' # Use Rmonize_examples to run examples.
 #' library(dplyr)
-#' library(madshapR) # data_dict_filter
 #' 
-#' dataschema <- 
-#'   Rmonize_DEMO$`dataschema - final` %>%
-#'   data_dict_filter("name == 'adm_unique_id'")
-#'   
-#' dataschema_evaluate(dataschema)
+#' dataschema <- Rmonize_examples$`DataSchema`
+#' eval_dataschema <- dataschema_evaluate(dataschema)
+#' 
+#' glimpse(eval_dataschema)
 #' 
 #' }
 #'
@@ -340,12 +368,12 @@ dataschema_evaluate <- function(dataschema, taxonomy = NULL){
   #   as_dataschema(dataschema,as_dataschema_mlstr = TRUE) %>%
   #   as_data_dict_mlstr()
 
-  report <- data_dict_evaluate(dataschema,taxonomy,as_data_dict_mlstr = TRUE)
+  report <- data_dict_evaluate(dataschema,taxonomy,is_data_dict_mlstr = TRUE)
 
-  names(report) <- str_replace(names(report),"Data dictionary summary",
-                               "Harmonized Data dictionary summary")
-  names(report) <- str_replace(names(report),"Data dictionary assessment",
-                               "Harmonized Data dictionary assessement")
+  # names(report) <- str_replace(names(report),"Data dictionary summary",
+  #                              "Harmonized Data dictionary summary")
+  # names(report) <- str_replace(names(report),"Data dictionary assessment",
+  #                              "Harmonized Data dictionary assessment")
   
   #   dossier_name <- tibble(dossier = as.character(), dataset = as.character())
   #   for(i in names(dossier)) for(j in names(dossier[[i]])){
@@ -399,8 +427,6 @@ dataschema_evaluate <- function(dataschema, taxonomy = NULL){
   #          call. = FALSE)
   #
   #   }
-
-
 
   return(report)
 }

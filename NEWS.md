@@ -1,4 +1,141 @@
 
+# Rmonize 2.0.0 (release : 2025-06-26)
+
+> Attention: Some changes to functions in the current version of
+> madshapR may require updates of existing code.
+
+## Superseded object.
+
+| previous version (1.1.0 and older) | version 2.0.0    |
+|------------------------------------|------------------|
+| Rmonize_DEMO                       | Rmonize_examples |
+
+## Superseded parameters.
+
+In functions show_harmo_error(), harmonized_dossier_evaluate(),
+harmonized_dossier_summarize() and harmonized_dossier_visualize(), the
+parameters have been simplified into one and only “dossier”
+<https://github.com/maelstrom-research/Rmonize/issues/110>
+<https://github.com/maelstrom-research/Rmonize/issues/109>
+<https://github.com/maelstrom-research/Rmonize/issues/108>
+<https://github.com/maelstrom-research/Rmonize/issues/98>
+<https://github.com/maelstrom-research/Rmonize/issues/93>
+<https://github.com/maelstrom-research/Rmonize/issues/92>
+
+previous version (1.1.0 and older)
+
+``` r
+harmonized_dossier_evaluate(
+  harmonized_dossier,dataschema,taxonomy,as_dataschema_mlstr)
+
+harmonized_dossier_summarize(
+  harmonized_dossier,group_by,dataschema,data_proc_elem,
+  taxonomy,valueType_guess)
+
+harmonized_dossier_visualize(
+  harmonized_dossier,bookdown_path,group_by,harmonized_dossier_summary,
+  dataschema,data_proc_elem,valueType_guess,taxonomy)
+```
+
+version 2.0.0
+
+``` r
+harmonized_dossier_evaluate(harmonized_dossier)
+harmonized_dossier_summarize(harmonized_dossier)
+harmonized_dossier_visualize(harmonized_dossier,bookdown_path)
+```
+
+## Superseded function behaviors and/or output structures.
+
+In `harmonized_dossier_evaluate()`, the columns generated in the outputs
+have been renamed as follows :
+
+| previous version (1.1.0 and older) | current version (2.0.0)       |
+|------------------------------------|-------------------------------|
+| index                              | Index                         |
+| name                               | Variable name                 |
+| label                              | Variable label                |
+| valueType                          | Data dictionary valueType     |
+| Categories::label                  | Categories in data dictionary |
+| Categories::missing                | Non-valid categories          |
+
+In `harmonized_dossier_summarize()`, the columns generated in the
+outputs have been renamed as follows :
+
+| previous version (1.1.0 and older) | current version (2.0.0)    |
+|------------------------------------|----------------------------|
+| index in data dict.name            | Index                      |
+| name                               | Variable name              |
+| label                              | Variable label             |
+| Estimated dataset valueType        | Suggested valueType        |
+| Actual dataset valueType           | Dataset valueType          |
+| Total number of observations       | Number of rows             |
+| Nb. distinct values                | Number of distinct values  |
+| Nb. valid values                   | Number of valid values     |
+| Nb. non-valid values               | Number of non-valid values |
+| Nb. NA                             | Number of empty values     |
+| % total Valid values               | % Valid values             |
+| % Non-valid values                 | % Non-valid values         |
+| % NA                               | % Empty values             |
+| ————————————                       | ———————————                |
+
+## Bug fixes and improvements
+
+## Enhancements in the assessment, the summary and the visual reports!
+
+- The assessment and summary reports had some updates, such as renamed
+  columns and bug corrections.
+  <https://github.com/maelstrom-research/Rmonize/issues/104>
+  <https://github.com/maelstrom-research/Rmonize/issues/103>
+  <https://github.com/maelstrom-research/Rmonize/issues/89>
+  <https://github.com/maelstrom-research/Rmonize/issues/88>
+  <https://github.com/maelstrom-research/Rmonize/issues/87>
+  <https://github.com/maelstrom-research/Rmonize/issues/86>
+  <https://github.com/maelstrom-research/Rmonize/issues/85>
+  <https://github.com/maelstrom-research/Rmonize/issues/84>
+  <https://github.com/maelstrom-research/Rmonize/issues/68>
+  <https://github.com/maelstrom-research/Rmonize/issues/21>
+
+- The visual reports have been improved, including better visual outputs
+  and color palettes, and new features such as total number of rows next
+  to the bar charts.
+
+<https://github.com/maelstrom-research/Rmonize/issues/57>
+<https://github.com/maelstrom-research/Rmonize/issues/53>
+<https://github.com/maelstrom-research/Rmonize/issues/49>
+<https://github.com/maelstrom-research/Rmonize/issues/48>
+<https://github.com/maelstrom-research/Rmonize/issues/39>
+<https://github.com/maelstrom-research/Rmonize/issues/37>
+<https://github.com/maelstrom-research/Rmonize/issues/33>
+<https://github.com/maelstrom-research/Rmonize/issues/32>
+<https://github.com/maelstrom-research/Rmonize/issues/29>
+
+# Rmonize 1.1.0
+
+## Bug fixes and improvements
+
+- To process the data during testing, the DataSchema and/or the Data
+  Processing Elements and/or input datasets might not be available. To
+  be able to perform testings on harmonization, an additional parameter
+  `.debug` has been added
+  <https://github.com/maelstrom-research/Rmonize/issues/56>
+
+- The report function can now work when the code is indented in the Data
+  Processing Elements.
+  <https://github.com/maelstrom-research/Rmonize/issues/54>
+
+- The function `show_harmo_error()` now allows the user to avoid showing
+  warnings <https://github.com/maelstrom-research/Rmonize/issues/52>
+
+## deprecated functions
+
+To avoid confusion with help(function), the function `Rmonize_help()`
+has been renamed `Rmonize_website()`.
+
+## Dependency changes
+
+- set a minimum dplyr dependence to avoid bugs
+
 # Rmonize 1.0.1
 
 Bug corrections and enhancements after testing with real data.

@@ -41,17 +41,13 @@ taxonomies are
 }
 \examples{
 {
-
-# use Rmonize_DEMO provided by the package
-
+# Use Rmonize_examples to run examples.
 library(dplyr)
-library(madshapR) # data_dict_filter
 
-dataschema <- 
-  Rmonize_DEMO$`dataschema - final` \%>\%
-  data_dict_filter("name == 'adm_unique_id'")
-  
-dataschema_evaluate(dataschema)
+dataschema <- Rmonize_examples$`DataSchema`
+eval_dataschema <- dataschema_evaluate(dataschema)
+
+glimpse(eval_dataschema)
 
 }
 
